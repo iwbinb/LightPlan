@@ -106,7 +106,8 @@ final class ProductUITests: XCTestCase {
         XCTAssertTrue(search.waitForExistence(timeout: 10)); search.tap(); search.typeText("Europe/London")
         let zone = app.buttons["Europe/London"]; XCTAssertTrue(zone.waitForExistence(timeout: 10)); zone.tap()
         let use = app.buttons["manual-save"]; XCTAssertTrue(use.waitForExistence(timeout: 10)); use.tap()
-        XCTAssertTrue(app.descendants(matching: .any)["map-canvas"].firstMatch.waitForExistence(timeout: 15))
+        let mapCanvas = app.descendants(matching: .any)["map-canvas"].firstMatch
+        XCTAssertTrue(mapCanvas.waitForExistence(timeout: 15))
         XCTAssertTrue(app.buttons.containing(.staticText, identifier: "CI London").firstMatch.exists || app.staticTexts["CI London"].exists)
         XCTAssertTrue(session.allTransactions().isEmpty)
         app.terminate()

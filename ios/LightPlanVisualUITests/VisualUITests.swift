@@ -31,8 +31,8 @@ final class VisualUITests: XCTestCase {
                     let detail = app.descendants(matching: .any)["screen-plan-detail"].firstMatch
                     XCTAssertTrue(detail.waitForExistence(timeout: 10))
                 } else if tab == 1 {
-                    let mapCanvas = app.descendants(matching: .any)["map-canvas"].firstMatch
-                    XCTAssertTrue(mapCanvas.waitForExistence(timeout: 15))
+                    let selectedTime = app.staticTexts["selected-time"]
+                    XCTAssertTrue(selectedTime.waitForExistence(timeout: 15))
                     // MapKit tile availability is a separate manual/network QA gate; do not infer it from this delay.
                     Thread.sleep(forTimeInterval: 3)
                 } else {

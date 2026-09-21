@@ -33,7 +33,10 @@ final class VisualUITests: XCTestCase {
                     XCTAssertTrue(app.otherElements["map-canvas"].waitForExistence(timeout: 15))
                     // MapKit tile availability is a separate manual/network QA gate; do not infer it from this delay.
                     Thread.sleep(forTimeInterval: 3)
-                } else { XCTAssertTrue(app.otherElements["screen-today"].waitForExistence(timeout: 10)) }
+                } else {
+                    let today = app.descendants(matching: .any)["screen-today"].firstMatch
+                    XCTAssertTrue(today.waitForExistence(timeout: 10))
+                }
                 save("v3-\(screen)-\(language)-light")
                 app.terminate()
             }

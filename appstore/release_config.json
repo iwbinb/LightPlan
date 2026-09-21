@@ -8,9 +8,9 @@
   "support_url": null,
   "marketing_url": null,
   "developer_team_id": null,
-  "candidate_bundle_id": "org.nodestake.lightplan",
-  "candidate_app_group_id": "group.org.nodestake.lightplan",
-  "candidate_nonconsumable_product_id": "org.nodestake.lightplan.lifetime",
+  "candidate_bundle_id": "com.arenovo.lightplan",
+  "candidate_app_group_id": "group.com.arenovo.lightplan",
+  "candidate_nonconsumable_product_id": "com.arenovo.lightplan.lifetime",
   "proposed_prices": {
     "US": "USD 2.99",
     "CN": "CNY 18.00"
@@ -20,7 +20,7 @@
   "bundle_id_registered": false,
   "app_group_registered": false,
   "name_and_trademark_reviewed": false,
-  "sdk_at_submission": "RECHECK_CURRENT_ACCEPTED_SDK",
+  "sdk_at_submission": "Xcode 26+ with iOS 26+ SDK required as of 2026-09-21; recheck at upload",
   "locales": [
     "en",
     "zh-Hans",

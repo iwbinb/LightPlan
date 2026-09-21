@@ -1,4 +1,5 @@
-当前开发源码快照，尚未完成正式交付。
-GitHub 源码传输、真实 Xcode 编译、原生 UI/购买测试和发布验收尚未完成。
-本地 Swift 核心测试不能代替 Apple SDK、真机和 App Store 沙盒验证。
-不得将本包描述为已验证可上架或 100% 完成的产品。
+当前仓库已完成 GitHub 源码落地，并通过 Xcode 26.3 原生 Debug Build、unsigned Release Archive、83 项核心测试、iPhone 原生 UI/StoreKit 本地测试、9 语言核心页面截图和 iPad 宽屏旋转测试。
+
+仍不能描述为“已提交 App Store”或“App Review 已通过”：真机定位/通知/Widget、真实 Apple Developer 签名、App Store Connect 商品与 Sandbox 购买、合同税务/银行、隐私与年龄分级、最终归档上传仍需在所有者的 Apple 账号和设备上完成。
+
+本文件只记录边界，不否定当前源码已经是可编译的原生产品候选版本。

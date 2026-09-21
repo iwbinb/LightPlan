@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LightPlan archive v1",
+  "description": "IANA timezone, finite values, duplicate IDs and max 5MB are additionally validated by the native core.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "places",
+    "plans"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "places": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "$ref": "#/$defs/place"
+      }
+    },
+    "plans": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "$ref": "#/$defs/plan"
+      }
+    }
+  },
+  "$defs": {
+    "coordinate": {
+      "type": "object",
+      "required": [
+        "latitude",
+        "longitude"
+      ],
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        }
+      }
+    },
+    "place": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "coordinate",
+        "timeZoneID"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "coordinate": {
+          "$ref": "#/$defs/coordinate"
+        },
+        "timeZoneID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "isExample": {
+          "type": "boolean"
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "place",
+        "date",
+        "target",
+        "arrivalLeadMinutes",
+        "createdAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "place": {
+          "$ref": "#/$defs/place"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "target": {
+          "enum": [
+            "sunrise",
+            "sunset",
+            "goldenMorning",
+            "goldenEvening",
+            "blueEvening"
+          ]
+        },
+        "arrivalLeadMinutes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 240
+        },
+        "reminderLeadMinutes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1440
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

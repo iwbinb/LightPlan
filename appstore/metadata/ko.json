@@ -1,0 +1,15 @@
+{
+  "locale": "ko",
+  "name": "LightPlan",
+  "subtitle": "빛에 맞춰 촬영을 계획하세요",
+  "promotional_text": "장소와 날짜를 선택하고 태양과 달의 방향을 확인해 다음 촬영을 준비하세요.",
+  "description": "촬영 장소의 시간대로 일출, 일몰, 골든 아워와 블루 아워를 확인하세요. 지도에서 방향을 살펴보고 촬영 계획을 저장하며 알림을 설정할 수 있습니다. 좌표와 시간대를 알고 있으면 천문 계산은 오프라인으로 작동합니다. 지도와 검색에는 연결이 필요할 수 있습니다. 오늘의 기본 정보를 체험한 뒤 한 번 구매하여 전체 계획 기능을 이용하세요. 구독과 계정은 필요하지 않습니다. 시각은 추정치이며 구름, 건물과 지형에 따라 실제 빛은 달라질 수 있습니다.",
+  "keywords": "일출,일몰,사진,촬영,태양,달,골든아워,블루아워",
+  "status": "draft_native_review_and_final_feature_verification_required",
+  "screenshot_captions": [
+    "LightPlan",
+    "장소와 날짜를 선택하고 태양과 달의 방향을 확인해 다음 촬영을 준비하세요."
+  ],
+  "privacy_url": null,
+  "support_url": null
+}

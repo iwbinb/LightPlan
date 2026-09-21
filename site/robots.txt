@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+# Development draft. Owner must remove no-index restriction after verifying publication readiness.

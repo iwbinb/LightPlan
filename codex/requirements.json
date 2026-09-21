@@ -1,0 +1,213 @@
+{
+  "requirements": [
+    {
+      "id": "F01",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T11",
+        "T13"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [],
+      "note": ""
+    },
+    {
+      "id": "F02",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T13"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [],
+      "note": ""
+    },
+    {
+      "id": "F03",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T05",
+        "T07",
+        "T10"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [
+        "tests/reports/astronomy_oracle.json"
+      ],
+      "note": "该证据只支持天体位置抽样，不支持升落事件或原生UI完成。"
+    },
+    {
+      "id": "F04",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T05",
+        "T10"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [
+        "tests/reports/astronomy_oracle.json"
+      ],
+      "note": "该证据只支持天体位置抽样，不支持升落事件或原生UI完成。"
+    },
+    {
+      "id": "F05",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T05",
+        "T10"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [
+        "tests/reports/astronomy_oracle.json"
+      ],
+      "note": "该证据只支持天体位置抽样，不支持升落事件或原生UI完成。"
+    },
+    {
+      "id": "F06",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T04",
+        "T06",
+        "T12"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [
+        "tests/reports/astronomy_oracle.json"
+      ],
+      "note": "该证据只支持天体位置抽样，不支持升落事件或原生UI完成。"
+    },
+    {
+      "id": "F07",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T11",
+        "T12",
+        "T13"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [],
+      "note": ""
+    },
+    {
+      "id": "F08",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T07",
+        "T12"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [],
+      "note": ""
+    },
+    {
+      "id": "F09",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T07",
+        "T09"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [],
+      "note": ""
+    },
+    {
+      "id": "F10",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T15",
+        "T16"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [],
+      "note": ""
+    },
+    {
+      "id": "F11",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T16"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [],
+      "note": ""
+    },
+    {
+      "id": "F12",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T14"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [],
+      "note": ""
+    },
+    {
+      "id": "F13",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T04",
+        "T12"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [
+        "tests/reports/astronomy_oracle.json"
+      ],
+      "note": ""
+    },
+    {
+      "id": "F14",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T21"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [],
+      "note": ""
+    },
+    {
+      "id": "F15",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T08",
+        "T17"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [],
+      "note": ""
+    },
+    {
+      "id": "F16",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T22",
+        "T23"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [],
+      "note": ""
+    },
+    {
+      "id": "F17",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T24",
+        "T25",
+        "T34"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [],
+      "note": ""
+    },
+    {
+      "id": "F18",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T18",
+        "T19",
+        "T20"
+      ],
+      "status": "partial_implementation_not_release_verified",
+      "evidence": [],
+      "note": ""
+    }
+  ]
+}

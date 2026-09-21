@@ -1,0 +1,59 @@
+import SwiftUI
+import UserNotifications
+import LightPlanCore
+
+@main struct LightPlanApp: App {
+    @StateObject private var state = AppState()
+    @StateObject private var purchases = PurchaseStore()
+    @AppStorage("language") private var language = "system"
+    @AppStorage("appearance") private var appearance = "system"
+    @Environment(\.scenePhase) private var scenePhase
+    private let notificationDelegate = NotificationDelegate()
+    var body: some Scene {
+        WindowGroup {
+            RootView().environmentObject(state).environmentObject(purchases)
+                .environment(\.locale, language == "system" ? .autoupdatingCurrent : Locale(identifier: language))
+                .preferredColorScheme(appearance == "dark" ? .dark : appearance == "light" ? .light : nil)
+                .task {
+                    UNUserNotificationCenter.current().delegate = notificationDelegate
+                    await state.refresh(); await purchases.start()
+                    state.publishWidget(unlocked: purchases.unlocked)
+                    await ReminderService.reconcile(plans: state.plans, language: L10n.language)
+                }
+                .task {
+                    while !Task.isCancelled {
+                        do { try await Task.sleep(for: .seconds(60)) } catch { return }
+                        await state.tick()
+                    }
+                }
+                .onChange(of: scenePhase) { _, phase in
+                    if phase == .active {
+                        Task {
+                            await state.tick(); await purchases.reloadEntitlements()
+                            state.publishWidget(unlocked: purchases.unlocked)
+                            await ReminderService.reconcile(plans: state.plans, language: L10n.language)
+                        }
+                    }
+                }
+                .onOpenURL(perform: open)
+                .onReceive(NotificationCenter.default.publisher(for: .lightPlanOpenPlan)) { note in
+                    if let id = note.object as? UUID { openPlan(id) }
+                }
+        }
+    }
+    private func open(_ url: URL) {
+        guard url.scheme == "lightplan" else { return }
+        switch url.host {
+        case "today": state.tab = 0; Task { await state.showToday(unlocked: purchases.unlocked) }
+        case "plans", "plan":
+            if let value = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "id" })?.value,
+               let id = UUID(uuidString: value) { openPlan(id) } else { state.tab = 2 }
+        default: break
+        }
+    }
+    private func openPlan(_ id: UUID) {
+        state.tab = 2
+        guard state.plans.contains(where: { $0.id == id }) else { state.noticeKey = "plan.notFound"; return }
+        state.openPlanID = id
+    }
+}

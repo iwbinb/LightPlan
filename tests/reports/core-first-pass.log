@@ -1,0 +1,172 @@
+Building for debugging...
+[0/18] Write sources
+[3/18] Copying Fixtures
+[4/18] Write swift-version--1BA0962812E73E12.txt
+[6/24] Compiling LightPlanCore Planning.swift
+[7/24] Compiling LightPlanCore DayEngine.swift
+[8/24] Compiling LightPlanCore Models.swift
+[9/24] Compiling LightPlanCore ArchiveImport.swift
+[10/24] Compiling LightPlanCore Astronomy.swift
+[11/24] Emitting module LightPlanCore
+[12/25] Compiling LightPlanCore VisualGeometry.swift
+[13/26] Wrapping AST for LightPlanCore for debugging
+[15/32] Emitting module LightPlanCoreTests
+[16/32] Compiling LightPlanCoreTests resource_bundle_accessor.swift
+[17/32] Emitting module LightPlanCLI
+[18/32] Compiling LightPlanCLI main.swift
+[19/33] Wrapping AST for LightPlanCLI for debugging
+[20/33] Write Objects.LinkFileList
+[21/33] Linking lightplan-cli
+[23/33] Compiling LightPlanCoreTests VisualGeometryTests.swift
+[24/33] Compiling LightPlanCoreTests CoreTests.swift
+[25/34] /mnt/data/LightPlan/packages/LightPlanCore/.build/x86_64-unknown-linux-gnu/debug/LightPlanCorePackageDiscoveredTests.derived/all-discovered-tests.swift
+[26/34] Write sources
+[27/34] Wrapping AST for LightPlanCoreTests for debugging
+[29/37] Emitting module LightPlanCorePackageDiscoveredTests
+[30/37] Compiling LightPlanCorePackageDiscoveredTests all-discovered-tests.swift
+[31/37] Compiling LightPlanCorePackageDiscoveredTests LightPlanCoreTests.swift
+[32/38] /mnt/data/LightPlan/packages/LightPlanCore/.build/x86_64-unknown-linux-gnu/debug/LightPlanCorePackageTests.derived/runner.swift
+[33/38] Write sources
+[34/38] Wrapping AST for LightPlanCorePackageDiscoveredTests for debugging
+[36/40] Emitting module LightPlanCorePackageTests
+[37/40] Compiling LightPlanCorePackageTests runner.swift
+[38/41] Wrapping AST for LightPlanCorePackageTests for debugging
+[39/41] Write Objects.LinkFileList
+[40/41] Linking LightPlanCorePackageTests.xctest
+Build complete! (9.27s)
+Test Suite 'All tests' started at 2026-09-21 11:19:09.527
+Test Suite 'debug.xctest' started at 2026-09-21 11:19:09.528
+Test Suite 'CoreTests' started at 2026-09-21 11:19:09.528
+Test Case 'CoreTests.testAngleNormalization' started at 2026-09-21 11:19:09.528
+Test Case 'CoreTests.testAngleNormalization' passed (0.001 seconds)
+Test Case 'CoreTests.testArchiveRoundTrip' started at 2026-09-21 11:19:09.529
+Test Case 'CoreTests.testArchiveRoundTrip' passed (0.004 seconds)
+Test Case 'CoreTests.testBacklightNeedsCameraBearing' started at 2026-09-21 11:19:09.534
+Test Case 'CoreTests.testBacklightNeedsCameraBearing' passed (0.0 seconds)
+Test Case 'CoreTests.testBearingNorthAndEast' started at 2026-09-21 11:19:09.534
+Test Case 'CoreTests.testBearingNorthAndEast' passed (0.0 seconds)
+Test Case 'CoreTests.testBerlinSpringDST' started at 2026-09-21 11:19:09.534
+Test Case 'CoreTests.testBerlinSpringDST' passed (0.101 seconds)
+Test Case 'CoreTests.testCoincidentBearingUnavailable' started at 2026-09-21 11:19:09.635
+Test Case 'CoreTests.testCoincidentBearingUnavailable' passed (0.0 seconds)
+Test Case 'CoreTests.testCoordinateDecodeValidates' started at 2026-09-21 11:19:09.635
+Test Case 'CoreTests.testCoordinateDecodeValidates' passed (0.101 seconds)
+Test Case 'CoreTests.testCoordinateEndpoints' started at 2026-09-21 11:19:09.736
+Test Case 'CoreTests.testCoordinateEndpoints' passed (0.0 seconds)
+Test Case 'CoreTests.testCoordinatesRejectNonFinite' started at 2026-09-21 11:19:09.736
+Test Case 'CoreTests.testCoordinatesRejectNonFinite' passed (0.0 seconds)
+Test Case 'CoreTests.testCoordinatesRejectOutOfRange' started at 2026-09-21 11:19:09.736
+Test Case 'CoreTests.testCoordinatesRejectOutOfRange' passed (0.0 seconds)
+Test Case 'CoreTests.testCorruptArchiveRejected' started at 2026-09-21 11:19:09.736
+Test Case 'CoreTests.testCorruptArchiveRejected' passed (0.0 seconds)
+Test Case 'CoreTests.testDSTEventsRetainActualDayLength' started at 2026-09-21 11:19:09.737
+Test Case 'CoreTests.testDSTEventsRetainActualDayLength' passed (0.012 seconds)
+Test Case 'CoreTests.testDatelineDestinationDay' started at 2026-09-21 11:19:09.749
+Test Case 'CoreTests.testDatelineDestinationDay' passed (0.011 seconds)
+Test Case 'CoreTests.testDisabledReminder' started at 2026-09-21 11:19:09.760
+Test Case 'CoreTests.testDisabledReminder' passed (0.012 seconds)
+Test Case 'CoreTests.testDuplicateArchiveIDsRejected' started at 2026-09-21 11:19:09.772
+Test Case 'CoreTests.testDuplicateArchiveIDsRejected' passed (0.0 seconds)
+Test Case 'CoreTests.testEventsAreSortedAndInsideLocalDay' started at 2026-09-21 11:19:09.772
+Test Case 'CoreTests.testEventsAreSortedAndInsideLocalDay' passed (0.011 seconds)
+Test Case 'CoreTests.testFreeReadAndExportNeverPaywalled' started at 2026-09-21 11:19:09.783
+Test Case 'CoreTests.testFreeReadAndExportNeverPaywalled' passed (0.0 seconds)
+Test Case 'CoreTests.testFrozenIndependentEphemerisFixtures' started at 2026-09-21 11:19:09.783
+Test Case 'CoreTests.testFrozenIndependentEphemerisFixtures' passed (0.004 seconds)
+Test Case 'CoreTests.testGoldenAndBlueDefinitions' started at 2026-09-21 11:19:09.787
+Test Case 'CoreTests.testGoldenAndBlueDefinitions' passed (0.0 seconds)
+Test Case 'CoreTests.testGoldenHourCanContinueAfterSunset' started at 2026-09-21 11:19:09.787
+Test Case 'CoreTests.testGoldenHourCanContinueAfterSunset' passed (0.012 seconds)
+Test Case 'CoreTests.testInvalidCalendarDate' started at 2026-09-21 11:19:09.799
+Test Case 'CoreTests.testInvalidCalendarDate' passed (0.0 seconds)
+Test Case 'CoreTests.testInvalidPlanLead' started at 2026-09-21 11:19:09.799
+Test Case 'CoreTests.testInvalidPlanLead' passed (0.0 seconds)
+Test Case 'CoreTests.testInvalidTimeZone' started at 2026-09-21 11:19:09.800
+Test Case 'CoreTests.testInvalidTimeZone' passed (0.0 seconds)
+Test Case 'CoreTests.testKathmanduQuarterHourZone' started at 2026-09-21 11:19:09.800
+Test Case 'CoreTests.testKathmanduQuarterHourZone' passed (0.001 seconds)
+Test Case 'CoreTests.testLeapDay' started at 2026-09-21 11:19:09.800
+Test Case 'CoreTests.testLeapDay' passed (0.0 seconds)
+Test Case 'CoreTests.testLordHoweHalfHourDST' started at 2026-09-21 11:19:09.801
+Test Case 'CoreTests.testLordHoweHalfHourDST' passed (0.0 seconds)
+Test Case 'CoreTests.testLunarIlluminationBounds' started at 2026-09-21 11:19:09.801
+Test Case 'CoreTests.testLunarIlluminationBounds' passed (0.004 seconds)
+Test Case 'CoreTests.testLunarPhaseNormalization' started at 2026-09-21 11:19:09.805
+Test Case 'CoreTests.testLunarPhaseNormalization' passed (0.0 seconds)
+Test Case 'CoreTests.testNewYorkAutumnDST' started at 2026-09-21 11:19:09.806
+Test Case 'CoreTests.testNewYorkAutumnDST' passed (0.0 seconds)
+Test Case 'CoreTests.testNewYorkSpringDST' started at 2026-09-21 11:19:09.806
+Test Case 'CoreTests.testNewYorkSpringDST' passed (0.0 seconds)
+Test Case 'CoreTests.testNotificationCanBePreviousDay' started at 2026-09-21 11:19:09.807
+Test Case 'CoreTests.testNotificationCanBePreviousDay' passed (0.012 seconds)
+Test Case 'CoreTests.testOversizeArchiveRejected' started at 2026-09-21 11:19:09.818
+Test Case 'CoreTests.testOversizeArchiveRejected' passed (0.002 seconds)
+Test Case 'CoreTests.testPastReminderNotScheduled' started at 2026-09-21 11:19:09.820
+Test Case 'CoreTests.testPastReminderNotScheduled' passed (0.012 seconds)
+Test Case 'CoreTests.testPlaceNameValidation' started at 2026-09-21 11:19:09.831
+Test Case 'CoreTests.testPlaceNameValidation' passed (0.0 seconds)
+Test Case 'CoreTests.testPlanArrival' started at 2026-09-21 11:19:09.832
+Test Case 'CoreTests.testPlanArrival' passed (0.012 seconds)
+Test Case 'CoreTests.testPlanNoEventDoesNotInventTime' started at 2026-09-21 11:19:09.843
+Test Case 'CoreTests.testPlanNoEventDoesNotInventTime' passed (0.011 seconds)
+Test Case 'CoreTests.testPolarDay' started at 2026-09-21 11:19:09.855
+Test Case 'CoreTests.testPolarDay' passed (0.011 seconds)
+Test Case 'CoreTests.testPolarNightStillHasTwilight' started at 2026-09-21 11:19:09.866
+Test Case 'CoreTests.testPolarNightStillHasTwilight' passed (0.012 seconds)
+Test Case 'CoreTests.testPremiumGates' started at 2026-09-21 11:19:09.878
+Test Case 'CoreTests.testPremiumGates' passed (0.0 seconds)
+Test Case 'CoreTests.testRiseSetCrossingResiduals' started at 2026-09-21 11:19:09.878
+Test Case 'CoreTests.testRiseSetCrossingResiduals' passed (0.011 seconds)
+Test Case 'CoreTests.testShadowFlatGround' started at 2026-09-21 11:19:09.889
+Test Case 'CoreTests.testShadowFlatGround' passed (0.0 seconds)
+Test Case 'CoreTests.testSkippedApiaDate' started at 2026-09-21 11:19:09.890
+Test Case 'CoreTests.testSkippedApiaDate' passed (0.0 seconds)
+Test Case 'CoreTests.testSolarDirectionSanity' started at 2026-09-21 11:19:09.890
+Test Case 'CoreTests.testSolarDirectionSanity' passed (0.001 seconds)
+Test Case 'CoreTests.testSouthernHemisphereSummer' started at 2026-09-21 11:19:09.891
+Test Case 'CoreTests.testSouthernHemisphereSummer' passed (0.012 seconds)
+Test Case 'CoreTests.testSunIsFiniteAtPoles' started at 2026-09-21 11:19:09.903
+Test Case 'CoreTests.testSunIsFiniteAtPoles' passed (0.001 seconds)
+Test Case 'CoreTests.testUTCNormalDay' started at 2026-09-21 11:19:09.903
+Test Case 'CoreTests.testUTCNormalDay' passed (0.001 seconds)
+Test Case 'CoreTests.testUnknownSchemaDoesNotResetData' started at 2026-09-21 11:19:09.904
+Test Case 'CoreTests.testUnknownSchemaDoesNotResetData' passed (0.0 seconds)
+Test Case 'CoreTests.testUnsupportedYear' started at 2026-09-21 11:19:09.905
+Test Case 'CoreTests.testUnsupportedYear' passed (0.0 seconds)
+Test Case 'CoreTests.testWindowsPartitionEntireDay' started at 2026-09-21 11:19:09.905
+Test Case 'CoreTests.testWindowsPartitionEntireDay' passed (0.012 seconds)
+Test Suite 'CoreTests' passed at 2026-09-21 11:19:09.917
+	 Executed 49 tests, with 0 failures (0 unexpected) in 0.388 (0.388) seconds
+Test Suite 'VisualGeometryTests' started at 2026-09-21 11:19:09.917
+Test Case 'VisualGeometryTests.testAnglesDoNotSpinThroughSouth' started at 2026-09-21 11:19:09.917
+Test Case 'VisualGeometryTests.testAnglesDoNotSpinThroughSouth' passed (0.0 seconds)
+Test Case 'VisualGeometryTests.testDatelineRayNormalizes' started at 2026-09-21 11:19:09.917
+Test Case 'VisualGeometryTests.testDatelineRayNormalizes' passed (0.0 seconds)
+Test Case 'VisualGeometryTests.testEndStaysInsideDay' started at 2026-09-21 11:19:09.917
+Test Case 'VisualGeometryTests.testEndStaysInsideDay' passed (0.0 seconds)
+Test Case 'VisualGeometryTests.testFractionClamps' started at 2026-09-21 11:19:09.917
+Test Case 'VisualGeometryTests.testFractionClamps' passed (0.0 seconds)
+Test Case 'VisualGeometryTests.testFractionMidpoint' started at 2026-09-21 11:19:09.918
+Test Case 'VisualGeometryTests.testFractionMidpoint' passed (0.0 seconds)
+Test Case 'VisualGeometryTests.testNegativeDistanceRejected' started at 2026-09-21 11:19:09.918
+Test Case 'VisualGeometryTests.testNegativeDistanceRejected' passed (0.0 seconds)
+Test Case 'VisualGeometryTests.testNonFiniteFractionClamps' started at 2026-09-21 11:19:09.918
+Test Case 'VisualGeometryTests.testNonFiniteFractionClamps' passed (0.0 seconds)
+Test Case 'VisualGeometryTests.testNorthRay' started at 2026-09-21 11:19:09.918
+Test Case 'VisualGeometryTests.testNorthRay' passed (0.0 seconds)
+Test Case 'VisualGeometryTests.testSamplerEndpointsAndBounds' started at 2026-09-21 11:19:09.918
+Test Case 'VisualGeometryTests.testSamplerEndpointsAndBounds' passed (0.012 seconds)
+Test Case 'VisualGeometryTests.testSamplerRejectsUnboundedAllocation' started at 2026-09-21 11:19:09.930
+Test Case 'VisualGeometryTests.testSamplerRejectsUnboundedAllocation' passed (0.012 seconds)
+Test Case 'VisualGeometryTests.testTwentyThreeHourDayUsesElapsedSeconds' started at 2026-09-21 11:19:09.941
+Test Case 'VisualGeometryTests.testTwentyThreeHourDayUsesElapsedSeconds' passed (0.0 seconds)
+Test Suite 'VisualGeometryTests' passed at 2026-09-21 11:19:09.942
+	 Executed 11 tests, with 0 failures (0 unexpected) in 0.024 (0.024) seconds
+Test Suite 'debug.xctest' passed at 2026-09-21 11:19:09.942
+	 Executed 60 tests, with 0 failures (0 unexpected) in 0.412 (0.412) seconds
+Test Suite 'All tests' passed at 2026-09-21 11:19:09.942
+	 Executed 60 tests, with 0 failures (0 unexpected) in 0.412 (0.412) seconds
+◇ Test run started.
+↳ Testing Library Version: 6.2.1 (c9d57c83568b06d)
+↳ Target Platform: x86_64-unknown-linux-gnu
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

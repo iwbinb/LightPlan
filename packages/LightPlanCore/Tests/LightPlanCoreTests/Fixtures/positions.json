@@ -1,0 +1,3566 @@
+[
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 303.5631859677428,
+    "expectedAltitude": -12.927498392605674,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 18.672417826580897,
+    "expectedAltitude": -53.18600227953434,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 174.48209350818104,
+    "expectedAltitude": 44.12475007452638,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 220.06954377236707,
+    "expectedAltitude": 24.518589200368304,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 257.47222519678076,
+    "expectedAltitude": -33.059164052396234,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 343.92169887005264,
+    "expectedAltitude": -76.16344110370832,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 66.98371277350418,
+    "expectedAltitude": -54.6630399853359,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 152.11178535757722,
+    "expectedAltitude": 44.49854252847538,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 244.43299113526695,
+    "expectedAltitude": 34.98950880631591,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 320.33169851250716,
+    "expectedAltitude": -85.10634012585992,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 303.499558860014,
+    "expectedAltitude": -12.85929318045944,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 237.5112568499394,
+    "expectedAltitude": 49.21764803090125,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 268.6407826459169,
+    "expectedAltitude": 8.24116367769193,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 192.53073687844363,
+    "expectedAltitude": 36.903991754887144,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 229.0949639463788,
+    "expectedAltitude": 35.11737225852646,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 311.0193652917202,
+    "expectedAltitude": -25.139367832223193,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 257.36985502829646,
+    "expectedAltitude": -34.321940865015534,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 87.96325813389649,
+    "expectedAltitude": 69.88838513706142,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 65.8759503193329,
+    "expectedAltitude": -23.67372262743115,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 122.41371422535121,
+    "expectedAltitude": 28.642451151663753,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 80.74250629988347,
+    "expectedAltitude": 16.627022245110098,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 24.4478,
+    "longitude": 118.0679,
+    "expectedAzimuth": 83.487512364863,
+    "expectedAltitude": -62.66466037844205,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 80.97379550816504,
+    "expectedAltitude": 26.55157105263918,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 178.72933431182287,
+    "expectedAltitude": 60.041919290051624,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 319.70209635685603,
+    "expectedAltitude": -66.11146947820791,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 68.4416850358732,
+    "expectedAltitude": -63.115798853907144,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 117.05681079787996,
+    "expectedAltitude": -4.167422623766881,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 160.3714206912258,
+    "expectedAltitude": 35.57217946295547,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 206.09189534604127,
+    "expectedAltitude": 38.189643682108986,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 302.31036247924834,
+    "expectedAltitude": -53.2998889583306,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 51.5340431909151,
+    "expectedAltitude": -41.89211556333954,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 163.7275819469046,
+    "expectedAltitude": 26.22166007271968,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 80.92664521970585,
+    "expectedAltitude": 26.469600494879774,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 30.297796516875792,
+    "expectedAltitude": -45.70061052356233,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 74.89523129893627,
+    "expectedAltitude": -13.655976358167026,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 356.3873790210314,
+    "expectedAltitude": -76.29167277620274,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 50.43594276712929,
+    "expectedAltitude": -54.414566083425,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 91.31626945939104,
+    "expectedAltitude": 35.78931858225202,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 118.1734777045948,
+    "expectedAltitude": -3.5668709607119027,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 327.5733434286873,
+    "expectedAltitude": -19.40039454102359,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 246.12267777341856,
+    "expectedAltitude": 39.207539986777476,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 279.4298188035923,
+    "expectedAltitude": -31.048310658117117,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 281.27601189415117,
+    "expectedAltitude": 9.954461770692099,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "expectedAzimuth": 198.59960884045364,
+    "expectedAltitude": 27.756698717384296,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 179.05857078958616,
+    "expectedAltitude": 61.93983737498406,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 263.92901967603007,
+    "expectedAltitude": 18.256280929857933,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 78.09230681371554,
+    "expectedAltitude": -36.49718818313681,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 116.36858933709647,
+    "expectedAltitude": -14.460353152454335,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 179.09372097954133,
+    "expectedAltitude": 15.453115328214972,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 237.67082588683007,
+    "expectedAltitude": 9.299779453603115,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 268.6091338799054,
+    "expectedAltitude": -8.584439071409577,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 58.58452332550155,
+    "expectedAltitude": -42.06218992275711,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 108.571390569208,
+    "expectedAltitude": 8.200928630058865,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 232.9265119584564,
+    "expectedAltitude": 0.8078354599800158,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 178.86492754694666,
+    "expectedAltitude": 61.925747425481084,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 93.6977192841307,
+    "expectedAltitude": 2.05680755109642,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 135.76162819387355,
+    "expectedAltitude": 32.08535724809621,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 95.05088774956795,
+    "expectedAltitude": -31.859694074546944,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 107.87638603229107,
+    "expectedAltitude": -4.323773224552655,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 205.30431917750911,
+    "expectedAltitude": 58.07410837863881,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 180.33823483226678,
+    "expectedAltitude": 15.052662615929044,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 36.544120237061406,
+    "expectedAltitude": -8.027697725081746,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 299.9995984764222,
+    "expectedAltitude": -9.721800995864978,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 19.788243719301647,
+    "expectedAltitude": -50.48823210572464,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 342.8512926635385,
+    "expectedAltitude": -21.970413703473913,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "expectedAzimuth": 258.99929405382125,
+    "expectedAltitude": -16.005144754278184,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 320.6194189305065,
+    "expectedAltitude": -19.444290292866942,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 39.947307871262694,
+    "expectedAltitude": -34.470933435526675,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 198.85694569611428,
+    "expectedAltitude": 30.760350776618807,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 232.35197721443637,
+    "expectedAltitude": 3.265366608084451,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 278.09659947935165,
+    "expectedAltitude": -52.272361264833854,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 37.215178090825134,
+    "expectedAltitude": -60.94186342107637,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 73.8601229017379,
+    "expectedAltitude": -33.328184353140834,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 181.86832429134006,
+    "expectedAltitude": 37.67599782076739,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 253.71470570311493,
+    "expectedAltitude": 13.57428601973546,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 51.43158436549504,
+    "expectedAltitude": -68.38144814320509,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 320.53165574601053,
+    "expectedAltitude": -19.403692387515687,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 247.48859953800854,
+    "expectedAltitude": 27.307991860570798,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 279.7548669508561,
+    "expectedAltitude": -9.648150554352075,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 210.92314281411666,
+    "expectedAltitude": 19.45484550395009,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 240.8123779394415,
+    "expectedAltitude": 13.459763808780332,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 332.4828009982409,
+    "expectedAltitude": -28.02776159559125,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 278.47324906365316,
+    "expectedAltitude": -53.51743433319914,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 179.73102074402368,
+    "expectedAltitude": 77.71555700889975,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 75.82077752994405,
+    "expectedAltitude": -2.381837536994043,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 146.85550855347492,
+    "expectedAltitude": 34.304854121610724,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 97.01906618061054,
+    "expectedAltitude": 35.5957588540766,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "expectedAzimuth": 82.94645076373172,
+    "expectedAltitude": -42.93910896833853,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 311.39937487496707,
+    "expectedAltitude": -11.02320028976048,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 25.488766024976712,
+    "expectedAltitude": -38.3581495869455,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 185.0735493938178,
+    "expectedAltitude": 31.02827474085865,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 223.7037330787656,
+    "expectedAltitude": 9.586967432504027,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 271.61197529655124,
+    "expectedAltitude": -41.98541928124416,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 10.812712106164895,
+    "expectedAltitude": -63.36489691429707,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 61.96813049773698,
+    "expectedAltitude": -42.05159691754003,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 166.79294294597275,
+    "expectedAltitude": 34.75907500641134,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 244.37887152317762,
+    "expectedAltitude": 22.400901138084016,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 17.2892740653312,
+    "expectedAltitude": -72.62576888330204,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 311.3200280068752,
+    "expectedAltitude": -10.973884329468007,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 235.817592984057,
+    "expectedAltitude": 35.44357031642973,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 272.2383598401465,
+    "expectedAltitude": 0.6567025122643908,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 199.36715464722806,
+    "expectedAltitude": 22.09377535063019,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 230.98690495829914,
+    "expectedAltitude": 20.832624552990364,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 321.61469379014704,
+    "expectedAltitude": -20.958125530180492,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 271.96362303058436,
+    "expectedAltitude": -43.22431404500962,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 138.40347281179277,
+    "expectedAltitude": 71.97719140811027,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 67.63594453846554,
+    "expectedAltitude": -11.449123607604244,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 135.1961812378509,
+    "expectedAltitude": 26.36641197782493,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 90.17040606286696,
+    "expectedAltitude": 25.33320322617531,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "expectedAzimuth": 70.9311976338168,
+    "expectedAltitude": -52.306396110650724,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 203.91833135149915,
+    "expectedAltitude": 59.272329891140686,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 274.376686610522,
+    "expectedAltitude": 9.889966625914603,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 88.747869030885,
+    "expectedAltitude": -28.11971382875817,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 126.12031767587945,
+    "expectedAltitude": -7.888793962789541,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 191.90720853517917,
+    "expectedAltitude": 13.650690940806815,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 248.66983187754903,
+    "expectedAltitude": 1.4103783221068005,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 279.6560898121796,
+    "expectedAltitude": -16.8079255124455,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 71.27106767886232,
+    "expectedAltitude": -34.17743340818944,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 120.16550013244262,
+    "expectedAltitude": 15.365559259395825,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 243.48340269086373,
+    "expectedAltitude": -6.7875933710382865,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 203.7393930536499,
+    "expectedAltitude": 59.284292996850596,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 104.66958707654379,
+    "expectedAltitude": 10.12198024024296,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 151.40354951945227,
+    "expectedAltitude": 36.22258803059176,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 104.50488407896268,
+    "expectedAltitude": -23.89181685370307,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 118.51048796200791,
+    "expectedAltitude": 2.9280395506691828,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 225.14991336057864,
+    "expectedAltitude": 52.350028981529206,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 193.0676873879196,
+    "expectedAltitude": 13.078655642241266,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 47.60195094786991,
+    "expectedAltitude": -1.712031629431583,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 311.9816502350808,
+    "expectedAltitude": -15.865280726954715,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 37.88763865164378,
+    "expectedAltitude": -45.64134872043812,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 356.9570692811225,
+    "expectedAltitude": -22.438553988100512,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "expectedAzimuth": 269.74966988537983,
+    "expectedAltitude": -24.33124361252226,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 184.26633938500407,
+    "expectedAltitude": 64.54427446952185,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 266.7620758000762,
+    "expectedAltitude": 16.88097266644434,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 82.08922194477253,
+    "expectedAltitude": -35.3884288295086,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 118.62366107089343,
+    "expectedAltitude": -11.83808961059996,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 181.48210492049304,
+    "expectedAltitude": 18.095592982047947,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 240.13237822156833,
+    "expectedAltitude": 9.308786113652458,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 270.07463315621055,
+    "expectedAltitude": -10.142316466058126,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 63.20714854064062,
+    "expectedAltitude": -41.96469029740913,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 110.15029266547145,
+    "expectedAltitude": 10.578123004836533,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 234.9317845865686,
+    "expectedAltitude": 1.0847337107116983,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 184.0527255514496,
+    "expectedAltitude": 64.5360711528766,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 95.43170315900062,
+    "expectedAltitude": 3.8526493204714276,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 137.22005915228647,
+    "expectedAltitude": 35.101012688140976,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 98.37745117055732,
+    "expectedAltitude": -29.9874336154574,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 109.89128675211816,
+    "expectedAltitude": -1.9631216052767297,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 211.70735611009104,
+    "expectedAltitude": 59.670089865778394,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 182.73065818277206,
+    "expectedAltitude": 17.659685520430603,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 38.833443377821936,
+    "expectedAltitude": -9.151337015676466,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 301.6185342855331,
+    "expectedAltitude": -12.443364963817931,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 24.726061880095983,
+    "expectedAltitude": -52.315801915198286,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 345.1018396789618,
+    "expectedAltitude": -24.956099246246385,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "expectedAzimuth": 260.09672217799647,
+    "expectedAltitude": -17.081092239405052,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 295.2018498865233,
+    "expectedAltitude": -3.5773329618804155,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 346.0438212847137,
+    "expectedAltitude": -64.68668292352073,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 148.15688466651505,
+    "expectedAltitude": 48.969161785705055,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 208.911491408573,
+    "expectedAltitude": 42.88751800889028,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 249.27584911778217,
+    "expectedAltitude": -14.086601886087735,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 275.3367433388189,
+    "expectedAltitude": -69.14033760147304,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 68.63440720693967,
+    "expectedAltitude": -74.09857998753822,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 127.3021358962414,
+    "expectedAltitude": 41.74669352680146,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 240.31373687175375,
+    "expectedAltitude": 54.63168878498682,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 248.24094392165546,
+    "expectedAltitude": -69.1949433331739,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 295.1632058302456,
+    "expectedAltitude": -3.4936000329098715,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 229.28756482975604,
+    "expectedAltitude": 69.1652452356162,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 265.81527393767567,
+    "expectedAltitude": 25.39775599729013,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 171.1977795726557,
+    "expectedAltitude": 48.342065842728665,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 218.65050858755933,
+    "expectedAltitude": 54.302899730707395,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 298.3748426577595,
+    "expectedAltitude": -17.483882879294416,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 249.05470494679906,
+    "expectedAltitude": -15.334060375292351,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 69.19691637058389,
+    "expectedAltitude": 51.07741213546352,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 61.48900332233768,
+    "expectedAltitude": -43.27132582358634,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 108.96230566444024,
+    "expectedAltitude": 18.094961204912753,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 74.05197063699961,
+    "expectedAltitude": -1.9236380763636676,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "expectedAzimuth": 114.65463489178046,
+    "expectedAltitude": -78.01195940398519,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 149.36641642156536,
+    "expectedAltitude": 72.72316275905514,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 262.6136165155817,
+    "expectedAltitude": 26.163202957001065,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 81.58393665361757,
+    "expectedAltitude": -45.07637667821068,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 113.43247322145231,
+    "expectedAltitude": -14.868729775018457,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 169.65749030790357,
+    "expectedAltitude": 27.54147309488059,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 233.28510731421323,
+    "expectedAltitude": 21.844527167140964,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 261.1479682448881,
+    "expectedAltitude": -1.0740227724968265,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 60.661025392574004,
+    "expectedAltitude": -53.91642270607849,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 100.49049743998,
+    "expectedAltitude": 5.219976223626626,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 227.32666681649863,
+    "expectedAltitude": 13.908895685910279,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 149.10903395723096,
+    "expectedAltitude": 72.6717834842356,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 87.29806852417221,
+    "expectedAltitude": -4.225523404201205,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 120.02136501181326,
+    "expectedAltitude": 34.91423127019688,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 97.55147558848705,
+    "expectedAltitude": -36.78422662733577,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 102.85055523095804,
+    "expectedAltitude": -7.100781084353774,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 195.4737191200379,
+    "expectedAltitude": 72.47739539598064,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 171.05976989131,
+    "expectedAltitude": 27.311637254048158,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 30.552579935209565,
+    "expectedAltitude": -22.11263158153881,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 291.14545258393974,
+    "expectedAltitude": -9.479705639091176,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 8.685090596348687,
+    "expectedAltitude": -64.23050134643702,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 330.9500126660595,
+    "expectedAltitude": -31.23930398052942,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 38.7223,
+    "longitude": -9.1393,
+    "expectedAzimuth": 250.62503184990317,
+    "expectedAltitude": -6.520916814034289,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 47.49005226218986,
+    "expectedAltitude": 24.4990660736962,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 320.1523423554647,
+    "expectedAltitude": 45.78536070593035,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 165.6289922491742,
+    "expectedAltitude": -43.93694383271091,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 129.68685682876162,
+    "expectedAltitude": -17.038771500854523,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 99.21756171961664,
+    "expectedAltitude": 46.61737390945106,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 317.4849493560223,
+    "expectedAltitude": 73.08235270698783,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 281.19958052729726,
+    "expectedAltitude": 41.544552834921454,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 187.1687657611119,
+    "expectedAltitude": -50.84544619436849,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 106.12837700933306,
+    "expectedAltitude": -22.23768277870113,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 282.7141206557458,
+    "expectedAltitude": 78.38955016633828,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 47.56833022414037,
+    "expectedAltitude": 24.440557980992697,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 109.56925625150444,
+    "expectedAltitude": -38.376543488031636,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 85.0943020066619,
+    "expectedAltitude": 5.747518096661047,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 151.56749223059893,
+    "expectedAltitude": -34.29098539852045,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 119.61588095769827,
+    "expectedAltitude": -24.195572359437527,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 37.30684782769913,
+    "expectedAltitude": 33.67033441454613,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 99.49296138770131,
+    "expectedAltitude": 47.86920702638367,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 271.75687599801523,
+    "expectedAltitude": -84.28790524232919,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 286.10721303473815,
+    "expectedAltitude": 10.843887802593276,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 225.6528699962618,
+    "expectedAltitude": -41.786388914762234,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 274.1008842149058,
+    "expectedAltitude": -30.408228003961998,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": -23.55,
+    "longitude": -46.63,
+    "expectedAzimuth": 268.13693706420355,
+    "expectedAltitude": 47.61595810919729,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 255.4346078891815,
+    "expectedAltitude": -62.50830498482662,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 108.2815008117272,
+    "expectedAltitude": -44.237635420523254,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 288.87478521848857,
+    "expectedAltitude": 61.576058167620474,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 254.57505004669474,
+    "expectedAltitude": 26.39408350974529,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 210.54022890123088,
+    "expectedAltitude": -26.507660664309565,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 142.94288691965846,
+    "expectedAltitude": -38.031101896514734,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 110.48889620490024,
+    "expectedAltitude": -15.446138281792178,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 323.52519726311385,
+    "expectedAltitude": 68.18161684265755,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 270.96274124328676,
+    "expectedAltitude": 10.152364676904286,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 148.04997506134384,
+    "expectedAltitude": -29.40274041056298,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 255.50522725231463,
+    "expectedAltitude": -62.42209281786017,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 283.9110299807262,
+    "expectedAltitude": 18.733039520847317,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 257.2698817265864,
+    "expectedAltitude": -21.88952885351194,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 268.3156313853052,
+    "expectedAltitude": 50.89738593759883,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 267.04872200685236,
+    "expectedAltitude": 22.122386558822647,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 231.41295331494882,
+    "expectedAltitude": -72.70118434876649,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 209.1388462112028,
+    "expectedAltitude": -26.685592660436445,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 347.6297178284491,
+    "expectedAltitude": 30.637045670329798,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 80.94978614930255,
+    "expectedAltitude": -4.57270283525999,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 37.89446186404638,
+    "expectedAltitude": 64.0649798957606,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 49.00344307767881,
+    "expectedAltitude": 24.949539905342462,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "expectedAzimuth": 121.2105133471041,
+    "expectedAltitude": -11.780674901005565,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 203.38131299409747,
+    "expectedAltitude": 42.491137068230394,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 276.12517434805716,
+    "expectedAltitude": 8.762207157934204,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 85.21354621807666,
+    "expectedAltitude": -24.4931814919708,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 128.0361536759376,
+    "expectedAltitude": -16.078651908789965,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 196.6780246444061,
+    "expectedAltitude": -3.5962600751393827,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 254.0472001184438,
+    "expectedAltitude": -6.65299980721972,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 289.53433658182666,
+    "expectedAltitude": -15.087647367104681,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 67.70917668476204,
+    "expectedAltitude": -25.655236211067496,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 128.33092167182423,
+    "expectedAltitude": 7.912593404421551,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 251.13888913722298,
+    "expectedAltitude": -15.896589139469745,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 203.25629068078183,
+    "expectedAltitude": 42.492010955936465,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 112.49245900579757,
+    "expectedAltitude": 7.1924278449835235,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 161.49483791826106,
+    "expectedAltitude": 21.56602706512813,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 101.77178527942863,
+    "expectedAltitude": -25.16290045085155,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 123.33071494036164,
+    "expectedAltitude": -3.5968241587693544,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 220.12776719536794,
+    "expectedAltitude": 37.672822428107544,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 197.82696758362874,
+    "expectedAltitude": -4.13278742919392,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 53.69120873084313,
+    "expectedAltitude": 11.283360056461483,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 319.5230603062138,
+    "expectedAltitude": -5.433917775364263,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 36.50534452552233,
+    "expectedAltitude": -30.495927375132684,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 2.559787203858207,
+    "expectedAltitude": -5.336074391703639,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 69.6492,
+    "longitude": 18.9553,
+    "expectedAzimuth": 282.3826152986534,
+    "expectedAltitude": -25.203139917272352,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 171.9534736890887,
+    "expectedAltitude": -69.34560349967461,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 90.8974514076474,
+    "expectedAltitude": -18.182901814699512,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 273.6150533855865,
+    "expectedAltitude": 35.13028524781326,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 239.93822142897216,
+    "expectedAltitude": 6.838793399156198,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 177.38236894352838,
+    "expectedAltitude": -22.976789020129146,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 118.17358936052437,
+    "expectedAltitude": -12.81175572282383,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 90.04815486808138,
+    "expectedAltitude": 10.889417345565006,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 291.6948206620433,
+    "expectedAltitude": 41.94124722222389,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 249.9685923904566,
+    "expectedAltitude": -12.97426599214611,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 124.04445613154348,
+    "expectedAltitude": -5.065347130796577,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 172.21466545538533,
+    "expectedAltitude": -69.34257609011154,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 264.22917185818255,
+    "expectedAltitude": -6.959806808794943,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 224.13644251809546,
+    "expectedAltitude": -39.1840223487426,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 258.28360514688086,
+    "expectedAltitude": 26.796035191725423,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 249.26276623072238,
+    "expectedAltitude": -0.4499725419112785,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 141.02904279431624,
+    "expectedAltitude": -64.16608882932158,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 176.1027363884382,
+    "expectedAltitude": -22.519320547694644,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 319.73268256121776,
+    "expectedAltitude": 10.485871737710928,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 58.541504083826624,
+    "expectedAltitude": 15.64582353592661,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 330.5207602693996,
+    "expectedAltitude": 55.18141772297349,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 14.376548042606942,
+    "expectedAltitude": 29.88865866590245,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": -43.95,
+    "longitude": -176.56,
+    "expectedAzimuth": 100.55177683558856,
+    "expectedAltitude": 15.049220684887068,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 289.01181432330833,
+    "expectedAltitude": 14.849070430973539,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 329.19482345900394,
+    "expectedAltitude": -46.57887202575357,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 139.9411473416526,
+    "expectedAltitude": 29.375314621902604,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 188.62458347735515,
+    "expectedAltitude": 34.09149211425908,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 247.0783584712524,
+    "expectedAltitude": -5.967902369455444,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 288.74019021337773,
+    "expectedAltitude": -52.29214705422704,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 359.2473690016783,
+    "expectedAltitude": -69.85198946246923,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 123.80780971914965,
+    "expectedAltitude": 21.93414809514421,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 206.4751984698779,
+    "expectedAltitude": 54.309723268826424,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 274.1894577293987,
+    "expectedAltitude": -56.892025444431695,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 288.96091786821125,
+    "expectedAltitude": 14.927042736078342,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 180.46246396354934,
+    "expectedAltitude": 61.88765194958114,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 250.34368222378203,
+    "expectedAltitude": 36.569292677547914,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 157.254173393654,
+    "expectedAltitude": 30.858843149506896,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 189.91939689306213,
+    "expectedAltitude": 47.30211822011017,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 293.71639875318465,
+    "expectedAltitude": 1.3613413230646185,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 247.27207538295806,
+    "expectedAltitude": -7.2188582929940255,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 81.87854285785528,
+    "expectedAltitude": 40.42858416361062,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 36.561793560311116,
+    "expectedAltitude": -44.95397291100673,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 105.16797976774882,
+    "expectedAltitude": 0.3379593851457495,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 66.61266138026224,
+    "expectedAltitude": -10.721074716216096,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "expectedAzimuth": 339.9763984913077,
+    "expectedAltitude": -80.44319292351682,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 39.18852896123303,
+    "expectedAltitude": -56.707297798323104,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 78.88522683563542,
+    "expectedAltitude": 5.206877617974397,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 248.2109088512476,
+    "expectedAltitude": 8.384268922880096,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 239.20827879400002,
+    "expectedAltitude": -32.72346250894406,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 136.80178799528449,
+    "expectedAltitude": -60.12318155077005,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 100.74085051743674,
+    "expectedAltitude": -10.499868093861533,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 99.40645869086495,
+    "expectedAltitude": 26.437413906978353,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 251.6686285893128,
+    "expectedAltitude": 23.096551302998474,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 265.14194795180646,
+    "expectedAltitude": -42.37720415171998,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 110.54902638324069,
+    "expectedAltitude": -9.871834532583218,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 39.08394163048331,
+    "expectedAltitude": -56.77947038303035,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 271.02703382676737,
+    "expectedAltitude": -28.27681484494162,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 286.5492966294937,
+    "expectedAltitude": -75.84734005187111,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 243.23219427672973,
+    "expectedAltitude": -6.7450979341038,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 253.87601443864742,
+    "expectedAltitude": -33.492867335617134,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 54.18630630692451,
+    "expectedAltitude": -47.692599936321635,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 135.8396323147146,
+    "expectedAltitude": -58.95528343151772,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 295.36153586318875,
+    "expectedAltitude": 24.611121202660527,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 76.01274415080115,
+    "expectedAltitude": 51.94611838956935,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 246.53892663584497,
+    "expectedAltitude": 51.10974392220811,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 335.1606970423698,
+    "expectedAltitude": 75.49455760582381,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 1.87,
+    "longitude": -157.43,
+    "expectedAzimuth": 110.83905985455743,
+    "expectedAltitude": 20.8678476290327,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 179.64241268238266,
+    "expectedAltitude": 24.44862729415348,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 253.56208178542482,
+    "expectedAltitude": 10.567930750992206,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 58.01906649744609,
+    "expectedAltitude": -21.773840297756976,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 103.08963915319623,
+    "expectedAltitude": -27.497854031853805,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 179.18461030757317,
+    "expectedAltitude": -22.034822506851622,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 237.84582835555557,
+    "expectedAltitude": -11.25716575264073,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 274.28121089090587,
+    "expectedAltitude": -7.648115921276347,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 42.06736892032279,
+    "expectedAltitude": -17.519053292989447,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 109.88319230821804,
+    "expectedAltitude": -4.511527447478689,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 238.22908733746863,
+    "expectedAltitude": -20.910253515111602,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 179.54215424843733,
+    "expectedAltitude": 24.435646189174417,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 94.88912302780199,
+    "expectedAltitude": -0.8090924602982119,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 143.83785690405318,
+    "expectedAltitude": 2.981098930325648,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 73.5195083385272,
+    "expectedAltitude": -27.903539336442982,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 101.85482890077463,
+    "expectedAltitude": -14.246497417657976,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 194.12882443799424,
+    "expectedAltitude": 22.06923249575844,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 180.48029409206583,
+    "expectedAltitude": -22.439215320346758,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 40.01168202087979,
+    "expectedAltitude": 21.91012414750977,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 300.17523617265687,
+    "expectedAltitude": 9.551453286080937,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 13.112086260074022,
+    "expectedAltitude": -14.686264574788323,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 343.755884759064,
+    "expectedAltitude": 14.034389019657457,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 89,
+    "longitude": 0,
+    "expectedAzimuth": 270.8442673922117,
+    "expectedAltitude": -19.491650265499725,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 0.35221279605252676,
+    "expectedAltitude": -22.45305979936206,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 286.8190864958515,
+    "expectedAltitude": -11.921329813655332,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 122.63790291340865,
+    "expectedAltitude": 20.700148726288543,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 77.89839531359024,
+    "expectedAltitude": 26.181780751017598,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 0.827581980736511,
+    "expectedAltitude": 24.030060647580928,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 301.8275044117511,
+    "expectedAltitude": 10.539442319353505,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 265.4538043705711,
+    "expectedAltitude": 7.489313181659345,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 138.31319448867117,
+    "expectedAltitude": 14.27788250489937,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 70.2764208955142,
+    "expectedAltitude": 5.184287871474493,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 301.1301242285406,
+    "expectedAltitude": 20.254291531133877,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 0.4509685393272207,
+    "expectedAltitude": -22.440104743510634,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 85.1092448419318,
+    "expectedAltitude": -0.9070936873776199,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 36.11732309486314,
+    "expectedAltitude": -1.3707198923621882,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 107.44740736314799,
+    "expectedAltitude": 25.70401730329614,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 78.64989412148282,
+    "expectedAltitude": 14.644030364697802,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 346.0672650307534,
+    "expectedAltitude": -21.950492426704745,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 359.512382088232,
+    "expectedAltitude": 24.434603328841575,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 139.4231475090922,
+    "expectedAltitude": -25.267064909114588,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 240.13182569312949,
+    "expectedAltitude": -10.556967731631648,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 166.99025637802356,
+    "expectedAltitude": 10.81452313874576,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 196.39467615931375,
+    "expectedAltitude": -15.958466246767323,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": -89,
+    "longitude": 0,
+    "expectedAzimuth": 268.485074868909,
+    "expectedAltitude": 17.58009744729083,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -2194171200.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 0.8181212986879132,
+    "expectedAltitude": 66.54568263802008,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -2194171200.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 281.72629060030727,
+    "expectedAltitude": 15.352786027820342,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": -629928000.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 114.69725543557769,
+    "expectedAltitude": -29.886825000159106,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": -629928000.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 117.41581426624492,
+    "expectedAltitude": 10.25210817740625,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 946728000.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 178.0687165127772,
+    "expectedAltitude": 66.95275724371982,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 946728000.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 257.2065040365338,
+    "expectedAltitude": 30.569704180495982,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1709231400.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 262.40785959502637,
+    "expectedAltitude": -4.378314331712223,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1709231400.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 113.12054147934208,
+    "expectedAltitude": -46.36616680504223,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1772955000.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 95.1518160585581,
+    "expectedAltitude": 19.730039144423706,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1772955000.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 246.235539033941,
+    "expectedAltitude": 28.442181886698485,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1782043200.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 1.0480447641556907,
+    "expectedAltitude": 66.55702890496285,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1782043200.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 89.95083633589877,
+    "expectedAltitude": 3.9464029018117497,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1789637400.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 86.31326563034241,
+    "expectedAltitude": 53.806382972042854,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1789637400.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 117.85571547037534,
+    "expectedAltitude": -15.969909548596513,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1793514600.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 104.73587304496499,
+    "expectedAltitude": 11.23016240119762,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1793514600.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 329.0506577273169,
+    "expectedAltitude": 63.65126665964319,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 1797854400.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 181.1157751994699,
+    "expectedAltitude": 66.55740904215048,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 1797854400.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 55.953255790689354,
+    "expectedAltitude": -45.05451208910315,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 2533665600.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 281.57463493710134,
+    "expectedAltitude": -29.52052684506097,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 2533665600.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 135.05926048031358,
+    "expectedAltitude": -72.12527054260173,
+    "maxSeparation": 0.3
+  },
+  {
+    "body": "sun",
+    "timestamp": 4121708400.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 313.6369566095318,
+    "expectedAltitude": -67.97840184444017,
+    "maxSeparation": 0.08
+  },
+  {
+    "body": "moon",
+    "timestamp": 4121708400.0,
+    "latitude": 0,
+    "longitude": 0,
+    "expectedAzimuth": 251.45230298936787,
+    "expectedAltitude": -2.107575835690418,
+    "maxSeparation": 0.3
+  }
+]

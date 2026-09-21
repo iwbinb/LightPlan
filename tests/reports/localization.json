@@ -1,0 +1,17 @@
+{
+  "catalogKeys": 239,
+  "languages": [
+    "en",
+    "zh-Hans",
+    "zh-Hant",
+    "ja",
+    "ko",
+    "de",
+    "fr",
+    "th",
+    "pt-PT"
+  ],
+  "translations": 2151,
+  "errors": [],
+  "reviewStatus": "Automated completeness only; not a claim of native-speaker review."
+}

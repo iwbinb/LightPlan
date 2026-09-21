@@ -1,0 +1,824 @@
+{
+  "schema_version": 1,
+  "instructions": "baseline_verified只代表包内特定核心测试；其余任务必须在本地执行并提供证据。依赖顺序不代表工期估计。 v3视觉代码已接入，但所有原生视觉验收仍待执行；先读docs/v3，不能把旧prototype当v3。",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "接管现有工作区与重跑基线",
+      "depends_on": [],
+      "status": "todo",
+      "files": [
+        "AGENTS.md",
+        "STATUS.md"
+      ],
+      "acceptance": [
+        "记录git状态和用户变更，非破坏性工作区",
+        "重跑60核心测试与包检查；保存工具版本/日志，不替换既有业务代码"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T02",
+      "title": "确认本机Xcode与项目生成",
+      "depends_on": [
+        "T01"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/project.yml",
+        "scripts/bootstrap_macos.sh"
+      ],
+      "acceptance": [
+        "记录Xcode/SDK/模拟器版本",
+        "XcodeGen生成所有target、资源目录与签名候选配置",
+        "不把模拟器缺失当产品功能缺失"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T03",
+      "title": "Apple SDK完整编译与Swift并发修复",
+      "depends_on": [
+        "T02"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan",
+        "ios/Shared",
+        "ios/LightPlanWidget"
+      ],
+      "acceptance": [
+        "主App和Widget Debug/Release类型检查通过",
+        "修复actor/代理/MapKit资源问题，不用全局unchecked掩盖",
+        "真实构建日志归档"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T04",
+      "title": "核心位置算法基线复核",
+      "depends_on": [
+        "T01"
+      ],
+      "status": "baseline_verified",
+      "files": [
+        "packages/LightPlanCore/Sources/LightPlanCore/Astronomy.swift",
+        "tests/reports/astronomy_oracle.json"
+      ],
+      "acceptance": [
+        "冻结396组位置fixture重跑",
+        "报告真实工具版本/误差，不将稀疏抽样扩大为全域保证"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T05",
+      "title": "事件搜索极值与近切线强化",
+      "depends_on": [
+        "T04"
+      ],
+      "status": "todo",
+      "files": [
+        "packages/LightPlanCore/Sources/LightPlanCore/DayEngine.swift"
+      ],
+      "acceptance": [
+        "自适应/极值检查找出采样点之间短暂穿越",
+        "高纬无事件与相切不误判",
+        "新增独立参考事件fixtures"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T06",
+      "title": "月升落视半径与外部精度校验",
+      "depends_on": [
+        "T04"
+      ],
+      "status": "todo",
+      "files": [
+        "packages/LightPlanCore/Sources/LightPlanCore/DayEngine.swift"
+      ],
+      "acceptance": [
+        "明确站心模型、名义折射与可变视半径",
+        "独立事件对照覆盖月近远地点/高纬",
+        "位置与升落精度分开报告"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T07",
+      "title": "支持日期端点与完整民用日",
+      "depends_on": [
+        "T04"
+      ],
+      "status": "todo",
+      "files": [
+        "packages/LightPlanCore/Sources/LightPlanCore/Models.swift",
+        "ios/LightPlan/MapView.swift"
+      ],
+      "acceptance": [
+        "1900/2100跨时区边界不部分崩溃",
+        "DST重叠/缺失时刻不误算",
+        "DatePicker有效范围与核心范围一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T08",
+      "title": "数据层事务、恢复与迁移",
+      "depends_on": [
+        "T03"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan/AppState.swift",
+        "packages/LightPlanCore/Sources/LightPlanCore/Planning.swift"
+      ],
+      "acceptance": [
+        "写盘失败/被终止恢复可验证",
+        "坏档案只读并原样导出",
+        "稳定schema迁移与回滚备份"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T09",
+      "title": "全局日期模式和前后台状态",
+      "depends_on": [
+        "T03",
+        "T07"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan/AppState.swift",
+        "ios/LightPlan/LightPlanApp.swift"
+      ],
+      "acceptance": [
+        "区分跟随今天和固定日期",
+        "目的地跨午夜正确刷新，不覆盖未来计划日期",
+        "展开/旋转/语言切换保留未保存状态"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T10",
+      "title": "首页与事件窗口详情完成",
+      "depends_on": [
+        "T03",
+        "T05",
+        "T07"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan/RootView.swift",
+        "ios/LightPlan/Theme.swift"
+      ],
+      "acceptance": [
+        "早晚黄金/蓝调完整窗口显示而非仅开始点",
+        "极昼夜/无事件/示例/加载有正确状态",
+        "曲线与时间轴共用同一计算数据"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T11",
+      "title": "真实地图点选与时区确认",
+      "depends_on": [
+        "T03"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan/MapView.swift",
+        "ios/LightPlan/AppState.swift"
+      ],
+      "acceptance": [
+        "搜索/手动坐标/移动选点完整",
+        "目的地时区失败不猜设备时区",
+        "地图真北及归位，保留系统归属标识"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T12",
+      "title": "地图日内轨迹和可访问时间轴",
+      "depends_on": [
+        "T09",
+        "T11"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan/MapView.swift"
+      ],
+      "acceptance": [
+        "当前太阳/月亮和升落方向一致",
+        "日内轨迹叠加不绘制假阴影",
+        "步进与VoiceOver可完成时间选择",
+        "底图失败离线数字仍可操作"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T13",
+      "title": "定位授权与区域坐标实测",
+      "depends_on": [
+        "T11"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan/AppState.swift"
+      ],
+      "acceptance": [
+        "拒绝/粗略定位/旧坐标/离线路径",
+        "中国大陆/港澳/日本/欧洲已知点不双重偏移",
+        "无背景连续定位，精确地点不写日志"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T14",
+      "title": "收藏完整管理",
+      "depends_on": [
+        "T08",
+        "T11"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan/PlansPlacesSettings.swift"
+      ],
+      "acceptance": [
+        "新增/删除/重命名/排序/重复提示",
+        "删除收藏不损坏计划地点快照",
+        "免费首次手动基础地点可用"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T15",
+      "title": "计划创建、编辑、复制闭环",
+      "depends_on": [
+        "T08",
+        "T10",
+        "T12"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan/PlansPlacesSettings.swift"
+      ],
+      "acceptance": [
+        "地点/日期/目标/准备/提醒字段完整",
+        "取消与购买中断保留草稿",
+        "原子保存，复制新ID，编辑更新时间",
+        "无事件给明确原因而非假时间"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T16",
+      "title": "通知意图与执行状态持久化",
+      "depends_on": [
+        "T15"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan/ReminderService.swift",
+        "ios/LightPlan/AppState.swift"
+      ],
+      "acceptance": [
+        "先保存后排通知",
+        "编辑用稳定ID重排，删除取消",
+        "拒绝/过去/失败可修复，实际状态可见",
+        "跨日/时区通知绝对瞬间正确"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T17",
+      "title": "导入导出与冲突预览UI",
+      "depends_on": [
+        "T08"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan/PlansPlacesSettings.swift"
+      ],
+      "acceptance": [
+        "安全文档选择器/预检/冲突摘要/确认",
+        "取消不变更；失败恢复原档案",
+        "不自动启用导入后所有提醒",
+        "无权益仍可读和导出"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T18",
+      "title": "集中权益规则与付费触发",
+      "depends_on": [
+        "T03",
+        "T15"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan/PurchaseStore.swift",
+        "ios/LightPlan/PlansPlacesSettings.swift"
+      ],
+      "acceptance": [
+        "全部受限操作调用一致AccessPolicy",
+        "待处理intent恢复，不丢表单",
+        "免费今天/已有数据/恢复不被误锁"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T19",
+      "title": "生成并验证本地StoreKit配置",
+      "depends_on": [
+        "T18"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/StoreKit/README.md"
+      ],
+      "acceptance": [
+        "用当前Xcode创建配置并保存已验证文件",
+        "本地首购/取消/Pending/错误/恢复UI",
+        "不启用到生产target"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T20",
+      "title": "真实商品与沙盒生命周期",
+      "depends_on": [
+        "T19"
+      ],
+      "status": "owner_required",
+      "files": [
+        "appstore/release_config.json",
+        "ios/LightPlan/PurchaseStore.swift"
+      ],
+      "acceptance": [
+        "Owner授权真实ID/协议/定价",
+        "沙盒购买/恢复/退款/重装/离线",
+        "记录实际验证transaction，不把本地mock当真"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T21",
+      "title": "Widget共享与状态完整",
+      "depends_on": [
+        "T09",
+        "T18"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlanWidget/LightPlanWidget.swift",
+        "ios/Shared/L10n.swift"
+      ],
+      "acceptance": [
+        "AppGroup真机共享一致",
+        "语言/日期/无事件/失效/未配置",
+        "Small/Medium实测，刷新是系统预算而非准时保证"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T22",
+      "title": "9语UI资源同步",
+      "depends_on": [
+        "T10",
+        "T12",
+        "T15",
+        "T17",
+        "T18",
+        "T21"
+      ],
+      "status": "draft_provided",
+      "files": [
+        "localization",
+        "ios/Shared/Localizable.xcstrings"
+      ],
+      "acceptance": [
+        "现有145键每语言齐全；新增文案9语同步",
+        "不拼接不合法句式；术语、通知与权限同等本地化",
+        "泰语日期/数字格式与计算解耦"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T23",
+      "title": "9语母语与商店文案审校",
+      "depends_on": [
+        "T22"
+      ],
+      "status": "review_required",
+      "files": [
+        "localization/STATUS.json",
+        "appstore/metadata"
+      ],
+      "acceptance": [
+        "记录每种语言审校人/版本/修改",
+        "德法长文、泰文行高、繁体地区词汇、pt-PT",
+        "不能把机器完整性检查当语义审校"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T24",
+      "title": "窄宽布局与Duo状态切换",
+      "depends_on": [
+        "T10",
+        "T12",
+        "T15"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan/MapView.swift",
+        "ios/LightPlan/RootView.swift"
+      ],
+      "acceptance": [
+        "窄外屏完整单栏，展开宽屏真实双栏",
+        "iPad分屏/旋转状态不丢",
+        "无官方模拟器时标明宽度测试而非设备证据"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T25",
+      "title": "原生无障碍/暗色/减少动画",
+      "depends_on": [
+        "T22",
+        "T24"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan",
+        "ios/LightPlanWidget"
+      ],
+      "acceptance": [
+        "最大字号/VoiceOver/增加对比完成核心任务",
+        "44pt可触区域、地图信息文本替代",
+        "不依赖颜色识别太阳/蓝调/错误"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T26",
+      "title": "视觉与组件精修",
+      "depends_on": [
+        "T25"
+      ],
+      "status": "todo",
+      "files": [
+        "design/tokens.json",
+        "design/assets",
+        "ios/LightPlan/Theme.swift"
+      ],
+      "acceptance": [
+        "遵循已选参考方向但不复用图中错误数据",
+        "实际截图与设计逐屏对照",
+        "原创图标/程序化曲线，未授权照片不加入"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T27",
+      "title": "性能、缓存与能耗",
+      "depends_on": [
+        "T12",
+        "T16",
+        "T21",
+        "T24"
+      ],
+      "status": "todo",
+      "files": [
+        "ios/LightPlan",
+        "packages/LightPlanCore"
+      ],
+      "acceptance": [
+        "最低支持真机冷启动/拖动/内存记录",
+        "全日计算不在主线程，重复切换无增长",
+        "后台无无意义刷新定位"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T28",
+      "title": "隐私数据流与二进制清单审计",
+      "depends_on": [
+        "T13",
+        "T17",
+        "T20",
+        "T21"
+      ],
+      "status": "review_required",
+      "files": [
+        "ios/LightPlan/PrivacyInfo.xcprivacy",
+        "ios/LightPlanWidget/PrivacyInfo.xcprivacy",
+        "docs/08_隐私许可与发布.md"
+      ],
+      "acceptance": [
+        "按最终API核验Required Reasons",
+        "不日志记录坐标/计划正文/交易token",
+        "商店声明/隐私政策与真实请求一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T29",
+      "title": "品牌、Bundle、AppGroup与网址确认",
+      "depends_on": [
+        "T02"
+      ],
+      "status": "owner_required",
+      "files": [
+        "appstore/release_config.json",
+        "ios/Config/Local.xcconfig.example"
+      ],
+      "acceptance": [
+        "Owner确认品牌可用/主体/支持邮箱",
+        "授权真实Team/Bundle/AppGroup/product",
+        "正式网站和隐私地址可访问"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T30",
+      "title": "Cloudflare静态站审校与授权部署",
+      "depends_on": [
+        "T28",
+        "T29"
+      ],
+      "status": "owner_required",
+      "files": [
+        "site",
+        "docs/11_Cloudflare部署.md"
+      ],
+      "acceptance": [
+        "无占位信息、真实联系与隐私文案",
+        "得到明确授权才部署",
+        "保留实际URL和HTTPS/链接证据，不创建无必要后端"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T31",
+      "title": "原生截图与9语商店元数据",
+      "depends_on": [
+        "T23",
+        "T26",
+        "T29"
+      ],
+      "status": "todo",
+      "files": [
+        "appstore/metadata",
+        "appstore/screenshots"
+      ],
+      "acceptance": [
+        "对应语言真实运行界面，不用浏览器冒充原生",
+        "实际设备尺寸符合当时商店规范",
+        "不宣传未提供Watch/天气/地形功能"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T32",
+      "title": "功能和数据完整回归",
+      "depends_on": [
+        "T05",
+        "T06",
+        "T07",
+        "T14",
+        "T16",
+        "T17",
+        "T20",
+        "T21",
+        "T25"
+      ],
+      "status": "todo",
+      "files": [
+        "tests/manual_cases.csv",
+        "codex/requirements.json"
+      ],
+      "acceptance": [
+        "首发F01-F18全部证据可追溯",
+        "损坏/异常/恢复/离线路径通过",
+        "每项失败保留，不因赶进度删测试"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T33",
+      "title": "竞品同任务实测",
+      "depends_on": [
+        "T26",
+        "T32"
+      ],
+      "status": "todo",
+      "files": [
+        "docs/12_竞品对照验收.md"
+      ],
+      "acceptance": [
+        "同地区/设备/设置/功能范围实测",
+        "记录具体差距，不编造销量或总体胜出",
+        "定价比较使用真实完整产品范围"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T34",
+      "title": "TestFlight内部与外部验证",
+      "depends_on": [
+        "T27",
+        "T28",
+        "T30",
+        "T31",
+        "T32"
+      ],
+      "status": "owner_required",
+      "files": [
+        "appstore/review_notes.md"
+      ],
+      "acceptance": [
+        "授权上传，记录构建SDK与签名",
+        "真机购买恢复/通知/宽屏/语言",
+        "Duo实机缺失如实标明，不伪造"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T35",
+      "title": "发布门槛与最终交付",
+      "depends_on": [
+        "T33",
+        "T34"
+      ],
+      "status": "todo",
+      "files": [
+        "codex/release_gates.json",
+        "STATUS.md"
+      ],
+      "acceptance": [
+        "所有required gate证据passed",
+        "Owner确认商店价格/文案/提交",
+        "交付源代码/测试/截图/已知限制，不保证审核结果"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "V301",
+      "title": "合并v3原生组件并完成SDK编译",
+      "depends_on": [
+        "T03"
+      ],
+      "status": "todo",
+      "source_delivery": "v3 implementation supplied; native execution and acceptance pending",
+      "files": [
+        "docs/v3/06_逐屏截图验收.md",
+        "design/visual-acceptance-v3.json"
+      ],
+      "acceptance": [
+        "无同名TodayView/PlansView重复定义",
+        "Asset Catalog真实加载，iOS17 fallback和当前SDK均正确",
+        "保留已有业务修复，不替换为WebView"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "V302",
+      "title": "首页摄影层与四卡原生对照",
+      "depends_on": [
+        "V301"
+      ],
+      "status": "todo",
+      "source_delivery": "v3 implementation supplied; native execution and acceptance pending",
+      "files": [
+        "docs/v3/06_逐屏截图验收.md",
+        "design/visual-acceptance-v3.json"
+      ],
+      "acceptance": [
+        "按组件合同逐屏截图",
+        "照片遮罩/文字/动态字号正确",
+        "图片不是现场照片，提示九语齐全"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "V303",
+      "title": "MapKit影像与控制层真机验证",
+      "depends_on": [
+        "V301"
+      ],
+      "status": "todo",
+      "source_delivery": "v3 implementation supplied; native execution and acceptance pending",
+      "files": [
+        "docs/v3/06_逐屏截图验收.md",
+        "design/visual-acceptance-v3.json"
+      ],
+      "acceptance": [
+        "真实底图、版权署名不遮挡",
+        "旋转地图后方位和事件标签正确",
+        "太阳/月亮和扇区同步；离线底图状态诚实"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "V304",
+      "title": "时间轴与拖动性能",
+      "depends_on": [
+        "V301"
+      ],
+      "status": "todo",
+      "source_delivery": "v3 implementation supplied; native execution and acceptance pending",
+      "files": [
+        "docs/v3/06_逐屏截图验收.md",
+        "design/visual-acceptance-v3.json"
+      ],
+      "acceptance": [
+        "拖动无全天重复计算",
+        "23/25小时正确映射",
+        "测量真机帧率/卡顿，VoiceOver可调整"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "V305",
+      "title": "拍摄计划原生视觉与编辑闭环",
+      "depends_on": [
+        "V301"
+      ],
+      "status": "todo",
+      "source_delivery": "v3 implementation supplied; native execution and acceptance pending",
+      "files": [
+        "docs/v3/06_逐屏截图验收.md",
+        "design/visual-acceptance-v3.json"
+      ],
+      "acceptance": [
+        "照片Header+实际事件节点",
+        "编辑保留plan ID和createdAt，更新时间和提醒",
+        "提醒失败不显示假成功"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "V306",
+      "title": "Duo和iPad双栏连贯性",
+      "depends_on": [
+        "V303",
+        "V304"
+      ],
+      "status": "todo",
+      "source_delivery": "v3 implementation supplied; native execution and acceptance pending",
+      "files": [
+        "docs/v3/06_逐屏截图验收.md",
+        "design/visual-acceptance-v3.json"
+      ],
+      "acceptance": [
+        "iPad和实际可用Duo分别留证",
+        "缩放/折叠后选中地点、日期、时间、相机不丢",
+        "最大辅助字号不强制双栏"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "V307",
+      "title": "九语与辅助功能逐屏回归",
+      "depends_on": [
+        "V302",
+        "V305",
+        "V306"
+      ],
+      "status": "todo",
+      "source_delivery": "v3 implementation supplied; native execution and acceptance pending",
+      "files": [
+        "docs/v3/06_逐屏截图验收.md",
+        "design/visual-acceptance-v3.json"
+      ],
+      "acceptance": [
+        "九语原生截图",
+        "深色、最大字号、减少动态/透明度",
+        "母语审校仍单独完成"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "V308",
+      "title": "截图差异修复与最终视觉签收",
+      "depends_on": [
+        "V307"
+      ],
+      "status": "todo",
+      "source_delivery": "v3 implementation supplied; native execution and acceptance pending",
+      "files": [
+        "docs/v3/06_逐屏截图验收.md",
+        "design/visual-acceptance-v3.json"
+      ],
+      "acceptance": [
+        "当前commit对应的原生图与参考并排检查",
+        "不将整个地图蒙版隐藏后假通过",
+        "reviewer与证据写入视觉门槛"
+      ],
+      "evidence": []
+    }
+  ]
+}

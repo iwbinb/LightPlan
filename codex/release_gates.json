@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "policy": "Every required gate needs passed + nonempty evidence + reviewer; never infer from generated code.",
+  "gates": [
+    {
+      "id": "G01",
+      "title": "所有Apple targets Debug/Release构建通过",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G02",
+      "title": "F01-F18首发功能完整回归",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G03",
+      "title": "高纬/近切线/太阳月亮事件独立验证",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G04",
+      "title": "完整日历边界与DST",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G05",
+      "title": "9语母语审校与原生布局",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G06",
+      "title": "购买恢复退款与离线沙盒",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G07",
+      "title": "备份导入冲突与损坏恢复",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G08",
+      "title": "通知保存编辑删除与跨时区",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G09",
+      "title": "AppGroup与Widget状态",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G10",
+      "title": "iPhone/iPad原生设备与宽窄变化",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G11",
+      "title": "Duo适配证据边界与设备可用时验证",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G12",
+      "title": "VoiceOver/大字体/暗色/减少动态",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G13",
+      "title": "性能与能耗目标实测",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G14",
+      "title": "隐私/许可/最终二进制清单",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G15",
+      "title": "品牌/真实ID/支持隐私网址",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G16",
+      "title": "9语真实商店截图和元数据",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G17",
+      "title": "Owner最终确认和TestFlight回归",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G18",
+      "title": "v3摄影首页/计划视觉原生逐屏签收",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G19",
+      "title": "v3 MapKit真实影像和法律标识",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    {
+      "id": "G20",
+      "title": "v3宽屏状态连续/九语辅助功能视觉签收",
+      "required": true,
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    }
+  ]
+}

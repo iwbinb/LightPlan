@@ -1,0 +1,15 @@
+{
+  "locale": "pt-PT",
+  "name": "LightPlan",
+  "subtitle": "Planeie fotografias com luz",
+  "promotional_text": "Escolha o local e a data, explore a direção do sol e da lua e prepare a próxima sessão.",
+  "description": "Consulte o nascer e o pôr do sol, a hora dourada e a hora azul no fuso horário do local escolhido. Explore direções no mapa, guarde planos fotográficos e defina lembretes. Os cálculos astronómicos funcionam sem ligação quando as coordenadas e o fuso são conhecidos; os mapas e a pesquisa podem precisar de internet. Experimente a informação básica de hoje e desbloqueie as ferramentas de planeamento com uma compra única. Sem subscrição e sem conta. As horas são estimativas: nuvens, edifícios e relevo podem alterar a luz visível.",
+  "keywords": "sol,lua,fotografia,pôr do sol,nascer do sol,hora dourada,hora azul,planeamento",
+  "status": "draft_native_review_and_final_feature_verification_required",
+  "screenshot_captions": [
+    "LightPlan",
+    "Escolha o local e a data, explore a direção do sol e da lua e prepare a próxima sessão."
+  ],
+  "privacy_url": null,
+  "support_url": null
+}

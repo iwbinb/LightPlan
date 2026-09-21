@@ -1,0 +1,6 @@
+// Optional local overrides, never commit the real Local.xcconfig.
+DEVELOPMENT_TEAM = YOUR_TEAM_ID
+// Change all related identifiers together when using a different registered App ID.
+// APP_BUNDLE_ID = com.yourcompany.lightplan
+// APP_GROUP_ID = group.com.yourcompany.lightplan
+// LIFETIME_PRODUCT_ID = com.yourcompany.lightplan.lifetime

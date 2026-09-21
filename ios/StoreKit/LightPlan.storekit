@@ -1,0 +1,16 @@
+{
+  "identifier": "BBFAD5BD-209F-4C41-94FC-05F12E846F1A",
+  "nonRenewingSubscriptions": [],
+  "products": [{
+    "displayPrice": "2.99",
+    "familyShareable": false,
+    "internalID": "476538238",
+    "localizations": [{"description": "Unlock all dates, saved places, shooting plans and widgets with a single purchase.", "displayName": "LightPlan Lifetime", "locale": "en_US"}],
+    "productID": "com.arenovo.lightplan.lifetime",
+    "referenceName": "LightPlan Lifetime",
+    "type": "NonConsumable"
+  }],
+  "settings": {"_applicationInternalID": "", "_developerTeamID": "", "_failTransactionsEnabled": false, "_lastSynchronizedDate": 0, "_locale": "en_US", "_storefront": "USA", "_storeKitErrors": []},
+  "subscriptionGroups": [],
+  "version": {"major": 3, "minor": 0}
+}

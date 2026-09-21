@@ -1,0 +1,15 @@
+{
+  "locale": "en",
+  "name": "LightPlan",
+  "subtitle": "Plan around the light",
+  "promotional_text": "Choose a place and date, explore sun and moon directions, and prepare your next photo session.",
+  "description": "See sunrise, sunset, golden and blue-hour windows in your destination’s time zone. Explore directions on a map, save shoot plans and choose reminders. Astronomical calculations work offline for known coordinates and time zones; maps and search may need a connection. Try today’s basic information, then unlock the complete planning tools with a one-time purchase. No subscription and no account required. Times are estimates: clouds, buildings and terrain can change what you see.",
+  "keywords": "sun,sunset,sunrise,photography,golden hour,blue hour,planner,moon",
+  "status": "draft_native_review_and_final_feature_verification_required",
+  "screenshot_captions": [
+    "LightPlan",
+    "Choose a place and date, explore sun and moon directions, and prepare your next photo session."
+  ],
+  "privacy_url": null,
+  "support_url": null
+}

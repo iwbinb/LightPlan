@@ -1,0 +1,15 @@
+{
+  "locale": "ja",
+  "name": "LightPlan",
+  "subtitle": "光に合わせて撮影を計画",
+  "promotional_text": "場所と日付を選び、太陽と月の方向を確認して、次の撮影に備えましょう。",
+  "description": "撮影地のタイムゾーンで日の出、日の入り、ゴールデンアワー、ブルーアワーを確認できます。地図で方向を調べ、撮影プランを保存して通知を設定できます。座標とタイムゾーンが分かれば天文計算はオフラインで利用できます。地図と検索には通信が必要な場合があります。今日の基本情報を試し、買い切りで計画機能を解放できます。定期購読やアカウントは不要です。時刻は推定値で、雲や建物、地形の影響は含みません。",
+  "keywords": "日の出,日の入り,撮影,太陽,月,ゴールデンアワー,ブルーアワー",
+  "status": "draft_native_review_and_final_feature_verification_required",
+  "screenshot_captions": [
+    "LightPlan",
+    "場所と日付を選び、太陽と月の方向を確認して、次の撮影に備えましょう。"
+  ],
+  "privacy_url": null,
+  "support_url": null
+}

@@ -1,0 +1,25 @@
+{
+  "coastal": {
+    "origin": "Original ImageGen scene produced for this LightPlan conversation, gen a07fb940-1dd7-4fa7-9af3-90e97afae8ea",
+    "originalFile": "wide_panoramic_coastal_landscape_at_golden_hour.png",
+    "originalSHA256": "0947811d9ec8d387e0147d08e5687a625827f4116eea8386ca2256460460acaf",
+    "productionSourceSHA256": "beffd014490830b6d604d80b8080fb365f0c41bad235ac729ad9e414cd426870",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "planCrop": [
+      525,
+      75,
+      1536,
+      875
+    ],
+    "usage": "Illustrative app artwork, not a geolocated real photograph or current weather. No embedded UI text.",
+    "compression": "AVIF production master, quality 50; JPEG app derivatives generated with macOS ImageIO. Original uncompressed scene remains in the approved v3 delivery."
+  },
+  "icon": {
+    "source": "app-icon.svg",
+    "production": "../../ios/LightPlan/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
+    "kind": "Original programmatic vector icon, 1024px native PNG; Apple applies corner mask."
+  }
+}

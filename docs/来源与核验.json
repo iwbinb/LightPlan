@@ -1,0 +1,96 @@
+{
+  "checked_date": "2026-09-17",
+  "notes": "Primary technical references, not a promise of future API or policy stability. S11 framework use also verified by local tests. Check current rules at submission.",
+  "sources": [
+    {
+      "id": "S01",
+      "title": "Apple iPhone Duo product / announcement",
+      "url": "https://www.apple.com/newsroom/2026/09/apple-unveils-iphone-duo/",
+      "used_for": "2026-09-09 announcement; outer/inner displays, Oct16 preorder, Oct23 availability. No physical device test performed."
+    },
+    {
+      "id": "S02",
+      "title": "Apple submission requirements",
+      "url": "https://developer.apple.com/news/upcoming-requirements/",
+      "used_for": "Build/upload SDK rules; re-check before release. Also https://developer.apple.com/app-store/submitting/"
+    },
+    {
+      "id": "S03",
+      "title": "Apple NavigationSplitView",
+      "url": "https://developer.apple.com/documentation/swiftui/navigationsplitview",
+      "used_for": "Adaptive navigation; no undocumented fold APIs assumed."
+    },
+    {
+      "id": "S04",
+      "title": "Apple MapKit",
+      "url": "https://developer.apple.com/documentation/mapkit",
+      "used_for": "Official maps and search; service availability and attribution apply."
+    },
+    {
+      "id": "S05",
+      "title": "Apple String Catalog",
+      "url": "https://developer.apple.com/documentation/xcode/localizing-and-varying-text-with-a-string-catalog",
+      "used_for": "Localization resources and variations."
+    },
+    {
+      "id": "S06",
+      "title": "Apple StoreKit current entitlements",
+      "url": "https://developer.apple.com/documentation/storekit/transaction/currententitlements",
+      "used_for": "Verified entitlement source; not a local boolean."
+    },
+    {
+      "id": "S07",
+      "title": "Apple notifications / WidgetKit",
+      "url": "https://developer.apple.com/documentation/widgetkit/keeping-a-widget-up-to-date",
+      "used_for": "Widget budgets; notifications: https://developer.apple.com/documentation/usernotifications/scheduling-a-notification-locally-from-your-app"
+    },
+    {
+      "id": "S08",
+      "title": "NOAA Solar Calculation Details",
+      "url": "https://gml.noaa.gov/grad/solcalc/calcdetails.html",
+      "used_for": "Formula conventions and refraction caveats; calculator is no longer maintained, not used as runtime service."
+    },
+    {
+      "id": "S09",
+      "title": "Paul Schlyter astronomical computation tutorial",
+      "url": "https://stjarnhimlen.se/comp/tutorial.html",
+      "used_for": "Publicly described mathematical elements and lunar perturbations. Independent Swift implementation."
+    },
+    {
+      "id": "S10",
+      "title": "Swiss Ephemeris programmer documentation",
+      "url": "https://www.astro.com/swisseph/swephprg.htm",
+      "used_for": "Independent reference QA only. Library not redistributed or linked."
+    },
+    {
+      "id": "S11",
+      "title": "Apple Calendar date interval",
+      "url": "https://developer.apple.com/documentation/foundation/calendar",
+      "used_for": "Destination civil calendar via Foundation; tested locally for DST and date validation."
+    },
+    {
+      "id": "S12",
+      "title": "Apple required reason API declarations",
+      "url": "https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype",
+      "used_for": "Manifest reasons must be audited against actual final binary and current documentation."
+    },
+    {
+      "id": "S13",
+      "title": "XcodeGen official repository",
+      "url": "https://github.com/yonaskolb/XcodeGen",
+      "used_for": "Development-only project generation; binary not bundled."
+    },
+    {
+      "id": "S14",
+      "title": "Apple App Review Guidelines",
+      "url": "https://developer.apple.com/app-store/review/guidelines/",
+      "used_for": "Current review, payment, privacy and copycat requirements; review before release."
+    },
+    {
+      "id": "S15",
+      "title": "Cloudflare Pages static deployment",
+      "url": "https://developers.cloudflare.com/pages/framework-guides/deploy-anything/",
+      "used_for": "Static site design; no deployment performed."
+    }
+  ]
+}

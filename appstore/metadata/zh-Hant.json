@@ -1,0 +1,15 @@
+{
+  "locale": "zh-Hant",
+  "name": "光跡 LightPlan",
+  "subtitle": "為下一次拍攝，提前看光",
+  "promotional_text": "選擇地點與日期，查看太陽和月亮方向，安排下一次拍攝。",
+  "description": "查看目的地時區的日出、日落、黃金與藍調時段，在地圖探索太陽與月亮方向，儲存拍攝計畫並設定提醒。已知座標與時區時，天文計算可離線運作；地圖與搜尋可能需要網路。先體驗今天的基本資訊，一次性購買解鎖完整規劃工具，無訂閱、無需帳號。時間為模型估算，雲層、建築與地形會影響現場光線。",
+  "keywords": "日出,日落,攝影,黃金時段,藍調,拍攝計畫,太陽,月亮",
+  "status": "draft_native_review_and_final_feature_verification_required",
+  "screenshot_captions": [
+    "光跡 LightPlan",
+    "選擇地點與日期，查看太陽和月亮方向，安排下一次拍攝。"
+  ],
+  "privacy_url": null,
+  "support_url": null
+}

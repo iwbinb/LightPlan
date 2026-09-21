@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "places": [
+    {
+      "coordinate": {
+        "latitude": 24.4478,
+        "longitude": 118.0679
+      },
+      "id": "7fe14340-eac7-5cd4-8b51-0df02618fa4b",
+      "isExample": true,
+      "name": "Gulangyu · example",
+      "timeZoneID": "Asia/Shanghai"
+    }
+  ],
+  "plans": [
+    {
+      "id": "CC18E2B7-42C4-46F9-A95E-6864F37C5B6B",
+      "title": "Example sunset plan",
+      "place": {
+        "coordinate": {
+          "latitude": 24.4478,
+          "longitude": 118.0679
+        },
+        "id": "7fe14340-eac7-5cd4-8b51-0df02618fa4b",
+        "isExample": true,
+        "name": "Gulangyu · example",
+        "timeZoneID": "Asia/Shanghai"
+      },
+      "date": "2026-09-17T04:00:00Z",
+      "target": "sunset",
+      "arrivalLeadMinutes": 30,
+      "reminderLeadMinutes": 30,
+      "createdAt": "2026-09-17T01:00:00Z",
+      "updatedAt": "2026-09-17T01:00:00Z"
+    }
+  ]
+}

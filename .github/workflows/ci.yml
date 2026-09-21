@@ -1,0 +1,39 @@
+name: Native app verification
+on:
+  push:
+    branches: [dev, main]
+    paths:
+      - 'ios/**'
+      - 'packages/**'
+      - 'LightPlan.xcodeproj/**'
+      - 'scripts/**'
+      - '.github/workflows/ci.yml'
+      - '.ci/build-request'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: native-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  native:
+    runs-on: macos-15
+    timeout-minutes: 40
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Build, test, purchase-test and capture actual native screens
+        run: bash scripts/ci_native.sh
+      - name: Preserve native evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: native-evidence-${{ github.sha }}
+          path: build/evidence
+          if-no-files-found: error
+          retention-days: 14

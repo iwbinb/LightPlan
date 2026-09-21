@@ -1,0 +1,1 @@
+Runtime authority: `ios/Shared/Localizable.xcstrings`. Nine complete languages. Use `scripts/localization_audit.py` to check keys; `--update` reapplies reviewed additions from release-additions.tsv. Completeness is not independent native-speaker review. Do not maintain a second stale JSON catalog.

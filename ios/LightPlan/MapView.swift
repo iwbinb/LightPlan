@@ -123,21 +123,93 @@ struct LightMapView: View {
     }
     private var compactInspector: some View {
         VStack(spacing: 10) {
-            HStack(spacing: 12) {
-                Image("hero-sunset").resizable().scaledToFill().frame(width: 66, height: 58).clipped().clipShape(RoundedRectangle(cornerRadius: 12)).accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 5) {
-                    LPPhaseLabel(key: "band." + band.rawValue).font(.headline)
-                    if let sky { Text(L10n.text("metric.altitude") + " " + L10n.number(sky.altitude, decimals: 1) + "° · " + L10n.text("metric.azimuth") + " " + L10n.number(sky.azimuth) + "°").font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true) }
-                }
-                Spacer(minLength: 0)
-                Button { state.requestPremium(unlocked: purchases.unlocked) { showPlan = true } } label: { Image(systemName: "calendar.badge.plus").font(.title3).frame(width: 44, height: 44).background(.white.opacity(0.1), in: Circle()) }.accessibilityLabel(L10n.text("plan.create"))
-            }.padding(12).background(.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 20))
-            Picker(L10n.text("map.body"), selection: $selectedBody) { Text(L10n.text("body.sun")).tag(CelestialBody.sun); Text(L10n.text("body.moon")).tag(CelestialBody.moon) }.pickerStyle(.segmented)
-            if selectedBody == .moon {
-                Text(L10n.text("moon.illumination") + " " + L10n.number(Astronomy.moonIllumination(at: state.selectedInstant) * 100) + "%").font(.caption)
-            }
-            if let sky, sky.altitude < 0 { KeyText("map.belowHorizon").font(.caption).foregroundStyle(.secondary) }
+            compactInspectorHeader
+            compactBodyPicker
+            compactMoonIllumination
+            compactBelowHorizon
         }
+    }
+
+    private var compactInspectorHeader: some View {
+        HStack(spacing: 12) {
+            compactInspectorArtwork
+            VStack(alignment: .leading, spacing: 5) {
+                LPPhaseLabel(key: "band." + band.rawValue)
+                    .font(.headline)
+                if let summary = compactSkySummary {
+                    Text(summary)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            Spacer(minLength: 0)
+            compactPlanButton
+        }
+        .padding(12)
+        .background(.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 20))
+    }
+
+    private var compactInspectorArtwork: some View {
+        Image("hero-sunset")
+            .resizable()
+            .scaledToFill()
+            .frame(width: 66, height: 58)
+            .clipped()
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .accessibilityHidden(true)
+    }
+
+    private var compactPlanButton: some View {
+        Button {
+            state.requestPremium(unlocked: purchases.unlocked) {
+                showPlan = true
+            }
+        } label: {
+            Image(systemName: "calendar.badge.plus")
+                .font(.title3)
+                .frame(width: 44, height: 44)
+                .background(.white.opacity(0.1), in: Circle())
+        }
+        .accessibilityLabel(L10n.text("plan.create"))
+    }
+
+    private var compactBodyPicker: some View {
+        Picker(L10n.text("map.body"), selection: $selectedBody) {
+            Text(L10n.text("body.sun")).tag(CelestialBody.sun)
+            Text(L10n.text("body.moon")).tag(CelestialBody.moon)
+        }
+        .pickerStyle(.segmented)
+    }
+
+    @ViewBuilder
+    private var compactMoonIllumination: some View {
+        if selectedBody == .moon {
+            Text(compactMoonIlluminationText)
+                .font(.caption)
+        }
+    }
+
+    @ViewBuilder
+    private var compactBelowHorizon: some View {
+        if let sky, sky.altitude < 0 {
+            KeyText("map.belowHorizon")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private var compactSkySummary: String? {
+        guard let sky else { return nil }
+        return L10n.text("metric.altitude") + " "
+            + L10n.number(sky.altitude, decimals: 1) + "° · "
+            + L10n.text("metric.azimuth") + " "
+            + L10n.number(sky.azimuth) + "°"
+    }
+
+    private var compactMoonIlluminationText: String {
+        let percentage = Astronomy.moonIllumination(at: state.selectedInstant) * 100
+        return L10n.text("moon.illumination") + " " + L10n.number(percentage) + "%"
     }
     private var inspector: some View {
         VStack(alignment: .leading, spacing: 20) {

@@ -28,7 +28,8 @@ final class VisualUITests: XCTestCase {
                     let alternative = app.otherElements["plan-card"].firstMatch
                     if link.waitForExistence(timeout: 10) { link.tap() }
                     else { XCTAssertTrue(alternative.waitForExistence(timeout: 5)); alternative.tap() }
-                    XCTAssertTrue(app.otherElements["screen-plan-detail"].waitForExistence(timeout: 10))
+                    let detail = app.descendants(matching: .any)["screen-plan-detail"].firstMatch
+                    XCTAssertTrue(detail.waitForExistence(timeout: 10))
                 } else if tab == 1 {
                     let mapCanvas = app.descendants(matching: .any)["map-canvas"].firstMatch
                     XCTAssertTrue(mapCanvas.waitForExistence(timeout: 15))

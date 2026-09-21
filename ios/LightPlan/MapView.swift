@@ -99,6 +99,7 @@ struct LightMapView: View {
         .mapStyle(imagery ? .imagery(elevation: .flat) : .standard(elevation: .flat))
         .mapControls { MapCompass(); MapScaleView() }
         .accessibilityLabel(L10n.text("map.accessibility"))
+        .accessibilityIdentifier("map-canvas")
     }
     private var topControls: some View {
         VStack(spacing: 9) {

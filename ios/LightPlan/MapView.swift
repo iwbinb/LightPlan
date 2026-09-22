@@ -211,8 +211,6 @@ struct LightMapView: View {
                 .accessibilityIdentifier("map-recenter")
             LPCircleButton(symbol: "star", label: "place.saveCurrent") { state.requestPremium(unlocked: purchases.unlocked) { state.favorite() } }
                 .accessibilityIdentifier("map-favorite")
-            LPCircleButton(symbol: "camera.viewfinder", label: "composition.toggle") { toggleComposition() }
-                .accessibilityIdentifier("map-composition")
         }
     }
     private var compactInspector: some View {
@@ -239,6 +237,7 @@ struct LightMapView: View {
                 }
             }
             Spacer(minLength: 0)
+            compactCompositionButton
             compactPlanButton
         }
         .padding(12)
@@ -253,6 +252,17 @@ struct LightMapView: View {
             .clipped()
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .accessibilityHidden(true)
+    }
+
+    private var compactCompositionButton: some View {
+        Button { toggleComposition() } label: {
+            Image(systemName: compositionMode ? "camera.viewfinder" : "camera.viewfinder")
+                .font(.title3)
+                .frame(width: 44, height: 44)
+                .background(compositionMode ? .purple.opacity(0.34) : .white.opacity(0.1), in: Circle())
+        }
+        .accessibilityLabel(L10n.text("composition.toggle"))
+        .accessibilityIdentifier("map-composition")
     }
 
     private var compactPlanButton: some View {
@@ -313,6 +323,18 @@ struct LightMapView: View {
                 VStack(alignment: .leading, spacing: 5) { LPPhaseLabel(key: "band." + band.rawValue).font(.title3.bold()); KeyText("v3.art.label").font(.caption2).opacity(0.7) }
             }.clipShape(RoundedRectangle(cornerRadius: 22))
             Picker(L10n.text("map.body"), selection: $selectedBody) { Text(L10n.text("body.sun")).tag(CelestialBody.sun); Text(L10n.text("body.moon")).tag(CelestialBody.moon) }.pickerStyle(.segmented)
+            Button { toggleComposition() } label: {
+                Label(
+                    L10n.text("composition.title"),
+                    systemImage: "camera.viewfinder"
+                )
+                .font(.headline)
+                .frame(maxWidth: .infinity)
+                .padding(12)
+                .background(compositionMode ? .purple.opacity(0.28) : .white.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier("map-composition")
             if let sky {
                 LPMetric(title: "metric.azimuth", value: L10n.number(sky.azimuth) + "°", icon: "location.north.fill", tint: LPTheme.blue)
                 LPMetric(title: "metric.altitude", value: L10n.number(sky.altitude, decimals: 1) + "°", icon: "sun.max.fill")

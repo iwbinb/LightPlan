@@ -370,6 +370,7 @@ struct LightMapView: View {
                 }
                 .pickerStyle(.segmented)
 
+
                 if let bearing = Geometry.bearing(from: state.place.coordinate, to: subjectCoordinate) {
                     LabeledContent(L10n.text("composition.subjectBearing"), value: L10n.number(bearing) + "°")
                 }

@@ -98,6 +98,8 @@ final class ProductUITests: XCTestCase {
         let search = app.buttons["composition-search"]
         XCTAssertTrue(search.waitForExistence(timeout: 15))
         XCTAssertFalse(app.buttons["composition-use-stand"].exists)
+        reveal(search, in: app)
+        XCTAssertTrue(search.isHittable)
         search.tap()
         XCTAssertTrue(app.buttons["purchase-buy"].waitForExistence(timeout: 15))
         XCTAssertTrue(session.allTransactions().isEmpty)

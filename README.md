@@ -1,6 +1,6 @@
 # LightPlan / 光迹
 
-Native sunlight and photography planning for iPhone and iPad. Private, original app source; no WebView or backend. Development branch: `dev`.
+Native sunlight and photography planning for iPhone and iPad. Original native app source; no WebView or backend. Development branch: `dev`.
 
 ## Open and run
 
@@ -31,6 +31,7 @@ local StoreKit tests are separate and do not charge money.
 
 - Photographic native dashboard, real solar curve, real MapKit imagery and interactive light tracks, expanded map/inspector workspace.
 - Sun and Moon positions/rise/set; golden, blue and twilight events; destination time zones and DST; polar days and missing events.
+- Two-point composition planning: tap a photographic subject on the map, compare Sun/Moon alignment, jump to the best same-day time, search the next 14 days, and calculate geometric shooting-position suggestions.
 - Search, manual coordinates with explicit IANA time zone, opt-in location, favorites.
 - Create/edit/duplicate/delete shooting plans, arrival/reminder offsets, local reminders and notification deep links.
 - Validated JSON backup export/import, conflict review, atomic persistence and preservation of damaged originals.

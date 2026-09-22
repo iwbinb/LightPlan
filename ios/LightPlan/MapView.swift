@@ -31,7 +31,7 @@ struct LightMapView: View {
     private var band: LightBand { Astronomy.lightBand(altitude: sun?.altitude ?? -90) }
     private var subjectCL: CLLocationCoordinate2D? { subjectCoordinate.map(Self.cl) }
     private var suggestedObserver: Coordinate? {
-        guard compositionMode, let subjectCoordinate, let dailyAlignment else { return nil }
+        guard purchases.unlocked, compositionMode, let subjectCoordinate, let dailyAlignment else { return nil }
         return try? CompositionPlanner.recommendedObserver(
             subject: subjectCoordinate,
             bodyAzimuth: dailyAlignment.bodyAzimuth,
@@ -371,21 +371,21 @@ struct LightMapView: View {
                         .foregroundStyle(.secondary)
                         .accessibilityIdentifier("composition-best-time")
 
-                    Stepper(value: $standDistance, in: 50...1_000, step: 50) {
-                        Text(L10n.text("composition.standDistance") + " · " + L10n.number(standDistance) + " m")
-                    }
-
-                    if suggestedObserver != nil {
-                        Button {
-                            state.requestPremium(unlocked: purchases.unlocked) {
-                                Task { await useSuggestedObserver() }
-                            }
-                        } label: {
-                            Label(L10n.text("composition.useStand"), systemImage: "figure.walk")
-                                .frame(maxWidth: .infinity)
+                    if purchases.unlocked {
+                        Stepper(value: $standDistance, in: 50...1_000, step: 50) {
+                            Text(L10n.text("composition.standDistance") + " · " + L10n.number(standDistance) + " m")
                         }
-                        .buttonStyle(.bordered)
-                        .accessibilityIdentifier("composition-use-stand")
+
+                        if suggestedObserver != nil {
+                            Button {
+                                Task { await useSuggestedObserver() }
+                            } label: {
+                                Label(L10n.text("composition.useStand"), systemImage: "figure.walk")
+                                    .frame(maxWidth: .infinity)
+                            }
+                            .buttonStyle(.bordered)
+                            .accessibilityIdentifier("composition-use-stand")
+                        }
                     }
                 } else {
                     KeyText("composition.noOpportunity").font(.caption).foregroundStyle(.secondary)

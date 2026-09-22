@@ -5,6 +5,7 @@ mkdir -p build/evidence
 xcodebuild -version | tee build/evidence/toolchain.txt
 xcrun swift --version | tee -a build/evidence/toolchain.txt
 python3 scripts/localization_audit.py
+python3 scripts/appstore_metadata_audit.py
 python3 scripts/generate_project.py
 git diff --exit-code -- LightPlan.xcodeproj ios/Config/Project.xcconfig ios/LightPlan/Info.plist ios/LightPlanWidget/Info.plist
 swift test --package-path packages/LightPlanCore 2>&1 | tee build/evidence/core-tests.log

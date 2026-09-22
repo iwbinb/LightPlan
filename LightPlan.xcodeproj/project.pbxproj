@@ -83,12 +83,6 @@
 			"isa" = "PBXBuildFile";
 			"fileRef" = "4DD13D8C3E8E8A3BC992140D";
 		};
-		"2C71F9A68CAB62632D8CA31F" = {
-			"isa" = "PBXFileReference";
-			"lastKnownFileType" = "text";
-			"path" = "ios/StoreKit/LightPlan.storekit";
-			"sourceTree" = "SOURCE_ROOT";
-		};
 		"6A3BE253F9763FB2E5B4F764" = {
 			"isa" = "PBXResourcesBuildPhase";
 			"buildActionMask" = "2147483647";
@@ -677,6 +671,12 @@
 			);
 			"runOnlyForDeploymentPostprocessing" = "0";
 		};
+		"2C71F9A68CAB62632D8CA31F" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "text";
+			"path" = "ios/StoreKit/LightPlan.storekit";
+			"sourceTree" = "SOURCE_ROOT";
+		};
 		"A7F16E7F4F622ECC03AF9653" = {
 			"isa" = "PBXBuildFile";
 			"fileRef" = "2C71F9A68CAB62632D8CA31F";
@@ -785,7 +785,6 @@
 				"0D17A984242E2E82ED400BD1",
 				"4DDC4D4A05324B733060DB51",
 				"4DD13D8C3E8E8A3BC992140D",
-				"2C71F9A68CAB62632D8CA31F",
 				"5A797813DEADA620D88ADBBE",
 				"9A851E0CC4CC534076D6EE8E",
 				"8A69A86C25BFF14E82658EEC",
@@ -804,6 +803,7 @@
 				"7100BD72DA3A439A1FACB512",
 				"B3B32742F1B92B48F7C2BCE2",
 				"157C1E6E69F6815368F12E90",
+				"2C71F9A68CAB62632D8CA31F",
 				"00C45FD35CB0F9C5F764F070",
 			);
 			"sourceTree" = "<group>";

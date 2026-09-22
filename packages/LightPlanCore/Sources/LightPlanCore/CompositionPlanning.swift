@@ -171,9 +171,9 @@ public enum CompositionPlanner {
 
         for offset in 0..<days {
             try Task.checkCancellation()
-            guard let date = calendar.date(byAdding: .day, value: offset, to: startDate) else {
-                throw LightPlanError.invalidDate
-            }
+            guard let date = calendar.date(byAdding: .day, value: offset, to: startDate) else { break }
+            do { try LocalDay.validate(date, timeZone: place.timeZone) }
+            catch LightPlanError.invalidDate { break }
             let interval = try LocalDay.interval(containing: date, timeZone: place.timeZone)
             if let candidate = try bestAlignment(
                 body: body,

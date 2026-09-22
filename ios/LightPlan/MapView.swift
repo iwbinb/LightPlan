@@ -371,6 +371,16 @@ struct LightMapView: View {
                         .foregroundStyle(.secondary)
                         .accessibilityIdentifier("composition-best-time")
 
+                    Button {
+                        state.followingNow = false
+                        state.selectedInstant = dailyAlignment.instant
+                    } label: {
+                        Label(L10n.text("composition.showBest"), systemImage: "clock.arrow.circlepath")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .accessibilityIdentifier("composition-show-best")
+
                     if purchases.unlocked {
                         Stepper(value: $standDistance, in: 50...1_000, step: 50) {
                             Text(L10n.text("composition.standDistance") + " · " + L10n.number(standDistance) + " m")

@@ -91,6 +91,21 @@ final class CompositionPlanningTests: XCTestCase {
         }
     }
 
+    func testOpportunitySearchStopsAtSupportedUpperBoundary() throws {
+        let zone = Place.example.timeZone
+        let start = try LocalDay.date(year: 2100, month: 12, day: 30, timeZone: zone)
+        let subject = try VisualGeometry.destination(from: Place.example.coordinate, bearing: 250, meters: 800)
+        let values = try CompositionPlanner.opportunities(
+            body: .sun,
+            place: .example,
+            subject: subject,
+            starting: start,
+            days: 14,
+            limit: 7
+        )
+        XCTAssertLessThanOrEqual(values.count, 2)
+    }
+
     func testCoincidentSubjectHasNoAlignment() throws {
         let day = try DayEngine.calculate(place: .example, date: instant("2026-09-17T04:00:00Z"))
         XCTAssertNil(try CompositionPlanner.bestAlignment(

@@ -32,7 +32,7 @@ jobs:
       - name: Build, test, purchase-test and capture actual native screens
         run: bash scripts/ci_native.sh
       - name: Preserve native evidence, including failures
-        if: always()
+        if: ${{ always() && !cancelled() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: native-evidence-${{ github.sha }}

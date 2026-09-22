@@ -45,6 +45,7 @@ final class VisualUITests: XCTestCase {
         }
     }
     @MainActor func testDarkScreenAndRotationContinuity() throws {
+        XCUIDevice.shared.orientation = .portrait
         let app = launch(language: "zh-Hans", tab: 1, theme: "dark")
         let label = app.staticTexts["selected-time"]
         XCTAssertTrue(label.waitForExistence(timeout: 15))
@@ -52,7 +53,13 @@ final class VisualUITests: XCTestCase {
         save("v3-map-zh-Hans-dark-portrait")
         XCUIDevice.shared.orientation = .landscapeLeft
         XCTAssertTrue(label.waitForExistence(timeout: 5)); XCTAssertEqual(label.label, before)
+        // Time surviving rotation alone does not prove the controls remain usable.
         save("v3-map-zh-Hans-dark-landscape")
+        for identifier in ["map-style", "map-recenter", "map-favorite"] {
+            let control = app.buttons[identifier]
+            XCTAssertTrue(control.waitForExistence(timeout: 5))
+            XCTAssertTrue(control.isHittable, "Landscape control is clipped: \(identifier)")
+        }
         XCUIDevice.shared.orientation = .portrait
         XCTAssertEqual(label.label, before)
         // Rotation is not a Duo fold/unfold test. Real fold transitions remain a separate gate.

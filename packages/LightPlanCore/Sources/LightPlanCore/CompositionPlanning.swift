@@ -1,10 +1,10 @@
 import Foundation
 
-public enum AlignmentQuality: String, Sendable {
+public enum AlignmentQuality: String, Sendable, Equatable {
     case exact, strong, workable, loose
 }
 
-public enum FrameSide: String, Sendable {
+public enum FrameSide: String, Sendable, Equatable {
     case left, centered, right
 }
 

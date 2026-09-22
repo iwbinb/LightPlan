@@ -81,23 +81,38 @@ struct LightMapView: View {
                     }
                 }
                 // The inset sits OUTSIDE the map viewport so system legal labels remain visible.
-                ScrollView { VStack(spacing: 10) {
-                    if let summary = state.summary {
-                        HStack {
-                            Button { shift(minutes: -15) } label: { Image(systemName: "chevron.left").frame(width: 44, height: 44) }.accessibilityLabel(L10n.text("v3.previousTime"))
-                            Spacer()
-                            Text(L10n.time(state.selectedInstant, zone: state.place.timeZone)).font(.system(.largeTitle, design: .rounded).weight(.semibold)).monospacedDigit().accessibilityIdentifier("selected-time")
-                            Spacer()
-                            Button { shift(minutes: 15) } label: { Image(systemName: "chevron.right").frame(width: 44, height: 44) }.accessibilityLabel(L10n.text("v3.nextTime"))
+                ScrollViewReader { scrollProxy in
+                    ScrollView {
+                        VStack(spacing: 10) {
+                            if let summary = state.summary {
+                                HStack {
+                                    Button { shift(minutes: -15) } label: { Image(systemName: "chevron.left").frame(width: 44, height: 44) }.accessibilityLabel(L10n.text("v3.previousTime"))
+                                    Spacer()
+                                    Text(L10n.time(state.selectedInstant, zone: state.place.timeZone)).font(.system(.largeTitle, design: .rounded).weight(.semibold)).monospacedDigit().accessibilityIdentifier("selected-time")
+                                    Spacer()
+                                    Button { shift(minutes: 15) } label: { Image(systemName: "chevron.right").frame(width: 44, height: 44) }.accessibilityLabel(L10n.text("v3.nextTime"))
+                                }
+                                SolarTimeline(summary: summary, samples: visual.samples, instant: Binding(get: { state.selectedInstant }, set: { state.followingNow = false; state.selectedInstant = $0 }), compact: true)
+                            }
+                            if !wide { compactInspector }
+                            if state.busy { ProgressView() }
+                            if state.summary == nil && !state.busy { Button(L10n.text("common.retry")) { Task { await state.refresh() } } }
                         }
-                        SolarTimeline(summary: summary, samples: visual.samples, instant: Binding(get: { state.selectedInstant }, set: { state.followingNow = false; state.selectedInstant = $0 }), compact: true)
+                        .padding(.horizontal, 18)
+                        .padding(.bottom, 14)
+                        .padding(.top, 6)
+                        .background(LPTheme.ink)
+                        .environment(\.colorScheme, .dark)
                     }
-                    if !wide { compactInspector }
-                    if state.busy { ProgressView() }
-                    if state.summary == nil && !state.busy { Button(L10n.text("common.retry")) { Task { await state.refresh() } } }
-                }.padding(.horizontal, 18).padding(.bottom, 14).padding(.top, 6)
-                    .background(LPTheme.ink).environment(\.colorScheme, .dark)
-                }.frame(maxHeight: wide ? 150 : min(320, geometry.size.height * 0.57))
+                    .onChange(of: compositionMode) { _, active in
+                        if active && !wide {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                scrollProxy.scrollTo("composition-panel", anchor: .top)
+                            }
+                        }
+                    }
+                    .frame(maxHeight: wide ? 150 : min(320, geometry.size.height * 0.57))
+                }
             }
             .background(LPTheme.ink)
         }
@@ -216,7 +231,7 @@ struct LightMapView: View {
             compactBodyPicker
             compactMoonIllumination
             compactBelowHorizon
-            if compositionMode { compositionPanel }
+            if compositionMode { compositionPanel.id("composition-panel") }
         }
     }
 

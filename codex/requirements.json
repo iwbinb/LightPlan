@@ -208,6 +208,16 @@
       "status": "partial_implementation_not_release_verified",
       "evidence": [],
       "note": ""
+    },
+    {
+      "id": "F19",
+      "spec": "docs/01_产品规格.md",
+      "tasks": [
+        "T36"
+      ],
+      "status": "implemented_pending_final_native_ci",
+      "evidence": [],
+      "note": "构图算法与UI已实现；合并前以最新dev原生CI为准，发布仍需真实设备/地图/安全语义验收。"
     }
   ]
 }

@@ -606,7 +606,8 @@
         "T17",
         "T20",
         "T21",
-        "T25"
+        "T25",
+        "T36"
       ],
       "status": "todo",
       "files": [
@@ -830,6 +831,34 @@
         "当前commit对应的原生图与参考并排检查",
         "不将整个地图蒙版隐藏后假通过",
         "reviewer与证据写入视觉门槛"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T36",
+      "title": "双点构图、机会搜索与推荐机位",
+      "depends_on": [
+        "T04",
+        "T07",
+        "T11",
+        "T12",
+        "T18"
+      ],
+      "status": "implemented_pending_final_native_ci",
+      "files": [
+        "packages/LightPlanCore/Sources/LightPlanCore/CompositionPlanning.swift",
+        "ios/LightPlan/MapView.swift",
+        "ios/LightPlan/AppState.swift",
+        "ios/LightPlanVisualUITests/ProductUITests.swift",
+        "ios/LightPlanVisualUITests/VisualUITests.swift"
+      ],
+      "acceptance": [
+        "地图可点选主体并计算观察点到主体的真北方位",
+        "太阳/月亮可按左10度、居中、右10度寻找当天最佳可见对齐时刻",
+        "完整解锁可搜索未来14天机会并给出几何推荐机位；免费用户不能绕过付费边界",
+        "推荐机位明确为几何建议，不声明道路可达、地形无遮挡或现场安全",
+        "1900至2100日期边界安全，Core单测和原生UI测试通过",
+        "新增文案九语齐全并通过本地化检查"
       ],
       "evidence": []
     }

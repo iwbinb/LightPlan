@@ -205,12 +205,9 @@ struct LightMapView: View {
     }
     private var toolButtons: some View {
         Group {
-            LPCircleButton(symbol: imagery ? "map" : "globe", label: "v3.map.style") { imagery.toggle() }
-                .accessibilityIdentifier("map-style")
-            LPCircleButton(symbol: "location.fill", label: "v3.map.recenter") { recenter() }
-                .accessibilityIdentifier("map-recenter")
-            LPCircleButton(symbol: "star", label: "place.saveCurrent") { state.requestPremium(unlocked: purchases.unlocked) { state.favorite() } }
-                .accessibilityIdentifier("map-favorite")
+            LPCircleButton(symbol: imagery ? "map" : "globe", label: "v3.map.style", identifier: "map-style") { imagery.toggle() }
+            LPCircleButton(symbol: "location.fill", label: "v3.map.recenter", identifier: "map-recenter") { recenter() }
+            LPCircleButton(symbol: "star", label: "place.saveCurrent", identifier: "map-favorite") { state.requestPremium(unlocked: purchases.unlocked) { state.favorite() } }
         }
     }
     private var compactInspector: some View {

@@ -81,10 +81,26 @@ struct LPPhotoHero<Content: View>: View {
 struct LPCircleButton: View {
     let symbol: String
     let label: String
+    let identifier: String?
     var action: () -> Void
+
+    init(symbol: String, label: String, identifier: String? = nil, action: @escaping () -> Void) {
+        self.symbol = symbol
+        self.label = label
+        self.identifier = identifier
+        self.action = action
+    }
+
     var body: some View {
-        Button(action: action) { Image(systemName: symbol).font(.system(size: 17, weight: .semibold)).frame(width: 46, height: 46).lpGlass(radius: 23) }
-            .buttonStyle(LPPressStyle()).accessibilityLabel(L10n.text(label))
+        Button(action: action) {
+            Image(systemName: symbol)
+                .font(.system(size: 17, weight: .semibold))
+                .frame(width: 46, height: 46)
+                .lpGlass(radius: 23)
+        }
+        .buttonStyle(LPPressStyle())
+        .accessibilityLabel(L10n.text(label))
+        .accessibilityIdentifier(identifier ?? label)
     }
 }
 

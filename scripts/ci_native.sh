@@ -10,6 +10,14 @@ git diff --exit-code -- LightPlan.xcodeproj ios/Config/Project.xcconfig ios/Ligh
 swift test --package-path packages/LightPlanCore 2>&1 | tee build/evidence/core-tests.log
 xcodebuild -project LightPlan.xcodeproj -scheme LightPlan -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO build 2>&1 | tee build/evidence/debug-build.log
 xcodebuild -project LightPlan.xcodeproj -scheme LightPlan -configuration Release -destination 'generic/platform=iOS' -derivedDataPath build/DerivedData -archivePath build/LightPlan.xcarchive CODE_SIGNING_ALLOWED=NO archive 2>&1 | tee build/evidence/release-archive.log
+# Local StoreKit configuration belongs to the UI-test bundle only. Shipping it
+# inside LightPlan.app would make the release artifact contain test data.
+ARCHIVED_APP="build/LightPlan.xcarchive/Products/Applications/LightPlan.app"
+test -d "$ARCHIVED_APP"
+if find "$ARCHIVED_APP" -name '*.storekit' -print -quit | grep -q .; then
+  echo "ERROR: StoreKit test configuration leaked into the Release app bundle." >&2
+  exit 1
+fi
 # Never choose an invented device or assume a stable hosted-runner UDID.
 DEVICE_ID=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin)["devices"]; candidates=[(r,x) for r,rows in d.items() if "iOS-26" in r for x in rows if x.get("isAvailable") and x["name"]=="iPhone 17 Pro"]; candidates.sort(key=lambda v:v[0]); print(candidates[-1][1]["udid"] if candidates else "")')
 test -n "$DEVICE_ID"

@@ -89,10 +89,6 @@
 			"path" = "ios/StoreKit/LightPlan.storekit";
 			"sourceTree" = "SOURCE_ROOT";
 		};
-		"C9102AA3D1A7BC338FF63DBF" = {
-			"isa" = "PBXBuildFile";
-			"fileRef" = "2C71F9A68CAB62632D8CA31F";
-		};
 		"6A3BE253F9763FB2E5B4F764" = {
 			"isa" = "PBXResourcesBuildPhase";
 			"buildActionMask" = "2147483647";
@@ -100,7 +96,6 @@
 				"3D60D7CABC9637A29B5BF93B",
 				"D55544EAA6DD55B44B85389C",
 				"DD4A7EFB69A5DC0824EB334D",
-				"C9102AA3D1A7BC338FF63DBF",
 				"9B4A3630B7A5AAE49D2E6871",
 			);
 			"runOnlyForDeploymentPostprocessing" = "0";

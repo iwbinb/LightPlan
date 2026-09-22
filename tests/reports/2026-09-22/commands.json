@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "scope": "Historical commands from the iPhone preview run. Device identifiers and local build paths have been replaced with variables; these are templates, not verbatim logs.",
+  "evidence_policy": "Raw originals, including failures, are retained under ignored tests/reports/local/2026-09-22/. Native screenshot bundles remain in ignored tests/reports/v3/native-* directories. These paths are local-only, not published artifacts.",
+  "template_variables": {
+    "DEVICE_ID": "An explicitly selected, trusted physical iPhone.",
+    "SIMULATOR_ID": "The simulator used for verification.",
+    "BUILD_ROOT": "A local build directory chosen by the developer."
+  },
+  "commands": [
+    {
+      "command_template": "xcodebuild -version",
+      "exit_code": 0,
+      "local_evidence": "toolchain.txt"
+    },
+    {
+      "command_template": "swift test --package-path packages/LightPlanCore",
+      "exit_code": 0,
+      "local_evidence": "core-tests.log"
+    },
+    {
+      "command_template": "python3 scripts/localization_audit.py",
+      "exit_code": 0,
+      "local_evidence": "localization.json"
+    },
+    {
+      "command_template": "python3 scripts/appstore_metadata_audit.py",
+      "exit_code": 0,
+      "local_evidence": "metadata.txt"
+    },
+    {
+      "command_template": "xcodebuild -project LightPlan.xcodeproj -scheme LightPlan -configuration Debug -destination 'generic/platform=iOS' -derivedDataPath ${BUILD_ROOT} CODE_SIGNING_ALLOWED=NO build",
+      "exit_code": 0,
+      "local_evidence": "device-build-initial.log"
+    },
+    {
+      "command_template": "xcodebuild -project LightPlan.xcodeproj -scheme LightPlan -configuration Debug -destination 'id=${DEVICE_ID}' -derivedDataPath ${BUILD_ROOT}-Signed -allowProvisioningUpdates build",
+      "exit_code": 0,
+      "local_evidence": "signed-device-build.log"
+    },
+    {
+      "command_template": "LIGHTPLAN_DERIVED_DATA=${BUILD_ROOT}-Signed bash scripts/run_iphone.sh '${DEVICE_ID}'",
+      "exit_code": 1,
+      "local_evidence": "install-and-launch.log"
+    },
+    {
+      "command_template": "xcodebuild -project LightPlan.xcodeproj -scheme LightPlan -configuration Release -destination 'generic/platform=iOS' -derivedDataPath ${BUILD_ROOT}-Signed CODE_SIGNING_ALLOWED=NO build",
+      "exit_code": 0,
+      "local_evidence": "release-device-build.log"
+    },
+    {
+      "command_template": "xcrun devicectl device info apps --device ${DEVICE_ID} --filter \"bundleIdentifier == 'com.arenovo.lightplan'\" --timeout 20",
+      "exit_code": 0,
+      "local_evidence": "installed-app.txt"
+    },
+    {
+      "command_template": "bash -n scripts/run_iphone.sh; bash scripts/run_iphone.sh --help; git diff --check",
+      "exit_code": 0,
+      "local_evidence": "Shell syntax, usage and whitespace checks passed."
+    },
+    {
+      "command_template": "xcrun devicectl device process launch --device ${DEVICE_ID} --timeout 20 com.arenovo.lightplan",
+      "exit_code": 1,
+      "local_evidence": "device-launch-retry.log",
+      "note": "Still locked; app installation independently confirmed."
+    },
+    {
+      "command_template": "xcodebuild -project LightPlan.xcodeproj -scheme LightPlan -configuration Debug -destination \"platform=iOS Simulator,id=${SIMULATOR_ID}\" -derivedDataPath ${BUILD_ROOT} -resultBundlePath ${BUILD_ROOT}-UI.xcresult -parallel-testing-enabled NO CODE_SIGNING_ALLOWED=NO test",
+      "exit_code": 0,
+      "local_evidence": "native-tests.log",
+      "note": "Initial complete suite: six tests passed; screenshots precede map fix."
+    },
+    {
+      "command_template": "xcodebuild -project LightPlan.xcodeproj -scheme LightPlan -configuration Debug -destination \"platform=iOS Simulator,id=${SIMULATOR_ID}\" -derivedDataPath ${BUILD_ROOT} -resultBundlePath ${BUILD_ROOT}-MapFix.xcresult -parallel-testing-enabled NO \"-only-testing:LightPlanUITests/VisualUITests/testDarkScreenAndRotationContinuity\" CODE_SIGNING_ALLOWED=NO test",
+      "exit_code": 143,
+      "local_evidence": "map-layout-tests.log",
+      "note": "Sidebar identifier assertion failed; diagnostics stalled; exact Xcode process terminated."
+    },
+    {
+      "command_template": "xcodebuild -project LightPlan.xcodeproj -scheme LightPlan -configuration Debug -destination \"platform=iOS Simulator,id=${SIMULATOR_ID}\" -derivedDataPath ${BUILD_ROOT} -resultBundlePath ${BUILD_ROOT}-MapFix2.xcresult -collect-test-diagnostics never -parallel-testing-enabled NO \"-only-testing:LightPlanUITests/VisualUITests/testDarkScreenAndRotationContinuity\" CODE_SIGNING_ALLOWED=NO test",
+      "exit_code": 0,
+      "local_evidence": "map-layout-tests-2.log",
+      "note": "Direct landscape button hittability checks passed."
+    },
+    {
+      "command_template": "xcodebuild -project LightPlan.xcodeproj -scheme LightPlan -configuration Debug -destination generic/platform=iOS -derivedDataPath ${BUILD_ROOT}-Signed -allowProvisioningUpdates build",
+      "exit_code": 0,
+      "local_evidence": "signed-device-build-final.log",
+      "note": "Final map source; signed Debug app and widget."
+    },
+    {
+      "command_template": "xcodebuild -project LightPlan.xcodeproj -scheme LightPlan -configuration Release -destination generic/platform=iOS -derivedDataPath ${BUILD_ROOT}-Signed CODE_SIGNING_ALLOWED=NO build",
+      "exit_code": 0,
+      "local_evidence": "release-device-build-final.log",
+      "note": "Final map source; unsigned Release app and widget."
+    },
+    {
+      "command_template": "xcrun devicectl device install app --device ${DEVICE_ID} ${BUILD_ROOT}-Signed/Build/Products/Debug-iphoneos/LightPlan.app",
+      "exit_code": 0,
+      "local_evidence": "final-device-install.log"
+    },
+    {
+      "command_template": "xcodebuild -project LightPlan.xcodeproj -scheme LightPlan -configuration Debug -destination \"platform=iOS Simulator,id=${SIMULATOR_ID}\" -derivedDataPath ${BUILD_ROOT} -resultBundlePath ${BUILD_ROOT}-FinalRegression.xcresult -collect-test-diagnostics never -parallel-testing-enabled NO \"-only-testing:LightPlanUITests/ProductUITests\" \"-only-testing:LightPlanUITests/VisualUITests/testDarkScreenAndRotationContinuity\" CODE_SIGNING_ALLOWED=NO test",
+      "exit_code": 0,
+      "local_evidence": "final-regression.log",
+      "note": "Final source: five UI tests passed, zero failures."
+    },
+    {
+      "command_template": "xcrun xcresulttool export attachments --path tests/reports/v3/native-20260922-final/iPhone.xcresult --output-path tests/reports/v3/native-20260922-final/screenshots",
+      "exit_code": 0,
+      "local_evidence": "../v3/native-20260922-final/screenshots/manifest.json"
+    }
+  ],
+  "commit_preparation_commands": [
+    {
+      "command_template": "python3 scripts/generate_project.py",
+      "exit_code": 0,
+      "local_evidence": "generator-check.log"
+    },
+    {
+      "command_template": "git diff --exit-code -- LightPlan.xcodeproj ios/Config/Project.xcconfig ios/Config/Local.xcconfig.example ios/LightPlan/Info.plist ios/LightPlanWidget/Info.plist ios/LightPlan/LightPlan.entitlements ios/LightPlanWidget/LightPlanWidget.entitlements",
+      "exit_code": 0
+    },
+    {
+      "argv_template": [
+        "swift",
+        "test",
+        "--package-path",
+        "packages/LightPlanCore"
+      ],
+      "exit_code": 0,
+      "local_evidence": "core-recheck.log"
+    },
+    {
+      "argv_template": [
+        "python3",
+        "scripts/localization_audit.py"
+      ],
+      "exit_code": 0,
+      "local_evidence": "localization-recheck.log"
+    },
+    {
+      "argv_template": [
+        "python3",
+        "scripts/appstore_metadata_audit.py"
+      ],
+      "exit_code": 0,
+      "local_evidence": "metadata-recheck.log"
+    },
+    {
+      "argv_template": [
+        "xcodebuild",
+        "-project",
+        "LightPlan.xcodeproj",
+        "-scheme",
+        "LightPlan",
+        "-configuration",
+        "Debug",
+        "-destination",
+        "generic/platform=iOS",
+        "-derivedDataPath",
+        "${BUILD_ROOT}-Signed",
+        "CODE_SIGNING_ALLOWED=NO",
+        "build"
+      ],
+      "exit_code": 0,
+      "local_evidence": "debug-build-recheck.log"
+    },
+    {
+      "argv_template": [
+        "xcodebuild",
+        "-project",
+        "LightPlan.xcodeproj",
+        "-scheme",
+        "LightPlan",
+        "-configuration",
+        "Release",
+        "-destination",
+        "generic/platform=iOS",
+        "-derivedDataPath",
+        "${BUILD_ROOT}-Signed",
+        "CODE_SIGNING_ALLOWED=NO",
+        "build"
+      ],
+      "exit_code": 0,
+      "local_evidence": "release-build-recheck.log"
+    }
+  ]
+}

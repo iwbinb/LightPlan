@@ -33,6 +33,13 @@ final class ProductUITests: XCTestCase {
         expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: element)
         waitForExpectations(timeout: 15)
     }
+    @MainActor private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
+        if element.exists && element.isHittable { return }
+        for _ in 0..<5 {
+            app.swipeUp()
+            if element.waitForExistence(timeout: 1), element.isHittable { return }
+        }
+    }
     @MainActor func testRealPurchasePersistsAndRefundRevokes() async throws {
         let session = try store()
         let app = launch()
@@ -75,6 +82,7 @@ final class ProductUITests: XCTestCase {
         // Select all through the keyboard shortcut when supported; append a unique marker otherwise.
         field.typeText(" CI")
         let save = app.buttons["plan-save"]
+        reveal(save, in: app)
         waitUntilEnabled(save); save.tap()
         XCTAssertTrue(field.waitForNonExistence(timeout: 10))
         XCTAssertGreaterThanOrEqual(app.buttons.matching(identifier: "plan-card").count, 2)
@@ -83,8 +91,8 @@ final class ProductUITests: XCTestCase {
     }
     @MainActor func testManualLocationAcceptsCoordinatesWithoutPermission() async throws {
         let session = try store()
-        // A StoreKit transaction (not a debug override) authorizes a second saved location.
-        try await session.buyProduct(identifier: "com.arenovo.lightplan.lifetime")
+        // The first manually confirmed place is part of the free flow; this test intentionally
+        // proves it works without location permission and without manufacturing an off-device purchase.
         let app = launch(tab: 3)
         let manual = app.buttons["place-manual"]
         XCTAssertTrue(manual.waitForExistence(timeout: 10)); manual.tap()
@@ -98,8 +106,10 @@ final class ProductUITests: XCTestCase {
         XCTAssertTrue(search.waitForExistence(timeout: 10)); search.tap(); search.typeText("Europe/London")
         let zone = app.buttons["Europe/London"]; XCTAssertTrue(zone.waitForExistence(timeout: 10)); zone.tap()
         let use = app.buttons["manual-save"]; XCTAssertTrue(use.waitForExistence(timeout: 10)); use.tap()
-        XCTAssertTrue(app.descendants(matching: .any)["map-canvas"].firstMatch.waitForExistence(timeout: 15))
+        let selectedTime = app.staticTexts["selected-time"]
+        XCTAssertTrue(selectedTime.waitForExistence(timeout: 15))
         XCTAssertTrue(app.buttons.containing(.staticText, identifier: "CI London").firstMatch.exists || app.staticTexts["CI London"].exists)
+        XCTAssertTrue(session.allTransactions().isEmpty)
         app.terminate()
     }
 }

@@ -68,7 +68,7 @@ for target,folder,product,is_widget in [('LightPlan','ios/LightPlan',app_product
     product_dep=obj('package-product:'+target,'XCSwiftPackageProductDependency',package=package,productName='LightPlanCore')
     frameworks=obj('frameworks:'+target,'PBXFrameworksBuildPhase',buildActionMask='2147483647',files=[build(target+':core',product=product_dep)],runOnlyForDeploymentPostprocessing='0')
     resource_paths=['ios/Shared/Localizable.xcstrings',folder+'/PrivacyInfo.xcprivacy']
-    if not is_widget: resource_paths += ['ios/LightPlan/Assets.xcassets','ios/StoreKit/LightPlan.storekit']
+    if not is_widget: resource_paths += ['ios/LightPlan/Assets.xcassets']
     res=resources(target,resource_paths)
     if not is_widget:
         children=[]

@@ -28,18 +28,24 @@ final class VisualUITests: XCTestCase {
                     let alternative = app.otherElements["plan-card"].firstMatch
                     if link.waitForExistence(timeout: 10) { link.tap() }
                     else { XCTAssertTrue(alternative.waitForExistence(timeout: 5)); alternative.tap() }
-                    XCTAssertTrue(app.otherElements["screen-plan-detail"].waitForExistence(timeout: 10))
+                    let detail = app.descendants(matching: .any)["screen-plan-detail"].firstMatch
+                    XCTAssertTrue(detail.waitForExistence(timeout: 10))
                 } else if tab == 1 {
-                    XCTAssertTrue(app.otherElements["map-canvas"].waitForExistence(timeout: 15))
+                    let selectedTime = app.staticTexts["selected-time"]
+                    XCTAssertTrue(selectedTime.waitForExistence(timeout: 15))
                     // MapKit tile availability is a separate manual/network QA gate; do not infer it from this delay.
                     Thread.sleep(forTimeInterval: 3)
-                } else { XCTAssertTrue(app.otherElements["screen-today"].waitForExistence(timeout: 10)) }
+                } else {
+                    let today = app.descendants(matching: .any)["screen-today"].firstMatch
+                    XCTAssertTrue(today.waitForExistence(timeout: 10))
+                }
                 save("v3-\(screen)-\(language)-light")
                 app.terminate()
             }
         }
     }
     @MainActor func testDarkScreenAndRotationContinuity() throws {
+        XCUIDevice.shared.orientation = .portrait
         let app = launch(language: "zh-Hans", tab: 1, theme: "dark")
         let label = app.staticTexts["selected-time"]
         XCTAssertTrue(label.waitForExistence(timeout: 15))
@@ -47,7 +53,13 @@ final class VisualUITests: XCTestCase {
         save("v3-map-zh-Hans-dark-portrait")
         XCUIDevice.shared.orientation = .landscapeLeft
         XCTAssertTrue(label.waitForExistence(timeout: 5)); XCTAssertEqual(label.label, before)
+        // Time surviving rotation alone does not prove the controls remain usable.
         save("v3-map-zh-Hans-dark-landscape")
+        for identifier in ["map-style", "map-recenter", "map-favorite"] {
+            let control = app.buttons[identifier]
+            XCTAssertTrue(control.waitForExistence(timeout: 5))
+            XCTAssertTrue(control.isHittable, "Landscape control is clipped: \(identifier)")
+        }
         XCUIDevice.shared.orientation = .portrait
         XCTAssertEqual(label.label, before)
         // Rotation is not a Duo fold/unfold test. Real fold transitions remain a separate gate.

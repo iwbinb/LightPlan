@@ -17,3 +17,16 @@ __pycache__/
 
 DerivedData-Visual/
 tests/reports/v3/native-*/
+
+# Raw local evidence may contain device IDs, signing details and personal paths.
+/tests/reports/local/
+# Only the reviewed, sanitized handoff files belong in this dated report.
+/tests/reports/2026-09-22/*
+!/tests/reports/2026-09-22/README.md
+!/tests/reports/2026-09-22/commands.json
+!/tests/reports/2026-09-22/verification.json
+!/tests/reports/2026-09-22/source-sha256.json
+!/tests/reports/2026-09-22/source-sha256-final.json
+!/tests/reports/2026-09-22/toolchain.txt
+!/tests/reports/2026-09-22/localization.json
+!/tests/reports/2026-09-22/metadata.txt

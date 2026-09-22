@@ -1,9 +1,20 @@
-# StoreKit local test setup — not yet verified
+# StoreKit local test setup
 
-The native purchase service uses non-consumable product ID `org.nodestake.lightplan.lifetime`. This candidate must match the final authorized App Store Connect configuration.
+LightPlan uses the non-consumable product ID `com.arenovo.lightplan.lifetime`.
+The checked-in `LightPlan.storekit` file is **test-only** and is included in the
+`LightPlanUITests` target so `SKTestSession` can exercise signed local StoreKit
+transactions in CI.
 
-In the installed supported Xcode, create a **StoreKit Configuration File** for the project, add a non-consumable product with the same ID, set example display name “LightPlan Complete” and test price 2.99, then attach it to the Debug scheme. Confirm the current schema through Xcode rather than hand-writing an unverified `.storekit` file. Record the generated configuration and Xcode version in the repository once tested.
+It is deliberately **not** a resource of the LightPlan application target and is
+not attached to the normal Run or Archive scheme. CI fails if any `.storekit`
+file appears inside the Release `LightPlan.app` archive.
 
-Run first-purchase, cancellation, pending approval, failure, restored entitlement and revoked transaction cases. Local configuration testing is not a sandbox transaction or production pricing configuration. Before release, confirm no local StoreKit file is active in production distribution and complete sandbox tests on an authorized test account.
+The local configuration currently covers the one-time unlock at a sample US
+price of 2.99 for automated testing. It does not create an App Store Connect
+product, set production pricing, or prove sandbox/production payment acceptance.
 
-No payment has been made, no product has been registered and no transaction has been verified in this handoff session.
+Before App Store submission, the owner must create/confirm the matching
+non-consumable in App Store Connect, complete agreements/tax/banking as needed,
+and verify first purchase, cancellation, pending approval, restore, refund or
+revocation, relaunch persistence, and purchase availability using Apple's
+sandbox/TestFlight path on an authorized account/device.

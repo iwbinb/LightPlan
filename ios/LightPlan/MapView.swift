@@ -22,16 +22,30 @@ struct LightMapView: View {
     private var band: LightBand { Astronomy.lightBand(altitude: sun?.altitude ?? -90) }
     var body: some View {
         GeometryReader { geometry in
-            let wide = geometry.size.width >= 760 && !typeSize.isAccessibilitySize
+            let shortLandscape = geometry.size.width > geometry.size.height && geometry.size.height < 500
+            let wide = (geometry.size.width >= 760 || (shortLandscape && geometry.size.width >= 600)) && !typeSize.isAccessibilitySize
+            let controlsInSidebar = wide && shortLandscape
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     mapPane
-                        .overlay(alignment: .top) { topControls.padding(14) }
-                        .overlay(alignment: .topTrailing) { toolRail.padding(.trailing, 14).padding(.top, 130) }
+                        .overlay(alignment: .top) {
+                            if !controlsInSidebar { topControls.padding(14) }
+                        }
+                        .overlay(alignment: .topTrailing) {
+                            if !controlsInSidebar { toolRail.padding(.trailing, 14).padding(.top, 130) }
+                        }
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 100)
                         .accessibilityIdentifier("map-canvas")
                     if wide {
-                        ScrollView { inspector.padding(20) }
+                        ScrollView {
+                            VStack(alignment: .leading, spacing: 16) {
+                                if controlsInSidebar {
+                                    topControls
+                                    HStack(spacing: 10) { toolButtons }
+                                }
+                                inspector
+                            }.padding(20)
+                        }
                             .frame(width: min(380, max(290, geometry.size.width * 0.33)))
                             .background(LPTheme.ink).environment(\.colorScheme, .dark)
                             .accessibilityIdentifier("wide-inspector")
@@ -78,15 +92,17 @@ struct LightMapView: View {
             }
             if let rise = state.summary?.first(selectedBody == .sun ? .sunrise : .moonrise), let endpoint = endpoint(rise.azimuth) {
                 MapPolyline(coordinates: [coordinate, endpoint]).stroke(LPTheme.gold.opacity(0.65), lineWidth: 1.5)
-                Annotation(L10n.text(rise.kind.key), coordinate: endpoint) { eventBadge(rise, color: LPTheme.gold) }
+                Annotation(L10n.text(rise.kind.key), coordinate: endpoint, anchor: .bottom) { eventBadge(rise, color: LPTheme.gold) }
+                    .annotationTitles(.hidden)
             }
             if let set = state.summary?.first(selectedBody == .sun ? .sunset : .moonset), let endpoint = endpoint(set.azimuth) {
                 MapPolyline(coordinates: [coordinate, endpoint]).stroke(LPTheme.sunset.opacity(0.75), lineWidth: 1.5)
-                Annotation(L10n.text(set.kind.key), coordinate: endpoint) { eventBadge(set, color: LPTheme.sunset) }
+                Annotation(L10n.text(set.kind.key), coordinate: endpoint, anchor: .bottom) { eventBadge(set, color: LPTheme.sunset) }
+                    .annotationTitles(.hidden)
             }
             if let sky, let endpoint = endpoint(sky.azimuth) {
                 MapPolyline(coordinates: [coordinate, endpoint]).stroke(selectedBody == .sun ? LPTheme.gold : LPTheme.blue, style: StrokeStyle(lineWidth: 3, lineCap: .round, dash: sky.altitude < 0 ? [7, 5] : []))
-                Annotation(L10n.text("body." + selectedBody.rawValue), coordinate: endpoint) {
+                Annotation(L10n.text("body." + selectedBody.rawValue), coordinate: endpoint, anchor: .top) {
                     Image(systemName: selectedBody == .sun ? "sun.max.fill" : "moon.fill").font(.title2)
                         .foregroundStyle(selectedBody == .sun ? LPTheme.gold : LPTheme.blue)
                         .padding(9).background(LPTheme.ink.opacity(0.85), in: Circle()).overlay(Circle().stroke(.white.opacity(0.7), lineWidth: 1))
@@ -99,6 +115,7 @@ struct LightMapView: View {
         .mapStyle(imagery ? .imagery(elevation: .flat) : .standard(elevation: .flat))
         .mapControls { MapCompass(); MapScaleView() }
         .accessibilityLabel(L10n.text("map.accessibility"))
+        .accessibilityIdentifier("map-canvas")
     }
     private var topControls: some View {
         VStack(spacing: 9) {
@@ -115,29 +132,107 @@ struct LightMapView: View {
         }
     }
     private var toolRail: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 10) { toolButtons }
+    }
+    private var toolButtons: some View {
+        Group {
             LPCircleButton(symbol: imagery ? "map" : "globe", label: "v3.map.style") { imagery.toggle() }
+                .accessibilityIdentifier("map-style")
             LPCircleButton(symbol: "location.fill", label: "v3.map.recenter") { recenter() }
+                .accessibilityIdentifier("map-recenter")
             LPCircleButton(symbol: "star", label: "place.saveCurrent") { state.requestPremium(unlocked: purchases.unlocked) { state.favorite() } }
+                .accessibilityIdentifier("map-favorite")
         }
     }
     private var compactInspector: some View {
         VStack(spacing: 10) {
-            HStack(spacing: 12) {
-                Image("hero-sunset").resizable().scaledToFill().frame(width: 66, height: 58).clipped().clipShape(RoundedRectangle(cornerRadius: 12)).accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 5) {
-                    LPPhaseLabel(key: "band." + band.rawValue).font(.headline)
-                    if let sky { Text(L10n.text("metric.altitude") + " " + L10n.number(sky.altitude, decimals: 1) + "° · " + L10n.text("metric.azimuth") + " " + L10n.number(sky.azimuth) + "°").font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true) }
-                }
-                Spacer(minLength: 0)
-                Button { state.requestPremium(unlocked: purchases.unlocked) { showPlan = true } } label: { Image(systemName: "calendar.badge.plus").font(.title3).frame(width: 44, height: 44).background(.white.opacity(0.1), in: Circle()) }.accessibilityLabel(L10n.text("plan.create"))
-            }.padding(12).background(.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 20))
-            Picker(L10n.text("map.body"), selection: $selectedBody) { Text(L10n.text("body.sun")).tag(CelestialBody.sun); Text(L10n.text("body.moon")).tag(CelestialBody.moon) }.pickerStyle(.segmented)
-            if selectedBody == .moon {
-                Text(L10n.text("moon.illumination") + " " + L10n.number(Astronomy.moonIllumination(at: state.selectedInstant) * 100) + "%").font(.caption)
-            }
-            if let sky, sky.altitude < 0 { KeyText("map.belowHorizon").font(.caption).foregroundStyle(.secondary) }
+            compactInspectorHeader
+            compactBodyPicker
+            compactMoonIllumination
+            compactBelowHorizon
         }
+    }
+
+    private var compactInspectorHeader: some View {
+        HStack(spacing: 12) {
+            compactInspectorArtwork
+            VStack(alignment: .leading, spacing: 5) {
+                LPPhaseLabel(key: "band." + band.rawValue)
+                    .font(.headline)
+                if let summary = compactSkySummary {
+                    Text(summary)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            Spacer(minLength: 0)
+            compactPlanButton
+        }
+        .padding(12)
+        .background(.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 20))
+    }
+
+    private var compactInspectorArtwork: some View {
+        Image("hero-sunset")
+            .resizable()
+            .scaledToFill()
+            .frame(width: 66, height: 58)
+            .clipped()
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .accessibilityHidden(true)
+    }
+
+    private var compactPlanButton: some View {
+        Button {
+            state.requestPremium(unlocked: purchases.unlocked) {
+                showPlan = true
+            }
+        } label: {
+            Image(systemName: "calendar.badge.plus")
+                .font(.title3)
+                .frame(width: 44, height: 44)
+                .background(.white.opacity(0.1), in: Circle())
+        }
+        .accessibilityLabel(L10n.text("plan.create"))
+    }
+
+    private var compactBodyPicker: some View {
+        Picker(L10n.text("map.body"), selection: $selectedBody) {
+            Text(L10n.text("body.sun")).tag(CelestialBody.sun)
+            Text(L10n.text("body.moon")).tag(CelestialBody.moon)
+        }
+        .pickerStyle(.segmented)
+    }
+
+    @ViewBuilder
+    private var compactMoonIllumination: some View {
+        if selectedBody == .moon {
+            Text(compactMoonIlluminationText)
+                .font(.caption)
+        }
+    }
+
+    @ViewBuilder
+    private var compactBelowHorizon: some View {
+        if let sky, sky.altitude < 0 {
+            KeyText("map.belowHorizon")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private var compactSkySummary: String? {
+        guard let sky else { return nil }
+        return L10n.text("metric.altitude") + " "
+            + L10n.number(sky.altitude, decimals: 1) + "° · "
+            + L10n.text("metric.azimuth") + " "
+            + L10n.number(sky.azimuth) + "°"
+    }
+
+    private var compactMoonIlluminationText: String {
+        let percentage = Astronomy.moonIllumination(at: state.selectedInstant) * 100
+        return L10n.text("moon.illumination") + " " + L10n.number(percentage) + "%"
     }
     private var inspector: some View {
         VStack(alignment: .leading, spacing: 20) {

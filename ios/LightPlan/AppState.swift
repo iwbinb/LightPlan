@@ -91,6 +91,21 @@ import LightPlanCore
         if followingToday { selectedDate = Date() }
         await refresh()
     }
+
+    /// Move the active planning observer without changing the user's free/base location.
+    /// Used by composition guidance where a suggested stand point is provisional.
+    func selectPlanningPlace(_ newPlace: Place) async {
+        let oldZone = place.timeZone
+        if !followingToday {
+            do { selectedDate = try LocalDay.relocating(selectedDate, from: oldZone, to: newPlace.timeZone) }
+            catch { errorKey = "error.calculation"; return }
+        }
+        place = newPlace
+        if followingToday { selectedDate = Date() }
+        followingNow = false
+        await refresh()
+    }
+
     /// A saved plan already owns its destination civil day; never reinterpret it in the old map zone.
     func showPlanMap(_ plan: ShootPlan) async {
         followingToday = false; followingNow = false

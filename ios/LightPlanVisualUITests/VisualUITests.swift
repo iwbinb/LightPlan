@@ -44,6 +44,22 @@ final class VisualUITests: XCTestCase {
             }
         }
     }
+    @MainActor func testCompositionPlannerSurface() throws {
+        let app = launch(language: "en", tab: 1)
+        let selectedTime = app.staticTexts["selected-time"]
+        XCTAssertTrue(selectedTime.waitForExistence(timeout: 15))
+        let composition = app.buttons["map-composition"]
+        XCTAssertTrue(composition.waitForExistence(timeout: 10))
+        XCTAssertTrue(composition.isHittable)
+        composition.tap()
+        let card = app.descendants(matching: .any)["composition-card"].firstMatch
+        XCTAssertTrue(card.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["composition-search"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["composition-best-time"].waitForExistence(timeout: 15))
+        save("composition-planner-en")
+        app.terminate()
+    }
+
     @MainActor func testDarkScreenAndRotationContinuity() throws {
         XCUIDevice.shared.orientation = .portrait
         let app = launch(language: "zh-Hans", tab: 1, theme: "dark")

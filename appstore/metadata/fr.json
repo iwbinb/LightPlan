@@ -2,9 +2,9 @@
   "locale": "fr",
   "name": "LightPlan",
   "subtitle": "Planifiez selon la lumière",
-  "promotional_text": "Choisissez un lieu et une date, explorez la direction du soleil et de la lune, puis préparez votre séance.",
-  "description": "Consultez le lever et le coucher du soleil ainsi que les heures dorée et bleue dans le fuseau du lieu choisi. Explorez les directions sur une carte, enregistrez vos séances et configurez des rappels. Les calculs astronomiques fonctionnent hors ligne lorsque les coordonnées et le fuseau sont connus ; la carte et la recherche peuvent nécessiter une connexion. Essayez les informations de base du jour, puis débloquez les outils de planification par achat unique. Sans abonnement ni compte. Les horaires sont des estimations : nuages, bâtiments et relief peuvent modifier la lumière visible.",
-  "keywords": "soleil,lune,photo,coucher,lever,heure dorée,heure bleue,planification",
+  "promotional_text": "Placez un sujet sur la carte, vérifiez son alignement avec le Soleil ou la Lune et trouvez les occasions des 14 prochains jours.",
+  "description": "Consultez le lever et le coucher du soleil ainsi que les heures dorée et bleue dans le fuseau du lieu choisi. Explorez les directions sur une carte, enregistrez vos séances et configurez des rappels. Les calculs astronomiques fonctionnent hors ligne lorsque les coordonnées et le fuseau sont connus ; la carte et la recherche peuvent nécessiter une connexion. Essayez les informations de base du jour, puis débloquez les outils de planification par achat unique. Sans abonnement ni compte. Les horaires sont des estimations : nuages, bâtiments et relief peuvent modifier la lumière visible. Placez un sujet sur la carte pour comparer sa direction avec le Soleil ou la Lune. Le déverrouillage complet ajoute une recherche d’alignement sur 14 jours et des positions de prise de vue suggérées géométriquement.",
+  "keywords": "soleil,lune,photo,coucher,lever,heure dorée,heure bleue,planification,composition",
   "status": "draft_native_review_and_final_feature_verification_required",
   "screenshot_captions": [
     "LightPlan",

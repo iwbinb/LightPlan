@@ -2,9 +2,9 @@
   "locale": "pt-PT",
   "name": "LightPlan",
   "subtitle": "Planeie fotografias com luz",
-  "promotional_text": "Escolha o local e a data, explore a direção do sol e da lua e prepare a próxima sessão.",
-  "description": "Consulte o nascer e o pôr do sol, a hora dourada e a hora azul no fuso horário do local escolhido. Explore direções no mapa, guarde planos fotográficos e defina lembretes. Os cálculos astronómicos funcionam sem ligação quando as coordenadas e o fuso são conhecidos; os mapas e a pesquisa podem precisar de internet. Experimente a informação básica de hoje e desbloqueie as ferramentas de planeamento com uma compra única. Sem subscrição e sem conta. As horas são estimativas: nuvens, edifícios e relevo podem alterar a luz visível.",
-  "keywords": "sol,lua,fotografia,pôr do sol,nascer do sol,hora dourada,hora azul,planeamento",
+  "promotional_text": "Marque um motivo no mapa, veja quando o Sol ou a Lua se alinham e encontre oportunidades nos próximos 14 dias.",
+  "description": "Consulte o nascer e o pôr do sol, a hora dourada e a hora azul no fuso horário do local escolhido. Explore direções no mapa, guarde planos fotográficos e defina lembretes. Os cálculos astronómicos funcionam sem ligação quando as coordenadas e o fuso são conhecidos; os mapas e a pesquisa podem precisar de internet. Experimente a informação básica de hoje e desbloqueie as ferramentas de planeamento com uma compra única. Sem subscrição e sem conta. As horas são estimativas: nuvens, edifícios e relevo podem alterar a luz visível. Marque um motivo no mapa para comparar a sua direção com o Sol ou a Lua. O desbloqueio completo acrescenta pesquisa de alinhamento por 14 dias e sugestões geométricas de posição fotográfica.",
+  "keywords": "sol,lua,fotografia,pôr do sol,nascer do sol,hora dourada,hora azul,planeamento,composição",
   "status": "draft_native_review_and_final_feature_verification_required",
   "screenshot_captions": [
     "LightPlan",

@@ -2,9 +2,9 @@
   "locale": "de",
   "name": "LightPlan",
   "subtitle": "Fotos nach dem Licht planen",
-  "promotional_text": "Ort und Datum wählen, Sonnen- und Mondrichtung prüfen und den nächsten Fototermin planen.",
-  "description": "Entdecke Sonnenaufgang, Sonnenuntergang, goldene und blaue Stunde in der Zeitzone deines Aufnahmeorts. Prüfe Richtungen auf der Karte, speichere Fotopläne und stelle Erinnerungen ein. Bei bekannten Koordinaten und Zeitzonen funktionieren astronomische Berechnungen offline; Karten und Suche benötigen eventuell eine Verbindung. Teste die Basisinformationen für heute und schalte die Planung per Einmalkauf frei. Kein Abonnement und kein Konto erforderlich. Die Zeiten sind Schätzwerte. Wolken, Gebäude und Gelände können das sichtbare Licht verändern.",
-  "keywords": "Sonne,Mond,Fotografie,Sonnenuntergang,Sonnenaufgang,Fotoplaner,blaue Stunde",
+  "promotional_text": "Motiv auf der Karte markieren, Sonnen- oder Mondausrichtung prüfen und die besten Chancen der nächsten 14 Tage finden.",
+  "description": "Entdecke Sonnenaufgang, Sonnenuntergang, goldene und blaue Stunde in der Zeitzone deines Aufnahmeorts. Prüfe Richtungen auf der Karte, speichere Fotopläne und stelle Erinnerungen ein. Bei bekannten Koordinaten und Zeitzonen funktionieren astronomische Berechnungen offline; Karten und Suche benötigen eventuell eine Verbindung. Teste die Basisinformationen für heute und schalte die Planung per Einmalkauf frei. Kein Abonnement und kein Konto erforderlich. Die Zeiten sind Schätzwerte. Wolken, Gebäude und Gelände können das sichtbare Licht verändern. Markiere ein Motiv auf der Karte und vergleiche seine Richtung mit Sonne oder Mond. Die Vollversion bietet zusätzlich eine 14-Tage-Ausrichtungssuche und geometrische Standortvorschläge.",
+  "keywords": "Sonne,Mond,Fotografie,Sonnenuntergang,Sonnenaufgang,Fotoplaner,blaue Stunde,Komposition",
   "status": "draft_native_review_and_final_feature_verification_required",
   "screenshot_captions": [
     "LightPlan",

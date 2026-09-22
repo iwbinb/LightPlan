@@ -14,6 +14,19 @@ Choose the **LightPlan** scheme. In **Signing & Capabilities**, select your Appl
 
 The candidate bundle, group and product IDs are centralized in `ios/Config/Project.xcconfig`. They are not a claim of Apple registration. The owner must register/approve the identifiers and group. Optional local overrides belong in the ignored `ios/Config/Local.xcconfig`. Never commit certificates, private keys or Apple credentials.
 
+For a local iPhone preview without attaching the debugger, set `DEVELOPMENT_TEAM` in
+`ios/Config/Local.xcconfig`, connect and unlock your trusted iPhone, then run:
+
+```sh
+xcrun devicectl list devices
+bash scripts/run_iphone.sh 'Your iPhone name'
+```
+
+This builds and signs both the app and widget, installs the app, and opens it.
+It preserves existing app data. The normal preview uses real StoreKit configuration;
+purchase-gated features need a configured product and verified purchase. Automated
+local StoreKit tests are separate and do not charge money.
+
 ## Product
 
 - Photographic native dashboard, real solar curve, real MapKit imagery and interactive light tracks, expanded map/inspector workspace.

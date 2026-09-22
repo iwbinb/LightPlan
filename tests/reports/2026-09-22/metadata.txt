@@ -1,0 +1,1 @@
+App Store metadata audit passed for 9 locales.

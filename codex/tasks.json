@@ -6,16 +6,20 @@
       "id": "T01",
       "title": "接管现有工作区与重跑基线",
       "depends_on": [],
-      "status": "todo",
+      "status": "done",
       "files": [
         "AGENTS.md",
         "STATUS.md"
       ],
       "acceptance": [
         "记录git状态和用户变更，非破坏性工作区",
-        "重跑60核心测试与包检查；保存工具版本/日志，不替换既有业务代码"
+        "重跑现有83项核心测试与本地化/元数据检查；保存工具版本/日志，不替换既有业务代码"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/2026-09-22/README.md",
+        "tests/reports/2026-09-22/verification.json",
+        "tests/reports/2026-09-22/source-sha256-final.json"
+      ]
     },
     {
       "id": "T02",
@@ -23,17 +27,22 @@
       "depends_on": [
         "T01"
       ],
-      "status": "todo",
+      "status": "done",
       "files": [
-        "ios/project.yml",
-        "scripts/bootstrap_macos.sh"
+        "LightPlan.xcodeproj/project.pbxproj",
+        "scripts/generate_project.py",
+        "ios/Config/Project.xcconfig"
       ],
       "acceptance": [
         "记录Xcode/SDK/模拟器版本",
-        "XcodeGen生成所有target、资源目录与签名候选配置",
+        "沿用已提交的完整Xcode工程，验证targets、资源与本机签名配置；可选生成器为scripts/generate_project.py",
         "不把模拟器缺失当产品功能缺失"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/2026-09-22/README.md",
+        "tests/reports/2026-09-22/verification.json",
+        "tests/reports/2026-09-22/source-sha256-final.json"
+      ]
     },
     {
       "id": "T03",
@@ -41,7 +50,7 @@
       "depends_on": [
         "T02"
       ],
-      "status": "todo",
+      "status": "done",
       "files": [
         "ios/LightPlan",
         "ios/Shared",
@@ -52,7 +61,11 @@
         "修复actor/代理/MapKit资源问题，不用全局unchecked掩盖",
         "真实构建日志归档"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/2026-09-22/README.md",
+        "tests/reports/2026-09-22/verification.json",
+        "tests/reports/2026-09-22/source-sha256-final.json"
+      ]
     },
     {
       "id": "T04",

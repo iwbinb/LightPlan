@@ -1,4 +1,38 @@
-# Release status — 2026-09-21
+# Current local preview status — 2026-09-22
+
+**Signed iPhone preview built and installed: LightPlan 1.0.0 (1).**
+
+- Xcode 27.0: signed Debug app + widget build passed; unsigned Release build passed.
+- Connected iPhone 17 Pro: installation confirmed by an independent
+  device app listing. Initial automatic launch was blocked by the phone being locked.
+- Core tests: 83 passed, zero failures. Nine-language catalog and metadata audits passed.
+- Initial full native suite: six tests passed with 29 screenshots. After the map
+  repair, the final five-test regression passed: four purchase/place/plan flows plus
+  portrait/landscape time continuity and all three map buttons remaining hittable.
+  Current map screenshots and xcresult are local-only in the ignored directory
+  `tests/reports/v3/native-20260922-final/`; they are not published artifacts.
+- Local signing uses ignored `ios/Config/Local.xcconfig`, derived from the existing
+  LightPlan development profile. App and widget share the expected App Group.
+- Added `scripts/run_iphone.sh` for repeatable signing, installation and launch
+  without attaching a debugger. The original ordering-only Info.plist edit was
+  backed up locally, then normalized to match the project generator.
+- Initial source compiled without compiler repairs. Native screenshot review then
+  found clipped landscape map controls and overlapping event/celestial labels.
+  The map now uses a scrolling side panel in short landscape windows and separates
+  event badges from the current celestial marker. Visual assets remain unchanged.
+
+Current evidence and limitations: [iPhone preview report](tests/reports/2026-09-22/README.md).
+Raw logs and device/signing identifiers are retained only in ignored local evidence;
+the public report contains sanitized summaries and command templates.
+Commit preparation re-ran the generator consistency check, 83 core tests, both
+audits and unsigned Debug/Release builds successfully. App and UI-test sources
+still match the final verified hashes, so the five-test UI result above remains
+applicable; UI tests were not rerun for report cleanup. No commit or push was made
+during verification.
+This does not complete App Store release acceptance. Historical CI results below
+remain tied to their original source/toolchain and are not new device evidence.
+
+# Historical release status — 2026-09-21
 
 **Native CI candidate; not yet authorized for App Store submission.** This file records executed evidence, not a promise of App Review approval.
 

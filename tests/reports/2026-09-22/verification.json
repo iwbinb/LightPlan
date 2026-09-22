@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-22",
+  "base_commit": "3bd7035f7edb9193f61da3f03cfcf0d560604281",
+  "scope": "Local verification snapshot before committing; no push or GitHub CI run performed during verification.",
+  "source_manifest": "source-sha256-final.json",
+  "historical_preview": {
+    "core_tests": {
+      "passed": 83,
+      "failed": 0
+    },
+    "initial_ui_suite": {
+      "passed": 6,
+      "failed": 0,
+      "screenshots": 29,
+      "scope": "Before map layout repair"
+    },
+    "final_ui_regression": {
+      "passed": 5,
+      "failed": 0,
+      "scope": "After map layout repair; four ProductUITests plus map rotation and button hittability"
+    },
+    "debug_build": "signed build succeeded",
+    "release_build": "unsigned build succeeded",
+    "physical_installation": "1.0.0 (1) installed on iPhone 17 Pro",
+    "physical_launch": "not verified; recorded attempts were blocked by device lock",
+    "failed_map_test_preserved": {
+      "test_failures": 1,
+      "process_exit_code": 143,
+      "reason": "Sidebar accessibility identifier lookup failed; diagnostic collection stalled; later direct button checks passed"
+    }
+  },
+  "commit_preparation": {
+    "generated_project_matches_head": true,
+    "info_plist_values_unchanged": true,
+    "core_tests": {
+      "passed": 83,
+      "failed": 0,
+      "rerun": true
+    },
+    "localization_audit": {
+      "passed": true,
+      "keys": 239,
+      "languages": 9,
+      "values": 2151,
+      "rerun": true
+    },
+    "metadata_audit": {
+      "passed": true,
+      "languages": 9,
+      "rerun": true
+    },
+    "debug_build": {
+      "passed": true,
+      "signing": "disabled",
+      "rerun": true
+    },
+    "release_build": {
+      "passed": true,
+      "signing": "disabled",
+      "rerun": true
+    },
+    "ui_regression": {
+      "rerun": false,
+      "reason": "Application and UI-test sources still match the final verified SHA-256 manifest; only report/ignore policy and equivalent plist ordering changed."
+    },
+    "original_evidence_preserved": {
+      "files": 21,
+      "sha256_verified": true,
+      "visibility": "local-only"
+    },
+    "shell_syntax_check": "passed",
+    "git_diff_check": "passed"
+  },
+  "raw_evidence_policy": "Raw logs, original commands, signing details and device identifiers are retained only in ignored local evidence. Public reports contain no raw logs. The report directory allowlist excludes new unreviewed files.",
+  "remaining_release_gates": [
+    "Physical runtime acceptance",
+    "Real App Store Connect sandbox",
+    "Notification delivery and Widget refresh",
+    "Older-system, small-screen and accessibility layout coverage",
+    "Native-language review",
+    "Performance and battery checks"
+  ]
+}

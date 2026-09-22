@@ -16201,6 +16201,66 @@
           }
         }
       }
+    },
+    "purchase.featureComposition": {
+      "extractionState": "manual",
+      "comment": "Full-unlock composition planning feature.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "14-day alignment search and suggested shooting positions"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "14 天对齐搜索与推荐拍摄机位"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "14 天對齊搜尋與建議拍攝機位"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "14日間の位置合わせ検索と推奨撮影位置"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "14일 정렬 검색 및 추천 촬영 위치"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "14-Tage-Ausrichtungssuche und empfohlene Fotostandorte"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recherche d’alignement sur 14 jours et positions de prise de vue suggérées"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ค้นหาการจัดแนว 14 วันและจุดถ่ายภาพที่แนะนำ"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pesquisa de alinhamento de 14 dias e posições de fotografia sugeridas"
+          }
+        }
+      }
     }
   }
 }

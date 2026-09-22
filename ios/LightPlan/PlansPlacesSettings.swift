@@ -375,6 +375,7 @@ struct PaywallView: View {
                     KeyText("purchase.body").font(.title3)
                     Label(L10n.text("purchase.featureDates"), systemImage: "calendar")
                     Label(L10n.text("purchase.featurePlaces"), systemImage: "map")
+                    Label(L10n.text("purchase.featureComposition"), systemImage: "camera.viewfinder")
                     Label(L10n.text("purchase.featurePlans"), systemImage: "bell")
                     Label(L10n.text("purchase.featureWidget"), systemImage: "rectangle.3.group")
                     KeyText("purchase.oneTime").font(.headline)

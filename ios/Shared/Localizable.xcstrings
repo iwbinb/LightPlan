@@ -15424,60 +15424,60 @@
     },
     "composition.side.centered": {
       "extractionState": "manual",
-      "comment": "Composition-planning feature. Native-language review remains a release gate.",
+      "comment": "Horizontal bearing relationship; does not imply vertical overlap.",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Celestial body behind subject"
+            "value": "Same bearing as subject"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "天体位于主体后方"
+            "value": "天体与主体方向一致"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "天體位於主體後方"
+            "value": "天體與主體方向一致"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "天体は被写体の背後"
+            "value": "天体と被写体が同じ方位"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "천체가 피사체 뒤"
+            "value": "천체와 피사체의 방위가 일치"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Himmelskörper hinter dem Motiv"
+            "value": "Gleiche Richtung wie das Motiv"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Astre derrière le sujet"
+            "value": "Même direction que le sujet"
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "วัตถุท้องฟ้าอยู่หลังตัวแบบ"
+            "value": "วัตถุท้องฟ้าอยู่ในทิศเดียวกับตัวแบบ"
           }
         },
         "pt-PT": {
           "stringUnit": {
             "state": "translated",
-            "value": "Astro atrás do motivo"
+            "value": "Mesma direção do motivo"
           }
         }
       }
@@ -16024,60 +16024,60 @@
     },
     "composition.geometryNote": {
       "extractionState": "manual",
-      "comment": "Composition-planning feature. Native-language review remains a release gate.",
+      "comment": "Safety and geometry limitation for composition planning.",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Geometry only. Check access, terrain and safety on site."
+            "value": "Horizontal geometry only. Subject height, lens field of view, terrain, buildings, access and safety are not evaluated."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "仅为几何建议；请在现场确认通行、地形和安全。"
+            "value": "仅计算水平几何方向；不判断主体高度、镜头视角、地形、建筑遮挡、通行条件或现场安全。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "僅為幾何建議；請在現場確認通行、地形與安全。"
+            "value": "僅計算水平幾何方向；不判斷主體高度、鏡頭視角、地形、建築遮擋、通行條件或現場安全。"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "幾何上の提案です。現地の立入可否、地形、安全を確認してください。"
+            "value": "水平方位の幾何計算のみです。被写体の高さ、レンズ画角、地形、建物、立入可否、安全性は評価しません。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "기하학적 제안입니다. 현장에서 접근성, 지형, 안전을 확인하세요."
+            "value": "수평 방향의 기하학만 계산합니다. 피사체 높이, 렌즈 화각, 지형, 건물, 접근 가능 여부와 안전은 평가하지 않습니다."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nur geometrische Empfehlung. Zugang, Gelände und Sicherheit vor Ort prüfen."
+            "value": "Nur horizontale Geometrie. Motivhöhe, Bildwinkel, Gelände, Gebäude, Zugänglichkeit und Sicherheit werden nicht bewertet."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Suggestion géométrique uniquement. Vérifiez l’accès, le terrain et la sécurité sur place."
+            "value": "Géométrie horizontale uniquement. La hauteur du sujet, le champ de l’objectif, le relief, les bâtiments, l’accès et la sécurité ne sont pas évalués."
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "เป็นคำแนะนำเชิงเรขาคณิต โปรดตรวจสอบการเข้าถึง ภูมิประเทศ และความปลอดภัยหน้างาน"
+            "value": "คำนวณเฉพาะเรขาคณิตแนวราบ ไม่ประเมินความสูงของตัวแบบ มุมมองเลนส์ ภูมิประเทศ อาคาร การเข้าถึง หรือความปลอดภัย"
           }
         },
         "pt-PT": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sugestão apenas geométrica. Confirme o acesso, terreno e segurança no local."
+            "value": "Apenas geometria horizontal. A altura do motivo, o campo de visão da lente, o terreno, edifícios, acesso e segurança não são avaliados."
           }
         }
       }

@@ -89,6 +89,24 @@ final class ProductUITests: XCTestCase {
         XCTAssertEqual(session.allTransactions().count, 1)
         app.terminate()
     }
+    @MainActor func testCompositionSearchRequiresPurchase() throws {
+        let session = try store()
+        let app = launch(tab: 1)
+        XCTAssertTrue(app.staticTexts["selected-time"].waitForExistence(timeout: 15))
+        let composition = app.buttons["map-composition"]
+        XCTAssertTrue(composition.waitForExistence(timeout: 10)); composition.tap()
+        let search = app.buttons["composition-search"]
+        XCTAssertTrue(search.waitForExistence(timeout: 15))
+        XCTAssertFalse(app.buttons["composition-use-stand"].exists)
+        search.tap()
+        XCTAssertTrue(app.buttons["purchase-buy"].waitForExistence(timeout: 15))
+        XCTAssertTrue(session.allTransactions().isEmpty)
+        let close = app.buttons["paywall-close"]
+        XCTAssertTrue(close.waitForExistence(timeout: 10)); close.tap()
+        XCTAssertTrue(session.allTransactions().isEmpty)
+        app.terminate()
+    }
+
     @MainActor func testManualLocationAcceptsCoordinatesWithoutPermission() async throws {
         let session = try store()
         // The first manually confirmed place is part of the free flow; this test intentionally

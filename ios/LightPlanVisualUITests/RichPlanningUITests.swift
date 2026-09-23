@@ -443,10 +443,15 @@ final class RichPlanningUITests: XCTestCase {
             }
             // Missing lazy Form rows are below the current viewport. Do not begin
             // with a downward finger drag that can dismiss a sheet or refresh Today.
-            let targetAbove = exists && frame.height > 0 && frame.minY < visible.minY
+            let hasFrame = exists && frame.height > 0 && !frame.isNull
+            // A scroll view can extend beneath the status bar. Merely aligning a
+            // hidden button with minY leaves it unhittable and causes +/-24pt
+            // oscillation. Bring the requested control into the viewport's middle
+            // instead; the original hittable/full-visible checks still decide success.
+            let targetAbove = hasFrame && frame.midY < visible.midY
             let maximum = visible.height * 0.7
-            let overflow = targetAbove ? visible.minY - frame.minY : frame.maxY - visible.maxY
-            let distance = exists ? min(maximum, max(24, overflow + 10)) : maximum
+            let displacement = hasFrame ? abs(frame.midY - visible.midY) : maximum
+            let distance = min(maximum, max(24, displacement))
             let center = visible.minY + visible.height * 0.48
             // Pan in the Form's blank leading inset, not through a button or text field.
             // Short center drags can focus an input or open a menu instead of scrolling.

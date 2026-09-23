@@ -1,3 +1,16 @@
+# M1 native baseline closed / M2 PR candidate — 2026-09-23
+
+**All eight native CI groups passed on `46a58129c4fb9ff917370396a1cbb131257eeda5`. The previously failing M1 product, planning and German/Thai largest-text flows are resolved. This is a verified M2 merge candidate, not App Store release approval.**
+
+- Native run `35866731505` (#47, attempt 1) completed successfully at 2026-09-23 14:11:30 UTC. All eight downloaded evidence ZIP digests, source commits, command exits and test selections were checked; no failed/skipped/expected-failure tests were counted as success.
+- Complete Foundation core: **212 passed**. Native test target: **28 passed** (27 UI test executions plus one scroll-budget helper regression); all current iPhone methods are covered once, with the existing rotation case additionally executed on iPad. CI helper suite: **36 passed**.
+- Debug simulator build and unsigned Release archive passed. Localization: 370 keys, nine languages, 3330 translations, zero automated completeness errors. Project regeneration and existing release-tool/schema regressions passed.
+- Repaired the plan-time accessibility identifier on the actual text, foreground Form targeting and real-pan scroll geometry. The last repair measures long-page scroll budget on the first valid navigation snapshot, rather than missing it after a null first frame. No existing coverage or precision requirement was removed.
+- M2 numerical changes remain unchanged: shared edge/extrema sampling, invalid-value guards and cancellation checks, with 25 added core regressions. Paid download, nine languages, archive schema, ephemeris coefficients, pricing and signing are unchanged.
+- The follow-up commit only records evidence. M3 has not started; main has not been merged. PR merge-ref checks are separate from this completed dev-source run. Physical devices, VoiceOver, native-speaker review, performance and Store/account/distribution gates remain open.
+
+See [M1 closure and native evidence](tests/reports/m1-native-closure-2026-09-23.md) and [verified execution manifest](tests/reports/m1-native-closure-2026-09-23.json). All earlier entries below are historical snapshots and retain their original source and verification scope.
+
 # M2 calculation/search reliability — 2026-09-23
 
 **M2 core implementation is complete and the complete Foundation regression passed: 212 tests, zero failures. Debug and unsigned Release checks also passed. Full native UI and release acceptance remain open.**

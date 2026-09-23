@@ -185,6 +185,22 @@ class WiringTests(unittest.TestCase):
         self.assertIn("--seconds 1800", workflow)
         self.assertNotIn("continue-on-error", workflow)
 
+    def test_all_mode_propagates_stage_discovery_failure(self):
+        self.assertNotEqual(self.run_all_with_fake_helper("import sys; sys.exit(7)"), 0)
+
+    def test_all_mode_rejects_empty_stage_list(self):
+        self.assertNotEqual(self.run_all_with_fake_helper("pass"), 0)
+
+    def run_all_with_fake_helper(self, source):
+        with tempfile.TemporaryDirectory() as temp:
+            scripts = Path(temp) / "scripts"
+            scripts.mkdir()
+            (scripts / "ci_native.sh").write_text(Path(__file__).with_name("ci_native.sh").read_text())
+            (scripts / "ci_baseline.py").write_text(source)
+            return subprocess.run(["bash", str(scripts / "ci_native.sh")],
+                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                  timeout=10).returncode
+
     def test_shell_parses(self):
         script = Path(__file__).with_name("ci_native.sh")
         subprocess.run(["bash", "-n", str(script)], check=True)

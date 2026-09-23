@@ -5,10 +5,12 @@ ROOT="$PWD"
 STAGE="${1:-all}"
 if [[ "$STAGE" == all ]]; then
   # Preserve the existing local entrypoint, but retain independent stage results.
+  stages="$(python3 scripts/ci_baseline.py stages)"
+  test -n "$stages"
   failed=0
   while IFS= read -r stage; do
     if ! bash scripts/ci_native.sh "$stage"; then failed=1; fi
-  done < <(python3 scripts/ci_baseline.py stages)
+  done <<< "$stages"
   exit "$failed"
 fi
 python3 scripts/ci_baseline.py stages | grep -Fxq "$STAGE" || { echo "Unknown CI stage: $STAGE" >&2; exit 2; }

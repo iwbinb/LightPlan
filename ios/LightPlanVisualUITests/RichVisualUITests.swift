@@ -180,7 +180,10 @@ final class RichVisualUITests: XCTestCase {
                                    fully: Bool = false, name: String) {
         var activeContainer = container
         var observations: [String] = []
-        for attempt in 0..<18 {
+        var maximumAttempts = 18
+        var attempt = 0
+        while attempt < maximumAttempts {
+            defer { attempt += 1 }
             let visible = visibleRect(of: activeContainer, in: app)
             let exists = target.exists
             let targetFrame = exists ? target.frame : .zero
@@ -198,6 +201,16 @@ final class RichVisualUITests: XCTestCase {
                 }
                 Thread.sleep(forTimeInterval: 0.1)
                 continue
+            }
+            if attempt == 0, hasTargetFrame {
+                // At AX XXXL the German detail puts this action over 8,000 pt down.
+                // Budget real pans from measured distance, not a fixed 18 swipes.
+                // The cap and the original full-frame/hittable assertions still apply.
+                let overflow = max(0, max(visible.minY - targetFrame.minY, targetFrame.maxY - visible.maxY))
+                let pan = max(24, visible.height * 0.7 - 12)
+                if overflow.isFinite {
+                    maximumAttempts = max(18, Int(min(60, ceil(overflow / pan) + 6)))
+                }
             }
             if exists && target.isHittable {
                 // A result row may be taller than the viewport at accessibility sizes;

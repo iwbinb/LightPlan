@@ -11,15 +11,17 @@ import subprocess
 import sys
 import time
 
-# Every native XCTest class belongs to one iPhone shard. New classes require
+# Every native XCTest method belongs to one iPhone shard. New classes require
 # explicit assignment; the audit fails rather than silently losing coverage.
 PHONE = {
     "iphone-product": "ProductUITests",
     "iphone-planning": "RichPlanningUITests",
     "iphone-visual": "VisualUITests",
     "iphone-rich-visual": "RichVisualUITests",
+    "iphone-rich-accessibility": "RichVisualUITests",
     "iphone-accessibility": "AccessibilityUITests",
 }
+RICH_ACCESSIBILITY = frozenset({"testGermanLargestTextRichScreens", "testThaiLargestTextRichScreens"})
 IPAD = "VisualUITests/testDarkScreenAndRotationContinuity"
 STAGES = ("checks", *PHONE, "ipad-rotation")
 
@@ -46,7 +48,17 @@ def selection(root, stage):
     found = inventory(root)
     if stage in PHONE:
         name = PHONE[stage]
-        selected = [f"{name}/{method}" for method in found[name]]
+        methods = found[name]
+        if name == "RichVisualUITests":
+            if not RICH_ACCESSIBILITY.issubset(methods):
+                raise ValueError("Missing rich accessibility baseline tests")
+            # Keep the complete nine-language capture separate from long-scroll
+            # accessibility tasks. No test or language is removed or duplicated.
+            methods = [method for method in methods
+                       if (method in RICH_ACCESSIBILITY) == (stage == "iphone-rich-accessibility")]
+        if not methods:
+            raise ValueError(f"Empty native shard: {stage}")
+        selected = [f"{name}/{method}" for method in methods]
     elif stage == "ipad-rotation":
         name, method = IPAD.split("/")
         if method not in found[name]:

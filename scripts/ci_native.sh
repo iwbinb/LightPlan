@@ -104,6 +104,8 @@ if [[ -d "$E/native.xcresult" ]]; then
 else
   echo 'No native result bundle was produced' >&2; EXPORT_CODE=1
 fi
+# Keep actionable assertions in the top-level log rather than only attachment names.
+if [[ -s "$E/test-summary.json" ]]; then cat "$E/test-summary.json"; fi
 # Export failures never conceal an original xcodebuild failure.
 if [[ "$TEST_CODE" != 0 ]]; then exit "$TEST_CODE"; fi
 if [[ "$EXPORT_CODE" != 0 ]]; then exit "$EXPORT_CODE"; fi

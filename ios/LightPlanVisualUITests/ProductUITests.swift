@@ -85,8 +85,10 @@ final class ProductUITests: XCTestCase {
         let saveSelected = app.buttons["composition-save-plan"]
         revealComposition(saveSelected, in: app); saveSelected.tap()
         XCTAssertTrue(app.textFields["plan-title"].waitForExistence(timeout: 15))
-        let selectedAnchor = app.descendants(matching: .any)["plan-anchor-time"].firstMatch
+        let selectedAnchor = app.staticTexts["plan-anchor-time"]
         reveal(selectedAnchor, in: app)
+        XCTAssertEqual(app.staticTexts.matching(identifier: "plan-anchor-time").count, 1)
+        XCTAssertFalse(app.images["plan-anchor-time"].exists, "The time identifier must not label a decorative glyph")
         XCTAssertEqual(selectedAnchor.label, expectedTime, "Saving must retain the chosen search result")
         app.buttons["Cancel"].firstMatch.tap()
 
@@ -161,7 +163,7 @@ final class ProductUITests: XCTestCase {
         XCTAssertTrue(title.waitForExistence(timeout: 15))
         XCTAssertTrue(app.descendants(matching: .any)["plan-composition-body"].firstMatch.waitForExistence(timeout: 10))
         title.tap(); title.typeText(" Persist")
-        let anchor = app.descendants(matching: .any)["plan-anchor-time"].firstMatch
+        let anchor = app.staticTexts["plan-anchor-time"]
         reveal(anchor, in: app)
         XCTAssertTrue(anchor.waitForExistence(timeout: 15))
         let expectedTime = anchor.label

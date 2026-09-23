@@ -34,6 +34,7 @@ jobs:
           - iphone-planning
           - iphone-visual
           - iphone-rich-visual
+          - iphone-rich-accessibility
           - iphone-accessibility
           - ipad-rotation
     env:

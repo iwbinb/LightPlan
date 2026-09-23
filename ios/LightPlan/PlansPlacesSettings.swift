@@ -99,8 +99,15 @@ struct PlanEditorView: View {
                 if day != nil {
                     if let anchor {
                         Label(L10n.time(anchor.addingTimeInterval(-Double(arrival) * 60), zone: place.timeZone), systemImage: "figure.walk")
-                        Label(L10n.time(anchor, zone: place.timeZone), systemImage: isComposition ? "camera.viewfinder" : "sun.horizon.fill")
-                            .accessibilityIdentifier("plan-anchor-time")
+                        Label {
+                            // The time is the accessible value; the camera glyph is decorative.
+                            // A Label-level identifier can be inherited by its image on iOS 26.
+                            Text(L10n.time(anchor, zone: place.timeZone))
+                                .accessibilityIdentifier("plan-anchor-time")
+                        } icon: {
+                            Image(systemName: isComposition ? "camera.viewfinder" : "sun.horizon.fill")
+                                .accessibilityHidden(true)
+                        }
                     } else { KeyText(isComposition ? "composition.noOpportunity" : "plan.noEvent").foregroundStyle(.secondary) }
                 } else { ProgressView() }
             }

@@ -23,8 +23,10 @@ class InventoryTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.source = self.root / "ios/LightPlanVisualUITests"
         self.source.mkdir(parents=True)
-        for name in ci.PHONE.values():
+        for name in set(ci.PHONE.values()):
             methods = "func testOne() throws {}\nfunc testTwo() async throws {}"
+            if name == "RichVisualUITests":
+                methods += "\n" + "\n".join(f"func {method}() throws {{}}" for method in sorted(ci.RICH_ACCESSIBILITY))
             if name == "VisualUITests":
                 methods += "\nfunc testDarkScreenAndRotationContinuity() throws {}"
             (self.source / (name + ".swift")).write_text(
@@ -37,6 +39,27 @@ class InventoryTests(unittest.TestCase):
         actual = [item for shard in shards for item in shard]
         self.assertEqual(expected, set(actual))
         self.assertEqual(len(actual), len(set(actual)))
+
+    def test_rich_visual_split_keeps_all_methods_once(self):
+        standard = ci.selection(self.root, "iphone-rich-visual")
+        accessibility = ci.selection(self.root, "iphone-rich-accessibility")
+        self.assertEqual(len(standard), 2)
+        self.assertEqual(set(accessibility), {"LightPlanUITests/RichVisualUITests/" + name
+                                             for name in ci.RICH_ACCESSIBILITY})
+        self.assertFalse(set(standard) & set(accessibility))
+
+    def test_missing_rich_accessibility_case_fails(self):
+        path = self.source / "RichVisualUITests.swift"
+        path.write_text(path.read_text().replace("testThaiLargestTextRichScreens", "testRenamed"))
+        for stage in ("iphone-rich-visual", "iphone-rich-accessibility"):
+            with self.subTest(stage=stage), self.assertRaises(ValueError):
+                ci.selection(self.root, stage)
+
+    def test_new_rich_case_is_included_not_silently_skipped(self):
+        path = self.source / "RichVisualUITests.swift"
+        path.write_text(path.read_text().replace("func testOne", "func testNewCase() {}\nfunc testOne"))
+        self.assertIn("LightPlanUITests/RichVisualUITests/testNewCase",
+                      ci.selection(self.root, "iphone-rich-visual"))
 
     def test_ipad_retains_real_rotation_case(self):
         self.assertEqual(ci.selection(self.root, "ipad-rotation"), ["LightPlanUITests/" + ci.IPAD])
@@ -51,7 +74,7 @@ class InventoryTests(unittest.TestCase):
 
     def test_helper_without_tests_is_allowed(self):
         (self.source / "Helper.swift").write_text("func helper() {}")
-        self.assertEqual(len(ci.inventory(self.root)), len(ci.PHONE))
+        self.assertEqual(len(ci.inventory(self.root)), len(set(ci.PHONE.values())))
 
     def test_unassigned_test_extension_fails(self):
         (self.source / "Extension.swift").write_text("extension ProductUITests { func testNew() {} }")

@@ -26,12 +26,49 @@ struct PlanEditorView: View {
     @State private var busy = false
     @State private var errorKey: String?
     @State private var day: DaySummary?
-    private var place: Place { planToEdit?.place ?? compositionDraft?.place ?? state.place }
+    @State private var draftPlace: Place?
+    @State private var initialInputs: EditorInputs?
+    @State private var confirmDiscard = false
+    @State private var previewRetry = 0
+    @State private var loadedPreview: PreviewRequest?
+
+    private struct EditorInputs: Equatable {
+        let title: String
+        let notes: String
+        let collection: String
+        let framing: CameraFraming?
+        let date: Date
+        let target: PlanTarget
+        let body: CelestialBody
+        let offset: Double
+        let arrival: Int
+        let reminder: Int
+        let notifications: Bool
+    }
+    private struct PreviewRequest: Hashable {
+        let place: Place
+        let date: Date
+        let body: CelestialBody
+        let offset: Double
+        let initialized: Bool
+        let retry: Int
+    }
+    private var inputs: EditorInputs {
+        EditorInputs(title: title, notes: notes, collection: collectionName, framing: framingDraft,
+            date: planDate, target: target, body: compositionBody, offset: compositionOffset,
+            arrival: arrival, reminder: reminder, notifications: notifications)
+    }
+    private var hasUnsavedChanges: Bool { initialInputs.map { $0 != inputs } ?? false }
+    private var place: Place { draftPlace ?? planToEdit?.place ?? compositionDraft?.place ?? state.place }
     private var inputComposition: CompositionPlan? { (planToEdit ?? compositionDraft)?.composition }
     private var isComposition: Bool { inputComposition != nil }
     private var calendar: Calendar { var value = Calendar(identifier: .gregorian); value.timeZone = place.timeZone; return value }
-    private var calculationID: String { "\(planDate.timeIntervalSince1970)|\(compositionBody.rawValue)|\(compositionOffset)" }
+    private var calculationID: PreviewRequest {
+        PreviewRequest(place: place, date: planDate, body: compositionBody,
+            offset: compositionOffset, initialized: initialized, retry: previewRetry)
+    }
     private var anchor: Date? {
+        guard loadedPreview == calculationID else { return nil }
         if isComposition { return composition?.instant }
         return Planner.anchorKind(target).flatMap { day?.first($0)?.date }
     }
@@ -96,7 +133,7 @@ struct PlanEditorView: View {
                 KeyText("plan.arrivalNote").font(.footnote)
             }
             Section(L10n.text("plan.preview")) {
-                if day != nil {
+                if loadedPreview == calculationID, day != nil {
                     if let anchor {
                         Label(L10n.time(anchor.addingTimeInterval(-Double(arrival) * 60), zone: place.timeZone), systemImage: "figure.walk")
                         Label {
@@ -109,6 +146,10 @@ struct PlanEditorView: View {
                                 .accessibilityHidden(true)
                         }
                     } else { KeyText(isComposition ? "composition.noOpportunity" : "plan.noEvent").foregroundStyle(.secondary) }
+                } else if errorKey == "error.calculation" {
+                    KeyText("error.calculation").foregroundStyle(.secondary)
+                    Button(L10n.text("common.retry")) { previewRetry += 1 }
+                        .accessibilityIdentifier("plan-preview-retry")
                 } else { ProgressView() }
             }
             Section(L10n.text("plan.notes")) {
@@ -125,12 +166,25 @@ struct PlanEditorView: View {
                 .accessibilityIdentifier("plan-save")
         }
         .disabled(busy)
-        .interactiveDismissDisabled(busy)
+        .interactiveDismissDisabled(busy || hasUnsavedChanges)
         .scrollDismissesKeyboard(.interactively)
         .navigationTitle(L10n.text(planToEdit == nil ? "plan.create" : "v3.edit"))
-        .toolbar { ToolbarItem(placement: .cancellationAction) { Button(L10n.text("common.cancel")) { dismiss() }.disabled(busy) } }
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button(L10n.text("common.cancel")) {
+                    if hasUnsavedChanges { confirmDiscard = true } else { dismiss() }
+                }.disabled(busy).accessibilityIdentifier("plan-cancel")
+            }
+        }
+        .confirmationDialog(L10n.text("flow.unsavedTitle"), isPresented: $confirmDiscard, titleVisibility: .visible) {
+            Button(L10n.text("flow.discard"), role: .destructive) { dismiss() }
+                .accessibilityIdentifier("plan-discard-changes")
+            Button(L10n.text("flow.keepEditing"), role: .cancel) {}
+                .accessibilityIdentifier("plan-keep-editing")
+        } message: { Text(L10n.text("flow.unsavedBody")) }
         .onAppear {
-            guard !initialized else { return }; initialized = true
+            guard !initialized else { return }
+            draftPlace = planToEdit?.place ?? compositionDraft?.place ?? state.place
             if let plan = planToEdit ?? compositionDraft {
                 title = plan.title; notes = plan.notes ?? ""; collectionName = plan.collectionName ?? ""; target = plan.target; arrival = plan.arrivalLeadMinutes
                 reminder = plan.reminderLeadMinutes ?? 30; notifications = plan.completedAt == nil && plan.reminderLeadMinutes != nil; planDate = plan.date
@@ -139,6 +193,8 @@ struct PlanEditorView: View {
                     framingDraft = saved.cameraFraming
                 }
             } else { title = String((state.place.name + " · " + L10n.text("target.sunset")).prefix(100)); planDate = state.selectedDate }
+            initialInputs = inputs
+            initialized = true
         }
         .task(id: calculationID) { await calculatePreview() }
         .sheet(item: $framingEditor) { request in
@@ -146,12 +202,17 @@ struct PlanEditorView: View {
         }
     }
     private func calculatePreview() async {
-        guard !Task.isCancelled else { return }
-        day = nil; composition = nil; errorKey = nil
-        let p = place, d = planDate, body = compositionBody, offset = compositionOffset, input = inputComposition
+        guard initialized, !Task.isCancelled else { return }
+        let request = calculationID
+        day = nil; composition = nil; loadedPreview = nil; errorKey = nil
+        let p = request.place, d = request.date, body = request.body, offset = request.offset, input = inputComposition
         do {
-            let calculated = try await Task.detached { try DayEngine.calculate(place: p, date: d) }.value
+            let worker = Task.detached { try DayEngine.calculate(place: p, date: d) }
+            let calculated = try await withTaskCancellationHandler {
+                try await worker.value
+            } onCancel: { worker.cancel() }
             try Task.checkCancellation()
+            guard calculationID == request else { return }
             var resolved: CompositionPlan?
             if let input {
                 if LocalDay.same(d, input.instant, timeZone: p.timeZone), body == input.body, offset == input.desiredOffsetDegrees {
@@ -165,12 +226,13 @@ struct PlanEditorView: View {
                 }
             }
             try Task.checkCancellation()
-            composition = resolved; day = calculated
+            guard calculationID == request else { return }
+            composition = resolved; day = calculated; loadedPreview = request
         } catch is CancellationError { }
-        catch { if !Task.isCancelled { errorKey = "error.calculation" } }
+        catch { if !Task.isCancelled, calculationID == request { errorKey = "error.calculation" } }
     }
     private func save() async {
-        guard !busy else { return }
+        guard !busy, loadedPreview == calculationID, anchor != nil else { return }
         busy = true; errorKey = nil; defer { busy = false }
         do {
             let savedComposition = try composition.map {

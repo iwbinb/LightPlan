@@ -28,6 +28,8 @@ enum PlanningTemplate { case sunset, moon }
     @Published var compositionTemplate: PlanningTemplate?
     @Published var followingToday = true
     @Published var followingNow = true
+    // In-memory applied search settings survive sheets/tabs, without storing new location data.
+    var planningSearchMemory = PlanningSearchMemory()
     private var calculation: Task<DaySummary, Error>?
     private var refreshID = UUID()
     private let repository: ArchiveRepository

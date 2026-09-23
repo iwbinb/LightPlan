@@ -21,11 +21,7 @@ private enum WindowSearchPreset: String, CaseIterable {
     }
 }
 
-private struct WindowSearchConfiguration: Hashable {
-    var startDate: Date
-    var days: Int = 14
-    var constraints: OpportunityConstraints?
-}
+private typealias WindowSearchConfiguration = PlanningSearchConfiguration
 
 private struct WindowSearchOptionsRoute: Identifiable {
     let id = UUID()
@@ -45,39 +41,45 @@ struct OpportunitySearchView: View {
     let celestialBody: CelestialBody
     let desiredOffsetDegrees: Double
     let onSelect: @MainActor (OpportunityWindow, OpportunityConstraints?) -> Void
+    let onConfigurationChange: @MainActor (PlanningSearchConfiguration) -> Void
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) private var typeSize
     @State private var configuration: WindowSearchConfiguration
     @State private var options: WindowSearchOptionsRoute?
-    @State private var order = WindowSearchOrder.match
+    private var order: WindowSearchOrder { configuration.sortByDate ? .date : .match }
+    private var searchConfiguration: WindowSearchConfiguration { configuration.calculationInput }
     @State private var result: OpportunityWindowSearchResult?
     @State private var loadedConfiguration: WindowSearchConfiguration?
     @State private var busy = true
     @State private var failed = false
     @State private var generation = UUID()
     @State private var retry = 0
+    @State private var paused = false
 
     init(place: Place, subject: Coordinate, body: CelestialBody, desiredOffsetDegrees: Double,
          startingDate: Date,
-         initialConstraints: OpportunityConstraints? = try? OpportunityConstraints(maximumErrorDegrees: 3, altitudeRange: 0...15), initialDays: Int = 14,
+         initialConstraints: OpportunityConstraints? = try? OpportunityConstraints(maximumErrorDegrees: 3, altitudeRange: 0...15), initialDays: Int = 14, initialSortByDate: Bool = false,
+         onConfigurationChange: @escaping @MainActor (PlanningSearchConfiguration) -> Void = { _ in },
          onSelect: @escaping @MainActor (OpportunityWindow, OpportunityConstraints?) -> Void) {
         self.place = place
         self.subject = subject
         self.celestialBody = body
         self.desiredOffsetDegrees = desiredOffsetDegrees
         self.onSelect = onSelect
+        self.onConfigurationChange = onConfigurationChange
         _configuration = State(initialValue: WindowSearchConfiguration(startDate: startingDate, days: min(90, max(1, initialDays)),
-            constraints: initialConstraints))
+            constraints: initialConstraints, sortByDate: initialSortByDate))
     }
 
     private struct RequestIdentity: Hashable {
         let configuration: WindowSearchConfiguration
         let retry: Int
+        let paused: Bool
     }
-    private var requestIdentity: RequestIdentity { RequestIdentity(configuration: configuration, retry: retry) }
+    private var requestIdentity: RequestIdentity { RequestIdentity(configuration: searchConfiguration, retry: retry, paused: paused) }
     private var preset: WindowSearchPreset { .matching(configuration.constraints) }
     private var currentResult: OpportunityWindowSearchResult? {
-        loadedConfiguration == configuration ? result : nil
+        loadedConfiguration == searchConfiguration ? result : nil
     }
     private var visibleWindows: [OpportunityWindow] {
         guard let windows = currentResult?.windows else { return [] }
@@ -89,26 +91,45 @@ struct OpportunitySearchView: View {
         NavigationStack {
             List {
                 Section { searchHeader }
-                if busy || loadedConfiguration != configuration {
-                    ProgressView().frame(maxWidth: .infinity).padding()
-                        .accessibilityIdentifier("opportunity-search-busy")
+                if busy || loadedConfiguration != searchConfiguration {
+                    VStack(alignment: .leading, spacing: 12) {
+                        ProgressView(L10n.text("flow.searching"))
+                            .accessibilityIdentifier("opportunity-search-busy")
+                        Button(L10n.text("flow.stopSearch")) { paused = true }
+                            .accessibilityIdentifier("opportunity-stop-search")
+                    }.padding(.vertical, 8)
+                } else if paused {
+                    VStack(alignment: .leading, spacing: 12) {
+                        KeyText("flow.searchStopped")
+                        Button(L10n.text("flow.resumeSearch")) { paused = false }
+                            .accessibilityIdentifier("opportunity-resume-search")
+                    }.accessibilityIdentifier("opportunity-search-stopped")
                 } else if failed {
                     VStack(alignment: .leading, spacing: 12) {
                         KeyText("composition.searchFailed")
                         Button(L10n.text("common.retry")) { retry += 1 }
+                            .accessibilityIdentifier("opportunity-retry")
+                        changeConditionsButton
                     }
                 } else if let result = currentResult {
                     Section { resultSummary(result) }
                     if result.windows.isEmpty {
-                        ContentUnavailableView(L10n.text("composition.noOpportunity"),
-                            systemImage: "camera.viewfinder", description: Text(L10n.text("search.empty")))
-                            .accessibilityIdentifier("opportunity-empty")
+                        VStack(alignment: .leading, spacing: 16) {
+                            ContentUnavailableView(L10n.text("composition.noOpportunity"),
+                                systemImage: "camera.viewfinder", description: Text(L10n.text("search.empty")))
+                                .accessibilityIdentifier("opportunity-empty")
+                            changeConditionsButton
+                            if configuration.constraints != nil {
+                                Button(L10n.text("flow.clearConditions")) { configuration.constraints = nil }
+                                    .accessibilityIdentifier("opportunity-clear-conditions")
+                            }
+                        }
                     } else {
                         Section { sortPicker }
                         Section {
                             ForEach(visibleWindows) { window in
                                 Button {
-                                    guard loadedConfiguration == configuration else { return }
+                                    guard loadedConfiguration == searchConfiguration else { return }
                                     onSelect(window, configuration.constraints)
                                     dismiss()
                                 } label: {
@@ -130,6 +151,7 @@ struct OpportunitySearchView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(L10n.text("common.close")) { dismiss() }
+                        .accessibilityIdentifier("opportunity-close")
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button { options = WindowSearchOptionsRoute(configuration: configuration) } label: {
@@ -144,8 +166,18 @@ struct OpportunitySearchView: View {
                     celestialBody: celestialBody) { configuration = $0 }
             }
             .task(id: requestIdentity) { await load() }
+            .onChange(of: configuration, initial: true) { old, value in
+                if old.calculationInput != value.calculationInput { paused = false }
+                onConfigurationChange(value)
+            }
             .onDisappear { generation = UUID() }
         }
+    }
+
+    private var changeConditionsButton: some View {
+        Button(L10n.text("flow.changeConditions")) {
+            options = WindowSearchOptionsRoute(configuration: configuration)
+        }.accessibilityIdentifier("opportunity-change-conditions")
     }
 
     @ViewBuilder private var sortPicker: some View {
@@ -153,7 +185,7 @@ struct OpportunitySearchView: View {
             VStack(alignment: .leading, spacing: 12) {
                 KeyText("search.sort").font(.headline)
                 ForEach(WindowSearchOrder.allCases, id: \.self) { value in
-                    Button { order = value } label: {
+                    Button { configuration.sortByDate = value == .date } label: {
                         HStack(alignment: .top) {
                             Text(value.title).fixedSize(horizontal: false, vertical: true)
                             Spacer(minLength: 12)
@@ -164,7 +196,7 @@ struct OpportunitySearchView: View {
                 }
             }.accessibilityIdentifier("opportunity-sort")
         } else {
-            Picker(L10n.text("search.sort"), selection: $order) {
+            Picker(L10n.text("search.sort"), selection: Binding(get: { order }, set: { configuration.sortByDate = $0 == .date })) {
                 ForEach(WindowSearchOrder.allCases, id: \.self) { Text($0.title).tag($0) }
             }.accessibilityIdentifier("opportunity-sort")
         }
@@ -253,7 +285,11 @@ struct OpportunitySearchView: View {
         guard !Task.isCancelled else { return }
         let token = UUID()
         generation = token
-        let request = configuration
+        let request = searchConfiguration
+        if paused {
+            busy = false; failed = false; result = nil; loadedConfiguration = request
+            return
+        }
         busy = true
         failed = false
         result = nil
@@ -263,14 +299,14 @@ struct OpportunitySearchView: View {
             let value = try await CompositionPlanner.opportunityWindowsAsync(body: celestialBody,
                 place: place, subject: subject, starting: request.startDate, days: request.days,
                 desiredOffsetDegrees: desiredOffsetDegrees, limit: 60, constraints: constraints)
-            guard !Task.isCancelled, generation == token, request == configuration else { return }
+            guard !Task.isCancelled, generation == token, request == searchConfiguration else { return }
             result = value
             loadedConfiguration = request
             busy = false
         } catch is CancellationError {
             return
         } catch {
-            guard !Task.isCancelled, generation == token, request == configuration else { return }
+            guard !Task.isCancelled, generation == token, request == searchConfiguration else { return }
             loadedConfiguration = request
             failed = true
             busy = false
@@ -533,7 +569,7 @@ private struct OpportunitySearchOptions: View {
         guard isValid, let constraints else { return }
         let unrestricted = try? OpportunityConstraints()
         onApply(WindowSearchConfiguration(startDate: startDate, days: days,
-                                           constraints: constraints == unrestricted ? nil : constraints))
+                                           constraints: constraints == unrestricted ? nil : constraints, sortByDate: configuration.sortByDate))
         dismiss()
     }
 }

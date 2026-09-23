@@ -1,0 +1,60 @@
+name: M1 preserved evidence inspection
+on:
+  push:
+    branches: [dev]
+    paths: ['.github/workflows/m1-evidence-inspection.yml']
+permissions:
+  actions: read
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Read existing failure geometry without changing tests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: python
+        run: |
+          import hashlib, os, shutil, tempfile, urllib.request, urllib.error, zipfile
+          # Read only the already-preserved artifact for run 46. Never execute its contents.
+          endpoint = 'https://api.github.com/repos/iwbinb/LightPlan/actions/artifacts/10746974771/zip'
+          expected = '5a0fbd91152910a937adbb63c8a683e0c84bd3a1a5bc752bdd37452e7bd49188'
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+          request = urllib.request.Request(endpoint, headers={
+              'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+              'Accept': 'application/vnd.github+json', 'User-Agent': 'LightPlan-evidence-review'})
+          try:
+              urllib.request.build_opener(NoRedirect).open(request, timeout=60)
+              raise RuntimeError('Expected the artifact download redirect')
+          except urllib.error.HTTPError as error:
+              if error.code != 302:
+                  raise
+              location = error.headers['Location']
+          if not location.startswith('https://'):
+              raise RuntimeError('Unexpected non-HTTPS artifact location')
+          # Do not forward the GitHub credential to the signed artifact host.
+          with tempfile.TemporaryDirectory() as folder:
+              path = os.path.join(folder, 'evidence.zip')
+              with urllib.request.urlopen(location, timeout=120) as source, open(path, 'wb') as output:
+                  shutil.copyfileobj(source, output)
+              with open(path, 'rb') as source:
+                  digest = hashlib.file_digest(source, 'sha256').hexdigest()
+              if digest != expected:
+                  raise RuntimeError('Preserved artifact digest mismatch')
+              print('Verified original run-46 artifact SHA256:', digest)
+              with zipfile.ZipFile(path) as archive:
+                  for info in archive.infolist():
+                      if not info.filename.endswith('.txt') or info.file_size > 500_000:
+                          continue
+                      text = archive.read(info).decode('utf-8', errors='replace')
+                      if 'attempt=' in text and 'viewport=' in text:
+                          print('\nGEOMETRY', info.filename, '\n', text[:40_000])
+                      elif 'plan-field-mode' in text:
+                          lines = text.splitlines()
+                          print('\nHIERARCHY', info.filename)
+                          for index, line in enumerate(lines):
+                              if any(key in line for key in ['plan-field-mode', 'plan-view-map', 'ScrollView,', 'TabBar,', 'NavigationBar,']):
+                                  print('\n'.join(lines[max(0, index-1):index+3]))

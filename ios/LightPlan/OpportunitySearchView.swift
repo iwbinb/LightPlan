@@ -290,22 +290,34 @@ private struct OpportunityWindowRow: View {
                 Text(L10n.time(window.best.instant, zone: zone)).font(.headline).monospacedDigit()
                     .accessibilityIdentifier("composition-opportunity-time")
             }
-            Text(L10n.text("search.window") + ": " + boundary(window.interval.start) + " – " + boundary(window.interval.end))
-                .font(.subheadline)
-            Text(L10n.text("search.duration") + ": " + duration)
+            Text(windowLabel).font(.subheadline)
+            Text(durationLabel)
                 .font(.subheadline).foregroundStyle(.secondary)
                 .accessibilityIdentifier("opportunity-window-duration")
-            Text(L10n.text("composition.quality." + window.best.quality.rawValue) + " · Δ " +
-                 L10n.number(window.best.absoluteErrorDegrees, decimals: 1) + "° · " +
-                 L10n.text("composition.altitude") + " " + L10n.number(window.best.altitude, decimals: 1) + "°")
-                .font(.caption).foregroundStyle(.secondary)
+            Text(qualityLabel).font(.caption).foregroundStyle(.secondary)
             if window.best.body == .moon {
-                Text(L10n.text("moon.illumination") + ": " + L10n.number(window.moonIllumination * 100) + "%")
-                    .font(.caption).foregroundStyle(.secondary)
+                Text(moonLabel).font(.caption).foregroundStyle(.secondary)
             }
         }
         .padding(.vertical, 6)
         .fixedSize(horizontal: false, vertical: true)
+    }
+
+    private var windowLabel: String {
+        L10n.text("search.window") + ": " + boundary(window.interval.start) + " – " + boundary(window.interval.end)
+    }
+
+    private var durationLabel: String { L10n.text("search.duration") + ": " + duration }
+
+    private var qualityLabel: String {
+        let quality = L10n.text("composition.quality." + window.best.quality.rawValue)
+        let error = L10n.number(window.best.absoluteErrorDegrees, decimals: 1)
+        let altitude = L10n.number(window.best.altitude, decimals: 1)
+        return quality + " · Δ " + error + "° · " + L10n.text("composition.altitude") + " " + altitude + "°"
+    }
+
+    private var moonLabel: String {
+        L10n.text("moon.illumination") + ": " + L10n.number(window.moonIllumination * 100) + "%"
     }
 
     private func boundary(_ value: Date) -> String {

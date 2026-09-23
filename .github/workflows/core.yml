@@ -1,0 +1,47 @@
+name: Core calculation regression
+on:
+  push:
+    branches: [dev, main]
+    paths:
+      - 'packages/LightPlanCore/**'
+      - '.github/workflows/core.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/LightPlanCore/**'
+      - '.github/workflows/core.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: core-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  core:
+    runs-on: macos-15
+    timeout-minutes: 15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Run complete core regression with visible failure output
+        timeout-minutes: 12
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/evidence/core
+          git rev-parse HEAD > build/evidence/core/source-commit.txt
+          xcodebuild -version | tee build/evidence/core/toolchain.txt
+          xcrun swift --version | tee -a build/evidence/core/toolchain.txt
+          swift test --package-path packages/LightPlanCore 2>&1 | tee build/evidence/core/tests.log
+      - name: Preserve core evidence
+        if: ${{ always() }}
+        timeout-minutes: 2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: core-evidence-${{ github.sha }}-${{ github.run_attempt }}
+          path: build/evidence/core
+          if-no-files-found: error
+          retention-days: 14

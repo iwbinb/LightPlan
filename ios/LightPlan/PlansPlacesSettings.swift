@@ -176,7 +176,8 @@ struct PlanEditorView: View {
                 }.disabled(busy).accessibilityIdentifier("plan-cancel")
             }
         }
-        .confirmationDialog(L10n.text("flow.unsavedTitle"), isPresented: $confirmDiscard, titleVisibility: .visible) {
+        // An alert keeps both choices visible in compact and popover presentations.
+        .alert(L10n.text("flow.unsavedTitle"), isPresented: $confirmDiscard) {
             Button(L10n.text("flow.discard"), role: .destructive) { dismiss() }
                 .accessibilityIdentifier("plan-discard-changes")
             Button(L10n.text("flow.keepEditing"), role: .cancel) {}

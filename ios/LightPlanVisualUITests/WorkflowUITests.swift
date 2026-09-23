@@ -90,12 +90,14 @@ final class WorkflowUITests: XCTestCase {
         openSearch(app)
         let empty = element("opportunity-empty", in: app)
         XCTAssertTrue(empty.waitForExistence(timeout: 60))
+        XCTAssertTrue(app.buttons["opportunity-preset-low"].isSelected)
         let change = app.buttons["opportunity-change-conditions"]
         reveal(change, in: app); change.tap()
         XCTAssertTrue(element("opportunity-days-presets", in: app).waitForExistence(timeout: 10))
         // Canceling this nested options draft must retain the actual empty result.
         app.buttons["Cancel"].firstMatch.tap()
         XCTAssertTrue(empty.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["opportunity-preset-low"].isSelected, "Adjusting or canceling options must not also activate Clear conditions")
         let relax = app.buttons["opportunity-clear-conditions"]
         reveal(relax, in: app); relax.tap()
         let days = app.staticTexts["opportunity-searched-days"]

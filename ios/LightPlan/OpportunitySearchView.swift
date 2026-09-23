@@ -96,18 +96,21 @@ struct OpportunitySearchView: View {
                         ProgressView(L10n.text("flow.searching"))
                             .accessibilityIdentifier("opportunity-search-busy")
                         Button(L10n.text("flow.stopSearch")) { paused = true }
+                            .buttonStyle(.bordered).controlSize(.large)
                             .accessibilityIdentifier("opportunity-stop-search")
                     }.padding(.vertical, 8)
                 } else if paused {
                     VStack(alignment: .leading, spacing: 12) {
-                        KeyText("flow.searchStopped")
+                        KeyText("flow.searchStopped").accessibilityIdentifier("opportunity-search-stopped")
                         Button(L10n.text("flow.resumeSearch")) { paused = false }
+                            .buttonStyle(.bordered).controlSize(.large)
                             .accessibilityIdentifier("opportunity-resume-search")
-                    }.accessibilityIdentifier("opportunity-search-stopped")
+                    }
                 } else if failed {
                     VStack(alignment: .leading, spacing: 12) {
                         KeyText("composition.searchFailed")
                         Button(L10n.text("common.retry")) { retry += 1 }
+                            .buttonStyle(.bordered).controlSize(.large)
                             .accessibilityIdentifier("opportunity-retry")
                         changeConditionsButton
                     }
@@ -121,6 +124,7 @@ struct OpportunitySearchView: View {
                             changeConditionsButton
                             if configuration.constraints != nil {
                                 Button(L10n.text("flow.clearConditions")) { configuration.constraints = nil }
+                                    .buttonStyle(.bordered).controlSize(.large)
                                     .accessibilityIdentifier("opportunity-clear-conditions")
                             }
                         }
@@ -177,7 +181,10 @@ struct OpportunitySearchView: View {
     private var changeConditionsButton: some View {
         Button(L10n.text("flow.changeConditions")) {
             options = WindowSearchOptionsRoute(configuration: configuration)
-        }.accessibilityIdentifier("opportunity-change-conditions")
+        }
+        // Explicit styles prevent a List row from activating its sibling actions.
+        .buttonStyle(.bordered).controlSize(.large)
+        .accessibilityIdentifier("opportunity-change-conditions")
     }
 
     @ViewBuilder private var sortPicker: some View {

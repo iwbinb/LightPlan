@@ -162,7 +162,9 @@ final class WorkflowUITests: XCTestCase {
 
     @MainActor private func openSearch(_ app: XCUIApplication) {
         let search = app.buttons["composition-search"]
-        reveal(search, in: app); search.tap()
+        reveal(search, in: app)
+        XCTAssertEqual(search.label, "Find shooting windows", "The entry must not promise 14 days when applied input can be 30 or 90 days")
+        search.tap()
         XCTAssertTrue(app.buttons["opportunity-options"].waitForExistence(timeout: 15))
     }
 

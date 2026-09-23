@@ -14469,55 +14469,55 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Search next 14 days"
+            "value": "Find shooting windows"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "搜索未来 14 天"
+            "value": "查找拍摄窗口"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "搜尋未來 14 天"
+            "value": "尋找拍攝時段"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "今後14日を検索"
+            "value": "撮影できる時間帯を探す"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "향후 14일 검색"
+            "value": "촬영 시간대 찾기"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nächste 14 Tage durchsuchen"
+            "value": "Aufnahmefenster suchen"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Rechercher les 14 prochains jours"
+            "value": "Rechercher des créneaux photo"
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "ค้นหา 14 วันถัดไป"
+            "value": "ค้นหาช่วงเวลาถ่ายภาพ"
           }
         },
         "pt-PT": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pesquisar próximos 14 dias"
+            "value": "Procurar janelas de fotografia"
           }
         }
       }

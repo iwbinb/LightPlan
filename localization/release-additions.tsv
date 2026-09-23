@@ -80,7 +80,7 @@ composition.side.right	Celestial body right of subject	天体在主体右侧	天
 composition.arriveBy	Suggested arrival	建议到达	建議到達	到着目安	권장 도착	Empfohlene Ankunft	Arrivée conseillée	แนะนำให้ถึง	Chegada sugerida
 composition.standDistance	Distance from subject	与主体距离	與主體距離	被写体までの距離	피사체와의 거리	Abstand zum Motiv	Distance au sujet	ระยะจากตัวแบบ	Distância ao motivo
 composition.useStand	Use suggested position	使用推荐机位	使用建議機位	推奨位置を使う	추천 위치 사용	Vorgeschlagenen Standort verwenden	Utiliser la position suggérée	ใช้จุดที่แนะนำ	Usar posição sugerida
-composition.search	Search next 14 days	搜索未来 14 天	搜尋未來 14 天	今後14日を検索	향후 14일 검색	Nächste 14 Tage durchsuchen	Rechercher les 14 prochains jours	ค้นหา 14 วันถัดไป	Pesquisar próximos 14 dias
+composition.search	Find shooting windows	查找拍摄窗口	尋找拍攝時段	撮影できる時間帯を探す	촬영 시간대 찾기	Aufnahmefenster suchen	Rechercher des créneaux photo	ค้นหาช่วงเวลาถ่ายภาพ	Procurar janelas de fotografia
 composition.opportunities	Alignment opportunities	对齐机会	對齊機會	位置合わせ候補	정렬 기회	Ausrichtungsmöglichkeiten	Occasions d’alignement	โอกาสจัดแนว	Oportunidades de alinhamento
 composition.noOpportunity	No visible alignment found	未找到可见的对齐时刻	未找到可見的對齊時刻	見える位置合わせが見つかりません	보이는 정렬 시간을 찾지 못했습니다	Keine sichtbare Ausrichtung gefunden	Aucun alignement visible trouvé	ไม่พบช่วงที่จัดแนวได้และมองเห็น	Nenhum alinhamento visível encontrado
 composition.searchFailed	Couldn’t calculate alignment opportunities	无法计算对齐机会	無法計算對齊機會	位置合わせ候補を計算できませんでした	정렬 기회를 계산할 수 없습니다	Ausrichtungsmöglichkeiten konnten nicht berechnet werden	Impossible de calculer les occasions d’alignement	คำนวณโอกาสจัดแนวไม่ได้	Não foi possível calcular as oportunidades

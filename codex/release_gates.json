@@ -6,48 +6,77 @@
       "id": "G01",
       "title": "所有Apple targets Debug/Release构建通过",
       "required": true,
-      "status": "pending",
-      "evidence": [],
-      "reviewer": null
+      "status": "passed",
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/paid-product-2026-09-22.json",
+        "tests/reports/photography-tools-2026-09-22.md",
+        "tests/reports/location-map-style-2026-09-23.md",
+        "tests/reports/map-physical-feedback-2026-09-23.md",
+        "tests/reports/owned-mapkit-2026-09-23.md"
+      ],
+      "reviewer": "Codex local final App/Widget Release build and signed archive review, 2026-09-23",
+      "scope": "当前开发签名构建及归档完整性；用户已确认底图切换与蓝点两项真机行为，完整设备与App Store分发仍另验。"
     },
     {
       "id": "G02",
       "title": "F01-F19首发功能完整回归",
       "required": true,
       "status": "pending",
-      "evidence": [],
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/photography-tools-2026-09-22.md"
+      ],
       "reviewer": null
     },
     {
       "id": "G03",
       "title": "高纬/近切线/太阳月亮事件独立验证",
       "required": true,
-      "status": "pending",
-      "evidence": [],
-      "reviewer": null
+      "status": "passed",
+      "evidence": [
+        "tests/reports/astronomy-events-2026-09-22.md",
+        "tests/reports/astronomy-events-2026-09-22.json",
+        "tests/reports/astronomy-events-2026-09-22-verification.json"
+      ],
+      "reviewer": "Codex independent reference and core regression review, 2026-09-22",
+      "scope": "有限31日独立事件矩阵及139项核心回归；不是全球连续精度或现场可见性保证。"
     },
     {
       "id": "G04",
       "title": "完整日历边界与DST",
       "required": true,
-      "status": "pending",
-      "evidence": [],
-      "reviewer": null
+      "status": "passed",
+      "evidence": [
+        "tests/reports/astronomy-events-2026-09-22.md",
+        "tests/reports/astronomy-events-2026-09-22.json",
+        "tests/reports/astronomy-events-2026-09-22-verification.json",
+        "tests/reports/photography-tools-2026-09-22.md"
+      ],
+      "reviewer": "Codex independent reference and core regression review, 2026-09-22",
+      "scope": "有限31日独立事件矩阵及139项核心回归；不是全球连续精度或现场可见性保证。"
     },
     {
       "id": "G05",
       "title": "9语母语审校与原生布局",
       "required": true,
       "status": "pending",
-      "evidence": [],
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/photography-tools-2026-09-22.md",
+        "tests/reports/location-map-style-2026-09-23.md"
+      ],
       "reviewer": null
     },
     {
       "id": "G06",
-      "title": "购买恢复退款与离线沙盒",
+      "title": "付费下载与全功能离线验收",
       "required": true,
       "status": "pending",
-      "evidence": [],
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/photography-tools-2026-09-22.md"
+      ],
       "reviewer": null
     },
     {
@@ -55,7 +84,10 @@
       "title": "备份导入冲突与损坏恢复",
       "required": true,
       "status": "pending",
-      "evidence": [],
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/photography-tools-2026-09-22.md"
+      ],
       "reviewer": null
     },
     {
@@ -63,7 +95,10 @@
       "title": "通知保存编辑删除与跨时区",
       "required": true,
       "status": "pending",
-      "evidence": [],
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/photography-tools-2026-09-22.md"
+      ],
       "reviewer": null
     },
     {
@@ -71,7 +106,9 @@
       "title": "AppGroup与Widget状态",
       "required": true,
       "status": "pending",
-      "evidence": [],
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
       "reviewer": null
     },
     {
@@ -79,7 +116,13 @@
       "title": "iPhone/iPad原生设备与宽窄变化",
       "required": true,
       "status": "pending",
-      "evidence": [],
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/photography-tools-2026-09-22.md",
+        "tests/reports/location-map-style-2026-09-23.md",
+        "tests/reports/map-physical-feedback-2026-09-23.md",
+        "tests/reports/owned-mapkit-2026-09-23.md"
+      ],
       "reviewer": null
     },
     {
@@ -95,7 +138,13 @@
       "title": "VoiceOver/大字体/暗色/减少动态",
       "required": true,
       "status": "pending",
-      "evidence": [],
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/photography-tools-2026-09-22.md",
+        "tests/reports/location-map-style-2026-09-23.md",
+        "tests/reports/map-physical-feedback-2026-09-23.md",
+        "tests/reports/owned-mapkit-2026-09-23.md"
+      ],
       "reviewer": null
     },
     {
@@ -103,7 +152,9 @@
       "title": "性能与能耗目标实测",
       "required": true,
       "status": "pending",
-      "evidence": [],
+      "evidence": [
+        "tests/reports/photography-tools-2026-09-22.md"
+      ],
       "reviewer": null
     },
     {
@@ -111,7 +162,10 @@
       "title": "隐私/许可/最终二进制清单",
       "required": true,
       "status": "pending",
-      "evidence": [],
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/photography-tools-2026-09-22.md"
+      ],
       "reviewer": null
     },
     {
@@ -127,7 +181,9 @@
       "title": "9语真实商店截图和元数据",
       "required": true,
       "status": "pending",
-      "evidence": [],
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
       "reviewer": null
     },
     {
@@ -143,23 +199,38 @@
       "title": "v3摄影首页/计划视觉原生逐屏签收",
       "required": true,
       "status": "pending",
-      "evidence": [],
-      "reviewer": null
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/paid-product-2026-09-22.json",
+        "tests/reports/photography-tools-2026-09-22.md"
+      ],
+      "reviewer": null,
+      "scope": "此前视觉证据保留；新增项目/任务/现场页面须按当前范围重新签收。"
     },
     {
       "id": "G19",
       "title": "v3 MapKit真实影像和法律标识",
       "required": true,
-      "status": "pending",
-      "evidence": [],
-      "reviewer": null
+      "status": "passed",
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/paid-product-2026-09-22.json",
+        "tests/reports/location-map-style-2026-09-23.md",
+        "tests/reports/map-physical-feedback-2026-09-23.md",
+        "tests/reports/owned-mapkit-2026-09-23.md"
+      ],
+      "reviewer": "Codex local build and native screenshot review, 2026-09-22",
+      "scope": "本轮原生构建/模拟器截图与用户对两项地图行为的真机确认；不是完整地图精度、母语或App Store分发签收。"
     },
     {
       "id": "G20",
       "title": "v3宽屏状态连续/九语辅助功能视觉签收",
       "required": true,
       "status": "pending",
-      "evidence": [],
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/photography-tools-2026-09-22.md"
+      ],
       "reviewer": null
     }
   ]

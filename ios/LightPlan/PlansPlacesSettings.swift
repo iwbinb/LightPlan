@@ -6,12 +6,19 @@ import LightPlanCore
 
 struct PlanEditorView: View {
     var planToEdit: ShootPlan? = nil
+    var compositionDraft: ShootPlan? = nil
     @EnvironmentObject private var state: AppState
-    @EnvironmentObject private var purchases: PurchaseStore
     @Environment(\.dismiss) private var dismiss
     @State private var title = ""
+    @State private var notes = ""
+    @State private var collectionName = ""
+    @State private var framingDraft: CameraFraming?
+    @State private var framingEditor: FramingPreviewRequest?
     @State private var planDate = Date()
     @State private var target: PlanTarget = .sunset
+    @State private var compositionBody: CelestialBody = .sun
+    @State private var compositionOffset = 0.0
+    @State private var composition: CompositionPlan?
     @State private var arrival = 30
     @State private var reminder = 30
     @State private var notifications = true
@@ -19,71 +26,162 @@ struct PlanEditorView: View {
     @State private var busy = false
     @State private var errorKey: String?
     @State private var day: DaySummary?
-    private var place: Place { planToEdit?.place ?? state.place }
+    private var place: Place { planToEdit?.place ?? compositionDraft?.place ?? state.place }
+    private var inputComposition: CompositionPlan? { (planToEdit ?? compositionDraft)?.composition }
+    private var isComposition: Bool { inputComposition != nil }
     private var calendar: Calendar { var value = Calendar(identifier: .gregorian); value.timeZone = place.timeZone; return value }
+    private var calculationID: String { "\(planDate.timeIntervalSince1970)|\(compositionBody.rawValue)|\(compositionOffset)" }
+    private var anchor: Date? {
+        if isComposition { return composition?.instant }
+        return Planner.anchorKind(target).flatMap { day?.first($0)?.date }
+    }
     var body: some View {
         Form {
             Section {
                 TextField(L10n.text("plan.title"), text: $title).accessibilityIdentifier("plan-title")
                     .onChange(of: title) { _, value in if value.count > 100 { title = String(value.prefix(100)) } }
                 Label(place.name, systemImage: "mappin")
+                TextField(L10n.text("plan.collectionHint"), text: $collectionName)
+                    .accessibilityLabel(L10n.text("plan.collection")).accessibilityIdentifier("plan-collection")
+                    .onChange(of: collectionName) { _, value in if value.count > 60 { collectionName = String(value.prefix(60)) } }
                 DatePicker(L10n.text("map.date"), selection: $planDate, in: LocalDay.supportedRange(timeZone: place.timeZone), displayedComponents: .date)
                     .environment(\.timeZone, place.timeZone).environment(\.calendar, calendar)
                 Text(place.timeZoneID).font(.caption).foregroundStyle(.secondary)
             }
+            if let inputComposition {
+                Section(L10n.text("composition.title")) {
+                    Picker(L10n.text("map.body"), selection: $compositionBody) {
+                        ForEach(CelestialBody.allCases, id: \.self) { Text(L10n.text("body." + $0.rawValue)).tag($0) }
+                    }.accessibilityIdentifier("plan-composition-body")
+                    Picker(L10n.text("composition.frame"), selection: $compositionOffset) {
+                        Text(L10n.text("composition.left")).tag(-10.0)
+                        Text(L10n.text("composition.center")).tag(0.0)
+                        Text(L10n.text("composition.right")).tag(10.0)
+                        if ![-10.0, 0, 10].contains(compositionOffset) {
+                            Text(L10n.number(compositionOffset, decimals: 1) + "°").tag(compositionOffset)
+                        }
+                    }
+                    LabeledContent(L10n.text("composition.subject"), value: L10n.coordinate(inputComposition.subject))
+                    if let constraints = inputComposition.constraints {
+                        Text(L10n.conditions(constraints)).font(.caption).foregroundStyle(.secondary)
+                    }
+                    KeyText("composition.recalculateNote").font(.caption).foregroundStyle(.secondary)
+                    if let framingDraft {
+                        Text(L10n.focalLength(framingDraft.focalLength35mm) + " mm · " + L10n.text("frame." + framingDraft.orientation.rawValue)
+                             + " · " + L10n.number(framingDraft.referenceAltitudeDegrees, decimals: 1) + "°")
+                            .accessibilityIdentifier("plan-framing-summary")
+                        Button(L10n.text("frame.remove")) { self.framingDraft = nil }
+                    }
+                    Button(L10n.text("frame.open")) {
+                        if let anchor {
+                            framingEditor = FramingPreviewRequest(place: place, subject: inputComposition.subject,
+                                body: compositionBody, instant: anchor, framing: framingDraft)
+                        }
+                    }.disabled(anchor == nil).accessibilityIdentifier("plan-edit-framing")
+                }
+            }
             Section {
-                Picker(L10n.text("plan.target"), selection: $target) { ForEach(PlanTarget.allCases, id: \.self) { Text(L10n.text("target." + $0.rawValue)).tag($0) } }
+                if !isComposition {
+                    Picker(L10n.text("plan.target"), selection: $target) {
+                        ForEach(PlanTarget.solarTargets, id: \.self) { Text(L10n.text("target." + $0.rawValue)).tag($0) }
+                    }
+                }
                 Stepper(value: $arrival, in: 0...240, step: 5) { Text(L10n.text("plan.arrivalLead") + " " + L10n.number(Double(arrival)) + " " + L10n.text("unit.minutes")) }
-                Toggle(L10n.text("plan.remind"), isOn: $notifications)
+                Toggle(L10n.text("plan.remind"), isOn: $notifications).accessibilityIdentifier("plan-reminder-toggle")
+                    .disabled(planToEdit?.completedAt != nil)
+                if planToEdit?.completedAt != nil { KeyText("library.completedEditNote").font(.caption) }
                 if notifications {
                     Stepper(value: $reminder, in: 0...1440, step: 5) { Text(L10n.text("plan.reminderLead") + " " + L10n.number(Double(reminder)) + " " + L10n.text("unit.minutes")) }
                 }
                 KeyText("plan.arrivalNote").font(.footnote)
             }
             Section(L10n.text("plan.preview")) {
-                if let day {
-                    if let event = day.first(Planner.anchorKind(target)) {
-                        Label(L10n.time(event.date.addingTimeInterval(-Double(arrival) * 60), zone: place.timeZone), systemImage: "figure.walk")
-                        Label(L10n.time(event.date, zone: place.timeZone), systemImage: "sun.horizon.fill")
-                    } else { KeyText("plan.noEvent").foregroundStyle(.secondary) }
+                if day != nil {
+                    if let anchor {
+                        Label(L10n.time(anchor.addingTimeInterval(-Double(arrival) * 60), zone: place.timeZone), systemImage: "figure.walk")
+                        Label(L10n.time(anchor, zone: place.timeZone), systemImage: isComposition ? "camera.viewfinder" : "sun.horizon.fill")
+                            .accessibilityIdentifier("plan-anchor-time")
+                    } else { KeyText(isComposition ? "composition.noOpportunity" : "plan.noEvent").foregroundStyle(.secondary) }
                 } else { ProgressView() }
+            }
+            Section(L10n.text("plan.notes")) {
+                TextField(L10n.text("plan.notesHint"), text: $notes, axis: .vertical)
+                    .lineLimit(3...8).accessibilityIdentifier("plan-notes")
+                    .onChange(of: notes) { _, value in
+                        if value.count > 2000 { notes = String(value.prefix(2000)) }
+                    }
             }
             if let errorKey { KeyText(errorKey).foregroundStyle(.red) }
             Button { Task { await save() } } label: {
                 if busy { ProgressView() } else { KeyText("plan.save") }
-            }.disabled(busy || title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || day?.first(Planner.anchorKind(target)) == nil)
+            }.disabled(busy || title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || anchor == nil)
                 .accessibilityIdentifier("plan-save")
         }
+        .disabled(busy)
+        .interactiveDismissDisabled(busy)
+        .scrollDismissesKeyboard(.interactively)
         .navigationTitle(L10n.text(planToEdit == nil ? "plan.create" : "v3.edit"))
-        .toolbar { ToolbarItem(placement: .cancellationAction) { Button(L10n.text("common.cancel")) { dismiss() } } }
+        .toolbar { ToolbarItem(placement: .cancellationAction) { Button(L10n.text("common.cancel")) { dismiss() }.disabled(busy) } }
         .onAppear {
             guard !initialized else { return }; initialized = true
-            if let plan = planToEdit {
-                title = plan.title; target = plan.target; arrival = plan.arrivalLeadMinutes
-                reminder = plan.reminderLeadMinutes ?? 30; notifications = plan.reminderLeadMinutes != nil; planDate = plan.date
+            if let plan = planToEdit ?? compositionDraft {
+                title = plan.title; notes = plan.notes ?? ""; collectionName = plan.collectionName ?? ""; target = plan.target; arrival = plan.arrivalLeadMinutes
+                reminder = plan.reminderLeadMinutes ?? 30; notifications = plan.completedAt == nil && plan.reminderLeadMinutes != nil; planDate = plan.date
+                if let saved = plan.composition {
+                    compositionBody = saved.body; compositionOffset = saved.desiredOffsetDegrees; composition = saved
+                    framingDraft = saved.cameraFraming
+                }
             } else { title = String((state.place.name + " · " + L10n.text("target.sunset")).prefix(100)); planDate = state.selectedDate }
         }
-        .task(id: planDate) {
-            day = nil; let p = place, d = planDate
-            do {
-                let calculated = try await Task.detached { try DayEngine.calculate(place: p, date: d) }.value
-                guard !Task.isCancelled else { return }; day = calculated
-            } catch { if !Task.isCancelled { errorKey = "error.calculation" } }
+        .task(id: calculationID) { await calculatePreview() }
+        .sheet(item: $framingEditor) { request in
+            FramingPreviewSheet(request: request, allowsTimeEditing: false) { framing, _ in framingDraft = framing }
         }
     }
+    private func calculatePreview() async {
+        guard !Task.isCancelled else { return }
+        day = nil; composition = nil; errorKey = nil
+        let p = place, d = planDate, body = compositionBody, offset = compositionOffset, input = inputComposition
+        do {
+            let calculated = try await Task.detached { try DayEngine.calculate(place: p, date: d) }.value
+            try Task.checkCancellation()
+            var resolved: CompositionPlan?
+            if let input {
+                if LocalDay.same(d, input.instant, timeZone: p.timeZone), body == input.body, offset == input.desiredOffsetDegrees {
+                    resolved = input
+                } else if let value = try await CompositionPlanner.bestAlignment(for: AlignmentRequest(
+                    body: body, observer: p.coordinate, subject: input.subject,
+                    interval: DateInterval(start: calculated.start, end: calculated.end), desiredOffsetDegrees: offset,
+                    constraints: input.constraints)) {
+                    resolved = try CompositionPlan(body: body, subject: input.subject, desiredOffsetDegrees: offset,
+                                                   instant: value.instant, constraints: input.constraints)
+                }
+            }
+            try Task.checkCancellation()
+            composition = resolved; day = calculated
+        } catch is CancellationError { }
+        catch { if !Task.isCancelled { errorKey = "error.calculation" } }
+    }
     private func save() async {
-        guard purchases.unlocked else { errorKey = "purchase.required"; return }
+        guard !busy else { return }
         busy = true; errorKey = nil; defer { busy = false }
         do {
-            var plan = try ShootPlan(id: planToEdit?.id ?? UUID(), title: title.trimmingCharacters(in: .whitespacesAndNewlines), place: place, date: planDate, target: target, arrivalLeadMinutes: arrival, reminderLeadMinutes: notifications ? reminder : nil)
+            let savedComposition = try composition.map {
+                try CompositionPlan(body: $0.body, subject: $0.subject, desiredOffsetDegrees: $0.desiredOffsetDegrees,
+                                    instant: $0.instant, constraints: $0.constraints, cameraFraming: framingDraft)
+            }
+            var plan = try ShootPlan(id: planToEdit?.id ?? UUID(), title: title.trimmingCharacters(in: .whitespacesAndNewlines), place: place,
+                date: composition?.instant ?? planDate, target: isComposition ? .composition : target,
+                arrivalLeadMinutes: arrival, reminderLeadMinutes: notifications && planToEdit?.completedAt == nil ? reminder : nil, composition: savedComposition,
+                notes: notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : notes,
+                collectionName: collectionName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : collectionName.trimmingCharacters(in: .whitespacesAndNewlines),
+                completedAt: planToEdit?.completedAt)
             if let old = planToEdit { plan.createdAt = old.createdAt; plan.updatedAt = Date() }
             let snapshot = plan
             let summary = try await Task.detached { try DayEngine.calculate(place: snapshot.place, date: snapshot.date) }.value
             _ = try Planner.milestones(plan: plan, summary: summary)
-            guard purchases.unlocked else { errorKey = "purchase.required"; return }
             try state.upsert(plan)
-            await ReminderService.cancel(planID: plan.id)
-            if notifications {
+            if plan.reminderLeadMinutes != nil {
                 do {
                     let result = try await ReminderService.schedule(plan: plan, summary: summary, language: L10n.language)
                     switch result {
@@ -94,7 +192,10 @@ struct PlanEditorView: View {
                     case .superseded: state.noticeKey = "notice.saved"
                     }
                 } catch { state.noticeKey = "notice.savedWithoutReminder" }
-            } else { state.noticeKey = "notice.saved" }
+            } else {
+                await ReminderService.cancel(planID: plan.id)
+                state.noticeKey = "notice.saved"
+            }
             dismiss()
         } catch LightPlanError.noEvent { errorKey = "plan.noEvent" }
         catch { errorKey = "error.save" }
@@ -103,16 +204,16 @@ struct PlanEditorView: View {
 
 struct PlacesView: View {
     @EnvironmentObject private var state: AppState
-    @EnvironmentObject private var purchases: PurchaseStore
     @StateObject private var search = PlaceSearch()
+    @StateObject private var location = LocationService()
     @State private var query = ""
     @State private var manual = false
+    @State private var manualUsesLocation = false
     @State private var selecting = false
     @State private var renaming: Place?
     @State private var renamed = ""
     @State private var deleting: Place?
     @State private var pendingPlace: Place?
-    var openPaywall: () -> Void
     var body: some View {
         List {
             Section {
@@ -120,13 +221,39 @@ struct PlacesView: View {
                     TextField(L10n.text("place.searchPlaceholder"), text: $query).submitLabel(.search).onSubmit { Task { await search.search(query) } }.accessibilityIdentifier("place-search")
                     Button { Task { await search.search(query) } } label: { Image(systemName: "magnifyingglass").frame(width: 44, height: 44) }.accessibilityLabel(L10n.text("place.search"))
                 }
-                Button { search.unresolvedCoordinate = nil; manual = true } label: { Label(L10n.text("place.manual"), systemImage: "number") }.accessibilityIdentifier("place-manual")
+                Button {
+                    location.onPlace = { place in
+                        Task { await state.select(place, asBase: true); state.tab = 1 }
+                    }
+                    location.request()
+                } label: {
+                    HStack {
+                        Label(L10n.text("place.useCurrent"), systemImage: "location.fill")
+                        Spacer()
+                        if location.busy { ProgressView() }
+                    }.frame(minHeight: 44)
+                }
+                .disabled(location.busy || selecting)
+                .accessibilityIdentifier("places-use-current-location")
+                Button {
+                    manualUsesLocation = false
+                    search.unresolvedCoordinate = nil; search.unresolvedName = ""
+                    manual = true
+                } label: { Label(L10n.text("place.manual"), systemImage: "number") }
+                    .accessibilityIdentifier("place-manual")
                 if search.busy || selecting { ProgressView() }
                 if let key = search.errorKey { KeyText(key).foregroundStyle(.secondary) }
+                if let key = location.errorKey {
+                    KeyText(key).foregroundStyle(.secondary)
+                    if location.fallbackCoordinate != nil {
+                        Button(L10n.text("place.chooseTimezone")) {
+                            manualUsesLocation = true; manual = true
+                        }.accessibilityIdentifier("places-location-timezone")
+                    }
+                }
                 ForEach(Array(search.results.enumerated()), id: \.offset) { _, item in
                     Button {
-                        if purchases.unlocked || state.basePlace.isExample { choose(item) }
-                        else { state.requestPremium(unlocked: false) { choose(item) } }
+                        choose(item)
                     } label: {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(item.name ?? L10n.text("place.unnamed"))
@@ -136,10 +263,10 @@ struct PlacesView: View {
                 }
             } header: { KeyText("place.search") }
             Section(L10n.text("place.favorites")) {
-                Button { state.requestPremium(unlocked: purchases.unlocked) { state.favorite() } } label: { Label(L10n.text("place.saveCurrent"), systemImage: "star") }
+                Button { state.favorite() } label: { Label(L10n.text("place.saveCurrent"), systemImage: "star") }
                 if state.places.isEmpty { KeyText("place.empty").foregroundStyle(.secondary) }
                 ForEach(state.places) { place in
-                    Button { state.requestPremium(unlocked: purchases.unlocked) { Task { await state.select(place); state.tab = 1 } } } label: {
+                    Button { Task { await state.select(place, asBase: true); state.tab = 1 } } label: {
                         VStack(alignment: .leading, spacing: 4) { Text(place.name); Text(place.timeZoneID).font(.caption).foregroundStyle(.secondary) }
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
@@ -152,10 +279,16 @@ struct PlacesView: View {
         .toolbar { EditButton() }
         .sheet(isPresented: $manual, onDismiss: {
             guard let place = pendingPlace else { return }; pendingPlace = nil
-            state.requestPremium(unlocked: purchases.unlocked || state.basePlace.isExample) {
-                Task { await state.select(place, asBase: !purchases.unlocked); state.tab = 1 }
+            Task { await state.select(place, asBase: true); state.tab = 1 }
+        }) {
+            NavigationStack {
+                ManualPlaceView(
+                    prefilledCoordinate: manualUsesLocation ? location.fallbackCoordinate : search.unresolvedCoordinate,
+                    prefilledName: manualUsesLocation ? L10n.text("place.current") : search.unresolvedName,
+                    onSelect: { pendingPlace = $0 }
+                )
             }
-        }) { NavigationStack { ManualPlaceView(prefilledCoordinate: search.unresolvedCoordinate, prefilledName: search.unresolvedName, onSelect: { pendingPlace = $0 }) } }
+        }
         .alert(L10n.text("place.rename"), isPresented: Binding(get: { renaming != nil }, set: { if !$0 { renaming = nil } })) {
             TextField(L10n.text("place.name"), text: $renamed)
             Button(L10n.text("common.cancel"), role: .cancel) { renaming = nil }
@@ -164,15 +297,17 @@ struct PlacesView: View {
         .confirmationDialog(L10n.text("place.deleteConfirm"), isPresented: Binding(get: { deleting != nil }, set: { if !$0 { deleting = nil } }), titleVisibility: .visible) {
             Button(L10n.text("common.delete"), role: .destructive) { if let place = deleting { state.deletePlace(place.id) }; deleting = nil }
         }
-        .onDisappear { search.cancel() }
+        .onDisappear { search.cancel(); location.cancel() }
         .accessibilityIdentifier("screen-places")
     }
     private func choose(_ item: MKMapItem) {
         selecting = true
         Task {
             defer { selecting = false }
-            do { let place = try await search.resolve(item); await state.select(place); state.tab = 1 }
-            catch { manual = true } // Keep coordinates and require the user to confirm the destination time zone.
+            do { let place = try await search.resolve(item); await state.select(place, asBase: true); state.tab = 1 }
+            catch {
+                manualUsesLocation = false; manual = true
+            } // Keep coordinates and require the user to confirm the destination time zone.
         }
     }
 }
@@ -181,7 +316,6 @@ struct ManualPlaceView: View {
     var prefilledCoordinate: Coordinate? = nil
     var prefilledName: String = ""
     @EnvironmentObject private var state: AppState
-    @EnvironmentObject private var purchases: PurchaseStore
     @Environment(\.dismiss) private var dismiss
     @State private var name = ""
     @State private var latitude = ""
@@ -243,7 +377,6 @@ struct BackupDocument: FileDocument {
 private struct ImportSheet: Identifiable { let id = UUID(); let preview: ImportPreview }
 struct SettingsView: View {
     @EnvironmentObject private var state: AppState
-    @EnvironmentObject private var purchases: PurchaseStore
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage("language") private var language = "system"
     @AppStorage("appearance") private var appearance = "system"
@@ -255,7 +388,6 @@ struct SettingsView: View {
     @State private var preview: ImportSheet?
     @State private var notificationKey = "settings.notificationUnknown"
     @State private var pendingCount = 0
-    var openPaywall: () -> Void
     var body: some View {
         Form {
             Section {
@@ -266,14 +398,11 @@ struct SettingsView: View {
                 }
                 Toggle(L10n.text("settings.haptics"), isOn: $haptics)
             }
-            Section {
-                Button(action: openPaywall) { KeyText(purchases.unlocked ? "purchase.unlocked" : "purchase.unlock") }.accessibilityIdentifier("membership").accessibilityValue(purchases.unlocked ? "unlocked" : "locked")
-                Button { Task { await purchases.restore() } } label: { KeyText("purchase.restore") }.disabled(purchases.busy)
-                if let message = purchases.messageKey { KeyText(message).font(.footnote) }
-            }
             Section(L10n.text("settings.notifications")) {
                 KeyText(notificationKey)
                 LabeledContent(L10n.text("settings.scheduled"), value: L10n.number(Double(pendingCount)))
+                    .accessibilityIdentifier("settings-reminder-count")
+                    .accessibilityValue(Text(verbatim: String(pendingCount)))
                 Button { if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) } } label: { KeyText("settings.openSystem") }
                 KeyText("settings.reminderBudget").font(.footnote).foregroundStyle(.secondary)
             }
@@ -284,11 +413,15 @@ struct SettingsView: View {
                 KeyText("settings.localOnly").font(.footnote)
             }
             Section(L10n.text("settings.about")) {
-                LabeledContent("LightPlan", value: (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String) ?? "1.0.0")
+                LabeledContent {
+                    Text((Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String) ?? "1.0.0")
+                } label: { Text(verbatim: "LightPlan") }
                 NavigationLink(L10n.text("help.title")) { InfoPage(kind: .help) }
                 NavigationLink(L10n.text("privacy.title")) { InfoPage(kind: .privacy) }
                 NavigationLink(L10n.text("legal.title")) { InfoPage(kind: .legal) }
-                Link(L10n.text("settings.contact"), destination: URL(string: "mailto:" + AppConfiguration.supportEmail)!)
+                if let url = AppConfiguration.privacyURL { Link(L10n.text("privacy.policy"), destination: url) }
+                if let url = AppConfiguration.supportURL { Link(L10n.text("settings.supportWebsite"), destination: url) }
+                if let url = AppConfiguration.contactURL { Link(L10n.text("settings.contact"), destination: url) }
                 KeyText("disclaimer.geometry").font(.footnote).foregroundStyle(.secondary)
             }
         }.navigationTitle(L10n.text("tab.settings"))
@@ -360,48 +493,13 @@ struct InfoPage: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
                 ForEach(1...4, id: \.self) { index in KeyText(prefix + ".p" + String(index)).fixedSize(horizontal: false, vertical: true) }
+                if kind == .legal, let url = Bundle.main.url(forResource: "astronomia-MIT", withExtension: "txt"),
+                   let license = try? String(contentsOf: url, encoding: .utf8) {
+                    DisclosureGroup {
+                        Text(verbatim: license).font(.footnote).textSelection(.enabled)
+                    } label: { Text(verbatim: "astronomia · MIT") }
+                }
             }.padding(24).frame(maxWidth: 760, alignment: .leading).frame(maxWidth: .infinity)
         }.navigationTitle(L10n.text(prefix + ".title"))
-    }
-}
-struct PaywallView: View {
-    @EnvironmentObject private var purchases: PurchaseStore
-    @Environment(\.dismiss) private var dismiss
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 22) {
-                    LPPhotoHero(minimumHeight: 230) { KeyText("purchase.title").font(.largeTitle.bold()) }.clipShape(RoundedRectangle(cornerRadius: 28))
-                    KeyText("purchase.body").font(.title3)
-                    Label(L10n.text("purchase.featureDates"), systemImage: "calendar")
-                    Label(L10n.text("purchase.featurePlaces"), systemImage: "map")
-                    Label(L10n.text("purchase.featureComposition"), systemImage: "camera.viewfinder")
-                    Label(L10n.text("purchase.featurePlans"), systemImage: "bell")
-                    Label(L10n.text("purchase.featureWidget"), systemImage: "rectangle.3.group")
-                    KeyText("purchase.oneTime").font(.headline)
-                    if purchases.unlocked { KeyText("purchase.unlocked").foregroundStyle(.green) }
-                    else {
-                        Button { Task { await purchases.purchase() } } label: {
-                            HStack {
-                                Spacer()
-                                if purchases.busy || purchases.loadingProduct { ProgressView() }
-                                else { Text(purchases.product.map { L10n.text("purchase.buy") + " · " + $0.displayPrice } ?? L10n.text("purchase.unavailable")) }
-                                Spacer()
-                            }.padding(12)
-                        }.buttonStyle(.borderedProminent).disabled(purchases.product == nil || purchases.busy).accessibilityIdentifier("purchase-buy")
-                    }
-                    if let key = purchases.messageKey { KeyText(key).font(.footnote) }
-                    HStack {
-                        Button(L10n.text("purchase.restore")) { Task { await purchases.restore() } }.disabled(purchases.busy).accessibilityIdentifier("purchase-restore")
-                        Spacer()
-                        Button(L10n.text("common.retry")) { Task { await purchases.loadProduct() } }.disabled(purchases.loadingProduct)
-                    }
-                    KeyText("purchase.priceNote").font(.footnote).foregroundStyle(.secondary)
-                    NavigationLink(L10n.text("privacy.title")) { InfoPage(kind: .privacy) }
-                    NavigationLink(L10n.text("legal.title")) { InfoPage(kind: .legal) }
-                }.padding(24)
-            }.toolbar { Button(L10n.text("common.close")) { dismiss() }.accessibilityIdentifier("paywall-close") }
-                .task { if purchases.product == nil { await purchases.loadProduct() } }
-        }
     }
 }

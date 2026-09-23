@@ -1,0 +1,2 @@
+# Development-only JSON Schema validator; never included in the iOS application.
+jsonschema==4.26.0

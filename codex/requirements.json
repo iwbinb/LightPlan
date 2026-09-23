@@ -15,11 +15,18 @@
       "id": "F02",
       "spec": "docs/01_产品规格.md",
       "tasks": [
-        "T13"
+        "T13",
+        "T38",
+        "T39",
+        "T40"
       ],
       "status": "partial_implementation_not_release_verified",
-      "evidence": [],
-      "note": ""
+      "evidence": [
+        "tests/reports/location-map-style-2026-09-23.md",
+        "tests/reports/map-physical-feedback-2026-09-23.md",
+        "tests/reports/owned-mapkit-2026-09-23.md"
+      ],
+      "note": "最新原生地图在模拟器严格定位用例通过；用户确认实体iPhone底图切换与独立位置蓝点均正常。完整设备和上架验收仍独立进行。"
     },
     {
       "id": "F03",
@@ -31,9 +38,10 @@
       ],
       "status": "partial_implementation_not_release_verified",
       "evidence": [
-        "tests/reports/astronomy_oracle.json"
+        "tests/reports/astronomy_oracle.json",
+        "tests/reports/paid-product-2026-09-22.md"
       ],
-      "note": "该证据只支持天体位置抽样，不支持升落事件或原生UI完成。"
+      "note": "2026-09-22付费下载版本完成本地增强与验证，科学参考、截图和签名结果见当前报告；尚非正式发布验收。"
     },
     {
       "id": "F04",
@@ -44,9 +52,10 @@
       ],
       "status": "partial_implementation_not_release_verified",
       "evidence": [
-        "tests/reports/astronomy_oracle.json"
+        "tests/reports/astronomy_oracle.json",
+        "tests/reports/paid-product-2026-09-22.md"
       ],
-      "note": "该证据只支持天体位置抽样，不支持升落事件或原生UI完成。"
+      "note": "2026-09-22付费下载版本完成本地增强与验证，科学参考、截图和签名结果见当前报告；尚非正式发布验收。"
     },
     {
       "id": "F05",
@@ -57,9 +66,10 @@
       ],
       "status": "partial_implementation_not_release_verified",
       "evidence": [
-        "tests/reports/astronomy_oracle.json"
+        "tests/reports/astronomy_oracle.json",
+        "tests/reports/paid-product-2026-09-22.md"
       ],
-      "note": "该证据只支持天体位置抽样，不支持升落事件或原生UI完成。"
+      "note": "2026-09-22付费下载版本完成本地增强与验证，科学参考、截图和签名结果见当前报告；尚非正式发布验收。"
     },
     {
       "id": "F06",
@@ -71,9 +81,10 @@
       ],
       "status": "partial_implementation_not_release_verified",
       "evidence": [
-        "tests/reports/astronomy_oracle.json"
+        "tests/reports/astronomy_oracle.json",
+        "tests/reports/paid-product-2026-09-22.md"
       ],
-      "note": "该证据只支持天体位置抽样，不支持升落事件或原生UI完成。"
+      "note": "2026-09-22付费下载版本完成本地增强与验证，科学参考、截图和签名结果见当前报告；尚非正式发布验收。"
     },
     {
       "id": "F07",
@@ -106,8 +117,10 @@
         "T09"
       ],
       "status": "partial_implementation_not_release_verified",
-      "evidence": [],
-      "note": ""
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "2026-09-22付费下载版本完成本地增强与验证，科学参考、截图和签名结果见当前报告；尚非正式发布验收。"
     },
     {
       "id": "F10",
@@ -117,8 +130,10 @@
         "T16"
       ],
       "status": "partial_implementation_not_release_verified",
-      "evidence": [],
-      "note": ""
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "2026-09-22付费下载版本完成本地增强与验证，科学参考、截图和签名结果见当前报告；尚非正式发布验收。"
     },
     {
       "id": "F11",
@@ -127,8 +142,10 @@
         "T16"
       ],
       "status": "partial_implementation_not_release_verified",
-      "evidence": [],
-      "note": ""
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "2026-09-22付费下载版本完成本地增强与验证，科学参考、截图和签名结果见当前报告；尚非正式发布验收。"
     },
     {
       "id": "F12",
@@ -160,8 +177,10 @@
         "T21"
       ],
       "status": "partial_implementation_not_release_verified",
-      "evidence": [],
-      "note": ""
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "2026-09-22付费下载版本完成本地增强与验证，科学参考、截图和签名结果见当前报告；尚非正式发布验收。"
     },
     {
       "id": "F15",
@@ -171,8 +190,10 @@
         "T17"
       ],
       "status": "partial_implementation_not_release_verified",
-      "evidence": [],
-      "note": ""
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "2026-09-22付费下载版本完成本地增强与验证，科学参考、截图和签名结果见当前报告；尚非正式发布验收。"
     },
     {
       "id": "F16",
@@ -182,8 +203,10 @@
         "T23"
       ],
       "status": "partial_implementation_not_release_verified",
-      "evidence": [],
-      "note": ""
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "2026-09-22付费下载版本完成本地增强与验证，科学参考、截图和签名结果见当前报告；尚非正式发布验收。"
     },
     {
       "id": "F17",
@@ -194,8 +217,10 @@
         "T34"
       ],
       "status": "partial_implementation_not_release_verified",
-      "evidence": [],
-      "note": ""
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "2026-09-22付费下载版本完成本地增强与验证，科学参考、截图和签名结果见当前报告；尚非正式发布验收。"
     },
     {
       "id": "F18",
@@ -206,18 +231,26 @@
         "T20"
       ],
       "status": "partial_implementation_not_release_verified",
-      "evidence": [],
-      "note": ""
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "2026-09-22付费下载版本完成本地增强与验证，科学参考、截图和签名结果见当前报告；尚非正式发布验收。"
     },
     {
       "id": "F19",
       "spec": "docs/01_产品规格.md",
       "tasks": [
-        "T36"
+        "T36",
+        "T37"
       ],
       "status": "implemented_pending_final_native_ci",
-      "evidence": [],
-      "note": "构图算法与UI已实现；合并前以最新dev原生CI为准，发布仍需真实设备/地图/安全语义验收。"
+      "evidence": [
+        "tests/reports/composition-plans-2026-09-22.md",
+        "tests/reports/composition-plans-2026-09-22.json",
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/photography-tools-2026-09-22.md"
+      ],
+      "note": "2026-09-23扩展镜头预演、1–90天连续窗口、月相条件与项目现场闭环；本地验证见最新报告，真实用户价值及正式发布单独验收。"
     }
   ]
 }

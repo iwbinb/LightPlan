@@ -68,7 +68,7 @@ struct LightWidgetView: View {
 @main struct LightPlanWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "LightPlanSunset", provider: LightProvider()) { LightWidgetView(entry: $0) }
-            .configurationDisplayName("LightPlan").description(L10n.text("widget.description"))
+            .configurationDisplayName(Text(verbatim: "LightPlan")).description(L10n.text("widget.description"))
             .supportedFamilies([.systemSmall, .systemMedium])
     }
 }

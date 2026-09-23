@@ -3,12 +3,11 @@ import LightPlanCore
 
 struct TodayView: View {
     @EnvironmentObject private var state: AppState
-    @EnvironmentObject private var purchases: PurchaseStore
     @Environment(\.dynamicTypeSize) private var typeSize
     @StateObject private var visual = VisualDayModel()
     @StateObject private var location = LocationService()
     @State private var manualLocation = false
-    var openPaywall: () -> Void
+    @State private var morningLight = false
     var body: some View {
         GeometryReader { proxy in
             ScrollView {
@@ -27,19 +26,48 @@ struct TodayView: View {
                             }
                             Spacer(minLength: 64)
                             KeyText("v3.hero.title").font(.system(.largeTitle, design: .rounded).weight(.bold)).fixedSize(horizontal: false, vertical: true)
+                                .accessibilityIdentifier("screen-today")
                             KeyText("v3.hero.subtitle").font(.subheadline)
                             HStack { Text(state.place.timeZoneID).font(.caption); Spacer(); KeyText("v3.art.label").font(.caption2) }.opacity(0.8)
                         }
                     }
                     VStack(spacing: 16) {
                         if let summary = state.summary {
+                            VStack(spacing: 12) {
+                            Picker(L10n.text("today.lightWindow"), selection: $morningLight) {
+                                Text(L10n.text("today.morning")).tag(true)
+                                Text(L10n.text("today.evening")).tag(false)
+                            }.pickerStyle(.segmented)
+                                .accessibilityIdentifier("today-light-window")
                             LazyVGrid(columns: typeSize.isAccessibilitySize ? [GridItem(.flexible())] : [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
                                 LPEventTile(title: "event.sunrise", value: time(.sunrise, summary), icon: "sunrise.fill", color: LPTheme.gold)
-                                LPEventTile(title: "band.golden", value: range(.goldenEveningStart, .goldenEveningEnd, summary), icon: "sun.max.fill", color: LPTheme.gold)
+                                LPEventTile(title: "band.golden", value: morningLight ? range(.goldenMorningStart, .goldenMorningEnd, summary) : range(.goldenEveningStart, .goldenEveningEnd, summary), icon: "sun.max.fill", color: LPTheme.gold)
                                 LPEventTile(title: "event.sunset", value: time(.sunset, summary), icon: "sunset.fill", color: LPTheme.sunset)
-                                LPEventTile(title: "band.blue", value: range(.goldenEveningEnd, .blueEveningEnd, summary), icon: "moon.stars.fill", color: LPTheme.blue)
+                                LPEventTile(title: "band.blue", value: morningLight ? range(.blueMorningStart, .goldenMorningStart, summary) : range(.goldenEveningEnd, .blueEveningEnd, summary), icon: "moon.stars.fill", color: LPTheme.blue)
+                            }
                             }.padding(14).background(LPTheme.surface, in: RoundedRectangle(cornerRadius: 28))
                                 .shadow(color: .black.opacity(0.06), radius: 16, y: 5)
+                            LPCard {
+                                VStack(alignment: .leading, spacing: 12) {
+                                    KeyText("guide.title").font(.headline)
+                                    KeyText("guide.steps").font(.subheadline).foregroundStyle(.secondary)
+                                    Button { state.tab = 3 } label: { Label(L10n.text("guide.choosePlace"), systemImage: "mappin.and.ellipse") }
+                                    Button { state.beginComposition() } label: {
+                                        Label(L10n.text("guide.compose"), systemImage: "camera.viewfinder")
+                                            .fixedSize(horizontal: false, vertical: true)
+                                            .frame(maxWidth: .infinity, alignment: .leading).padding(16)
+                                            .foregroundStyle(.white)
+                                            .background(LPTheme.accent, in: RoundedRectangle(cornerRadius: 16))
+                                    }.buttonStyle(LPPressStyle()).accessibilityIdentifier("today-start-composition")
+                                    Button { state.beginComposition(template: .sunset) } label: {
+                                        Label(L10n.text("guide.sunset"), systemImage: "sun.horizon")
+                                    }.buttonStyle(.bordered).accessibilityIdentifier("today-template-sunset")
+                                    Button { state.beginComposition(template: .moon) } label: {
+                                        Label(L10n.text("guide.moon"), systemImage: "moon")
+                                    }.buttonStyle(.bordered).accessibilityIdentifier("today-template-moon")
+                                    KeyText("guide.taskHint").font(.caption).foregroundStyle(.secondary)
+                                }
+                            }
                             LPCard {
                                 VStack(alignment: .leading, spacing: 15) {
                                     HStack { Label { KeyText("today.sunPosition").foregroundStyle(.primary) } icon: { Image(systemName: "sun.max.fill").foregroundStyle(LPTheme.gold) }.font(.headline); Spacer(); Text(L10n.time(state.selectedInstant, zone: state.place.timeZone)).font(.subheadline.weight(.semibold)).monospacedDigit() }
@@ -63,13 +91,13 @@ struct TodayView: View {
                             if let horizon = summary.horizonState { LPCard { KeyText("horizon." + horizon) } }
                         } else if state.busy { ProgressView().frame(height: 100) }
                         Button { state.tab = 1 } label: { Label(L10n.text("v3.openWorkspace"), systemImage: "map.fill").font(.headline).frame(maxWidth: .infinity).padding(17).foregroundStyle(.white).background(LPTheme.ink, in: RoundedRectangle(cornerRadius: 18)) }.buttonStyle(LPPressStyle())
-                        Button { location.onPlace = { p in Task { await state.select(p, asBase: true); await state.showToday(unlocked: purchases.unlocked) } }; location.request() } label: { Label(L10n.text("place.useCurrent"), systemImage: "location") }.buttonStyle(.bordered)
+                        Button { location.onPlace = { p in Task { await state.select(p, asBase: true); await state.showToday() } }; location.request() } label: { Label(L10n.text("place.useCurrent"), systemImage: "location") }.buttonStyle(.bordered)
                         if location.busy { ProgressView() }
                         if let error = location.errorKey {
                             KeyText(error).font(.footnote).foregroundStyle(.red)
                             if location.fallbackCoordinate != nil { Button(L10n.text("place.chooseTimezone")) { manualLocation = true } }
                         }
-                        if !state.followingToday || !state.followingNow { Button(L10n.text("time.now")) { Task { await state.showToday(unlocked: purchases.unlocked) } } }
+                        if !state.followingToday || !state.followingNow { Button(L10n.text("time.now")) { Task { await state.showToday() } } }
                         if let summary = state.summary { AllEventsView(summary: summary) }
                         KeyText("disclaimer.geometry").font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                     }.padding(.horizontal, 16).padding(.top, -24).padding(.bottom, 24)
@@ -77,10 +105,13 @@ struct TodayView: View {
             }.background(LPTheme.canvas)
         }
         .toolbar(.hidden, for: .navigationBar)
+        .onAppear {
+            var calendar = Calendar(identifier: .gregorian); calendar.timeZone = state.place.timeZone
+            morningLight = calendar.component(.hour, from: state.selectedInstant) < 12
+        }
         .task(id: "\(state.place.id)-\(state.summary?.start.timeIntervalSince1970 ?? 0)") { if let summary = state.summary { await visual.load(summary) } }
-        .refreshable { await state.showToday(unlocked: purchases.unlocked) }
-        .sheet(isPresented: $manualLocation) { NavigationStack { ManualPlaceView(prefilledCoordinate: location.fallbackCoordinate, prefilledName: L10n.text("place.current"), onSelect: { place in Task { await state.select(place, asBase: true); await state.showToday(unlocked: purchases.unlocked) } }) } }
-        .accessibilityIdentifier("screen-today")
+        .refreshable { await state.showToday() }
+        .sheet(isPresented: $manualLocation) { NavigationStack { ManualPlaceView(prefilledCoordinate: location.fallbackCoordinate, prefilledName: L10n.text("place.current"), onSelect: { place in Task { await state.select(place, asBase: true); await state.showToday() } }) } }
     }
     private func time(_ kind: LightEventKind, _ summary: DaySummary) -> String { summary.first(kind).map { L10n.time($0.date, zone: state.place.timeZone) } ?? L10n.text("event.none") }
     private func range(_ a: LightEventKind, _ b: LightEventKind, _ summary: DaySummary) -> String {

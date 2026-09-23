@@ -1,5 +1,4 @@
 // One source for signing identifiers. Team can be selected in Xcode.
 APP_BUNDLE_ID = com.arenovo.lightplan
 APP_GROUP_ID = group.com.arenovo.lightplan
-LIFETIME_PRODUCT_ID = com.arenovo.lightplan.lifetime
 #include? "Local.xcconfig"

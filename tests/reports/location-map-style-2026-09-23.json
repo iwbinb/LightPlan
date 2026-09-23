@@ -1,0 +1,77 @@
+{
+  "date": "2026-09-23",
+  "branch": "dev",
+  "base_commit": "4132f7d068bc340886b3f2434935a912e8f2ac2b",
+  "uncommitted": true,
+  "distribution_model": "paid_upfront",
+  "ready_for_submission": false,
+  "catalog_keys": 370,
+  "locales": 9,
+  "translations": 3330,
+  "debug_app_widget_build": "passed",
+  "native_tests": {
+    "places_system_location": "passed",
+    "mapkit_style_switch_and_relaunch": "passed",
+    "bundle": "/private/tmp/LightPlan-location-map-style.xcresult"
+  },
+  "archive": {
+    "archive": "/private/tmp/LightPlan-location-map-style-ready.xcarchive",
+    "kind": "signed local development archive",
+    "bundles": {
+      "app": {
+        "version": "1.0.0",
+        "build": "1",
+        "minimumOS": "17.0",
+        "sdk": "iphoneos27.0",
+        "signatureVerified": true,
+        "developmentEntitlement": true,
+        "privacyManifest": true,
+        "licenseIncluded": true,
+        "executableSHA256": "a8a5fc503922b5caef226687c123cc73fa2b6f5fa9a2cbe19a9c84e833287dc7"
+      },
+      "widget": {
+        "version": "1.0.0",
+        "build": "1",
+        "minimumOS": "17.0",
+        "sdk": "iphoneos27.0",
+        "signatureVerified": true,
+        "developmentEntitlement": true,
+        "privacyManifest": true,
+        "licenseIncluded": true,
+        "executableSHA256": "7f3ab771f7f4323dce3897420615da1630b9c137967c4122f14f897271eeb6b4"
+      }
+    },
+    "matchingAppGroups": true,
+    "storekitFiles": 0,
+    "productionFixtureAbsent": true
+  },
+  "physical_phone": {
+    "model": "iPhone 17 Pro",
+    "installed": true,
+    "launched": true,
+    "app_listing_confirmed": true,
+    "in_app_location_and_map_visual_acceptance": "pending"
+  },
+  "source_files_sha256": {
+    "ios/LightPlan/MapView.swift": "8a46f962b7d9d820ef2759a56d0b2922982c6d907f5ee2a97595d4b259c6288d",
+    "ios/LightPlan/PlaceServices.swift": "345bb07bc374eb56ff95b75775d7cbbde2369b6865f25648c23825cb405b63f8",
+    "ios/LightPlan/PlansPlacesSettings.swift": "d0ab9ce229c2f3b24c322d4e578be749d40e5fec28887f3db2eda193fb391481",
+    "ios/LightPlanVisualUITests/VisualUITests.swift": "16f51c500b36742833fe1c155b95b66102c002f7e06716d31547487130f571f9",
+    "ios/LightPlanVisualUITests/ProductUITests.swift": "fe465a0d57c7e54927d5197315b760c808bbe200f0fe07b4c26cad65efa0829e",
+    "ios/Shared/Localizable.xcstrings": "1857c755b28608b70b788134d8a716f56f6e24183c4c9a9bcc05a5a0c7efea71",
+    "localization/release-additions.tsv": "983f154032975b0b105f38fbc2bd01f7c8a8d7ab458d84cb9d2ad1f50804f804"
+  },
+  "operations": {
+    "commit": false,
+    "push": false,
+    "merge": false,
+    "physical_install": true,
+    "website_deploy": false,
+    "upload": false,
+    "store_submission": false
+  },
+  "strict_release_preflight": {
+    "exit_code": 1,
+    "ready_for_submission": false
+  }
+}

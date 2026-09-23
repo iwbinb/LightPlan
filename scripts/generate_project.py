@@ -7,6 +7,7 @@ import hashlib, json, plistlib
 from xml.sax.saxutils import escape
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT = ROOT / 'LightPlan.xcodeproj'
+release_config = json.loads((ROOT / 'appstore/release_config.json').read_text())
 objects = {}
 def uid(name): return hashlib.sha1(name.encode()).hexdigest()[:24].upper()
 def obj(identity, isa, **fields):
@@ -32,9 +33,11 @@ def plist(path, value):
     destination=ROOT/path; destination.parent.mkdir(parents=True,exist_ok=True); destination.write_bytes(plistlib.dumps(value,sort_keys=False))
 
 def info(identifier, name, extension=False):
-    value={'CFBundleDevelopmentRegion':'$(DEVELOPMENT_LANGUAGE)','CFBundleExecutable':'$(EXECUTABLE_NAME)','CFBundleIdentifier':identifier,'CFBundleInfoDictionaryVersion':'6.0','CFBundleName':'$(PRODUCT_NAME)','CFBundleDisplayName':name,'CFBundlePackageType':'XPC!' if extension else 'APPL','CFBundleShortVersionString':'$(MARKETING_VERSION)','CFBundleVersion':'$(CURRENT_PROJECT_VERSION)','AppGroupIdentifier':'$(APP_GROUP_ID)','LifetimeProductIdentifier':'$(LIFETIME_PRODUCT_ID)','ITSAppUsesNonExemptEncryption':False}
+    value={'CFBundleDevelopmentRegion':'$(DEVELOPMENT_LANGUAGE)','CFBundleExecutable':'$(EXECUTABLE_NAME)','CFBundleIdentifier':identifier,'CFBundleInfoDictionaryVersion':'6.0','CFBundleName':'$(PRODUCT_NAME)','CFBundleDisplayName':name,'CFBundlePackageType':'XPC!' if extension else 'APPL','CFBundleShortVersionString':'$(MARKETING_VERSION)','CFBundleVersion':'$(CURRENT_PROJECT_VERSION)','AppGroupIdentifier':'$(APP_GROUP_ID)','ITSAppUsesNonExemptEncryption':False}
     if extension: value['NSExtension']={'NSExtensionPointIdentifier':'com.apple.widgetkit-extension'}
     else:
+        for key, field in [('SupportEmail', 'support_email'), ('SupportURL', 'support_url'), ('PrivacyPolicyURL', 'privacy_url')]:
+            value[key] = release_config.get(field) or ''
         value.update({'LSRequiresIPhoneOS':True,'NSLocationWhenInUseUsageDescription':'Show sunlight directions at a place you choose. You can also enter coordinates without sharing your location.','UILaunchScreen':{},'UISupportedInterfaceOrientations':['UIInterfaceOrientationPortrait','UIInterfaceOrientationLandscapeLeft','UIInterfaceOrientationLandscapeRight'],'UISupportedInterfaceOrientations~ipad':['UIInterfaceOrientationPortrait','UIInterfaceOrientationPortraitUpsideDown','UIInterfaceOrientationLandscapeLeft','UIInterfaceOrientationLandscapeRight'],'CFBundleURLTypes':[{'CFBundleURLName':'LightPlan','CFBundleURLSchemes':['lightplan']}]})
     return value
 
@@ -42,7 +45,6 @@ def info(identifier, name, extension=False):
 (ROOT/'ios/Config/Project.xcconfig').write_text('''// One source for signing identifiers. Team can be selected in Xcode.
 APP_BUNDLE_ID = com.arenovo.lightplan
 APP_GROUP_ID = group.com.arenovo.lightplan
-LIFETIME_PRODUCT_ID = com.arenovo.lightplan.lifetime
 #include? "Local.xcconfig"
 ''')
 (ROOT/'ios/Config/Local.xcconfig.example').write_text('''// Optional local overrides, never commit the real Local.xcconfig.
@@ -50,7 +52,6 @@ DEVELOPMENT_TEAM = YOUR_TEAM_ID
 // Change all related identifiers together when using a different registered App ID.
 // APP_BUNDLE_ID = com.yourcompany.lightplan
 // APP_GROUP_ID = group.com.yourcompany.lightplan
-// LIFETIME_PRODUCT_ID = com.yourcompany.lightplan.lifetime
 ''')
 config_ref=ref('ios/Config/Project.xcconfig')
 for target in ['LightPlan','LightPlanWidget']:
@@ -68,6 +69,7 @@ for target,folder,product,is_widget in [('LightPlan','ios/LightPlan',app_product
     product_dep=obj('package-product:'+target,'XCSwiftPackageProductDependency',package=package,productName='LightPlanCore')
     frameworks=obj('frameworks:'+target,'PBXFrameworksBuildPhase',buildActionMask='2147483647',files=[build(target+':core',product=product_dep)],runOnlyForDeploymentPostprocessing='0')
     resource_paths=['ios/Shared/Localizable.xcstrings',folder+'/PrivacyInfo.xcprivacy']
+    resource_paths += ['licenses/astronomia-MIT.txt']
     if not is_widget: resource_paths += ['ios/LightPlan/Assets.xcassets']
     res=resources(target,resource_paths)
     if not is_widget:
@@ -93,7 +95,7 @@ testframework=obj('frameworks:tests','PBXFrameworksBuildPhase',buildActionMask='
 proxy=obj('proxy:app','PBXContainerItemProxy',containerPortal=uid('project'),proxyType='1',remoteGlobalIDString=uid('target:LightPlan'),remoteInfo='LightPlan')
 testdep=obj('dependency:app','PBXTargetDependency',target=uid('target:LightPlan'),targetProxy=proxy)
 testsettings={**base_target,'PRODUCT_BUNDLE_IDENTIFIER':'$(APP_BUNDLE_ID).uitests','GENERATE_INFOPLIST_FILE':'YES','TEST_TARGET_NAME':'LightPlan'}
-targets.append(obj('target:LightPlanUITests','PBXNativeTarget',buildConfigurationList=configs('tests',testsettings),buildPhases=[sources('tests',uitest_sources),testframework,resources('tests',['ios/StoreKit/LightPlan.storekit'])],buildRules=[],dependencies=[testdep],name='LightPlanUITests',productName='LightPlanUITests',productReference=test_product,productType='com.apple.product-type.bundle.ui-testing'))
+targets.append(obj('target:LightPlanUITests','PBXNativeTarget',buildConfigurationList=configs('tests',testsettings),buildPhases=[sources('tests',uitest_sources),testframework,resources('tests',[])],buildRules=[],dependencies=[testdep],name='LightPlanUITests',productName='LightPlanUITests',productReference=test_product,productType='com.apple.product-type.bundle.ui-testing'))
 project_configs=configs('project',{'ALWAYS_SEARCH_USER_PATHS':'NO','CLANG_ENABLE_MODULES':'YES','CLANG_ENABLE_OBJC_ARC':'YES','CLANG_WARN_DOCUMENTATION_COMMENTS':'YES','GCC_C_LANGUAGE_STANDARD':'gnu17','CLANG_CXX_LANGUAGE_STANDARD':'gnu++20','ENABLE_STRICT_OBJC_MSGSEND':'YES','ENABLE_USER_SCRIPT_SANDBOXING':'YES','MARKETING_VERSION':'1.0.0','CURRENT_PROJECT_VERSION':'1','SWIFT_VERSION':'6.0','SWIFT_STRICT_CONCURRENCY':'complete','IPHONEOS_DEPLOYMENT_TARGET':'17.0','SDKROOT':'iphoneos'},debug={'DEBUG_INFORMATION_FORMAT':'dwarf','ENABLE_TESTABILITY':'YES','GCC_OPTIMIZATION_LEVEL':'0','ONLY_ACTIVE_ARCH':'YES','SWIFT_ACTIVE_COMPILATION_CONDITIONS':'DEBUG $(inherited)','SWIFT_OPTIMIZATION_LEVEL':'-Onone'},release={'DEBUG_INFORMATION_FORMAT':'dwarf-with-dsym','SWIFT_COMPILATION_MODE':'wholemodule','SWIFT_OPTIMIZATION_LEVEL':'-O','VALIDATE_PRODUCT':'YES'})
 products=obj('group:products','PBXGroup',children=[app_product,widget_product,test_product],name='Products',sourceTree='<group>')
 variant_children = {child for value in objects.values() if value['isa']=='PBXVariantGroup' for child in value['children']}
@@ -112,10 +114,10 @@ shared=PROJECT/'xcshareddata/xcschemes'; shared.mkdir(parents=True,exist_ok=True
 def reference(target,product): return f'<BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{uid("target:"+target)}" BuildableName="{product}" BlueprintName="{target}" ReferencedContainer="container:LightPlan.xcodeproj"/>'
 appref=reference('LightPlan','LightPlan.app');testref=reference('LightPlanUITests','LightPlanUITests.xctest')
 scheme=f'''<?xml version="1.0" encoding="UTF-8"?>
-<Scheme LastUpgradeVersion="2600" version="1.7">
+<Scheme LastUpgradeVersion="2600" version="1.3">
  <BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES"><BuildActionEntries><BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForArchiving="YES" buildForAnalyzing="YES">{appref}</BuildActionEntry></BuildActionEntries></BuildAction>
- <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.IDEFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES"><Testables><TestableReference skipped="NO">{testref}</TestableReference></Testables></TestAction>
- <LaunchAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.IDEFoundation.Launcher.LLDB" launchStyle="0" useCustomWorkingDirectory="NO" ignoresPersistentStateOnLaunch="NO" debugDocumentVersioning="YES" debugServiceExtension="internal" allowLocationSimulation="YES"><BuildableProductRunnable runnableDebuggingMode="0">{appref}</BuildableProductRunnable></LaunchAction>
+ <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES"><Testables><TestableReference skipped="NO">{testref}</TestableReference></Testables></TestAction>
+ <LaunchAction buildConfiguration="Debug" selectedDebuggerIdentifier="" selectedLauncherIdentifier="Xcode.IDEFoundation.Launcher.PosixSpawn" launchStyle="0" useCustomWorkingDirectory="NO" ignoresPersistentStateOnLaunch="NO" debugDocumentVersioning="YES" debugServiceExtension="internal" allowLocationSimulation="YES"><BuildableProductRunnable runnableDebuggingMode="0">{appref}</BuildableProductRunnable></LaunchAction>
  <ProfileAction buildConfiguration="Release" shouldUseLaunchSchemeArgsEnv="YES" savedToolIdentifier="" useCustomWorkingDirectory="NO" debugDocumentVersioning="YES"><BuildableProductRunnable runnableDebuggingMode="0">{appref}</BuildableProductRunnable></ProfileAction>
  <AnalyzeAction buildConfiguration="Debug"/><ArchiveAction buildConfiguration="Release" revealArchiveInOrganizer="YES"/>
 </Scheme>

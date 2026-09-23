@@ -115,4 +115,92 @@ final class CompositionPlanningTests: XCTestCase {
             interval: DateInterval(start: day.start, end: day.end)
         ))
     }
+
+    @MainActor func testChangingObserverOnSameDayRecomputesAlignment() async throws {
+        let place = Place.example
+        let interval = try LocalDay.interval(containing: instant("2026-09-17T04:00:00Z"), timeZone: place.timeZone)
+        let subject = try VisualGeometry.destination(from: place.coordinate, bearing: 250, meters: 900)
+        let moved = try VisualGeometry.destination(from: place.coordinate, bearing: 0, meters: 500)
+        let initial = AlignmentRequest(body: .sun, observer: place.coordinate, subject: subject, interval: interval)
+        let updated = AlignmentRequest(body: .sun, observer: moved, subject: subject, interval: interval)
+        XCTAssertNotEqual(initial, updated)
+        let firstValue = try await CompositionPlanner.bestAlignment(for: initial)
+        let nextValue = try await CompositionPlanner.bestAlignment(for: updated)
+        let first = try XCTUnwrap(firstValue)
+        let next = try XCTUnwrap(nextValue)
+        XCTAssertEqual(next.subjectBearing, try XCTUnwrap(Geometry.bearing(from: moved, to: subject)), accuracy: 0.000001)
+        XCTAssertGreaterThan(abs(first.subjectBearing - next.subjectBearing), 10)
+        XCTAssertGreaterThan(abs(first.instant.timeIntervalSince(next.instant)), 60)
+    }
+
+    @MainActor func testMoonSearchFindsKnownVisibleAlignment() async throws {
+        let place = Place.example
+        let interval = try LocalDay.interval(containing: instant("2026-09-17T04:00:00Z"), timeZone: place.timeZone)
+        // Choose a visible lunar position independently of the alignment search.
+        var visible: (Date, SkyPosition)?
+        for minute in stride(from: 0, to: Int(interval.duration / 60), by: 30) {
+            let time = interval.start.addingTimeInterval(Double(minute) * 60)
+            let position = try Astronomy.position(.moon, at: time, coordinate: place.coordinate)
+            if position.altitude > 5 { visible = (time, position); break }
+        }
+        let target = try XCTUnwrap(visible)
+        let subject = try VisualGeometry.destination(from: place.coordinate, bearing: target.1.azimuth, meters: 500)
+        let values = try await CompositionPlanner.opportunitiesAsync(body: .moon, place: place,
+            subject: subject, starting: target.0, days: 2, limit: 2)
+        XCTAssertFalse(values.isEmpty)
+        XCTAssertTrue(values.allSatisfy { $0.body == .moon && $0.altitude >= -1 })
+        XCTAssertLessThan(try XCTUnwrap(values.first).absoluteErrorDegrees, 0.15)
+    }
+
+    @MainActor func testParentCancellationReachesRunningWorker() async throws {
+        let probe = CompositionWorkerProbe()
+        let parent = Task {
+            try await CompositionPlanner.runCancellable {
+                await probe.begin()
+                let deadline = ContinuousClock.now.advanced(by: .seconds(2))
+                do {
+                    while ContinuousClock.now < deadline {
+                        try Task.checkCancellation()
+                        await Task.yield()
+                    }
+                    return 1
+                } catch is CancellationError {
+                    await probe.didCancel()
+                    throw CancellationError()
+                }
+            }
+        }
+        let deadline = ContinuousClock.now.advanced(by: .seconds(2))
+        while !(await probe.started), ContinuousClock.now < deadline { await Task.yield() }
+        let started = await probe.started
+        XCTAssertTrue(started)
+        parent.cancel()
+        do { _ = try await parent.value; XCTFail("Cancelled worker must not publish a result") }
+        catch is CancellationError { }
+        let cancelled = await probe.cancelled
+        XCTAssertTrue(cancelled, "Cancellation must reach the worker, not just discard its result")
+    }
+
+    @MainActor func testAlreadyCancelledSearchDoesNotStartWorker() async {
+        let probe = CompositionWorkerProbe()
+        let parent = Task {
+            withUnsafeCurrentTask { $0?.cancel() }
+            return try await CompositionPlanner.runCancellable {
+                await probe.begin()
+                return 1
+            }
+        }
+        do { _ = try await parent.value; XCTFail("Already cancelled search should throw") }
+        catch is CancellationError { }
+        catch { XCTFail("Unexpected error: \(error)") }
+        let started = await probe.started
+        XCTAssertFalse(started)
+    }
+}
+
+private actor CompositionWorkerProbe {
+    private(set) var started = false
+    private(set) var cancelled = false
+    func begin() { started = true }
+    func didCancel() { cancelled = true }
 }

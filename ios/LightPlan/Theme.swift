@@ -73,6 +73,10 @@ struct LPPhotoHero<Content: View>: View {
                         .frame(width: proxy.size.width, height: proxy.size.height).clipped()
                         .overlay(LinearGradient(stops: [.init(color: .black.opacity(0.20), location: 0), .init(color: .clear, location: 0.25), .init(color: .black.opacity(0.78), location: 1)], startPoint: .top, endPoint: .bottom))
                 }
+                // Scaled images may extend beyond their clipped visual bounds.
+                // Decorative pixels must never cover neighbouring controls' taps.
+                .allowsHitTesting(false)
+                .accessibilityHidden(true)
             }
             .foregroundStyle(.white)
             .accessibilityElement(children: .contain)
@@ -97,6 +101,7 @@ struct LPCircleButton: View {
                 .font(.system(size: 17, weight: .semibold))
                 .frame(width: 46, height: 46)
                 .lpGlass(radius: 23)
+                .contentShape(Circle())
         }
         .buttonStyle(LPPressStyle())
         .accessibilityLabel(L10n.text(label))

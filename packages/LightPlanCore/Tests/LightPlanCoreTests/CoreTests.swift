@@ -61,10 +61,8 @@ final class CoreTests:XCTestCase {
     func testCoincidentBearingUnavailable() throws {let c=try Coordinate(latitude:0,longitude:0);XCTAssertNil(Geometry.bearing(from:c,to:c))}
     func testBacklightNeedsCameraBearing() {let s=SkyPosition(azimuth:270,altitude:10,apparentAltitude:10);XCTAssertEqual(Geometry.relation(cameraBearing:270,sun:s),.back);XCTAssertEqual(Geometry.relation(cameraBearing:90,sun:s),.front);XCTAssertEqual(Geometry.relation(cameraBearing:nil,sun:s),.unavailable)}
     func testShadowFlatGround() {XCTAssertEqual(Geometry.shadowLength(objectHeight:2,altitude:45)!,2,accuracy:0.0001);XCTAssertNil(Geometry.shadowLength(objectHeight:2,altitude:-1));XCTAssertNil(Geometry.shadowLength(objectHeight:2,altitude:0.5))}
-    func testFreeReadAndExportNeverPaywalled() {XCTAssertTrue(AccessPolicy.allows(.readExistingPlan,unlocked:false));XCTAssertTrue(AccessPolicy.allows(.export,unlocked:false));XCTAssertTrue(AccessPolicy.allows(.restore,unlocked:false))}
-    func testPremiumGates() {XCTAssertFalse(AccessPolicy.allows(.savePlan,unlocked:false));XCTAssertTrue(AccessPolicy.allows(.savePlan,unlocked:true));XCTAssertFalse(AccessPolicy.allows(.otherDates,unlocked:false))}
     func testArchiveRoundTrip() throws {let p=try place();let plan=try ShootPlan(title:"日落・Sunset",place:p,date:date("2026-09-17T12:00:00Z"),target:.sunset);let a=Archive(places:[p],plans:[plan]);let b=try Archive.decode(a.encoded());XCTAssertEqual(b.places[0],p);XCTAssertEqual(b.plans[0].title,plan.title)}
-    func testUnknownSchemaDoesNotResetData() {XCTAssertThrowsError(try Archive.decode(Data(#"{"schemaVersion":2,"places":[],"plans":[]}"#.utf8)))}
+    func testUnknownSchemaDoesNotResetData() {XCTAssertThrowsError(try Archive.decode(Data(#"{"schemaVersion":3,"places":[],"plans":[]}"#.utf8)))}
     func testCorruptArchiveRejected() {XCTAssertThrowsError(try Archive.decode(Data("not json".utf8)))}
     func testDuplicateArchiveIDsRejected() throws {let p=try place();XCTAssertThrowsError(try Archive.decode(Archive(places:[p,p],plans:[]).encoded()))}
     func testOversizeArchiveRejected() {XCTAssertThrowsError(try Archive.decode(Data(repeating:0,count:5_000_001)))}

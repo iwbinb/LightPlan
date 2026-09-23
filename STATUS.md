@@ -1,4 +1,111 @@
-# Current local preview status — 2026-09-22
+# Current owned MapKit phone fix — 2026-09-23
+
+**The owner confirmed on the physical iPhone that the map now switches between imagery and road tiles and that GPS shows a separate blue location dot.** This fixes the two reported phone behaviors; the complete App Store release remains pending.
+
+- Two earlier SwiftUI/MapKit style fixes passed in the Simulator but failed the owner's phone check. The app now owns its public `MKMapView` and directly sets the real tile provider, while retaining the saved map region, astronomical rays, subject tapping and MapKit attribution.
+- After an explicit GPS request, the visible Map uses live CoreLocation coordinates for a blue dot and a separate camera icon for the selected shooting place. Updates stop when leaving the Map.
+- Six focused native map/planning regressions passed; a later strict GPS rerun required actual known coordinates and the separate dot. Native screenshots show both tile styles and the aligned blue dot. The signed development Release App/Widget archive passed integrity checks, was installed and restarted on the iPhone, and the owner then verified both outcomes.
+- Source is on `dev`; local commit status is verified through Git. Distribution signing, remote CI, broader physical-device checks and owner Store details remain open.
+
+See [the owned MapKit and phone evidence](tests/reports/owned-mapkit-2026-09-23.md). Earlier candidates and failed phone reports below remain historical evidence.
+
+# Historical physical-map feedback candidate — 2026-09-23
+
+**The map-style icon and GPS arrow were corrected from the owner's iPhone screenshot, and the new development build is installed and launched on the paired iPhone. Actual on-phone tap results still need owner confirmation.**
+
+- The icon-only map-style control now recreates the MapKit view when switching tile providers, while preserving the external camera and planning state. The satellite/standard screenshots show actual different tiles and legible event times.
+- The map arrow now requests the device's location and updates the shooting place; long press retains the former recenter action. Three map controls are arranged horizontally so they do not cover the sunrise label in the observed phone layout.
+- Four focused native simulator flows passed: GPS selection, map-style change and relaunch persistence, portrait/landscape reachability, and long-press recenter. The final Release App/Widget archive passed local signature, App Group, privacy and license checks.
+- The final archive at `/private/tmp/LightPlan-map-gps-final.xcarchive` was installed on the physical iPhone 17 Pro; the old LightPlan process was terminated and the app relaunched. Local App Store preflight remains not ready. No commit, push, merge or submission occurred.
+
+See [the physical-map feedback report](tests/reports/map-physical-feedback-2026-09-23.md). Earlier candidate summaries below retain their original source and verification scope.
+
+# Historical location and map-style candidate — 2026-09-23
+
+**The Places location action and a clearly labeled map-style switch are fixed, compiled, tested locally, and installed on the paired iPhone. App Store readiness remains pending.**
+
+- The Places tab now requests system location only after the user taps **Use my location**. A resolved coordinate/time zone becomes the selected map place; manual coordinates remain available after location or geocoding failure.
+- The Map tab now shows **Satellite imagery** or **Standard map** on its style button. The actual MapKit imagery/road tiles change, and the selected style survives app relaunch.
+- Debug App/Widget build and two focused native simulator flows passed. Screenshots show both real MapKit tile styles with legal attribution and the new Places control. Catalog completeness: 370 keys × nine languages, zero missing values.
+- A new development-signed Release App/Widget archive passed signature, privacy, App Group, license and shipping-bundle checks. It was installed and launched on the physical iPhone 17 Pro; actual GPS/map interaction on that phone still needs the owner's visual check.
+- Work remains uncommitted on `dev`; no push, merge, website deployment, upload or App Store submission occurred.
+
+See [the location/map-style evidence](tests/reports/location-map-style-2026-09-23.md). The earlier candidate summaries below retain their original evidence scope.
+
+# Current photography-tool candidate — 2026-09-23
+
+**New planning functions are implemented; the signed development Release archive and 187 core tests passed. App Store submission and commercial validation remain pending.**
+
+- Added a 35mm-equivalent lens/framing preview, 1–90-day continuous opportunity windows with Moon-illumination filters, Sun/Moon task templates, project search/groups, completion/reopening and a field countdown.
+- Camera settings, project names and completion states persist with compatible backups. Completing a plan cancels its reminder; reopening never silently enables it.
+- Large libraries publish readable rows first and calculate missing event times in bounded batches, retaining a bounded day cache. Core Release benchmarks are reported separately from native first-frame/device performance.
+- Fixed vertical scrolling that accidentally scrubbed the timeline, stale asynchronous framing results, saved All filtering and refresh cancellation leaving a blank day.
+- Core: 187 passed. Catalog: 368 keys / 3312 values across nine languages. Schema: 15 passed. Project generator is idempotent. Six product flows have native evidence, plus three iPad flows, nine-language screen captures and German/Thai largest-text checks. Exact success/failure/source scope is recorded in the linked report; full device/VoiceOver/native-speaker acceptance remains open.
+- New app + Widget archive: `/private/tmp/LightPlan-rich-final.xcarchive`; development signing, matching App Groups, privacy manifests, MIT notices and no StoreKit/debug fixture checked. This is not App Store distribution approval.
+- On 2026-09-23, the development-signed candidate was installed and launched on the paired physical "Hello iPhone" (iPhone 17 Pro); a separate device app listing confirmed LightPlan 1.0.0 (1). In-app field verification on that phone remains pending. No commit, push, merge, website deployment, upload or submission.
+
+See [this round's evidence and remaining checks](tests/reports/photography-tools-2026-09-22.md) and [product value acceptance](docs/PRODUCT_VALUE_ACCEPTANCE.md). Earlier candidate summaries below are historical; their archives do not include these new features.
+
+# Current paid-download product candidate — 2026-09-22
+
+**Local product work and a signed development Release archive passed. Not ready for App Store submission.**
+
+- Changed to paid download at the owner's explicit request. All functionality is available after installation; no IAP, paywall, restore-purchase flow or local entitlement switch remains.
+- Added constrained opportunities, saved search conditions, field notes and shareable briefs, morning/evening windows and accessible coordinate entry; repaired reminder concurrency and high-latitude calculations.
+- Core: 139 tests. Independent event oracle: 31/31 civil days. Position oracle: 396 samples. Final iPhone layout/capture suite: four passed; final iPad suite: four passed. Six product flows passed before the final visual-only corrections.
+- Generated 54 native simulator screenshot drafts at App Store primary sizes, with nine-language layout review. Catalog: 283 keys / 2547 values; mother-tongue and real VoiceOver acceptance remain separate.
+- Signed Release archive for app and Widget passed; signing integrity, App Group consistency, privacy manifests, MIT notices and absence of StoreKit/debug fixtures checked. This is development signing, not App Store distribution approval.
+- Owner confirmed the existing same-name Rivolu app is unrelated and requested an independent name; LumaVantage / LumaBearing are prepared, awaiting a choice. Public identity/contact/URLs, actual pricing and account/TestFlight/device acceptance remain open.
+- No commit, push, merge, new physical iPhone install, website deployment, upload or submission performed.
+
+See [this round's report](tests/reports/paid-product-2026-09-22.md), [submission handoff](docs/APP_STORE_HANDOFF.md), and [value acceptance](docs/PRODUCT_VALUE_ACCEPTANCE.md). Earlier IAP evidence below is historical and does not describe the current business model.
+
+# Current composition-plan development candidate — 2026-09-22
+
+The composition-to-plan workflow now saves and restores the observer, subject,
+Sun/Moon, desired offset and exact time, and schedules reminders for that instant.
+Schema 2 reads old v1 backups and preserves migration originals. The draft survives
+the paywall; refunded users can still read/export and restore the saved map.
+
+- Core: 107 tests passed. Complete iPhone suite: 11 passed. Serial iPad checks:
+  three passed. The final read-only quality display passed two focused iPhone checks.
+- Reminder tests query the simulator OS queue and verify the actual scheduled
+  time and cancellation; they do not prove physical-device lock-screen delivery.
+- Existing no-debugger Run settings are now generated consistently. Original local
+  edits and failed test records were preserved outside the public commit candidate.
+- Final unsigned Release archive passed for app and Widget, with no StoreKit test
+  configuration in the application. Catalog: 278 keys across nine languages; audits passed.
+- Owner confirmed the real IAP product is not configured. Domain/contact/legal
+  website details remain unconfirmed; support/privacy pages are unpublished drafts.
+
+See the [current report](tests/reports/composition-plans-2026-09-22.md) and
+[paid acceptance](docs/PAID_ACCEPTANCE.md). No commit, push, merge, physical iPhone
+installation, website deployment or store submission was performed in this round.
+
+# Earlier composition merge candidate — 2026-09-22
+
+**Local fixes and verification passed; the exact pushed commit still requires
+GitHub CI before merging to main. No new commit, push or merge was performed.**
+
+- Fixed empty catalog extraction at the source, observer-dependent composition
+  refresh, worker cancellation and stale-result isolation.
+- Fixed iPad map-control identifier inheritance and zero-bounds MapReader overlay
+  ancestors; preserved assertions and verified actual button taps in both orientations.
+- Defined full result-row hit regions and added purchase/search/stand/refund coverage.
+- Core: 96 tests passed. Localization: 272 keys across nine languages; metadata audit passed.
+- Initial full iPhone suite: nine tests passed with 30 screenshots, before the last
+  hit-region/MapReader layout fixes. Final-source targeted regressions: three passed
+  on iPhone and three on iPad, each with zero failures.
+- Final unsigned Release archive passed for app and widget and contains no local
+  StoreKit test configuration. Project generation produces no tracked-file drift.
+- Current native captures were visually inspected and are retained locally with
+  xcresult bundles; raw device/signing diagnostics remain Git-ignored.
+
+See the [composition merge report](tests/reports/composition-merge-2026-09-22.md)
+for source fingerprints, toolchain, failed-run history and the remote-CI boundary.
+This round did not update the physical iPhone installation described below.
+
+# Earlier local iPhone preview — 2026-09-22
 
 **Signed iPhone preview built and installed: LightPlan 1.0.0 (1).**
 

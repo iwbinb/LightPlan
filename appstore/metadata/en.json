@@ -2,8 +2,8 @@
   "locale": "en",
   "name": "LightPlan",
   "subtitle": "Plan around the light",
-  "promotional_text": "Mark a subject on the map, see when the Sun or Moon aligns with it, and search the next 14 days for the shot.",
-  "description": "See sunrise, sunset, golden and blue-hour windows in your destination’s time zone. Explore directions on a map, save shoot plans and choose reminders. Astronomical calculations work offline for known coordinates and time zones; maps and search may need a connection. Try today’s basic information, then unlock the complete planning tools with a one-time purchase. No subscription and no account required. Times are estimates: clouds, buildings and terrain can change what you see. Tap a photographic subject on the map to compare its bearing with the Sun or Moon. The full unlock adds 14-day alignment search and geometric shooting-position suggestions.",
+  "promotional_text": "Mark a subject on the map, see when the Sun or Moon aligns with it, and search up to 90 days for a shooting opportunity.",
+  "description": "LightPlan is a paid app: purchase it on the App Store before downloading, then use all planning features without in-app purchases or a subscription. No app account is required. See sunrise, sunset, golden and blue-hour windows in your destination’s time zone. Explore Sun and Moon directions on a map, search alignment opportunities over a chosen range of up to 90 days, and compare geometric shooting-position suggestions. Save photo plans and places, choose reminders and use the widget. Astronomical calculations work offline for known coordinates and time zones; maps and place search may need a connection. Times and alignments are model estimates: clouds, buildings and terrain can change what you see.",
   "keywords": "sun,sunset,sunrise,photography,golden hour,blue hour,planner,moon,composition",
   "status": "draft_native_review_and_final_feature_verification_required",
   "screenshot_captions": [

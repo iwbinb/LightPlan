@@ -4,20 +4,19 @@ import LightPlanCore
 
 @main struct LightPlanApp: App {
     @StateObject private var state = AppState()
-    @StateObject private var purchases = PurchaseStore()
     @AppStorage("language") private var language = "system"
     @AppStorage("appearance") private var appearance = "system"
     @Environment(\.scenePhase) private var scenePhase
     private let notificationDelegate = NotificationDelegate()
     var body: some Scene {
         WindowGroup {
-            RootView().environmentObject(state).environmentObject(purchases)
+            RootView().environmentObject(state)
                 .environment(\.locale, language == "system" ? .autoupdatingCurrent : Locale(identifier: language))
                 .preferredColorScheme(appearance == "dark" ? .dark : appearance == "light" ? .light : nil)
                 .task {
                     UNUserNotificationCenter.current().delegate = notificationDelegate
-                    await state.refresh(); await purchases.start()
-                    state.publishWidget(unlocked: purchases.unlocked)
+                    await state.refresh()
+                    state.publishWidget()
                     await ReminderService.reconcile(plans: state.plans, language: L10n.language)
                 }
                 .task {
@@ -29,8 +28,8 @@ import LightPlanCore
                 .onChange(of: scenePhase) { _, phase in
                     if phase == .active {
                         Task {
-                            await state.tick(); await purchases.reloadEntitlements()
-                            state.publishWidget(unlocked: purchases.unlocked)
+                            await state.tick()
+                            state.publishWidget()
                             await ReminderService.reconcile(plans: state.plans, language: L10n.language)
                         }
                     }
@@ -44,7 +43,7 @@ import LightPlanCore
     private func open(_ url: URL) {
         guard url.scheme == "lightplan" else { return }
         switch url.host {
-        case "today": state.tab = 0; Task { await state.showToday(unlocked: purchases.unlocked) }
+        case "today": state.tab = 0; Task { await state.showToday() }
         case "plans", "plan":
             if let value = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "id" })?.value,
                let id = UUID(uuidString: value) { openPlan(id) } else { state.tab = 2 }

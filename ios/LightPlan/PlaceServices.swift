@@ -62,21 +62,42 @@ import LightPlanCore
     @Published var busy = false
     @Published var errorKey: String?
     @Published var fallbackCoordinate: Coordinate?
+    @Published private(set) var currentCoordinate: Coordinate?
     var onPlace: ((Place) -> Void)?
     private let manager = CLLocationManager()
     private let geocoder = CLGeocoder()
     private var requested = false
+    private var liveTracking = false
+    private var requestID = UUID()
     private var timeout: Task<Void, Never>?
     override init() {
         super.init(); manager.delegate = self; manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
     }
     func request() {
-        errorKey = nil; requested = true
+        guard !requested else { return }
+        requestID = UUID(); fallbackCoordinate = nil; currentCoordinate = nil
+        liveTracking = false; manager.stopUpdatingLocation()
+        errorKey = nil; requested = true; busy = true
         switch manager.authorizationStatus {
         case .notDetermined: manager.requestWhenInUseAuthorization()
         case .authorizedWhenInUse, .authorizedAlways: locate()
-        default: requested = false; errorKey = "error.location"
+        default: requested = false; busy = false; errorKey = "error.location"
         }
+    }
+    func cancel() {
+        requestID = UUID(); requested = false; liveTracking = false; busy = false
+        currentCoordinate = nil
+        timeout?.cancel(); timeout = nil
+        manager.stopUpdatingLocation(); geocoder.cancelGeocode()
+        onPlace = nil
+    }
+    /// Only the visible Map screen calls this after an explicit GPS action.
+    /// `cancel()` stops updates when that screen disappears.
+    func startLiveUpdates() {
+        guard manager.authorizationStatus == .authorizedWhenInUse ||
+              manager.authorizationStatus == .authorizedAlways else { return }
+        liveTracking = true
+        manager.startUpdatingLocation()
     }
     private func locate() {
         busy = true; manager.requestLocation(); timeout?.cancel()
@@ -95,23 +116,47 @@ import LightPlanCore
         }
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        guard requested else {
+            if liveTracking { currentCoordinate = nil }
+            return
+        }
+        #if DEBUG
+        if ProcessInfo.processInfo.environment["LIGHTPLAN_VISUAL_FIXTURE"] == "1" {
+            let failure = error as NSError
+            UserDefaults.standard.set("\(failure.domain):\(failure.code)", forKey: "lightPlanDebugLocationFailure")
+        }
+        #endif
         busy = false; requested = false; timeout?.cancel(); errorKey = "error.location"
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard requested, let location = locations.last, location.horizontalAccuracy >= 0,
-              abs(location.timestamp.timeIntervalSinceNow) < 120 else { busy = false; requested = false; return }
+        guard requested || liveTracking else { return }
+        guard let location = locations.last, location.horizontalAccuracy >= 0,
+              abs(location.timestamp.timeIntervalSinceNow) < 120 else {
+            if requested {
+                busy = false; requested = false; timeout?.cancel(); errorKey = "error.location"
+            }
+            return
+        }
+        if let coordinate = try? Coordinate(latitude: location.coordinate.latitude,
+                                            longitude: location.coordinate.longitude) {
+            currentCoordinate = coordinate
+        }
+        guard requested else { return }
         requested = false
+        let id = requestID
         Task {
-            defer { busy = false; timeout?.cancel() }
+            defer { if id == requestID { busy = false; timeout?.cancel() } }
             do {
                 let coordinate = try Coordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                guard id == requestID else { return }
                 fallbackCoordinate = coordinate
                 let marks = try await geocoder.reverseGeocodeLocation(location)
+                guard id == requestID else { return }
                 guard let zone = marks.first?.timeZone else { throw LightPlanError.invalidTimeZone }
                 let name = marks.first?.locality ?? L10n.text("place.current")
                 let place = try Place(name: String(name.prefix(120)), coordinate: coordinate, timeZoneID: zone.identifier)
                 fallbackCoordinate = nil; onPlace?(place)
-            } catch { errorKey = "error.timezone" }
+            } catch { if id == requestID { errorKey = "error.timezone" } }
         }
     }
 }

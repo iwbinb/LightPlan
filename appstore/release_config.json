@@ -10,11 +10,7 @@
   "developer_team_id": null,
   "candidate_bundle_id": "com.arenovo.lightplan",
   "candidate_app_group_id": "group.com.arenovo.lightplan",
-  "candidate_nonconsumable_product_id": "com.arenovo.lightplan.lifetime",
-  "proposed_prices": {
-    "US": "USD 2.99",
-    "CN": "CNY 18.00"
-  },
+  "proposed_prices": null,
   "prices_confirmed_in_store": false,
   "minimum_runtime_ios": "17.0",
   "bundle_id_registered": false,
@@ -31,5 +27,6 @@
     "fr",
     "th",
     "pt-PT"
-  ]
+  ],
+  "distribution_model": "paid_upfront"
 }

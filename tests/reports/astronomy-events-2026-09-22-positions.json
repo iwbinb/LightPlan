@@ -1,0 +1,2801 @@
+{
+  "generatedAtUTC": "2026-09-22T10:53:10.940538+00:00",
+  "reference": "Swiss Ephemeris 2.10.03 Moshier, topocentric, unrefracted sea-level positions",
+  "source": "https://www.astro.com/swisseph/swephprg.htm",
+  "count": 396,
+  "bodyResults": {
+    "sun": {
+      "count": 198,
+      "maxAngularErrorDegrees": 0.0008779815652657716,
+      "meanAngularErrorDegrees": 0.00015862480540788928,
+      "limitDegrees": 0.08,
+      "passed": true
+    },
+    "moon": {
+      "count": 198,
+      "maxAngularErrorDegrees": 0.0625241529524243,
+      "meanAngularErrorDegrees": 0.02793860451044499,
+      "limitDegrees": 0.3,
+      "passed": true
+    }
+  },
+  "samples": {
+    "sun": [
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 3.267845816718501e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 8.611694439963998e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 4.368451981412212e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.00012612175949692716
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 5.597917164808983e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.00012523436353595698
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 7.379094056578221e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 1.9299817184270054e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.00012274165407861806
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.00029677692652671625
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.0007755775856248412
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 4.578647252913411e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 6.189711731221187e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 3.3893845988869584e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 4.673192270113879e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.0001293910791195981
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 6.224940881569681e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 9.800934724601012e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.00013353303687721425
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 6.645189644898708e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.00037725976571949775
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.0008089553731225699
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 7.27563439588861e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 2.634275661277943e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 5.755219692565698e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 7.512237827039315e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 6.535691633437268e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 2.8457698550067317e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 5.211517139797114e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 7.234440802344684e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 2.4993849828546353e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 0.0003048605604795402
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 0.000848544920241033
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 4.090101542238906e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 7.583701783414918e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 5.507998116610668e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.00010085376241013251
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 6.86956271410707e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.00013873493373226282
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 9.530959379433208e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 3.6373162246995867e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.00013748141821407717
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.0003251084397391356
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.0007579846475990768
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 3.167028430738275e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 7.613440023535462e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 4.452738566513733e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.00011130864151206053
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 6.110299981777637e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.00012748415890887388
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 8.260894266503519e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 2.7770620203692138e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.00012564113948751432
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.00031090961832883166
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.0007700257359121788
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 7.005627675672462e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 1.631132260876835e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 5.500714591241118e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 8.459686301769455e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 5.833217483867545e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 3.3526246359979845e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 5.1041099274082696e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 6.252398405042936e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 2.83550554796536e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 0.000296014539957822
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 0.0008477671374747678
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 7.584662901444684e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 2.6398040527968538e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 6.06720171670659e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 7.746790349277377e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 6.2791554652946e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 2.6480749995996562e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 5.092672131683154e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 7.033664836145255e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 2.195045236894468e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 0.00030118370480615794
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 0.0008515903166854986
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 3.073585126505775e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 8.541150874355889e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 3.347184709266719e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.00014149994286708737
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 5.406484116804119e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.00010683093291249779
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 5.8885629329097044e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 2.6535746420754912e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.00010285049352949407
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.00027461002564717313
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.0007967830832321842
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 8.611271208881793e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 4.246612099273443e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 7.085292546272186e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 6.937666095986737e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 6.881754547644655e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 1.5462498375200197e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 5.0249493299067637e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 8.100057950869119e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 1.2372355563799738e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 0.0003068612615890818
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 0.0008586794226208091
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 7.766994294734722e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 7.526778593907925e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 6.285537017282832e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 5.0321972052011056e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.00011172371151200513
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 2.5269392327350652e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 7.01186784407921e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.00012418224998849022
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 3.3264318547856216e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.0003531208213752082
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.0008418095584858729
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 4.887434676508441e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 7.296643490470923e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 6.339808299020139e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 8.932447391205253e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 7.807712148023981e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.00014732482131901825
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.0001074568343277285
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 4.775030141577827e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.00014641409041671834
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.00033915775267214
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.000748405044004201
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 4.657568046271074e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 3.4150945850063763e-06
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 3.146245664610197e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 7.931368771443045e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 6.651220012521218e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 5.3713152204052976e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 5.969703533205218e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 6.439626991265405e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 5.145358804369942e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 0.0003102877022485583
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 0.0008269501865894064
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 4.730553221171615e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 4.5977117930531094e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 6.210873200578915e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 5.512628076817721e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.00010656449563860346
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.00014448463656907746
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.00012715209380020066
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 8.573945062021717e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.00014461574788150904
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.0003705230080272106
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.0007448997701631276
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 3.693989591040034e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 6.860006165013556e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 2.9955168826941312e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.00013786263523295553
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 5.2387205861376385e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 8.63198512846513e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 5.3780963305672565e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 3.0995628734492465e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 8.117587159289468e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.0002680087814279895
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.0008154615525215032
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 6.74481180538798e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 4.4731547146814885e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 8.20822441517654e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 3.3883091158838745e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.0001376562737296425
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.00016207763301552593
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.00015728447889713293
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.00011838549879232142
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.00016304841480682214
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.0004046166535004493
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.0007267624986127236
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 1.893761558392725e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 8.831503268221697e-06
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 4.094554566467037e-06
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 6.741568847364762e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 8.204227227496031e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 7.949728445943015e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 7.907898366488699e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 7.455257857802817e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 7.902826983834385e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.00033298923488360514
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.0008015893394271231
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 1.891836025044376e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 8.79013768592829e-06
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 4.353408482428142e-06
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 6.749133325488821e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 8.217543625201962e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 7.961639530799193e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 7.893597940648743e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 7.436167510559952e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 7.891750836858241e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.0003330702198138668
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.0008015275008878358
+      },
+      {
+        "body": "sun",
+        "timestamp": -2194171200.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.00010624937751497085
+      },
+      {
+        "body": "sun",
+        "timestamp": -629928000.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 4.666948857479521e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 946728000.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 9.120604562338407e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1709231400.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 8.011836643449601e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1772955000.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 5.555436296879934e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1782043200.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 1.8030599818338033e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1789637400.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 4.9341912471780494e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1793514600.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 7.275133439892845e-05
+      },
+      {
+        "body": "sun",
+        "timestamp": 1797854400.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 8.580318953419392e-06
+      },
+      {
+        "body": "sun",
+        "timestamp": 2533665600.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.00028726152905571365
+      },
+      {
+        "body": "sun",
+        "timestamp": 4121708400.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.0008779815652657716
+      }
+    ],
+    "moon": [
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.03686338446030943
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.021181942860752822
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.02315910333962305
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.016288967177767715
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.022158163675740642
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.03612892109044143
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.021963829718519335
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.014553792341506007
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.010329311836195447
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.06048547404085011
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 24.4478,
+        "longitude": 118.0679,
+        "angularSeparationDegrees": 0.04373571179946647
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.03797816899068629
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.02052378273165292
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.023707133137458907
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.015954028813318758
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.02262657752623034
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.03482814388019231
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.021382054814770294
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.016638527419503283
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.009986175975350623
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.061281166140731175
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "angularSeparationDegrees": 0.04469083541858277
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 0.037164968098355386
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 0.020830822435607518
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 0.023151473616230583
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 0.015821973236826322
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 0.021747416985529833
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 0.03519602106827347
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 0.02177886007840515
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 0.01544923812224172
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 0.01001037229900726
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 0.05991087165928514
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "angularSeparationDegrees": 0.04417278088413592
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.03713859932471499
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.021023015270035625
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.023339792563646232
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.016303201491305992
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.02235869687969443
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.035999956237584035
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.021740990153392814
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.015237757934900203
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.010344895270629715
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.06112549926577122
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "angularSeparationDegrees": 0.043871404252204566
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.0369972406682345
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.02107330184622442
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.02323275003763745
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.016253306695609586
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.022176403531625997
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.03603091549080985
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.0218219353787599
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.01503787434191553
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.010331047723580197
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.060793146027468076
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 37.5665,
+        "longitude": 126.978,
+        "angularSeparationDegrees": 0.043797760801001104
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 0.03704807217350089
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 0.02088877309877231
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 0.02308612022344041
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 0.015835058516981797
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 0.02166538238199546
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 0.0353083209483113
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 0.021832807269992902
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 0.015273309263539295
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 0.010037882709039648
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 0.05980166175490464
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 52.52,
+        "longitude": 13.405,
+        "angularSeparationDegrees": 0.044076756782665864
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 0.03713246486294076
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 0.020849236849864866
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 0.02312850664257824
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 0.01581831920072369
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 0.02172309527563804
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 0.0352019633183252
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 0.02180804854073506
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 0.015351993070542452
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 0.010004516830804853
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 0.05982393767614364
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "angularSeparationDegrees": 0.04416115122544908
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.03667991143680768
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.021291902460088614
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.023023175594777956
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.01625017922843728
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.022010166008519152
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.036143269552285334
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.02214823931231371
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.013988819101719008
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.01028094154307137
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.05990126232287422
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "angularSeparationDegrees": 0.043681145536744834
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 0.037247150545334104
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 0.02080945810185524
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 0.02318694545563192
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 0.01580407819317674
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 0.02183004715186511
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 0.035048769932065696
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 0.02180060044276914
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 0.015362969434804157
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 0.00994942364290397
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 0.05980200181816866
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 38.7223,
+        "longitude": -9.1393,
+        "angularSeparationDegrees": 0.04429106821631006
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.03793885757585101
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.02072560779578059
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.0236933647580397
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.016051624473010246
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.022997260608307476
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.03467214325284252
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.021782794641955275
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.015280974569934004
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.009827639852847764
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.06042835630549196
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": -23.55,
+        "longitude": -46.63,
+        "angularSeparationDegrees": 0.04490553535028917
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.03743804155497342
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.021147122855869414
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.023617975619675304
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.01659721423887202
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.023268707204793244
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.03589044443470362
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.021952473744630056
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.014272508136598003
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.010258813124371574
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.061224812858278556
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "angularSeparationDegrees": 0.04422080052438452
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 0.03714021636104503
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 0.02084116756192623
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 0.023172849664895
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 0.015887868580782446
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 0.021773610192738248
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 0.035389728976706794
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 0.021716134479990302
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 0.01564532363402188
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 0.010102612801661593
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 0.06024276187588086
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "angularSeparationDegrees": 0.044060215775106625
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.037843917784563745
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.02097624690732098
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.023870293899946795
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.0166015616729217
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.023662851728094608
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.035561988966218025
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.021788839142703992
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.014794897893992581
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.010180495852181719
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.061704981632818734
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": -43.95,
+        "longitude": -176.56,
+        "angularSeparationDegrees": 0.04454947515905391
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.03662878603311506
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.021236502154614516
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.022939060418705883
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.016110600553997437
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.021743560785665736
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.036012738597115394
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.022121721042379798
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.01418746899735365
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.01023263591401291
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.059665130825463444
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 27.7172,
+        "longitude": 85.324,
+        "angularSeparationDegrees": 0.04367589449641379
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.0381107880577994
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.02070591600610179
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.024001956020214744
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.01648609477120277
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.023544459228311936
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.03542194248337256
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.02139137620044289
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.016103429450784374
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.010231194570907595
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.0625241529524243
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 1.87,
+        "longitude": -157.43,
+        "angularSeparationDegrees": 0.04460063341405131
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.03733553393515048
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.02076724440931121
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.023332438833864683
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.01597210956894945
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.022025681966840883
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.035421840465445976
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.021568410915726945
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.016067129848512565
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.010159779807655409
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.06083912772717134
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.04411733655157101
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.03762649657069344
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.021080448091383208
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.023650256697707036
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.01642397392075702
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.02337300667610399
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.035322960379492806
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.022087692033323465
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.014040121913748316
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.010005490630634805
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.060494634986671875
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": -89,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.04459332406853063
+      },
+      {
+        "body": "moon",
+        "timestamp": -2194171200.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.03715709707515288
+      },
+      {
+        "body": "moon",
+        "timestamp": -629928000.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.020968932080619503
+      },
+      {
+        "body": "moon",
+        "timestamp": 946728000.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.023137022092518694
+      },
+      {
+        "body": "moon",
+        "timestamp": 1709231400.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.015873720552354757
+      },
+      {
+        "body": "moon",
+        "timestamp": 1772955000.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.022007233757141923
+      },
+      {
+        "body": "moon",
+        "timestamp": 1782043200.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.035019555223475704
+      },
+      {
+        "body": "moon",
+        "timestamp": 1789637400.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.022074023189142592
+      },
+      {
+        "body": "moon",
+        "timestamp": 1793514600.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.014370297650975014
+      },
+      {
+        "body": "moon",
+        "timestamp": 1797854400.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.009871112258398831
+      },
+      {
+        "body": "moon",
+        "timestamp": 2533665600.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.05922983222105998
+      },
+      {
+        "body": "moon",
+        "timestamp": 4121708400.0,
+        "latitude": 0,
+        "longitude": 0,
+        "angularSeparationDegrees": 0.04435427945779009
+      }
+    ]
+  },
+  "passed": true
+}

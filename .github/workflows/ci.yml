@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - name: Build, test, purchase-test and capture actual native screens
+      - name: Build, test paid-download flows and capture native screens
         run: bash scripts/ci_native.sh
       - name: Preserve native evidence, including failures
         if: ${{ always() && !cancelled() }}

@@ -67,17 +67,73 @@ final class VisualUITests: XCTestCase {
         XCTAssertTrue(label.waitForExistence(timeout: 15))
         let before = label.label
         save("v3-map-zh-Hans-dark-portrait")
+        assertMapControls(in: app, orientation: "portrait")
+        XCTAssertEqual(label.label, before)
         XCUIDevice.shared.orientation = .landscapeLeft
         XCTAssertTrue(label.waitForExistence(timeout: 5)); XCTAssertEqual(label.label, before)
         // Time surviving rotation alone does not prove the controls remain usable.
         save("v3-map-zh-Hans-dark-landscape")
-        for identifier in ["map-style", "map-recenter", "map-favorite"] {
-            let control = app.buttons[identifier]
-            XCTAssertTrue(control.waitForExistence(timeout: 5))
-            XCTAssertTrue(control.isHittable, "Landscape control is clipped: \(identifier)")
-        }
+        assertMapControls(in: app, orientation: "landscape")
+        XCTAssertEqual(label.label, before)
         XCUIDevice.shared.orientation = .portrait
         XCTAssertEqual(label.label, before)
         // Rotation is not a Duo fold/unfold test. Real fold transitions remain a separate gate.
+    }
+
+    @MainActor func testMapBaseStyleSwitchesAndSurvivesRelaunch() throws {
+        let app = launch(language: "zh-Hans", tab: 1)
+        defer { app.terminate() }
+        XCTAssertTrue(app.staticTexts["selected-time"].waitForExistence(timeout: 15))
+        let style = app.buttons["map-style"]
+        XCTAssertTrue(style.waitForExistence(timeout: 10))
+        let original = try XCTUnwrap(style.value as? String)
+        XCTAssertTrue(["卫星影像", "普通地图"].contains(original))
+        save("map-style-before")
+        style.tap()
+        let changed = original == "卫星影像" ? "普通地图" : "卫星影像"
+        let selected = XCTNSPredicateExpectation(predicate: NSPredicate(format: "value == %@", changed), object: style)
+        XCTAssertEqual(XCTWaiter.wait(for: [selected], timeout: 10), .completed)
+        let canvas = app.descendants(matching: .any)["map-canvas"].firstMatch
+        XCTAssertTrue(canvas.waitForExistence(timeout: 10))
+        XCTAssertEqual(canvas.value as? String, changed,
+                       "The native map's actual tile configuration must match the button")
+        save("map-style-after")
+        app.terminate(); app.launch()
+        XCTAssertTrue(style.waitForExistence(timeout: 15))
+        XCTAssertEqual(style.value as? String, changed, "The selected base map must survive reopening the app")
+        style.tap()
+        XCTAssertEqual(style.value as? String, original)
+    }
+
+    @MainActor func testLongPressLocationControlCanRecenterShootingPlace() throws {
+        let app = launch(language: "zh-Hans", tab: 1)
+        defer { app.terminate() }
+        XCTAssertTrue(app.staticTexts["selected-time"].waitForExistence(timeout: 15))
+        let location = app.buttons["map-use-current-location"]
+        XCTAssertTrue(location.waitForExistence(timeout: 10) && location.isHittable)
+        location.press(forDuration: 1.2)
+        let recenter = app.buttons["map-recenter"]
+        XCTAssertTrue(recenter.waitForExistence(timeout: 10), "Recenter remains available as a secondary action")
+        recenter.tap()
+        XCTAssertTrue(app.staticTexts["selected-time"].exists)
+    }
+
+    @MainActor private func assertMapControls(in app: XCUIApplication, orientation: String) {
+        for identifier in ["map-style", "map-use-current-location", "map-favorite"] {
+            let control = app.buttons[identifier]
+            let exists = control.waitForExistence(timeout: 5)
+            if !exists {
+                let hierarchy = XCTAttachment(string: app.debugDescription)
+                hierarchy.name = "missing-\(identifier)-hierarchy"
+                hierarchy.lifetime = .keepAlways
+                add(hierarchy)
+            }
+            XCTAssertTrue(exists, "Missing \(orientation) control: \(identifier)")
+            let hittable = XCTNSPredicateExpectation(predicate: NSPredicate(format: "hittable == true"), object: control)
+            XCTAssertEqual(XCTWaiter.wait(for: [hittable], timeout: 10), .completed,
+                           "\(orientation) control is not hittable: \(identifier)")
+        }
+        app.buttons["map-style"].tap()
+        app.buttons["map-style"].tap()
     }
 }

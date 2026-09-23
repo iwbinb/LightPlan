@@ -11,6 +11,50 @@ final class RichVisualUITests: XCTestCase {
         let beforeArrival: String
     }
 
+    /// Measure on the first usable snapshot, not necessarily the first attempt.
+    /// Navigation can initially return a departing/null scroll viewport.
+    private struct RevealBudget {
+        private(set) var maximumAttempts = 18
+        private(set) var hasMeasuredGeometry = false
+
+        mutating func observe(viewport: CGRect, target: CGRect, attempt: Int) {
+            guard !hasMeasuredGeometry, attempt >= 0, attempt < 60,
+                  !viewport.isNull, viewport.width > 30, viewport.height > 80,
+                  !target.isNull, target.height > 0 else { return }
+            let overflow = max(0, max(viewport.minY - target.minY, target.maxY - viewport.maxY))
+            let pan = max(24, viewport.height * 0.7 - 12)
+            guard overflow.isFinite, pan.isFinite else { return }
+            maximumAttempts = max(18, Int(min(60, Double(attempt) + ceil(overflow / pan) + 6)))
+            hasMeasuredGeometry = true
+        }
+    }
+
+    func testRevealBudgetWaitsForUsableGeometry() {
+        // Measured run-46 frames: both first snapshots were null. The old
+        // attempt == 0 check never budgeted their long accessibility-size pages.
+        for (targetY, viewportHeight, expected) in [(8114.0, 543.6666870117188, 28),
+                                                    (6797.0, 605.6666870117188, 23)] {
+            var budget = RevealBudget()
+            let target = CGRect(x: 22, y: targetY, width: 358, height: 167.33333333333303)
+            let viewport = CGRect(x: 2, y: 3, width: 398, height: viewportHeight)
+            budget.observe(viewport: .null, target: target, attempt: 0)
+            XCTAssertEqual(budget.maximumAttempts, 18)
+            XCTAssertFalse(budget.hasMeasuredGeometry)
+            budget.observe(viewport: viewport, target: target, attempt: 1)
+            XCTAssertEqual(budget.maximumAttempts, expected)
+            XCTAssertTrue(budget.hasMeasuredGeometry)
+            // A subsequent snapshot cannot repeatedly extend the deadline.
+            budget.observe(viewport: viewport, target: target.offsetBy(dx: 0, dy: 50_000), attempt: 2)
+            XCTAssertEqual(budget.maximumAttempts, expected)
+        }
+        var capped = RevealBudget()
+        let viewport = CGRect(x: 2, y: 3, width: 398, height: 500)
+        capped.observe(viewport: viewport, target: .zero, attempt: 0)
+        XCTAssertFalse(capped.hasMeasuredGeometry)
+        capped.observe(viewport: viewport, target: CGRect(x: 22, y: 100_000, width: 358, height: 167), attempt: 1)
+        XCTAssertEqual(capped.maximumAttempts, 60)
+    }
+
     // Expected translations are copied from the current catalog, never used as app data.
     private let languages: [Language] = [
         Language(code: "en", all: "All candidates", inFrame: "Inside the frame", beforeArrival: "Until planned arrival"),
@@ -180,9 +224,9 @@ final class RichVisualUITests: XCTestCase {
                                    fully: Bool = false, name: String) {
         var activeContainer = container
         var observations: [String] = []
-        var maximumAttempts = 18
+        var budget = RevealBudget()
         var attempt = 0
-        while attempt < maximumAttempts {
+        while attempt < budget.maximumAttempts {
             defer { attempt += 1 }
             let visible = visibleRect(of: activeContainer, in: app)
             let exists = target.exists
@@ -202,15 +246,10 @@ final class RichVisualUITests: XCTestCase {
                 Thread.sleep(forTimeInterval: 0.1)
                 continue
             }
-            if attempt == 0, hasTargetFrame {
-                // At AX XXXL the German detail puts this action over 8,000 pt down.
-                // Budget real pans from measured distance, not a fixed 18 swipes.
-                // The cap and the original full-frame/hittable assertions still apply.
-                let overflow = max(0, max(visible.minY - targetFrame.minY, targetFrame.maxY - visible.maxY))
-                let pan = max(24, visible.height * 0.7 - 12)
-                if overflow.isFinite {
-                    maximumAttempts = max(18, Int(min(60, ceil(overflow / pan) + 6)))
-                }
+            // The first valid frame can arrive after navigation's null snapshot.
+            // Keep the existing 60-attempt cap and full-frame/hittable assertions.
+            if hasTargetFrame {
+                budget.observe(viewport: visible, target: targetFrame, attempt: attempt)
             }
             if exists && target.isHittable {
                 // A result row may be taller than the viewport at accessibility sizes;

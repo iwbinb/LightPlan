@@ -1,0 +1,29 @@
+name: M3 source snapshot
+on:
+  push:
+    branches: [dev]
+    paths: ['.github/workflows/m3-source-snapshot.yml']
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: 0ace4241231785c47af00a5f2d89fc0a7281e192
+      - name: Package the exact merged source for isolated development
+        run: |
+          mkdir -p /tmp/lightplan-source
+          git rev-parse HEAD > /tmp/lightplan-source/source-commit.txt
+          git ls-tree -r HEAD > /tmp/lightplan-source/git-tree.txt
+          git archive --format=tar HEAD | gzip > /tmp/lightplan-source/source.tar.gz
+          sha256sum /tmp/lightplan-source/source.tar.gz
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: m3-merged-source
+          path: /tmp/lightplan-source
+          retention-days: 3
+          if-no-files-found: error

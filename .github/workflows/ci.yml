@@ -21,21 +21,39 @@ concurrency:
   cancel-in-progress: true
 jobs:
   native:
+    name: Native / ${{ matrix.stage }}
     runs-on: macos-15
     timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        stage:
+          - checks
+          - iphone-product
+          - iphone-planning
+          - iphone-visual
+          - iphone-rich-visual
+          - iphone-accessibility
+          - ipad-rotation
     env:
       DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - name: Build, test paid-download flows and capture native screens
-        run: bash scripts/ci_native.sh
+      - name: Run bounded native stage
+        # The internal deadline leaves time for process cleanup and evidence upload.
+        timeout-minutes: 33
+        env:
+          CI_STAGE: ${{ matrix.stage }}
+        run: python3 scripts/ci_baseline.py run --seconds 1800 --log "build/evidence/$CI_STAGE/runner.log" -- bash scripts/ci_native.sh "$CI_STAGE"
       - name: Preserve native evidence, including failures
-        if: ${{ always() && !cancelled() }}
+        if: ${{ always() }}
+        timeout-minutes: 5
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: native-evidence-${{ github.sha }}
-          path: build/evidence
+          name: native-evidence-${{ matrix.stage }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: build/evidence/${{ matrix.stage }}
           if-no-files-found: error
           retention-days: 14

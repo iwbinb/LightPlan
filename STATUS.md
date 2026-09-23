@@ -1,3 +1,15 @@
+# M2 calculation/search reliability — 2026-09-23
+
+**M2 core implementation is complete and the complete Foundation regression passed: 212 tests, zero failures. Debug and unsigned Release checks also passed. Full native UI and release acceptance remain open.**
+
+- Implementation commit: `99326e35cac863e490d417a3d92ecb47f4c7b292` on `dev`. Core run `35843822247`, job `107125023850`, Xcode 26.3 / Apple Swift 6.2.4, passed with preserved logs. This includes all 25 new regressions and the unchanged 187 existing cases.
+- Shared extrema sampling retains short windows near either civil-day boundary; invalid steps/nonfinite results fail explicitly; cancellation is checked inside event/root searches. Civil-time and Sun/Moon request-isolation regressions pass. No ephemeris coefficients, precision thresholds, UI, archive schema, pricing or signing changed.
+- Native run `35843822133`, checks job `107125573481`, also passed on this implementation: CI/tooling/schema/localization checks, core regression, Debug simulator build, unsigned Release archive and archive fixture check. Evidence artifact `10741769940` was uploaded. UI groups are separate and still pending; unsigned archiving is not distribution signing.
+- M1 run `35841204831`: checks and basic iPhone visual passed; product/planning UI failed with exit 65 before the M2 change. Remaining three groups were superseded by the new native run through the existing concurrency policy; their evidence was uploaded. These are not successful tests and the UI issues remain open.
+- The owner requested M2 work while M1 UI acceptance was unresolved. No M3 implementation or main merge is included. The next task must triage the outstanding native failures rather than declare the whole app green.
+
+Details and reproducible commands: [M2 evidence](tests/reports/m2-calculation-search-2026-09-23.md), [core execution record](tests/reports/m2-core-verification-2026-09-23.json), and [M1 baseline report](tests/reports/m1-ci-baseline-2026-09-23.md). All earlier evidence below retains its original source and verification scope.
+
 # Current owned MapKit phone fix — 2026-09-23
 
 **The owner confirmed on the physical iPhone that the map now switches between imagery and road tiles and that GPS shows a separate blue location dot.** This fixes the two reported phone behaviors; the complete App Store release remains pending.

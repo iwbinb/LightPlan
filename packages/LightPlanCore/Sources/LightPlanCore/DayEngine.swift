@@ -33,37 +33,14 @@ public enum DayEngine {
     }
 
     static func samples(body: CelestialBody, start: Date, end: Date, coordinate: Coordinate, step: TimeInterval) throws -> [(Date, Double)] {
-        var base: [(Date, Double)] = []
-        var time = start
-        while time < end {
-            try Task.checkCancellation()
-            base.append((time, try Astronomy.position(body, at: time, coordinate: coordinate).altitude))
-            time = min(end, time.addingTimeInterval(step))
-        }
-        base.append((end, try Astronomy.position(body, at: end, coordinate: coordinate).altitude))
-        // Refine local extrema before searching crossings. A very short polar daylight interval
-        // can have two roots within one sample cell, which a sign-only grid would miss.
-        var extrema: [(Date, Double)] = []
-        if base.count >= 3 {
-            for i in 1..<(base.count - 1) {
-                let left = base[i - 1].1, middle = base[i].1, right = base[i + 1].1
-                let maximum = middle >= left && middle >= right
-                let minimum = middle <= left && middle <= right
-                guard maximum || minimum else { continue }
-                var lo = base[i - 1].0, hi = base[i + 1].0
-                for _ in 0..<32 {
-                    if hi.timeIntervalSince(lo) < 0.02 { break }
-                    let a = lo.addingTimeInterval(hi.timeIntervalSince(lo) / 3)
-                    let b = hi.addingTimeInterval(-hi.timeIntervalSince(lo) / 3)
-                    let fa = try Astronomy.position(body, at: a, coordinate: coordinate).altitude
-                    let fb = try Astronomy.position(body, at: b, coordinate: coordinate).altitude
-                    if (fa < fb) == maximum { lo = a } else { hi = b }
-                }
-                let peak = lo.addingTimeInterval(hi.timeIntervalSince(lo) / 2)
-                extrema.append((peak, try Astronomy.position(body, at: peak, coordinate: coordinate).altitude))
+        guard start.timeIntervalSince1970.isFinite, end.timeIntervalSince1970.isFinite,
+              end > start else { throw LightPlanError.invalidDate }
+        // An extremum near midnight has no outside grid neighbour. The shared sampler
+        // explicitly refines both edge cells as well as interior extrema.
+        return try SearchSampling.samples(in: DateInterval(start: start, end: end), step: step,
+            tolerance: 0.02, iterations: 32) {
+                try Astronomy.position(body, at: $0, coordinate: coordinate).altitude
             }
-        }
-        return (base + extrema).sorted { $0.0 < $1.0 }
     }
 
     /// A nil threshold means upper limb plus a standard 34-arcminute horizon refraction.
@@ -73,11 +50,13 @@ public enum DayEngine {
         func limit(_ date: Date) -> Double { threshold ?? Astronomy.horizonThreshold(body, at: date) }
         var output: [LightEvent] = []
         for (left, right) in zip(samples, samples.dropFirst()) {
+            try Task.checkCancellation()
             let a = left.1 - limit(left.0), b = right.1 - limit(right.0)
             guard (a <= 0 && b > 0) || (a >= 0 && b < 0) else { continue }
             let isRising = b > a
             var lo = left.0, hi = right.0
             for _ in 0..<25 {
+                try Task.checkCancellation()
                 if hi.timeIntervalSince(lo) < 0.1 { break }
                 let middle = lo.addingTimeInterval(hi.timeIntervalSince(lo) / 2)
                 let f = try Astronomy.position(body, at: middle, coordinate: coordinate).altitude - limit(middle)

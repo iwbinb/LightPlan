@@ -429,31 +429,43 @@ final class RichPlanningUITests: XCTestCase {
     }
 
     @MainActor private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
-        for _ in 0..<20 {
+        var observations: [String] = []
+        for attempt in 0..<20 {
             guard let container = activeScroll(for: element, in: app) else { break }
             let visible = scrollViewport(container, in: app)
             guard !visible.isNull, visible.width > 60, visible.height > 80 else { break }
             let exists = element.exists
             let frame = exists ? element.frame : .zero
+            observations.append("attempt=\(attempt) container=\(container.elementType) viewport=\(visible) target=\(frame)")
             if exists && element.isHittable {
                 let fits = frame.height <= visible.height && frame.width <= visible.width
                 if fits ? visible.contains(frame) : visible.intersects(frame) { return }
             }
             // Missing lazy Form rows are below the current viewport. Do not begin
             // with a downward finger drag that can dismiss a sheet or refresh Today.
-            let targetAbove = exists && frame.height > 0 && frame.minY < visible.minY
-            let maximum = visible.height * 0.4
-            let overflow = targetAbove ? visible.minY - frame.minY : frame.maxY - visible.maxY
-            let distance = exists ? min(maximum, max(20, overflow + 10)) : maximum
+            let hasFrame = exists && frame.height > 0 && !frame.isNull
+            // A scroll view can extend beneath the status bar. Merely aligning a
+            // hidden button with minY leaves it unhittable and causes +/-24pt
+            // oscillation. Bring the requested control into the viewport's middle
+            // instead; the original hittable/full-visible checks still decide success.
+            let targetAbove = hasFrame && frame.midY < visible.midY
+            let maximum = visible.height * 0.7
+            let displacement = hasFrame ? abs(frame.midY - visible.midY) : maximum
+            let distance = min(maximum, max(24, displacement))
             let center = visible.minY + visible.height * 0.48
-            let top = CGPoint(x: visible.midX, y: center - distance / 2)
-            let bottom = CGPoint(x: visible.midX, y: center + distance / 2)
+            // Pan in the Form's blank leading inset, not through a button or text field.
+            // Short center drags can focus an input or open a menu instead of scrolling.
+            let top = CGPoint(x: visible.minX + 8, y: center - distance / 2)
+            let bottom = CGPoint(x: visible.minX + 8, y: center + distance / 2)
             let start = targetAbove ? top : bottom, end = targetAbove ? bottom : top
             let origin = app.coordinate(withNormalizedOffset: .zero)
             origin.withOffset(CGVector(dx: start.x - app.frame.minX, dy: start.y - app.frame.minY))
                 .press(forDuration: 0.05, thenDragTo: origin.withOffset(
-                    CGVector(dx: end.x - app.frame.minX, dy: end.y - app.frame.minY)))
+                    CGVector(dx: end.x - app.frame.minX, dy: end.y - app.frame.minY)),
+                    withVelocity: .slow, thenHoldForDuration: 0.25)
         }
+        let geometry = XCTAttachment(string: observations.joined(separator: "\n"))
+        geometry.name = "rich-scroll-geometry"; geometry.lifetime = .keepAlways; add(geometry)
         capture("rich-control-unreachable-" + (element.exists ? element.identifier : "missing-element"), in: app)
         let hierarchy = XCTAttachment(string: app.debugDescription)
         hierarchy.name = "rich-control-unreachable-hierarchy"; hierarchy.lifetime = .keepAlways; add(hierarchy)
@@ -463,7 +475,10 @@ final class RichPlanningUITests: XCTestCase {
     @MainActor private func activeScroll(for target: XCUIElement, in app: XCUIApplication) -> XCUIElement? {
         func eligible(_ candidates: [XCUIElement]) -> [XCUIElement] {
             candidates.filter {
-                $0.exists && $0.frame.width > 120 && $0.frame.height > 120 && $0.isHittable
+                // A container is not necessarily an accessibility hit target. Its
+                // actual descendant still has to pass the visibility/hit checks above.
+                $0.exists && $0.frame.width > 120 && $0.frame.height > 120
+                    && $0.frame.intersects(app.frame)
             }.sorted { $0.frame.width * $0.frame.height < $1.frame.width * $1.frame.height }
         }
         if target.exists {
@@ -475,11 +490,16 @@ final class RichPlanningUITests: XCTestCase {
                 if let parent = eligible(ancestors).first { return parent }
             }
         }
-        // Forms may lazily omit an offscreen target. Prefer the exposed modal-sized
-        // collection/table/scroll view; dimmed background containers are not hittable.
-        let candidates = app.collectionViews.allElementsBoundByIndex + app.tables.allElementsBoundByIndex
-            + app.scrollViews.allElementsBoundByIndex
-        return eligible(candidates).first
+        // A lazy Form row can be absent. Prefer the frontmost collection/table
+        // with an exposed child, not a covered background map or keyboard strip.
+        // XCTest can report the collection itself as non-hittable on iOS 26.
+        let forms = app.collectionViews.allElementsBoundByIndex + app.tables.allElementsBoundByIndex
+        for form in forms.reversed() where !eligible([form]).isEmpty {
+            let controls = form.buttons.allElementsBoundByIndex + form.textFields.allElementsBoundByIndex
+                + form.switches.allElementsBoundByIndex
+            if controls.contains(where: { $0.exists && $0.isHittable }) { return form }
+        }
+        return eligible(app.scrollViews.allElementsBoundByIndex).first(where: { $0.isHittable })
     }
 
     @MainActor private func scrollViewport(_ container: XCUIElement, in app: XCUIApplication) -> CGRect {

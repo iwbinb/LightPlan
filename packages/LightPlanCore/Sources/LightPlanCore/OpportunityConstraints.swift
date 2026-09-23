@@ -97,6 +97,7 @@ enum OpportunitySearch {
                           altitudeRange: ClosedRange<Double>, solarAltitudeRange: ClosedRange<Double>?,
                           moonIlluminationRange: ClosedRange<Double>? = nil,
                           step: TimeInterval) throws -> [DateInterval] {
+        try SearchSampling.validate(interval: interval, step: step)
         var result = try altitudeIntervals(body: body, observer: observer, interval: interval,
                                            range: altitudeRange, step: step)
         if let solarAltitudeRange, !result.isEmpty {
@@ -118,6 +119,11 @@ enum OpportunitySearch {
     static func alignmentIntervals(body: CelestialBody, observer: Coordinate, subject: Coordinate,
                                    interval: DateInterval, desiredOffsetDegrees: Double,
                                    maximumErrorDegrees: Double, step: TimeInterval) throws -> [DateInterval] {
+        try SearchSampling.validate(interval: interval, step: step)
+        guard maximumErrorDegrees.isFinite, (0...180).contains(maximumErrorDegrees),
+              desiredOffsetDegrees.isFinite, (-90...90).contains(desiredOffsetDegrees) else {
+            throw LightPlanError.invalidNumber
+        }
         if maximumErrorDegrees == 180 { return [interval] }
         return try scalarIntervals(interval: interval, range: 0...maximumErrorDegrees, step: step) { instant in
             guard let value = try CompositionPlanner.evaluate(body: body, at: instant, observer: observer,
@@ -155,49 +161,15 @@ enum OpportunitySearch {
     static func scalarIntervals(interval: DateInterval, range: ClosedRange<Double>,
                                 step: TimeInterval,
                                 value: (Date) throws -> Double) throws -> [DateInterval] {
+        // Reject bad steps before capping them; zero/NaN must not become a hang or
+        // a misleading empty result. Nonfinite model values are calculation errors.
+        try SearchSampling.validate(interval: interval, step: step)
+        guard range.lowerBound.isFinite, range.upperBound.isFinite else {
+            throw LightPlanError.invalidNumber
+        }
         guard range.lowerBound < range.upperBound else { return [] }
-        let step = min(step, 300)
-        var samples: [(Date, Double)] = []
-        var time = interval.start
-        while time < interval.end {
-            try Task.checkCancellation()
-            samples.append((time, try value(time)))
-            time = min(interval.end, time.addingTimeInterval(step))
-        }
-        samples.append((interval.end, try value(interval.end)))
-        var cells: [(Date, Date, Bool)] = []
-        if samples.count >= 3 {
-            for index in 1..<(samples.count - 1) {
-                let left = samples[index - 1].1, middle = samples[index].1, right = samples[index + 1].1
-                if middle >= left && middle >= right && (middle > left || middle > right) {
-                    cells.append((samples[index - 1].0, samples[index + 1].0, true))
-                }
-                if middle <= left && middle <= right && (middle < left || middle < right) {
-                    cells.append((samples[index - 1].0, samples[index + 1].0, false))
-                }
-            }
-        }
-        // An extremum in either edge cell lacks an outside neighbour. Search those cells
-        // explicitly without evaluating any instant outside the requested civil day.
-        for (start, end) in [(interval.start, min(interval.end, interval.start.addingTimeInterval(step))),
-                             (max(interval.start, interval.end.addingTimeInterval(-step)), interval.end)] {
-            cells.append((start, end, true))
-            cells.append((start, end, false))
-        }
-        for (start, end, maximum) in cells {
-            var low = start, high = end
-            for _ in 0..<48 {
-                try Task.checkCancellation()
-                if high.timeIntervalSince(low) < boundaryTolerance { break }
-                let a = low.addingTimeInterval(high.timeIntervalSince(low) / 3)
-                let b = high.addingTimeInterval(-high.timeIntervalSince(low) / 3)
-                let fa = try value(a), fb = try value(b)
-                if (fa < fb) == maximum { low = a } else { high = b }
-            }
-            let time = low.addingTimeInterval(high.timeIntervalSince(low) / 2)
-            samples.append((time, try value(time)))
-        }
-        samples.sort { $0.0 < $1.0 }
+        let samples = try SearchSampling.samples(in: interval, step: min(step, 300),
+            tolerance: boundaryTolerance, iterations: 48, value: value)
         var boundaries = samples.map(\.0)
         for (left, right) in zip(samples, samples.dropFirst()) {
             try Task.checkCancellation()
@@ -209,7 +181,7 @@ enum OpportunitySearch {
                     try Task.checkCancellation()
                     if high.timeIntervalSince(low) < boundaryTolerance { break }
                     let middle = low.addingTimeInterval(high.timeIntervalSince(low) / 2)
-                    let residual = try value(middle) - threshold
+                    let residual = try SearchSampling.checkedValue(at: middle, using: value) - threshold
                     if (residual > 0) == (a > 0) { low = middle } else { high = middle }
                 }
                 boundaries.append(low.addingTimeInterval(high.timeIntervalSince(low) / 2))
@@ -220,7 +192,7 @@ enum OpportunitySearch {
         for (start, end) in zip(boundaries, boundaries.dropFirst()) where end > start {
             try Task.checkCancellation()
             let middle = start.addingTimeInterval(end.timeIntervalSince(start) / 2)
-            guard range.contains(try value(middle)) else { continue }
+            guard range.contains(try SearchSampling.checkedValue(at: middle, using: value)) else { continue }
             if let previous = result.last, previous.end == start {
                 result[result.count - 1] = DateInterval(start: previous.start, end: end)
             } else {

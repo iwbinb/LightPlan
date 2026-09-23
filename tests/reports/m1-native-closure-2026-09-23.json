@@ -1,0 +1,211 @@
+{
+  "schema_version": 1,
+  "scope": "M1 native baseline closure and M2 PR candidate",
+  "implementation_commit": "46a58129c4fb9ff917370396a1cbb131257eeda5",
+  "native_run_id": 35866731505,
+  "native_run_number": 47,
+  "native_run_attempt": 1,
+  "native_groups_passed": 8,
+  "native_groups_failed": 0,
+  "toolchain": {
+    "xcode": "26.3",
+    "xcode_build": "17C529",
+    "swift": "6.2.4",
+    "ios_simulator": "26.2"
+  },
+  "core_tests": {
+    "passed": 212,
+    "failed": 0
+  },
+  "ci_helper_tests": {
+    "passed": 36,
+    "failed": 0
+  },
+  "native_tests": {
+    "passed": 28,
+    "failed": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "note": "27 UI test executions plus one RevealBudget helper regression in the native test target."
+  },
+  "localization": {
+    "keys": 370,
+    "languages": 9,
+    "translations": 3330,
+    "errors": 0,
+    "native_speaker_review": false
+  },
+  "debug_simulator_build": "passed",
+  "unsigned_release_archive": "passed",
+  "storekit_fixture_in_archive": false,
+  "physical_device_acceptance": false,
+  "app_store_submission_ready": false,
+  "jobs": [
+    {
+      "kind": "checks",
+      "job_id": 107200107713,
+      "artifact_id": 10751704663,
+      "zip_sha256": "74a2bec29114ee3e4b14551a157dae6b2b02c7e50b4d069e3df64ff0e8538aef",
+      "exit_code": 0,
+      "timed_out": false,
+      "interrupted": false,
+      "duration_seconds": 268.455
+    },
+    {
+      "kind": "product",
+      "job_id": 107200107852,
+      "artifact_id": 10754440338,
+      "zip_sha256": "32f275542a019aedccab7ebd6dc4d811d648347dd9d37228895a7accce48f2df",
+      "exit_code": 0,
+      "timed_out": false,
+      "interrupted": false,
+      "duration_seconds": 1035.221,
+      "passed_tests": 9,
+      "failed_tests": 0,
+      "skipped_tests": 0,
+      "expected_failures": 0,
+      "native_result": "Passed",
+      "selected_tests": [
+        "LightPlanUITests/ProductUITests/testCompositionFiltersAndUsesSelectedOpportunity",
+        "LightPlanUITests/ProductUITests/testCompositionPlanAndFieldBriefSurviveRelaunch",
+        "LightPlanUITests/ProductUITests/testFutureCompositionReminderIsScheduledAndCanBeStopped",
+        "LightPlanUITests/ProductUITests/testManualLocationAcceptsCoordinatesWithoutPermission",
+        "LightPlanUITests/ProductUITests/testMapLocationArrowUsesDevicePosition",
+        "LightPlanUITests/ProductUITests/testPaidDownloadHasNoPurchaseOrRestoreScreen",
+        "LightPlanUITests/ProductUITests/testPlacesOffersExplicitLocationAndManualChoice",
+        "LightPlanUITests/ProductUITests/testPlanEditorSavesWithoutPurchase",
+        "LightPlanUITests/ProductUITests/testSubjectCanBeSelectedOnTheRealMap"
+      ]
+    },
+    {
+      "kind": "planning",
+      "job_id": 107200107999,
+      "artifact_id": 10754116336,
+      "zip_sha256": "da2e1b6a63c9fb64f512d6983afb25e0a54e8c77f67668eff079b3c2ff4ccd16",
+      "exit_code": 0,
+      "timed_out": false,
+      "interrupted": false,
+      "duration_seconds": 1218.242,
+      "passed_tests": 6,
+      "failed_tests": 0,
+      "skipped_tests": 0,
+      "expected_failures": 0,
+      "native_result": "Passed",
+      "selected_tests": [
+        "LightPlanUITests/RichPlanningUITests/testFramingAndProjectSurviveSaveEditRelaunchAndMapRestore",
+        "LightPlanUITests/RichPlanningUITests/testMapTimelineVerticalScrollPreservesTimeAndHorizontalScrubChangesIt",
+        "LightPlanUITests/RichPlanningUITests/testMoonSearchOptionsApplyAndCancelPreserveResultWindows",
+        "LightPlanUITests/RichPlanningUITests/testMoonTemplateReplacesPreviouslySelectedDarkMoonConditions",
+        "LightPlanUITests/RichPlanningUITests/testProjectSearchFieldCompletionAndReopenSurviveRelaunch",
+        "LightPlanUITests/RichPlanningUITests/testTodayPullToRefreshAndQuickTabSwitchPreserveSummary"
+      ]
+    },
+    {
+      "kind": "visual",
+      "job_id": 107200108015,
+      "artifact_id": 10754151244,
+      "zip_sha256": "9c6faf4528afff7b20ac9ab30377a28b27d28b057d03766b3de31936dc2c852b",
+      "exit_code": 0,
+      "timed_out": false,
+      "interrupted": false,
+      "duration_seconds": 917.136,
+      "passed_tests": 5,
+      "failed_tests": 0,
+      "skipped_tests": 0,
+      "expected_failures": 0,
+      "native_result": "Passed",
+      "selected_tests": [
+        "LightPlanUITests/VisualUITests/testCompositionPlannerSurface",
+        "LightPlanUITests/VisualUITests/testCoreScreensAllLanguages",
+        "LightPlanUITests/VisualUITests/testDarkScreenAndRotationContinuity",
+        "LightPlanUITests/VisualUITests/testLongPressLocationControlCanRecenterShootingPlace",
+        "LightPlanUITests/VisualUITests/testMapBaseStyleSwitchesAndSurvivesRelaunch"
+      ]
+    },
+    {
+      "kind": "rich-visual",
+      "artifact_id": 10755367208,
+      "zip_sha256": "85d6ee9ca795e26fb33e96058f38a5a2c92c66526471bc12d50e0966c146980d",
+      "job_id": 107200107886,
+      "exit_code": 0,
+      "timed_out": false,
+      "interrupted": false,
+      "duration_seconds": 1407.431,
+      "passed_tests": 3,
+      "failed_tests": 0,
+      "skipped_tests": 0,
+      "expected_failures": 0,
+      "native_result": "Passed",
+      "selected_tests": [
+        "LightPlanUITests/RichVisualUITests/testPortugueseStandardRichScreens",
+        "LightPlanUITests/RichVisualUITests/testRevealBudgetWaitsForUsableGeometry",
+        "LightPlanUITests/RichVisualUITests/testRichScreensAllNineLanguages"
+      ]
+    },
+    {
+      "kind": "rich-accessibility",
+      "artifact_id": 10754947343,
+      "zip_sha256": "02c58d65d0511e83c2f276e969c7638a38a1e70b1db519a34d5fdfc05422b222",
+      "job_id": 107200107953,
+      "exit_code": 0,
+      "timed_out": false,
+      "interrupted": false,
+      "duration_seconds": 1080.4,
+      "passed_tests": 2,
+      "failed_tests": 0,
+      "skipped_tests": 0,
+      "expected_failures": 0,
+      "native_result": "Passed",
+      "selected_tests": [
+        "LightPlanUITests/RichVisualUITests/testGermanLargestTextRichScreens",
+        "LightPlanUITests/RichVisualUITests/testThaiLargestTextRichScreens"
+      ]
+    },
+    {
+      "kind": "accessibility",
+      "artifact_id": 10755565296,
+      "zip_sha256": "2a27e6a9bd1a9512a4f96fae0f1229a95a293cb46838df71edb9955fd42093da",
+      "job_id": 107200107392,
+      "exit_code": 0,
+      "timed_out": false,
+      "interrupted": false,
+      "duration_seconds": 957.615,
+      "passed_tests": 2,
+      "failed_tests": 0,
+      "skipped_tests": 0,
+      "expected_failures": 0,
+      "native_result": "Passed",
+      "selected_tests": [
+        "LightPlanUITests/AccessibilityUITests/testGermanLargestTextPlanningAndSubjectEntry",
+        "LightPlanUITests/AccessibilityUITests/testThaiLargestTextPlanningAndSubjectEntry"
+      ]
+    },
+    {
+      "kind": "ipad-rotation",
+      "job_id": 107200107736,
+      "artifact_id": 10755473075,
+      "zip_sha256": "b97a8a89d9257d45bb8e85fc0cfa03ee1e0d61b2b35f431ccbebf8eb745c50bb",
+      "exit_code": 0,
+      "timed_out": false,
+      "interrupted": false,
+      "duration_seconds": 636.008,
+      "passed_tests": 1,
+      "failed_tests": 0,
+      "skipped_tests": 0,
+      "expected_failures": 0,
+      "native_result": "Passed",
+      "selected_tests": [
+        "LightPlanUITests/VisualUITests/testDarkScreenAndRotationContinuity"
+      ]
+    }
+  ],
+  "history": {
+    "run_46": 35852295280,
+    "run_46_remaining_failed_tests": 2,
+    "diagnostic_run": 35866145433,
+    "last_fix": "46a58129c4fb9ff917370396a1cbb131257eeda5"
+  },
+  "source_scope_note": "The following documentation-only commit does not change verified App/Core/UI-test or CI source. PR merge-ref checks are separate.",
+  "native_run_conclusion": "success",
+  "native_run_completed_utc": "2026-09-23T14:11:30Z"
+}

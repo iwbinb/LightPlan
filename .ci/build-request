@@ -1,1 +1,3 @@
-composition-merge-candidate 2026-09-22
+m1-native-baseline-public-runner-retry 2026-09-23
+source: 6f86728b18993b0ae5e4e2e857d59d71a7437dd3
+reason: owner requested native verification after making the repository public

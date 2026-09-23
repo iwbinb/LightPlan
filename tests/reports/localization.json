@@ -1,5 +1,5 @@
 {
-  "catalogKeys": 239,
+  "catalogKeys": 370,
   "languages": [
     "en",
     "zh-Hans",
@@ -11,7 +11,7 @@
     "th",
     "pt-PT"
   ],
-  "translations": 2151,
+  "translations": 3330,
   "errors": [],
   "reviewStatus": "Automated completeness only; not a claim of native-speaker review."
 }

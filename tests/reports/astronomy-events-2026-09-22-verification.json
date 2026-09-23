@@ -1,0 +1,31 @@
+{
+  "generatedAtUTC": "2026-09-22T10:57:25.976433+00:00",
+  "scientificSourcesFinal": {
+    "packages/LightPlanCore/Sources/LightPlanCore/Astronomy.swift": "3dc45baa8eb7a04e9d4512c86b3c76690f37bbd9ff6bb58eb5394af247c2edcb",
+    "packages/LightPlanCore/Sources/LightPlanCore/SolarEphemeris.swift": "bcac593033055bfb1ae529bf07cb501b9aa15517a1c3c088cc4e7fa7def53623",
+    "packages/LightPlanCore/Sources/LightPlanCore/SolarCoefficients.swift": "20b12d4ea21b1654c4104c555aa0f210a04d26f539b3414d73c423ad2e2df5be"
+  },
+  "coreTests": {
+    "command": "swift test --package-path packages/LightPlanCore --scratch-path /tmp/lightplan-astronomy-events-build",
+    "exitCode": 0,
+    "tests": 139,
+    "failures": 0,
+    "durationSeconds": 11.423
+  },
+  "eventValidation": {
+    "command": "python scripts/validate_astronomy_events.py --swift-executable /tmp/lightplan-astronomy-events-build/release/lightplan-cli",
+    "exitCode": 0,
+    "cases": 31,
+    "referenceEvents": 348
+  },
+  "positionValidation": {
+    "command": "python scripts/validate_astronomy_event_positions.py --swift-executable /tmp/lightplan-astronomy-events-build/release/lightplan-cli",
+    "exitCode": 0,
+    "cases": 396
+  },
+  "notes": [
+    "Commands are normalized to omit local account paths.",
+    "The complete core count includes other agents' concurrent product changes.",
+    "Source files listed here are stable for the parent task's final native build."
+  ]
+}

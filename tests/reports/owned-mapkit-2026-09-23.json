@@ -1,0 +1,94 @@
+{
+  "date": "2026-09-23",
+  "branch": "dev",
+  "base_commit": "4132f7d068bc340886b3f2434935a912e8f2ac2b",
+  "source_uncommitted": true,
+  "ready_for_submission": false,
+  "superseded_candidates": [
+    "tests/reports/location-map-style-2026-09-23.md",
+    "tests/reports/map-physical-feedback-2026-09-23.md",
+    "tests/reports/mapkit-native-followup-2026-09-23.md"
+  ],
+  "fixes": {
+    "owned_native_mkmapview": true,
+    "actual_map_tile_type_switch": true,
+    "icon_only_map_style_control": true,
+    "map_arrow_requests_corelocation": true,
+    "separate_live_corelocation_blue_dot": true,
+    "selected_place_camera_pin": true,
+    "location_updates_stop_when_map_leaves": true,
+    "mapkit_legal_attribution_retained": true
+  },
+  "simulator_regressions": {
+    "six_focused_flows": "passed on earlier owned-map revision",
+    "six_focused_flows_result": "/private/tmp/LightPlan-owned-map.xcresult",
+    "strict_known_coordinate_gps_and_blue_dot": "passed on final source",
+    "strict_gps_result": "/private/tmp/LightPlan-owned-map-live-dot.xcresult",
+    "strict_gps_prior_false_positive": "found and corrected"
+  },
+  "archive": {
+    "archive": "/private/tmp/LightPlan-owned-map-ready.xcarchive",
+    "kind": "signed local development archive",
+    "bundles": {
+      "app": {
+        "version": "1.0.0",
+        "build": "1",
+        "minimumOS": "17.0",
+        "sdk": "iphoneos27.0",
+        "signatureVerified": true,
+        "developmentEntitlement": true,
+        "privacyManifest": true,
+        "licenseIncluded": true,
+        "executableSHA256": "a75d00852748bfdf7d5179049d7c724ba55305fc70e0c1ab270e6704f19ccfbc"
+      },
+      "widget": {
+        "version": "1.0.0",
+        "build": "1",
+        "minimumOS": "17.0",
+        "sdk": "iphoneos27.0",
+        "signatureVerified": true,
+        "developmentEntitlement": true,
+        "privacyManifest": true,
+        "licenseIncluded": true,
+        "executableSHA256": "5ed6201bd80a37a2644729a7720818cb3b7ca6d738e2a7e3625adf86b3dfdcb7"
+      }
+    },
+    "matchingAppGroups": true,
+    "storekitFiles": 0,
+    "productionFixtureAbsent": true
+  },
+  "physical_phone": {
+    "model": "iPhone 17 Pro",
+    "development_archive_installed": true,
+    "old_process_terminated": true,
+    "app_relaunched": true,
+    "owner_confirmed_map_tiles_switch": true,
+    "owner_confirmed_separate_blue_dot": true,
+    "owner_confirmation_text": "两项都正常",
+    "scope": "Two reported map behaviors only; not full device or App Store acceptance"
+  },
+  "strict_release_preflight": {
+    "ready_for_submission": false,
+    "note": "Report-only preflight remains blocked by uncommitted source, placeholder owner/store information, missing release attestations and review evidence. Local signed archive verification is recorded separately."
+  },
+  "source_files_sha256": {
+    "ios/LightPlan/MapView.swift": "f2b4d3811283d55bfeb1f97b17ab2de00ae8df4d95aa5906a9d9cc997da119c8",
+    "ios/LightPlan/NativePhotoMap.swift": "860bf51507d2e86d6055a64916c24e2fd0f8de3e2c3a237c2c491bbdea72ba7a",
+    "ios/LightPlan/PlaceServices.swift": "5fd189908177e09f41dfca92791b98ae78e5c4527e1980bfa0e707785a9f67ed",
+    "ios/LightPlan/PlansPlacesSettings.swift": "d0ab9ce229c2f3b24c322d4e578be749d40e5fec28887f3db2eda193fb391481",
+    "ios/LightPlanVisualUITests/ProductUITests.swift": "14255614e566ebd35aaf51bdbfa5316e9addf11a153e4872d6250a9e193c16d6",
+    "ios/LightPlanVisualUITests/VisualUITests.swift": "6275d76cc001027efb5cdd5704269075d259b8bcd930fb0777cff0e5d9ae5dfd",
+    "scripts/ci_native.sh": "d09113398e89eb5ac9bc01f6526fde5e552a209f0bb32f5ea56ac7ae2e8bb1d0",
+    "LightPlan.xcodeproj/project.pbxproj": "0c92acbec4056c325c56703b74073fd7a7e1fe7833e6deb750de50e57fcb830e",
+    "ios/Shared/Localizable.xcstrings": "1857c755b28608b70b788134d8a716f56f6e24183c4c9a9bcc05a5a0c7efea71"
+  },
+  "operations": {
+    "commit": false,
+    "push": false,
+    "merge": false,
+    "physical_install": true,
+    "website_deploy": false,
+    "upload": false,
+    "store_submission": false
+  }
+}

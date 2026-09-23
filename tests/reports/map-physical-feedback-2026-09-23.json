@@ -1,0 +1,84 @@
+{
+  "date": "2026-09-23",
+  "branch": "dev",
+  "base_commit": "4132f7d068bc340886b3f2434935a912e8f2ac2b",
+  "uncommitted": true,
+  "ready_for_submission": false,
+  "user_screenshot_issue": {
+    "style_label_changed_but_tiles_still_satellite": true,
+    "arrow_only_recenters_old_place": true
+  },
+  "fixes": {
+    "map_kit_rebuilt_on_style_change": true,
+    "visible_style_words_removed": true,
+    "map_arrow_requests_device_location": true,
+    "recenter_retained_on_long_press": true,
+    "controls_moved_to_top_row": true
+  },
+  "simulator_regressions": {
+    "gps_selection": "passed",
+    "map_style_and_relaunch": "passed",
+    "rotation_and_controls": "passed",
+    "long_press_recenter": "passed",
+    "xcresult": "/private/tmp/LightPlan-map-gps-final.xcresult"
+  },
+  "archive": {
+    "archive": "/private/tmp/LightPlan-map-gps-final.xcarchive",
+    "kind": "signed local development archive",
+    "bundles": {
+      "app": {
+        "version": "1.0.0",
+        "build": "1",
+        "minimumOS": "17.0",
+        "sdk": "iphoneos27.0",
+        "signatureVerified": true,
+        "developmentEntitlement": true,
+        "privacyManifest": true,
+        "licenseIncluded": true,
+        "executableSHA256": "66075f0858deef1c28b5e02707c0519c7af88049205f5802e9c97c7014241daf"
+      },
+      "widget": {
+        "version": "1.0.0",
+        "build": "1",
+        "minimumOS": "17.0",
+        "sdk": "iphoneos27.0",
+        "signatureVerified": true,
+        "developmentEntitlement": true,
+        "privacyManifest": true,
+        "licenseIncluded": true,
+        "executableSHA256": "098e209c71c4ea5ec685389465a84913dff6abad7afa23008cfabd84bde7a4b1"
+      }
+    },
+    "matchingAppGroups": true,
+    "storekitFiles": 0,
+    "productionFixtureAbsent": true
+  },
+  "physical_phone": {
+    "model": "iPhone 17 Pro",
+    "installed": true,
+    "old_process_terminated": true,
+    "relaunched": true,
+    "app_listing_confirmed": true,
+    "on_phone_visual_acceptance": "awaiting_owner_confirmation"
+  },
+  "strict_release_preflight": {
+    "exit_code": 1,
+    "ready_for_submission": false
+  },
+  "source_files_sha256": {
+    "ios/LightPlan/MapView.swift": "f2706af51430e26e9b39693eacf4f781c7fdbb9dbf10d3a7ccc24ed03900fa60",
+    "ios/LightPlanVisualUITests/VisualUITests.swift": "9a8a676f6f7d92b43c637b753f7ff7664492031d85c29249def10404fe2502b5",
+    "ios/LightPlanVisualUITests/ProductUITests.swift": "efe55a4a86431c64efc46ba988051e5b446e1b2e17176cebe1bb1cae6e95a517",
+    "docs/v3/03_MapKit与时间轴实现.md": "99b83ff281ba5008b430449835b9fed072ae3600c1a4259fa3b200579e25481f",
+    "ios/Shared/Localizable.xcstrings": "1857c755b28608b70b788134d8a716f56f6e24183c4c9a9bcc05a5a0c7efea71"
+  },
+  "operations": {
+    "commit": false,
+    "push": false,
+    "merge": false,
+    "physical_install": true,
+    "website_deploy": false,
+    "upload": false,
+    "store_submission": false
+  }
+}

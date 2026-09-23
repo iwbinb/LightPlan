@@ -73,7 +73,7 @@
       "depends_on": [
         "T01"
       ],
-      "status": "baseline_verified",
+      "status": "done",
       "files": [
         "packages/LightPlanCore/Sources/LightPlanCore/Astronomy.swift",
         "tests/reports/astronomy_oracle.json"
@@ -82,7 +82,11 @@
         "冻结396组位置fixture重跑",
         "报告真实工具版本/误差，不将稀疏抽样扩大为全域保证"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/astronomy-events-2026-09-22.md",
+        "tests/reports/astronomy-events-2026-09-22-verification.json"
+      ],
+      "note": "本轮有限独立样本及核心边界测试通过，不扩展为全球连续或现场可见性保证。"
     },
     {
       "id": "T05",
@@ -90,7 +94,7 @@
       "depends_on": [
         "T04"
       ],
-      "status": "todo",
+      "status": "done",
       "files": [
         "packages/LightPlanCore/Sources/LightPlanCore/DayEngine.swift"
       ],
@@ -99,7 +103,11 @@
         "高纬无事件与相切不误判",
         "新增独立参考事件fixtures"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/astronomy-events-2026-09-22.md",
+        "tests/reports/astronomy-events-2026-09-22-verification.json"
+      ],
+      "note": "本轮有限独立样本及核心边界测试通过，不扩展为全球连续或现场可见性保证。"
     },
     {
       "id": "T06",
@@ -124,7 +132,7 @@
       "depends_on": [
         "T04"
       ],
-      "status": "todo",
+      "status": "done",
       "files": [
         "packages/LightPlanCore/Sources/LightPlanCore/Models.swift",
         "ios/LightPlan/MapView.swift"
@@ -134,7 +142,11 @@
         "DST重叠/缺失时刻不误算",
         "DatePicker有效范围与核心范围一致"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/astronomy-events-2026-09-22.md",
+        "tests/reports/astronomy-events-2026-09-22-verification.json"
+      ],
+      "note": "本轮有限独立样本及核心边界测试通过，不扩展为全球连续或现场可见性保证。"
     },
     {
       "id": "T08",
@@ -261,7 +273,7 @@
       "acceptance": [
         "新增/删除/重命名/排序/重复提示",
         "删除收藏不损坏计划地点快照",
-        "免费首次手动基础地点可用"
+        "首次手动地点与多地点收藏均可直接使用，无购买步骤"
       ],
       "evidence": []
     },
@@ -275,13 +287,17 @@
       ],
       "status": "todo",
       "files": [
-        "ios/LightPlan/PlansPlacesSettings.swift"
+        "ios/LightPlan/PlansPlacesSettings.swift",
+        "ios/LightPlan/Visual/FieldBriefView.swift",
+        "packages/LightPlanCore/Sources/LightPlanCore/PlanFieldBrief.swift"
       ],
       "acceptance": [
         "地点/日期/目标/准备/提醒字段完整",
-        "取消与购买中断保留草稿",
+        "未保存离开可继续编辑或确认放弃，旋转/前后台保留草稿",
         "原子保存，复制新ID，编辑更新时间",
-        "无事件给明确原因而非假时间"
+        "无事件给明确原因而非假时间",
+        "可选拍摄备注最多2000字符，保存/重启/导出导入保持一致",
+        "现场简报包含保存的坐标、时区、到场与拍摄时刻、构图信息和备注；分享前说明敏感地点信息，Apple地图打开观察点"
       ],
       "evidence": []
     },
@@ -318,61 +334,73 @@
         "安全文档选择器/预检/冲突摘要/确认",
         "取消不变更；失败恢复原档案",
         "不自动启用导入后所有提醒",
-        "无权益仍可读和导出"
+        "完整功能模式下离线也可读取和导出"
       ],
       "evidence": []
     },
     {
       "id": "T18",
-      "title": "集中权益规则与付费触发",
+      "title": "付费下载后的完整功能访问",
       "depends_on": [
         "T03",
         "T15"
       ],
-      "status": "todo",
+      "status": "implemented_verified_local_pending_store",
       "files": [
-        "ios/LightPlan/PurchaseStore.swift",
-        "ios/LightPlan/PlansPlacesSettings.swift"
+        "ios/LightPlan/RootView.swift",
+        "ios/LightPlan/PlansPlacesSettings.swift",
+        "ios/LightPlan/MapView.swift",
+        "ios/LightPlanWidget/LightPlanWidget.swift"
       ],
       "acceptance": [
-        "全部受限操作调用一致AccessPolicy",
-        "待处理intent恢复，不丢表单",
-        "免费今天/已有数据/恢复不被误锁"
+        "新装、升级、重启后全部规划/收藏/提醒/Widget功能直接可用",
+        "无付费墙、购买/恢复入口、商品加载或本地premium开关",
+        "数据与商店付款独立，已有计划可读/编辑/导出"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "本轮已完成付费下载产品与本地验证；最终品牌/元数据、真实设备、母语、远端CI及分发状态以当前STATUS为准。"
     },
     {
       "id": "T19",
-      "title": "生成并验证本地StoreKit配置",
+      "title": "完整功能与离线原生回归",
       "depends_on": [
         "T18"
       ],
-      "status": "todo",
+      "status": "partial_native_verified_offline_device_pending",
       "files": [
-        "ios/StoreKit/README.md"
+        "ios/LightPlanVisualUITests/ProductUITests.swift",
+        "ios/LightPlanVisualUITests/VisualUITests.swift"
       ],
       "acceptance": [
-        "用当前Xcode创建配置并保存已验证文件",
-        "本地首购/取消/Pending/错误/恢复UI",
-        "不启用到生产target"
+        "原生测试直接覆盖未来日期、多地点、构图搜索、保存与重启恢复",
+        "不使用StoreKit测试配置或模拟购买来开放功能",
+        "已知坐标与时区断网可计算/管理计划；地图搜索联网边界准确",
+        "保留历史购买测试报告，现行发布使用新的完整功能验收证据"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "本轮已完成付费下载产品与本地验证；最终品牌/元数据、真实设备、母语、远端CI及分发状态以当前STATUS为准。"
     },
     {
       "id": "T20",
-      "title": "真实商品与沙盒生命周期",
+      "title": "付费应用价格、账号与TestFlight验收",
       "depends_on": [
         "T19"
       ],
       "status": "owner_required",
       "files": [
         "appstore/release_config.json",
-        "ios/LightPlan/PurchaseStore.swift"
+        "docs/APP_STORE_HANDOFF.md",
+        "appstore/submission_manifest.json"
       ],
       "acceptance": [
-        "Owner授权真实ID/协议/定价",
-        "沙盒购买/恢复/退款/重装/离线",
-        "记录实际验证transaction，不把本地mock当真"
+        "Owner确认真实Bundle/App Group、应用售价与销售地区，不创建首发内购",
+        "核实Paid Apps Agreement、税务/银行与商家身份",
+        "签名Release/TestFlight验证新装、升级、完整功能与离线使用",
+        "记录账号配置与二进制验收证据，不把TestFlight当成真实扣费证明"
       ],
       "evidence": []
     },
@@ -406,17 +434,20 @@
         "T18",
         "T21"
       ],
-      "status": "draft_provided",
+      "status": "resource_verified_language_review_pending",
       "files": [
         "localization",
         "ios/Shared/Localizable.xcstrings"
       ],
       "acceptance": [
-        "现有145键每语言齐全；新增文案9语同步",
+        "当前源目录全部键每语言齐全；新增文案9语同步",
         "不拼接不合法句式；术语、通知与权限同等本地化",
         "泰语日期/数字格式与计算解耦"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "本轮已完成付费下载产品与本地验证；最终品牌/元数据、真实设备、母语、远端CI及分发状态以当前STATUS为准。"
     },
     {
       "id": "T23",
@@ -550,7 +581,7 @@
       ],
       "acceptance": [
         "Owner确认品牌可用/主体/支持邮箱",
-        "授权真实Team/Bundle/AppGroup/product",
+        "授权真实Team/Bundle/AppGroup并确认应用价格",
         "正式网站和隐私地址可访问"
       ],
       "evidence": []
@@ -582,7 +613,7 @@
         "T26",
         "T29"
       ],
-      "status": "todo",
+      "status": "native_drafts_ready_brand_metadata_pending",
       "files": [
         "appstore/metadata",
         "appstore/screenshots"
@@ -592,7 +623,10 @@
         "实际设备尺寸符合当时商店规范",
         "不宣传未提供Watch/天气/地形功能"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "本轮已完成付费下载产品与本地验证；最终品牌/元数据、真实设备、母语、远端CI及分发状态以当前STATUS为准。"
     },
     {
       "id": "T32",
@@ -606,7 +640,8 @@
         "T17",
         "T20",
         "T21",
-        "T25"
+        "T25",
+        "T36"
       ],
       "status": "todo",
       "files": [
@@ -654,7 +689,7 @@
       ],
       "acceptance": [
         "授权上传，记录构建SDK与签名",
-        "真机购买恢复/通知/宽屏/语言",
+        "真机完整功能/离线/升级数据保留/通知/宽屏/语言",
         "Duo实机缺失如实标明，不伪造"
       ],
       "evidence": []
@@ -684,7 +719,7 @@
       "depends_on": [
         "T03"
       ],
-      "status": "todo",
+      "status": "native_build_verified_minimum_runtime_pending",
       "source_delivery": "v3 implementation supplied; native execution and acceptance pending",
       "files": [
         "docs/v3/06_逐屏截图验收.md",
@@ -695,7 +730,10 @@
         "Asset Catalog真实加载，iOS17 fallback和当前SDK均正确",
         "保留已有业务修复，不替换为WebView"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "本轮已完成付费下载产品与本地验证；最终品牌/元数据、真实设备、母语、远端CI及分发状态以当前STATUS为准。"
     },
     {
       "id": "V302",
@@ -703,7 +741,7 @@
       "depends_on": [
         "V301"
       ],
-      "status": "todo",
+      "status": "done",
       "source_delivery": "v3 implementation supplied; native execution and acceptance pending",
       "files": [
         "docs/v3/06_逐屏截图验收.md",
@@ -714,7 +752,10 @@
         "照片遮罩/文字/动态字号正确",
         "图片不是现场照片，提示九语齐全"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "本轮已完成付费下载产品与本地验证；最终品牌/元数据、真实设备、母语、远端CI及分发状态以当前STATUS为准。"
     },
     {
       "id": "V303",
@@ -722,7 +763,7 @@
       "depends_on": [
         "V301"
       ],
-      "status": "todo",
+      "status": "simulator_verified_physical_pending",
       "source_delivery": "v3 implementation supplied; native execution and acceptance pending",
       "files": [
         "docs/v3/06_逐屏截图验收.md",
@@ -733,7 +774,10 @@
         "旋转地图后方位和事件标签正确",
         "太阳/月亮和扇区同步；离线底图状态诚实"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "本轮已完成付费下载产品与本地验证；最终品牌/元数据、真实设备、母语、远端CI及分发状态以当前STATUS为准。"
     },
     {
       "id": "V304",
@@ -801,7 +845,7 @@
         "V305",
         "V306"
       ],
-      "status": "todo",
+      "status": "partial_native_matrix_verified",
       "source_delivery": "v3 implementation supplied; native execution and acceptance pending",
       "files": [
         "docs/v3/06_逐屏截图验收.md",
@@ -812,7 +856,10 @@
         "深色、最大字号、减少动态/透明度",
         "母语审校仍单独完成"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "本轮已完成付费下载产品与本地验证；最终品牌/元数据、真实设备、母语、远端CI及分发状态以当前STATUS为准。"
     },
     {
       "id": "V308",
@@ -820,7 +867,7 @@
       "depends_on": [
         "V307"
       ],
-      "status": "todo",
+      "status": "native_layout_reviewed_final_brand_pending",
       "source_delivery": "v3 implementation supplied; native execution and acceptance pending",
       "files": [
         "docs/v3/06_逐屏截图验收.md",
@@ -831,7 +878,164 @@
         "不将整个地图蒙版隐藏后假通过",
         "reviewer与证据写入视觉门槛"
       ],
-      "evidence": []
+      "evidence": [
+        "tests/reports/paid-product-2026-09-22.md"
+      ],
+      "note": "本轮已完成付费下载产品与本地验证；最终品牌/元数据、真实设备、母语、远端CI及分发状态以当前STATUS为准。"
+    },
+    {
+      "id": "T36",
+      "title": "双点构图、机会搜索与推荐机位",
+      "depends_on": [
+        "T04",
+        "T07",
+        "T11",
+        "T12",
+        "T18"
+      ],
+      "status": "implemented_verified_local_pending_ci",
+      "files": [
+        "packages/LightPlanCore/Sources/LightPlanCore/CompositionPlanning.swift",
+        "ios/LightPlan/MapView.swift",
+        "ios/LightPlan/AppState.swift",
+        "ios/LightPlanVisualUITests/ProductUITests.swift",
+        "ios/LightPlanVisualUITests/VisualUITests.swift"
+      ],
+      "acceptance": [
+        "地图可点选主体并计算观察点到主体的真北方位",
+        "太阳/月亮可按左10度、居中、右10度寻找当天最佳可见对齐时刻",
+        "安装后可直接搜索1–90个目的地民用日的连续机会窗口并给出几何推荐机位；没有内购或额外授权步骤",
+        "推荐机位明确为几何建议，不声明道路可达、地形无遮挡或现场安全",
+        "1900至2100日期边界安全，Core单测和原生UI测试通过",
+        "新增文案九语齐全并通过本地化检查",
+        "保存观察点、主体、天体、偏移与时刻；重启可恢复，提醒不退回日落；旧备份可读且升级前保留原件",
+        "低空/暮光等条件按对齐误差、天体高度与太阳高度筛选；无匹配明确为空，不擅自放宽条件",
+        "构图计划保存可选搜索条件；旧备份缺失条件可读，改日期时继续使用原条件，范围解码拒绝逆序或非有限值"
+      ],
+      "evidence": [
+        "tests/reports/composition-plans-2026-09-22.md",
+        "tests/reports/composition-plans-2026-09-22.json",
+        "tests/reports/paid-product-2026-09-22.md",
+        "tests/reports/photography-tools-2026-09-22.md"
+      ],
+      "note": "本轮已完成付费下载产品与本地验证；最终品牌/元数据、真实设备、母语、远端CI及分发状态以当前STATUS为准。"
+    },
+    {
+      "id": "T37",
+      "title": "镜头预演、时间窗筛选与项目现场闭环",
+      "depends_on": [
+        "T36",
+        "T15",
+        "T16",
+        "T22"
+      ],
+      "status": "implemented_verified_local_pending_ci",
+      "files": [
+        "packages/LightPlanCore/Sources/LightPlanCore/CameraFraming.swift",
+        "packages/LightPlanCore/Sources/LightPlanCore/OpportunityWindow.swift",
+        "packages/LightPlanCore/Sources/LightPlanCore/PlanLibrary.swift",
+        "packages/LightPlanCore/Sources/LightPlanCore/FieldSession.swift",
+        "ios/LightPlan/Visual/FramingPreview.swift",
+        "ios/LightPlan/OpportunitySearchView.swift",
+        "ios/LightPlan/PlanLibraryView.swift",
+        "ios/LightPlan/FieldSessionView.swift"
+      ],
+      "acceptance": [
+        "镜头画幅与天体视圆依据真实离线几何计算，并明确仰角/实景限制",
+        "可选1–90民用日和月亮照明，展示连续窗口、持续时间和截断提示",
+        "项目搜索分组、完成恢复、现场倒计时与系统提醒取消闭环",
+        "旧存档兼容，新参数在保存/编辑/重启/地图恢复后保留",
+        "纵向滚动不误改拍摄时刻；模板覆盖旧条件，显式All保持",
+        "九语完整，真实原生流程与布局有明确证据边界"
+      ],
+      "evidence": [
+        "tests/reports/photography-tools-2026-09-22.md",
+        "tests/reports/photography-tools-2026-09-22.json"
+      ],
+      "note": "本地候选；真实付费意愿、真机、母语与App Store账号/分发验收仍单独进行。"
+    },
+    {
+      "id": "T38",
+      "title": "地点主动定位与地图底图样式切换",
+      "depends_on": [
+        "T11",
+        "T13",
+        "T22",
+        "T24"
+      ],
+      "status": "superseded_after_owner_phone_failure",
+      "files": [
+        "ios/LightPlan/PlansPlacesSettings.swift",
+        "ios/LightPlan/PlaceServices.swift",
+        "ios/LightPlan/MapView.swift",
+        "ios/Shared/Localizable.xcstrings"
+      ],
+      "acceptance": [
+        "地点页有明确的系统定位入口，只有用户点击才请求权限；定位失败可手动选地点",
+        "地图卫星影像和普通地图的实际MapKit瓦片可切换，按钮显示当前模式并在重启后保留",
+        "九语文案完整，App/Widget Debug及Release编译，原生定位与底图切换测试通过",
+        "实体iPhone更新安装与启动状态有证据；真机GPS和地图视觉验收不由模拟器代签"
+      ],
+      "evidence": [
+        "tests/reports/location-map-style-2026-09-23.md",
+        "tests/reports/location-map-style-2026-09-23.json"
+      ],
+      "note": "历史候选：用户真机指出图标变动但底图未切换。最终物理修复见T40。"
+    },
+    {
+      "id": "T39",
+      "title": "真机地图底图与定位箭头反馈修复",
+      "depends_on": [
+        "T38",
+        "T11",
+        "T13",
+        "T24"
+      ],
+      "status": "superseded_after_owner_phone_failure",
+      "files": [
+        "ios/LightPlan/MapView.swift",
+        "ios/LightPlanVisualUITests/ProductUITests.swift",
+        "ios/LightPlanVisualUITests/VisualUITests.swift"
+      ],
+      "acceptance": [
+        "地图样式按钮不显示长文字；切换后底图瓦片实际改变且外层地图相机和拍摄时刻保留",
+        "地图定位箭头调用系统GPS更新拍摄地点；长按保留回到已选地点",
+        "按钮布局不遮挡日出时间；iPhone横竖屏原生回归通过",
+        "开发签名App/Widget归档、安装启动有证据；实体iPhone实际点击结果由用户确认"
+      ],
+      "evidence": [
+        "tests/reports/map-physical-feedback-2026-09-23.md",
+        "tests/reports/map-physical-feedback-2026-09-23.json"
+      ],
+      "note": "历史候选：模拟器四项通过，但用户真机反馈底图未改变、未见独立蓝点。由T40取代；不可作为真机通过证据。"
+    },
+    {
+      "id": "T40",
+      "title": "原生MapKit底图切换与独立设备位置蓝点",
+      "depends_on": [
+        "T38",
+        "T39"
+      ],
+      "status": "implemented_verified_simulator_and_owner_phone_specific_flows",
+      "files": [
+        "ios/LightPlan/NativePhotoMap.swift",
+        "ios/LightPlan/MapView.swift",
+        "ios/LightPlan/PlaceServices.swift",
+        "ios/LightPlanVisualUITests/ProductUITests.swift",
+        "ios/LightPlanVisualUITests/VisualUITests.swift",
+        "scripts/ci_native.sh"
+      ],
+      "acceptance": [
+        "用户点击纯图标样式按钮后实体iPhone的卫星与普通底图瓦片实际切换",
+        "点击定位箭头取得CoreLocation位置并显示与拍摄机位区分的实时蓝点，离开地图停止更新",
+        "保留主体点选、天体轨迹、地图相机及法律署名；严格模拟器GPS正向测试不允许定位错误蒙混通过",
+        "开发签名App/Widget归档安装重启后，用户对底图和蓝点两项真机行为确认"
+      ],
+      "evidence": [
+        "tests/reports/owned-mapkit-2026-09-23.md",
+        "tests/reports/owned-mapkit-2026-09-23.json"
+      ],
+      "note": "两项特定真机行为已获用户实际操作确认；完整设备与App Store发布验收仍待完成，提交/推送状态以Git为准。"
     }
   ]
 }

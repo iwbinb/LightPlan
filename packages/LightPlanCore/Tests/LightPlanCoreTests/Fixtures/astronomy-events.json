@@ -1,0 +1,2125 @@
+{
+  "reference": {
+    "oracle": "Swiss Ephemeris 2.10.03 / Moshier via pyswisseph 2.10.3.2",
+    "source": "https://www.astro.com/swisseph/swephprg.htm",
+    "referenceFunction": "swe_rise_trans_true_hor (independent event solver)",
+    "flags": "FLG_MOSEPH; CALC_RISE or CALC_SET; BIT_NO_REFRACTION; BIT_DISC_CENTER only for twilight/golden thresholds",
+    "riseSetConvention": "Topocentric upper limb crossing a geometric horizon at -34/60 degree, sea-level observer. Variable apparent radius comes from the reference ephemeris; this matches the app's fixed 34-arcminute convention without using its position or root solver.",
+    "thresholdConvention": "Topocentric unrefracted center crosses -18, -12, -6, -4 or +6 degrees.",
+    "timeConvention": "UT input from UTC Unix seconds (no subsecond DUT1 correction); destination civil day from Python zoneinfo, compared with Foundation boundaries.",
+    "limits": "Existing docs/09 targets: solar events <=60 seconds; lunar events <=120 seconds. Limits are not relaxed for grazing events."
+  },
+  "cases": [
+    {
+      "name": "gulangyu-autumn",
+      "latitude": 24.4478,
+      "longitude": 118.0679,
+      "timeZone": "Asia/Shanghai",
+      "civilDate": "2026-09-22",
+      "intervalStart": "2026-09-21T16:00:00.000000Z",
+      "intervalEnd": "2026-09-22T16:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "moonset",
+          "timestamp": 1790011971.7741907,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1790023227.198717,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1790024823.347412,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1790026410.9130116,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1790026938.9297009,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1790027774.6321888,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1790029576.6646996,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1790061771.6186583,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1790069672.0932066,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1790071472.4502892,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1790072307.2327256,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1790072834.631394,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1790074420.068419,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1790076013.6078343,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "new-york-dst-short",
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "timeZone": "America/New_York",
+      "civilDate": "2026-03-08",
+      "intervalStart": "2026-03-08T05:00:00.000000Z",
+      "intervalEnd": "2026-03-09T04:00:00.000000Z",
+      "durationSeconds": 82800.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1772963285.1501122,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1772965196.510294,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1772967095.428419,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1772967728.4057543,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1772968732.1991026,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1772970919.467142,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 1772976160.0967333,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1773008320.9519029,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1773010511.0352159,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1773011516.394116,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1773012150.4562974,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1773014053.1510262,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1773015969.4000974,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "new-york-dst-long",
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "timeZone": "America/New_York",
+      "civilDate": "2026-11-01",
+      "intervalStart": "2026-11-01T04:00:00.000000Z",
+      "intervalEnd": "2026-11-02T05:00:00.000000Z",
+      "durationSeconds": 90000.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1793526826.9622192,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1793528740.6432896,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1793530681.0760155,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1793531336.7950096,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1793532386.3601475,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1793534719.8562412,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 1793556421.8780577,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1793567601.7715514,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1793569934.1690392,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1793570983.1024766,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1793571638.3820043,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1793573577.3041368,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1793575489.035067,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1793592838.4934068,
+          "maxErrorSeconds": 120
+        }
+      ]
+    },
+    {
+      "name": "berlin-dst-short",
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "timeZone": "Europe/Berlin",
+      "civilDate": "2026-03-29",
+      "intervalStart": "2026-03-28T23:00:00.000000Z",
+      "intervalEnd": "2026-03-29T22:00:00.000000Z",
+      "durationSeconds": 82800.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1774752484.2986717,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1774755133.5281162,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 1774755781.4193516,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1774757616.5481224,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1774758422.2991734,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1774759684.0240135,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1774762379.698187,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1774790524.6246667,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1774803012.5641332,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1774805716.4917722,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1774806983.0918221,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1774807792.3584847,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1774810288.877955,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1774812958.9676766,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "berlin-dst-long",
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "timeZone": "Europe/Berlin",
+      "civilDate": "2026-10-25",
+      "intervalStart": "2026-10-24T22:00:00.000000Z",
+      "intervalEnd": "2026-10-25T23:00:00.000000Z",
+      "durationSeconds": 90000.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1792900495.5031872,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1792902866.6961193,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 1792904036.5752697,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1792905262.2924595,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1792906074.3056774,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1792907380.8547764,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1792910338.2918835,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1792940471.8674035,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1792940628.463778,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1792943426.297003,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1792944731.1295152,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1792945541.94797,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1792947933.2596421,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1792950298.7396703,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "lord-howe-dst-long",
+      "latitude": -31.55,
+      "longitude": 159.08,
+      "timeZone": "Australia/Lord_Howe",
+      "civilDate": "2026-04-05",
+      "intervalStart": "2026-04-04T13:00:00.000000Z",
+      "intervalEnd": "2026-04-05T13:30:00.000000Z",
+      "durationSeconds": 88200.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1775326588.6901112,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1775328280.8730469,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1775329972.2182884,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1775330537.0391636,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1775331433.4411411,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1775333381.0287266,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 1775341225.651516,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1775371369.3893626,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1775373315.4388757,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1775374211.0168786,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1775374775.274691,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1775376464.6561131,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1775378154.367125,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1775378620.022616,
+          "maxErrorSeconds": 120
+        }
+      ]
+    },
+    {
+      "name": "lord-howe-dst-short",
+      "latitude": -31.55,
+      "longitude": 159.08,
+      "timeZone": "Australia/Lord_Howe",
+      "civilDate": "2026-10-04",
+      "intervalStart": "2026-10-03T13:30:00.000000Z",
+      "intervalEnd": "2026-10-04T13:00:00.000000Z",
+      "durationSeconds": 84600.0,
+      "expectedEvents": [
+        {
+          "kind": "moonrise",
+          "timestamp": 1791038226.3411865,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1791048974.5269432,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1791050720.0072765,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1791052437.9256992,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1791053006.2759056,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1791053903.0349522,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1791055829.4463902,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 1791074301.638773,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1791096900.9415002,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1791098830.3604455,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1791099728.739962,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1791100298.2162938,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1791102020.0485559,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1791103770.500216,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "chatham-dst-short",
+      "latitude": -43.95,
+      "longitude": -176.56,
+      "timeZone": "Pacific/Chatham",
+      "civilDate": "2026-09-27",
+      "intervalStart": "2026-09-26T11:15:00.000000Z",
+      "intervalEnd": "2026-09-27T10:15:00.000000Z",
+      "durationSeconds": 82800.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1790437782.2555199,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1790439873.7365513,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1790441908.610487,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1790442579.29838,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 1790442996.3531284,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1790443636.9933872,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1790445913.0996494,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1790485816.8030248,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1790488097.6196618,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1790489157.951388,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1790489830.4932237,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1790490542.8467126,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1790491872.0276341,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1790493972.517468,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "kathmandu-quarter-hour",
+      "latitude": 27.7172,
+      "longitude": 85.324,
+      "timeZone": "Asia/Kathmandu",
+      "civilDate": "2026-09-22",
+      "intervalStart": "2026-09-21T18:15:00.000000Z",
+      "intervalEnd": "2026-09-22T18:15:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "moonset",
+          "timestamp": 1790019712.040636,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1790030939.4225464,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1790032585.3393078,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1790034219.5830688,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1790034762.7746105,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1790035622.2899647,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1790037475.6972923,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1790070204.8065515,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1790077483.2077086,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1790079334.651217,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1790080193.067965,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1790080735.531649,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1790082367.248568,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1790084010.034226,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "kiritimati-dateline",
+      "latitude": 1.87,
+      "longitude": -157.43,
+      "timeZone": "Pacific/Kiritimati",
+      "civilDate": "2026-09-22",
+      "intervalStart": "2026-09-21T10:00:00.000000Z",
+      "intervalEnd": "2026-09-22T10:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "moonset",
+          "timestamp": 1789993527.0202026,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1790003438.7068958,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1790004879.44026,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1790006320.0637074,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1790006800.2624302,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1790007560.8184338,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1790009201.1184483,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1790038594.4763377,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1790049514.9826243,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1790051155.1315637,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1790051915.6189294,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1790052395.7489343,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1790053836.2076268,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1790055276.7212377,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "kiritimati-minimum-year",
+      "latitude": 1.87,
+      "longitude": -157.43,
+      "timeZone": "Pacific/Kiritimati",
+      "civilDate": "1900-01-01",
+      "intervalStart": "1900-01-01T10:29:20.000000Z",
+      "intervalEnd": "1900-01-02T10:29:20.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": -2208933700.9070277,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": -2208932131.029403,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": -2208930565.1205764,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": -2208930043.4485316,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": -2208929218.512592,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": -2208928609.8699865,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": -2208927432.204276,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": -2208887735.2498903,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": -2208885949.4496794,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": -2208885124.760972,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": -2208884603.2674417,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": -2208884054.143283,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": -2208883037.935397,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": -2208881468.7444315,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "kiritimati-maximum-year",
+      "latitude": 1.87,
+      "longitude": -157.43,
+      "timeZone": "Pacific/Kiritimati",
+      "civilDate": "2100-12-31",
+      "intervalStart": "2100-12-30T10:00:00.000000Z",
+      "intervalEnd": "2100-12-31T10:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 4133863017.996168,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 4133864589.2745495,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 4133866156.529215,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 4133866678.640726,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 4133866703.373684,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 4133867504.290724,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 4133869292.123392,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 4133908984.3399644,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 4133910771.746886,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 4133911268.342623,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 4133911597.1771703,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 4133912119.137606,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 4133913685.8978868,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 4133915256.599486,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "pago-pago-minimum-year",
+      "latitude": -14.2756,
+      "longitude": -170.702,
+      "timeZone": "Pacific/Pago_Pago",
+      "civilDate": "1900-01-01",
+      "intervalStart": "1900-01-01T11:22:48.000000Z",
+      "intervalEnd": "1900-01-02T11:22:48.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": -2208932494.0529823,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": -2208930792.806326,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": -2208929129.1054726,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": -2208928581.107399,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": -2208927720.2462063,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": -2208926858.135292,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": -2208925878.374523,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": -2208882919.799003,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": -2208881078.806293,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": -2208880218.412006,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": -2208879670.743522,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": -2208879305.3657413,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": -2208878008.1550345,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": -2208876308.281696,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "pago-pago-maximum-year",
+      "latitude": -14.2756,
+      "longitude": -170.702,
+      "timeZone": "Pacific/Pago_Pago",
+      "civilDate": "2100-12-31",
+      "intervalStart": "2100-12-31T11:00:00.000000Z",
+      "intervalEnd": "2101-01-01T11:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 4133950651.7333508,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 4133952353.7215843,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 4133954018.0404186,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 4133954566.244486,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 4133955427.3940697,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 4133957269.8287754,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 4133958273.4298496,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 4134000233.5678964,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 4134002075.1785874,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 4134002935.9024644,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 4134003483.7906613,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 4134005147.093287,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 4134006452.0355954,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 4134006847.7906003,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "tromso-polar-day",
+      "latitude": 69.6492,
+      "longitude": 18.9553,
+      "timeZone": "Europe/Oslo",
+      "civilDate": "2026-06-21",
+      "intervalStart": "2026-06-20T22:00:00.000000Z",
+      "intervalEnd": "2026-06-21T22:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "moonset",
+          "timestamp": 1781995031.3811243,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1782003413.7572632,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1782037069.2199767,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1782074103.6240487,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "tromso-polar-night",
+      "latitude": 69.6492,
+      "longitude": 18.9553,
+      "timeZone": "Europe/Oslo",
+      "civilDate": "2026-12-21",
+      "intervalStart": "2026-12-20T23:00:00.000000Z",
+      "intervalEnd": "2026-12-21T23:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1797830899.9038486,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1797835602.986124,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1797841875.300604,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1797845374.5116382,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1797854090.6829894,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1797857589.8697228,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1797863862.1292443,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1797868565.1016831,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "tromso-equinox",
+      "latitude": 69.6492,
+      "longitude": 18.9553,
+      "timeZone": "Europe/Oslo",
+      "civilDate": "2026-03-20",
+      "intervalStart": "2026-03-19T23:00:00.000000Z",
+      "intervalEnd": "2026-03-20T23:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1773967579.4478893,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1773973656.9198132,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1773978229.8003807,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1773979642.9992332,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1773979740.722622,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1773981834.9914074,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1773986598.52598,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1774021304.8447118,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1774026091.6016488,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1774028299.427855,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1774029725.370875,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1774034362.0682359,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 1774039372.6166368,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1774040681.9224298,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "arctic-before-tangent",
+      "latitude": 67.396,
+      "longitude": 13.8875,
+      "timeZone": "UTC",
+      "civilDate": "2026-12-21",
+      "intervalStart": "2026-12-21T00:00:00.000000Z",
+      "intervalEnd": "2026-12-22T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1797831622.5707798,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1797835789.616373,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1797840902.488701,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1797843150.1403599,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1797850737.8761902,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1797851160.8130634,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1797858748.5290587,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1797860996.1532786,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1797866108.970648,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1797870275.9338841,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "arctic-near-tangent",
+      "latitude": 67.398,
+      "longitude": 13.8875,
+      "timeZone": "UTC",
+      "civilDate": "2026-12-21",
+      "intervalStart": "2026-12-21T00:00:00.000000Z",
+      "intervalEnd": "2026-12-22T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1797831622.9690075,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1797835790.4403477,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1797840904.081732,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1797843152.3376524,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1797850864.1286135,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1797851034.5617266,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1797858746.318087,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1797860994.5602477,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1797866108.1466734,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1797870275.5356164,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "arctic-after-tangent",
+      "latitude": 67.4,
+      "longitude": 13.8875,
+      "timeZone": "UTC",
+      "civilDate": "2026-12-21",
+      "intervalStart": "2026-12-21T00:00:00.000000Z",
+      "intervalEnd": "2026-12-22T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1797831623.3809948,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1797835791.2505627,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1797840905.6884825,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1797843154.5349047,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1797858744.1207945,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1797860992.9534972,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1797866107.3364587,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1797870275.123629,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "equator-equinox",
+      "latitude": 0,
+      "longitude": 0,
+      "timeZone": "UTC",
+      "civilDate": "2026-03-20",
+      "intervalStart": "2026-03-20T00:00:00.000000Z",
+      "intervalEnd": "2026-03-21T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1773982531.9228916,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1773983971.6537266,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1773985411.370802,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1773985891.2810936,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1773986650.8895664,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1773988290.8050327,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1773990180.604519,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1774028601.3870702,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1774030241.2750573,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1774031000.8835301,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1774031480.7938218,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1774032920.5108972,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1774034360.2280126,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 1774034804.185532,
+          "maxErrorSeconds": 120
+        }
+      ]
+    },
+    {
+      "name": "north-89-equinox",
+      "latitude": 89,
+      "longitude": 0,
+      "timeZone": "UTC",
+      "civilDate": "2026-03-20",
+      "intervalStart": "2026-03-20T00:00:00.000000Z",
+      "intervalEnd": "2026-03-21T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "sunrise",
+          "timestamp": 1773977203.6635609,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1774048307.73502,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "south-89-equinox",
+      "latitude": -89,
+      "longitude": 0,
+      "timeZone": "UTC",
+      "civilDate": "2026-09-23",
+      "intervalStart": "2026-09-23T00:00:00.000000Z",
+      "intervalEnd": "2026-09-24T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "sunrise",
+          "timestamp": 1790128524.5894775,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "longyearbyen-winter",
+      "latitude": 78.2232,
+      "longitude": 15.6469,
+      "timeZone": "Arctic/Longyearbyen",
+      "civilDate": "2026-02-15",
+      "intervalStart": "2026-02-14T23:00:00.000000Z",
+      "intervalEnd": "2026-02-15T23:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1771125549.8458652,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1771132766.2017748,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1771140318.1350634,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1771143437.4145434,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1771153097.3495543,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1771154813.1374314,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1771164485.0357652,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1771167613.5849595,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1771175207.1976438,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1771182519.8212266,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "longyearbyen-spring",
+      "latitude": 78.2232,
+      "longitude": 15.6469,
+      "timeZone": "Arctic/Longyearbyen",
+      "civilDate": "2026-04-15",
+      "intervalStart": "2026-04-14T22:00:00.000000Z",
+      "intervalEnd": "2026-04-15T22:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "sunrise",
+          "timestamp": 1776213896.4186878,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1776223479.0511608,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1776224799.4979115,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 1776269108.869967,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1776276755.09343,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1776288257.3807492,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "longyearbyen-autumn",
+      "latitude": 78.2232,
+      "longitude": 15.6469,
+      "timeZone": "Arctic/Longyearbyen",
+      "civilDate": "2026-10-15",
+      "intervalStart": "2026-10-14T22:00:00.000000Z",
+      "intervalEnd": "2026-10-15T22:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1792026242.0729847,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1792035013.65349,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1792042183.7020664,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1792044674.3301182,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1792049118.5332909,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1792072709.7366526,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1792077135.7299864,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1792079611.6226525,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1792086706.7444177,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1792095184.866406,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "antarctic-summer",
+      "latitude": -77.85,
+      "longitude": 166.67,
+      "timeZone": "Antarctica/McMurdo",
+      "civilDate": "2026-12-21",
+      "intervalStart": "2026-12-20T11:00:00.000000Z",
+      "intervalEnd": "2026-12-21T11:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": []
+    },
+    {
+      "name": "sydney-summer",
+      "latitude": -33.8688,
+      "longitude": 151.2093,
+      "timeZone": "Australia/Sydney",
+      "civilDate": "2026-12-21",
+      "intervalStart": "2026-12-20T13:00:00.000000Z",
+      "intervalEnd": "2026-12-21T13:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "moonset",
+          "timestamp": 1797780562.4572277,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1797785775.5523071,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1797788135.1271973,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1797790289.0792236,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1797790975.944458,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1797792037.4984264,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1797794251.8203526,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1797833150.4257395,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1797841711.041306,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1797843925.5142674,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1797844987.1368737,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1797845674.0570664,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1797847828.2425256,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1797850188.1882043,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "tokyo-leap-day",
+      "latitude": 35.6762,
+      "longitude": 139.6503,
+      "timeZone": "Asia/Tokyo",
+      "civilDate": "2024-02-29",
+      "intervalStart": "2024-02-28T15:00:00.000000Z",
+      "intervalEnd": "2024-02-29T15:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 1709149674.795498,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 1709151446.6292992,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 1709153221.1822166,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 1709153815.006998,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 1709154758.2931309,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 1709156819.2596226,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 1709162157.5164855,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 1709193674.4217381,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 1709195737.0636582,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 1709196681.2698827,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 1709197275.7263646,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 1709199052.490294,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 1709200827.125609,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonrise",
+          "timestamp": 1709211502.4033322,
+          "maxErrorSeconds": 120
+        }
+      ]
+    },
+    {
+      "name": "london-mid-century",
+      "latitude": 51.5074,
+      "longitude": -0.1278,
+      "timeZone": "Europe/London",
+      "civilDate": "1950-01-15",
+      "intervalStart": "1950-01-15T00:00:00.000000Z",
+      "intervalEnd": "1950-01-16T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "moonrise",
+          "timestamp": -629921046.0083216,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": -629920819.6212977,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": -629918419.012472,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": -629915904.9698219,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": -629915029.6066761,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": -629913592.855829,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": -629910150.0015199,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": -629896447.5234792,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": -629887039.1753957,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": -629883595.5657496,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": -629882158.3617568,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": -629881282.6965004,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": -629878767.555204,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": -629876365.490663,
+          "maxErrorSeconds": 60
+        }
+      ]
+    },
+    {
+      "name": "lisbon-future",
+      "latitude": 38.7223,
+      "longitude": -9.1393,
+      "timeZone": "Europe/Lisbon",
+      "civilDate": "2050-04-15",
+      "intervalStart": "2050-04-14T23:00:00.000000Z",
+      "intervalEnd": "2050-04-15T23:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "expectedEvents": [
+        {
+          "kind": "moonrise",
+          "timestamp": 2533600628.0120506,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "astronomicalDawn",
+          "timestamp": 2533609539.887953,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDawn",
+          "timestamp": 2533611596.432461,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueMorningStart",
+          "timestamp": 2533613564.8528843,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningStart",
+          "timestamp": 2533614207.0998936,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunrise",
+          "timestamp": 2533615213.4338436,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "timestamp": 2533617350.288397,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "moonset",
+          "timestamp": 2533639304.707356,
+          "maxErrorSeconds": 120
+        },
+        {
+          "kind": "goldenEveningStart",
+          "timestamp": 2533660667.388989,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "sunset",
+          "timestamp": 2533662809.4208627,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "timestamp": 2533663818.6798825,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "blueEveningEnd",
+          "timestamp": 2533664462.9868283,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "nauticalDusk",
+          "timestamp": 2533666438.864222,
+          "maxErrorSeconds": 60
+        },
+        {
+          "kind": "astronomicalDusk",
+          "timestamp": 2533668505.694653,
+          "maxErrorSeconds": 60
+        }
+      ]
+    }
+  ]
+}

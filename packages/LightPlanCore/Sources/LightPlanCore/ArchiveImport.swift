@@ -10,7 +10,7 @@ public struct ImportPreview: Sendable {
     public let identicalItems: Int
 
     public init(local: Archive, incoming: Archive) throws {
-        // Schema 1 stores timestamps at whole-second precision. Compare the persisted
+        // Archives store timestamps at whole-second precision. Compare the persisted
         // representations so exporting and reimporting an unchanged plan is not a conflict.
         let local = try Archive.decode(local.encoded())
         let incoming = try Archive.decode(incoming.encoded())
@@ -64,6 +64,11 @@ public struct ArchiveRepository: Sendable {
         if fm.fileExists(atPath: url.path) {
             let old = try Data(contentsOf: url)
             if !allowRecovery { _ = try Archive.decode(old) }
+            if let legacy = try? Archive.decode(old), legacy.schemaVersion < Archive.currentSchemaVersion {
+                let migrationBackup = url.deletingLastPathComponent()
+                    .appendingPathComponent("archive-schema-\(legacy.schemaVersion)-\(UUID().uuidString).json")
+                try old.write(to: migrationBackup, options: .atomic)
+            }
             let backup = url.deletingLastPathComponent().appendingPathComponent(allowRecovery ? "recovered-\(UUID().uuidString).json" : "archive-previous.json")
             try old.write(to: backup, options: .atomic)
         }

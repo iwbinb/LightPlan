@@ -2,6 +2,13 @@ import SwiftUI
 import WidgetKit
 import LightPlanCore
 
+struct MapPlanRestore: Identifiable {
+    let id = UUID()
+    let plan: ShootPlan
+}
+
+enum PlanningTemplate { case sunset, moon }
+
 @MainActor final class AppState: ObservableObject {
     @Published var place = Place.example
     @Published var basePlace = Place.example
@@ -15,11 +22,12 @@ import LightPlanCore
     @Published var errorKey: String?
     @Published var noticeKey: String?
     @Published var archiveLocked = false
-    @Published var paywallPresented = false
     @Published var openPlanID: UUID?
+    @Published var mapPlanRestore: MapPlanRestore?
+    @Published var compositionRequest: UUID?
+    @Published var compositionTemplate: PlanningTemplate?
     @Published var followingToday = true
     @Published var followingNow = true
-    private var pendingAction: (@MainActor () -> Void)?
     private var calculation: Task<DaySummary, Error>?
     private var refreshID = UUID()
     private let repository: ArchiveRepository
@@ -29,10 +37,16 @@ import LightPlanCore
         #if DEBUG
         isFixture = ProcessInfo.processInfo.environment["LIGHTPLAN_VISUAL_FIXTURE"] == "1"
         #endif
-        let directory = isFixture ? FileManager.default.temporaryDirectory.appendingPathComponent("LightPlanVisualFixture") : FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        var fixtureArchiveID: UUID?
+        #if DEBUG
+        if isFixture, let value = ProcessInfo.processInfo.environment["LIGHTPLAN_VISUAL_ARCHIVE"] {
+            fixtureArchiveID = UUID(uuidString: value)
+        }
+        #endif
+        let directory = isFixture ? FileManager.default.temporaryDirectory.appendingPathComponent("LightPlanVisualFixture").appendingPathComponent(fixtureArchiveID?.uuidString ?? "ephemeral") : FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
         repository = ArchiveRepository(url: directory.appendingPathComponent("LightPlan/archive-v1.json"))
         do {
-            if !isFixture {
+            if !isFixture || fixtureArchiveID != nil {
                 let saved = try repository.load(); places = saved.places; plans = saved.plans
             }
         } catch { archiveLocked = true; errorKey = "error.archive" }
@@ -45,13 +59,19 @@ import LightPlanCore
             UserDefaults.standard.set(env["LIGHTPLAN_VISUAL_LANGUAGE"] ?? "zh-Hans", forKey: "language")
             UserDefaults.standard.set(env["LIGHTPLAN_VISUAL_THEME"] ?? "light", forKey: "appearance")
             UserDefaults.standard.set(true, forKey: "onboardingDone")
-            selectedDate = Date(timeIntervalSince1970: 1_789_617_600) // deterministic UTC instant; no billing bypass
+            selectedDate = Date(timeIntervalSince1970: 1_789_617_600) // deterministic UTC instant for visual tests
             selectedInstant = Date(timeIntervalSince1970: 1_789_638_590)
+            if let text = env["LIGHTPLAN_VISUAL_DAY"], let date = ISO8601DateFormatter().date(from: text),
+               (try? LocalDay.validate(date, timeZone: place.timeZone)) != nil {
+                selectedDate = date; selectedInstant = date
+            }
             followingToday = false; followingNow = false
             tab = Int(env["LIGHTPLAN_VISUAL_TAB"] ?? "0") ?? 0
             place.name = L10n.text("v3.demo.place")
-            if let plan = try? ShootPlan(title: L10n.text("v3.demo.title"), place: place, date: selectedDate, target: .sunset, arrivalLeadMinutes: 45) { plans = [plan] }
-            places = [place]
+            if fixtureArchiveID == nil {
+                if let plan = try? ShootPlan(title: L10n.text("v3.demo.title"), place: place, date: selectedDate, target: .sunset, arrivalLeadMinutes: 45) { plans = [plan] }
+                places = [place]
+            }
         }
         #endif
     }
@@ -59,22 +79,26 @@ import LightPlanCore
     func refresh() async {
         calculation?.cancel()
         let id = UUID(); refreshID = id; busy = true; summary = nil
+        defer {
+            if id == refreshID { busy = false; calculation = nil }
+        }
         let p = place, d = selectedDate
         let task = Task.detached(priority: .userInitiated) { try DayEngine.calculate(place: p, date: d) }
         calculation = task
         do {
             let value = try await task.value
-            guard id == refreshID, !Task.isCancelled else { return }
+            // The shared selected day outlives the initiating view/pull-to-refresh.
+            // Only a newer refresh supersedes this app-owned calculation; a view
+            // cancellation must not leave the current day permanently blank.
+            guard id == refreshID else { return }
             summary = value
             if !(value.start..<value.end).contains(selectedInstant) {
                 let now = Date()
                 selectedInstant = (value.start..<value.end).contains(now) ? now : value.start.addingTimeInterval(value.end.timeIntervalSince(value.start) * 0.7)
             }
-            busy = false
         } catch is CancellationError {
-            if id == refreshID { busy = false }
         } catch {
-            if id == refreshID { busy = false; errorKey = "error.calculation" }
+            if id == refreshID { errorKey = "error.calculation" }
         }
     }
     func select(_ newPlace: Place, asBase: Bool = false) async {
@@ -91,12 +115,28 @@ import LightPlanCore
         if followingToday { selectedDate = Date() }
         await refresh()
     }
+
+    /// Move the active planning observer without replacing the user's saved default location.
+    /// Used by composition guidance where a suggested stand point is provisional.
+    func selectPlanningPlace(_ newPlace: Place) async {
+        let oldZone = place.timeZone
+        if !followingToday {
+            do { selectedDate = try LocalDay.relocating(selectedDate, from: oldZone, to: newPlace.timeZone) }
+            catch { errorKey = "error.calculation"; return }
+        }
+        place = newPlace
+        if followingToday { selectedDate = Date() }
+        followingNow = false
+        await refresh()
+    }
+
     /// A saved plan already owns its destination civil day; never reinterpret it in the old map zone.
     func showPlanMap(_ plan: ShootPlan) async {
         followingToday = false; followingNow = false
         place = plan.place; selectedDate = plan.date
         await refresh()
-        if let summary, let anchor = summary.first(Planner.anchorKind(plan.target)) { selectedInstant = anchor.date }
+        if let summary, let anchor = Planner.anchorDate(plan: plan, summary: summary) { selectedInstant = anchor }
+        mapPlanRestore = MapPlanRestore(plan: plan)
         tab = 1
     }
     func selectDate(_ date: Date) async {
@@ -104,11 +144,15 @@ import LightPlanCore
         followingNow = false; selectedDate = date
         await refresh()
     }
-    func showToday(unlocked: Bool) async {
+    func showToday() async {
         followingToday = true; followingNow = true
         selectedDate = Date(); selectedInstant = Date()
-        if !unlocked { place = basePlace }
         await refresh()
+    }
+    func beginComposition(template: PlanningTemplate? = nil) {
+        compositionTemplate = template
+        compositionRequest = UUID()
+        tab = 1
     }
     func tick() async {
         guard !isFixture else { return }
@@ -117,13 +161,6 @@ import LightPlanCore
         } else if followingNow, let summary, (summary.start..<summary.end).contains(Date()) {
             selectedInstant = Date()
         }
-    }
-    func requestPremium(unlocked: Bool, action: @escaping @MainActor () -> Void) {
-        if unlocked { action() } else { pendingAction = action; paywallPresented = true }
-    }
-    func paywallClosed(unlocked: Bool) {
-        let action = pendingAction; pendingAction = nil
-        if unlocked { Task { @MainActor in await Task.yield(); action?() } }
     }
     func save() throws {
         guard !archiveLocked else { throw LightPlanError.storageLocked }
@@ -151,7 +188,7 @@ import LightPlanCore
     func add(_ plan: ShootPlan) throws { try upsert(plan) }
     func duplicate(_ plan: ShootPlan) {
         do {
-            var copy = plan; copy.id = UUID(); copy.createdAt = Date(); copy.updatedAt = Date(); copy.reminderLeadMinutes = nil
+            var copy = plan; copy.id = UUID(); copy.createdAt = Date(); copy.updatedAt = Date(); copy.reminderLeadMinutes = nil; copy.completedAt = nil
             try upsert(copy); noticeKey = "notice.duplicated"
         } catch { errorKey = "error.save" }
     }
@@ -195,9 +232,9 @@ import LightPlanCore
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("LightPlan-backup.json")
         try exportedBytes().write(to: url, options: .atomic); return url
     }
-    func publishWidget(unlocked: Bool) {
+    func publishWidget() {
         guard let suite = AppConfiguration.sharedDefaults else { return }
-        if unlocked, let data = try? JSONEncoder().encode(place) { suite.set(data, forKey: "widgetPlace") }
+        if let data = try? JSONEncoder().encode(place) { suite.set(data, forKey: "widgetPlace") }
         else { suite.removeObject(forKey: "widgetPlace") }
         suite.set(L10n.language, forKey: "widgetLanguage")
         suite.set(UserDefaults.standard.string(forKey: "clockFormat") ?? "system", forKey: "widgetClock")

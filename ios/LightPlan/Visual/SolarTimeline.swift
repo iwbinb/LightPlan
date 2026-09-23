@@ -64,15 +64,16 @@ struct SolarTimeline: View {
                 }
                 .clipShape(RoundedRectangle(cornerRadius: compact ? 7 : 12))
                 .contentShape(Rectangle())
-                .gesture(DragGesture(minimumDistance: 0).onChanged { value in
-                    guard width > 0 else { return }
-                    // Instant updates while scrubbing; no spring follows the finger.
-                    instant = VisualGeometry.instant(at: value.location.x / width, in: interval)
-                    let altitude = (try? Astronomy.position(.sun, at: instant, coordinate: summary.place.coordinate).altitude) ?? -90
-                    let band = Astronomy.lightBand(altitude: altitude)
-                    if haptics, let lastBand, lastBand != band { hapticToken += 1 }
-                    lastBand = band
+                .simultaneousGesture(DragGesture(minimumDistance: 10).onChanged { value in
+                    // A vertical scroll through this chart must not change the saved
+                    // instant. Share vertical drags with the surrounding ScrollView.
+                    guard abs(value.translation.width) > abs(value.translation.height) else { return }
+                    scrub(to: value.location.x, width: width)
                 }.onEnded { _ in lastBand = nil })
+                .onTapGesture { location in
+                    scrub(to: location.x, width: width)
+                    lastBand = nil
+                }
             }.frame(height: compact ? 34 : 92)
             HStack(spacing: 0) {
                 ForEach(0..<5) { index in
@@ -92,6 +93,14 @@ struct SolarTimeline: View {
             instant = VisualGeometry.instant(at: fraction + change / interval.duration, in: interval)
         }
         .accessibilityIdentifier("solar-timeline")
+    }
+    private func scrub(to x: CGFloat, width: CGFloat) {
+        guard width > 0 else { return }
+        instant = VisualGeometry.instant(at: x / width, in: interval)
+        let altitude = (try? Astronomy.position(.sun, at: instant, coordinate: summary.place.coordinate).altitude) ?? -90
+        let band = Astronomy.lightBand(altitude: altitude)
+        if haptics, let lastBand, lastBand != band { hapticToken += 1 }
+        lastBand = band
     }
     private func color(_ band: LightBand) -> Color {
         switch band {

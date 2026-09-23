@@ -1,0 +1,6474 @@
+{
+  "generatedAtUTC": "2026-09-22T10:41:22.727777+00:00",
+  "passed": false,
+  "caseCount": 31,
+  "passedCases": 29,
+  "pythonVersion": "3.14.4",
+  "reference": {
+    "oracle": "Swiss Ephemeris 2.10.03 / Moshier via pyswisseph 2.10.3.2",
+    "source": "https://www.astro.com/swisseph/swephprg.htm",
+    "referenceFunction": "swe_rise_trans_true_hor (independent event solver)",
+    "flags": "FLG_MOSEPH; CALC_RISE or CALC_SET; BIT_NO_REFRACTION; BIT_DISC_CENTER only for twilight/golden thresholds",
+    "riseSetConvention": "Topocentric upper limb crossing a geometric horizon at -34/60 degree, sea-level observer. Variable apparent radius comes from the reference ephemeris; this matches the app's fixed 34-arcminute convention without using its position or root solver.",
+    "thresholdConvention": "Topocentric unrefracted center crosses -18, -12, -6, -4 or +6 degrees.",
+    "timeConvention": "UT input from UTC Unix seconds (no subsecond DUT1 correction); destination civil day from Python zoneinfo, compared with Foundation boundaries.",
+    "limits": "Existing docs/09 targets: solar events <=60 seconds; lunar events <=120 seconds. Limits are not relaxed for grazing events."
+  },
+  "bodyResults": {
+    "sun": {
+      "matchedEvents": 303,
+      "maxAbsoluteErrorSeconds": 164.26498007774353,
+      "meanAbsoluteErrorSeconds": 2.0159918254751577,
+      "failedEventKinds": 3,
+      "eventCountMismatches": 2
+    },
+    "moon": {
+      "matchedEvents": 43,
+      "maxAbsoluteErrorSeconds": 22.624666690826416,
+      "meanAbsoluteErrorSeconds": 5.899561324784922,
+      "failedEventKinds": 0,
+      "eventCountMismatches": 0
+    }
+  },
+  "sourceSHA256": {
+    "packages/LightPlanCore/Sources/LightPlanCore/Astronomy.swift": "11abd73fdba17d72498bd0ffd0265ed87512f4581242a3221dfd841b1ded230e",
+    "packages/LightPlanCore/Sources/LightPlanCore/DayEngine.swift": "d955f53782d1e886b2ec85de5befeb433a9e31e4f35b794594fc89cad47d4d43",
+    "packages/LightPlanCore/Sources/LightPlanCore/Models.swift": "e85a47ad39aee9d61cb9576b4b191c2095fecc15bf870ca21cf19749e43e929a",
+    "packages/LightPlanCore/Sources/LightPlanCLI/main.swift": "1a5f1c2c87bd483e236f5d5e27d061633ae5398a25bc970927f5af4003a31afc"
+  },
+  "cliSHA256": "bba7b3461f083ac416961c66163429e3d4bb93f5b5d21efc7085c27c7226ecb5",
+  "limitations": [
+    "Finite independent samples do not establish a global 1900-2100 accuracy bound.",
+    "Near-tangent geometry amplifies small positional or disk-radius differences and can change event existence.",
+    "No terrain, building obstruction, observer elevation, real atmospheric refraction or physical field observation is validated.",
+    "Swift CLI emits whole-second ISO timestamps, adding under one second of comparison quantization.",
+    "The reference library is installed only in a local temporary environment; no reference source or binary is shipped in the app."
+  ],
+  "cases": [
+    {
+      "name": "gulangyu-autumn",
+      "latitude": 24.4478,
+      "longitude": 118.0679,
+      "timeZone": "Asia/Shanghai",
+      "civilDate": "2026-09-22",
+      "intervalStart": "2026-09-21T16:00:00.000000Z",
+      "intervalEnd": "2026-09-22T16:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T21:56:14.632189Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T21:56:14.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.6321887969970703
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T10:04:32.450289Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T10:04:32.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.450289249420166
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-09-22T07:22:51.618658Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T07:22:56.000000Z"
+          ],
+          "signedErrorSeconds": [
+            4.3813416957855225
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-09-21T17:32:51.774191Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T17:32:57.000000Z"
+          ],
+          "signedErrorSeconds": [
+            5.225809335708618
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T20:40:27.198717Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T20:40:26.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.1987171173095703
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T11:20:13.607834Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T11:20:13.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.6078343391418457
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T21:07:03.347412Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T21:07:03.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.347412109375
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T10:53:40.068419Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T10:53:40.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.06841897964477539
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T21:33:30.913012Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T21:33:30.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.9130115509033203
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T10:27:14.631394Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T10:27:14.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.6313939094543457
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T21:42:18.929701Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T21:42:18.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.9297008514404297
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T10:18:27.232726Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T10:18:27.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.2327256202697754
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T22:26:16.664700Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T22:26:16.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.6646995544433594
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T09:34:32.093207Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T09:34:32.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.09320664405822754
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "new-york-dst-short",
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "timeZone": "America/New_York",
+      "civilDate": "2026-03-08",
+      "intervalStart": "2026-03-08T05:00:00.000000Z",
+      "intervalEnd": "2026-03-09T04:00:00.000000Z",
+      "durationSeconds": 82800.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-08T11:18:52.199103Z"
+          ],
+          "actualUTC": [
+            "2026-03-08T11:18:53.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.8008973598480225
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-08T22:55:11.035216Z"
+          ],
+          "actualUTC": [
+            "2026-03-08T22:55:13.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.9647841453552246
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-03-08T13:22:40.096733Z"
+          ],
+          "actualUTC": [
+            "2026-03-08T13:22:31.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -9.096733331680298
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-08T09:48:05.150112Z"
+          ],
+          "actualUTC": [
+            "2026-03-08T09:48:06.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.8498878479003906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-09T00:26:09.400097Z"
+          ],
+          "actualUTC": [
+            "2026-03-09T00:26:12.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.599902629852295
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-08T10:19:56.510294Z"
+          ],
+          "actualUTC": [
+            "2026-03-08T10:19:57.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.48970603942871094
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-08T23:54:13.151026Z"
+          ],
+          "actualUTC": [
+            "2026-03-08T23:54:15.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.8489737510681152
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-08T10:51:35.428419Z"
+          ],
+          "actualUTC": [
+            "2026-03-08T10:51:36.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.5715808868408203
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-08T23:22:30.456297Z"
+          ],
+          "actualUTC": [
+            "2026-03-08T23:22:33.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.5437026023864746
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-08T11:02:08.405754Z"
+          ],
+          "actualUTC": [
+            "2026-03-08T11:02:09.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.5942456722259521
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-08T23:11:56.394116Z"
+          ],
+          "actualUTC": [
+            "2026-03-08T23:11:59.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.605884075164795
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-08T11:55:19.467142Z"
+          ],
+          "actualUTC": [
+            "2026-03-08T11:55:20.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.5328578948974609
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-08T22:18:40.951903Z"
+          ],
+          "actualUTC": [
+            "2026-03-08T22:18:43.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.0480971336364746
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "new-york-dst-long",
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "timeZone": "America/New_York",
+      "civilDate": "2026-11-01",
+      "intervalStart": "2026-11-01T04:00:00.000000Z",
+      "intervalEnd": "2026-11-02T05:00:00.000000Z",
+      "durationSeconds": 90000.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-11-01T11:26:26.360147Z"
+          ],
+          "actualUTC": [
+            "2026-11-01T11:26:27.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.6398525238037109
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-11-01T21:52:14.169039Z"
+          ],
+          "actualUTC": [
+            "2026-11-01T21:52:14.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.16903924942016602
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-11-02T04:13:58.493407Z"
+          ],
+          "actualUTC": [
+            "2026-11-02T04:14:05.000000Z"
+          ],
+          "signedErrorSeconds": [
+            6.506593227386475
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-11-01T18:07:01.878058Z"
+          ],
+          "actualUTC": [
+            "2026-11-01T18:06:59.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -2.8780577182769775
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-11-01T09:53:46.962219Z"
+          ],
+          "actualUTC": [
+            "2026-11-01T09:53:47.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.03778076171875
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-11-01T23:24:49.035067Z"
+          ],
+          "actualUTC": [
+            "2026-11-01T23:24:49.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.035067081451416016
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-11-01T10:25:40.643290Z"
+          ],
+          "actualUTC": [
+            "2026-11-01T10:25:41.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.35671043395996094
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-11-01T22:52:57.304137Z"
+          ],
+          "actualUTC": [
+            "2026-11-01T22:52:58.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.6958632469177246
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-11-01T10:58:01.076015Z"
+          ],
+          "actualUTC": [
+            "2026-11-01T10:58:01.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.07601547241210938
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-11-01T22:20:38.382004Z"
+          ],
+          "actualUTC": [
+            "2026-11-01T22:20:39.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.6179957389831543
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-11-01T11:08:56.795010Z"
+          ],
+          "actualUTC": [
+            "2026-11-01T11:08:57.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.20499038696289062
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-11-01T22:09:43.102477Z"
+          ],
+          "actualUTC": [
+            "2026-11-01T22:09:43.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.10247659683227539
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-11-01T12:05:19.856241Z"
+          ],
+          "actualUTC": [
+            "2026-11-01T12:05:20.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.14375877380371094
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-11-01T21:13:21.771551Z"
+          ],
+          "actualUTC": [
+            "2026-11-01T21:13:22.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.22844862937927246
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "berlin-dst-short",
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "timeZone": "Europe/Berlin",
+      "civilDate": "2026-03-29",
+      "intervalStart": "2026-03-28T23:00:00.000000Z",
+      "intervalEnd": "2026-03-29T22:00:00.000000Z",
+      "durationSeconds": 82800.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-29T04:48:04.024014Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T04:48:05.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.9759864807128906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-29T17:35:16.491772Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T17:35:18.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.508227825164795
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-03-29T13:22:04.624667Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T13:21:42.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -22.624666690826416
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-03-29T03:43:01.419352Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T03:42:43.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -18.41935157775879
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-29T02:48:04.298672Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T02:48:05.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.7013282775878906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-29T19:35:58.967677Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T19:36:01.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.0323233604431152
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-29T03:32:13.528116Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T03:32:14.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.47188377380371094
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-29T18:51:28.877955Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T18:51:31.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.1220450401306152
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-29T04:13:36.548122Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T04:13:37.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.4518775939941406
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-29T18:09:52.358485Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T18:09:54.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.6415152549743652
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-29T04:27:02.299173Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T04:27:03.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.7008266448974609
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-29T17:56:23.091822Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T17:56:25.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.9081778526306152
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-29T05:32:59.698187Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T05:33:00.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.30181288719177246
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-29T16:50:12.564133Z"
+          ],
+          "actualUTC": [
+            "2026-03-29T16:50:14.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.4358668327331543
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "berlin-dst-long",
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "timeZone": "Europe/Berlin",
+      "civilDate": "2026-10-25",
+      "intervalStart": "2026-10-24T22:00:00.000000Z",
+      "intervalEnd": "2026-10-25T23:00:00.000000Z",
+      "durationSeconds": 90000.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-25T05:49:40.854776Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T05:49:41.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.14522361755371094
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-25T15:50:26.297003Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T15:50:26.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.29700303077697754
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-10-25T15:03:48.463778Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T15:03:54.000000Z"
+          ],
+          "signedErrorSeconds": [
+            5.536221981048584
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-10-25T04:53:56.575270Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T04:53:34.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -22.57526969909668
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-25T03:54:55.503187Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T03:54:55.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.5031871795654297
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-25T17:44:58.739670Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T17:44:59.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.2603297233581543
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-25T04:34:26.696119Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T04:34:26.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.6961193084716797
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-25T17:05:33.259642Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T17:05:33.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.2596421241760254
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-25T05:14:22.292459Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T05:14:22.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.29245948791503906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-25T16:25:41.947970Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T16:25:42.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.052030086517333984
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-25T05:27:54.305677Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T05:27:54.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.3056774139404297
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-25T16:12:11.129515Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T16:12:11.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.1295151710510254
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-25T06:38:58.291883Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T06:38:58.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.2918834686279297
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-25T15:01:11.867404Z"
+          ],
+          "actualUTC": [
+            "2026-10-25T15:01:12.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.13259649276733398
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "lord-howe-dst-long",
+      "latitude": -31.55,
+      "longitude": 159.08,
+      "timeZone": "Australia/Lord_Howe",
+      "civilDate": "2026-04-05",
+      "intervalStart": "2026-04-04T13:00:00.000000Z",
+      "intervalEnd": "2026-04-05T13:30:00.000000Z",
+      "durationSeconds": 88200.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-04T19:37:13.441141Z"
+          ],
+          "actualUTC": [
+            "2026-04-04T19:37:16.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.558858871459961
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-05T07:15:15.438876Z"
+          ],
+          "actualUTC": [
+            "2026-04-05T07:15:17.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.561124324798584
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-04-05T08:43:40.022616Z"
+          ],
+          "actualUTC": [
+            "2026-04-05T08:43:33.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -7.022615909576416
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-04-04T22:20:25.651516Z"
+          ],
+          "actualUTC": [
+            "2026-04-04T22:20:28.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.3484840393066406
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-04T18:16:28.690111Z"
+          ],
+          "actualUTC": [
+            "2026-04-04T18:16:31.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.3098888397216797
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-05T08:35:54.367125Z"
+          ],
+          "actualUTC": [
+            "2026-04-05T08:35:56.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.6328749656677246
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-04T18:44:40.873047Z"
+          ],
+          "actualUTC": [
+            "2026-04-04T18:44:43.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.126953125
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-05T08:07:44.656113Z"
+          ],
+          "actualUTC": [
+            "2026-04-05T08:07:46.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.3438868522644043
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-04T19:12:52.218288Z"
+          ],
+          "actualUTC": [
+            "2026-04-04T19:12:54.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.7817115783691406
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-05T07:39:35.274691Z"
+          ],
+          "actualUTC": [
+            "2026-04-05T07:39:36.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.725308895111084
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-04T19:22:17.039164Z"
+          ],
+          "actualUTC": [
+            "2026-04-04T19:22:19.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.960836410522461
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-05T07:30:11.016879Z"
+          ],
+          "actualUTC": [
+            "2026-04-05T07:30:12.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.983121395111084
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-04T20:09:41.028727Z"
+          ],
+          "actualUTC": [
+            "2026-04-04T20:09:43.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.971273422241211
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-05T06:42:49.389363Z"
+          ],
+          "actualUTC": [
+            "2026-04-05T06:42:51.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.6106374263763428
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "lord-howe-dst-short",
+      "latitude": -31.55,
+      "longitude": 159.08,
+      "timeZone": "Australia/Lord_Howe",
+      "civilDate": "2026-10-04",
+      "intervalStart": "2026-10-03T13:30:00.000000Z",
+      "intervalEnd": "2026-10-04T13:00:00.000000Z",
+      "durationSeconds": 84600.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-03T18:58:23.034952Z"
+          ],
+          "actualUTC": [
+            "2026-10-03T18:58:23.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.03495216369628906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-04T07:27:10.360445Z"
+          ],
+          "actualUTC": [
+            "2026-10-04T07:27:10.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.360445499420166
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-10-03T14:37:06.341187Z"
+          ],
+          "actualUTC": [
+            "2026-10-03T14:37:03.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -3.3411865234375
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-10-04T00:38:21.638773Z"
+          ],
+          "actualUTC": [
+            "2026-10-04T00:38:16.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -5.638772964477539
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-03T17:36:14.526943Z"
+          ],
+          "actualUTC": [
+            "2026-10-03T17:36:15.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.4730567932128906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-04T08:49:30.500216Z"
+          ],
+          "actualUTC": [
+            "2026-10-04T08:49:31.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.499783992767334
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-03T18:05:20.007277Z"
+          ],
+          "actualUTC": [
+            "2026-10-03T18:05:20.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.0072765350341796875
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-04T08:20:20.048556Z"
+          ],
+          "actualUTC": [
+            "2026-10-04T08:20:20.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.048555850982666016
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-03T18:33:57.925699Z"
+          ],
+          "actualUTC": [
+            "2026-10-03T18:33:58.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.07430076599121094
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-04T07:51:38.216294Z"
+          ],
+          "actualUTC": [
+            "2026-10-04T07:51:38.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.2162938117980957
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-03T18:43:26.275906Z"
+          ],
+          "actualUTC": [
+            "2026-10-03T18:43:26.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.2759056091308594
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-04T07:42:08.739962Z"
+          ],
+          "actualUTC": [
+            "2026-10-04T07:42:09.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.260037899017334
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-03T19:30:29.446390Z"
+          ],
+          "actualUTC": [
+            "2026-10-03T19:30:29.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.44639015197753906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-04T06:55:00.941500Z"
+          ],
+          "actualUTC": [
+            "2026-10-04T06:55:01.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.058499813079833984
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "chatham-dst-short",
+      "latitude": -43.95,
+      "longitude": -176.56,
+      "timeZone": "Pacific/Chatham",
+      "civilDate": "2026-09-27",
+      "intervalStart": "2026-09-26T11:15:00.000000Z",
+      "intervalEnd": "2026-09-27T10:15:00.000000Z",
+      "durationSeconds": 82800.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-26T17:27:16.993387Z"
+          ],
+          "actualUTC": [
+            "2026-09-26T17:27:17.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.0066127777099609375
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-27T05:48:17.619662Z"
+          ],
+          "actualUTC": [
+            "2026-09-27T05:48:17.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.619661808013916
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-09-27T06:29:02.846713Z"
+          ],
+          "actualUTC": [
+            "2026-09-27T06:28:48.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -14.846712589263916
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-09-26T17:16:36.353128Z"
+          ],
+          "actualUTC": [
+            "2026-09-26T17:16:42.000000Z"
+          ],
+          "signedErrorSeconds": [
+            5.646871566772461
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-26T15:49:42.255520Z"
+          ],
+          "actualUTC": [
+            "2026-09-26T15:49:42.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.2555198669433594
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-27T07:26:12.517468Z"
+          ],
+          "actualUTC": [
+            "2026-09-27T07:26:12.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.5174679756164551
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-26T16:24:33.736551Z"
+          ],
+          "actualUTC": [
+            "2026-09-26T16:24:34.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.26344871520996094
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-27T06:51:12.027634Z"
+          ],
+          "actualUTC": [
+            "2026-09-27T06:51:12.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.027634143829345703
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-26T16:58:28.610487Z"
+          ],
+          "actualUTC": [
+            "2026-09-26T16:58:28.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.6104869842529297
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-27T06:17:10.493224Z"
+          ],
+          "actualUTC": [
+            "2026-09-27T06:17:10.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.4932236671447754
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-26T17:09:39.298380Z"
+          ],
+          "actualUTC": [
+            "2026-09-26T17:09:39.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.29837989807128906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-27T06:05:57.951388Z"
+          ],
+          "actualUTC": [
+            "2026-09-27T06:05:58.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.048612117767333984
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-26T18:05:13.099649Z"
+          ],
+          "actualUTC": [
+            "2026-09-26T18:05:13.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.09964942932128906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-27T05:10:16.803025Z"
+          ],
+          "actualUTC": [
+            "2026-09-27T05:10:16.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.8030247688293457
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "kathmandu-quarter-hour",
+      "latitude": 27.7172,
+      "longitude": 85.324,
+      "timeZone": "Asia/Kathmandu",
+      "civilDate": "2026-09-22",
+      "intervalStart": "2026-09-21T18:15:00.000000Z",
+      "intervalEnd": "2026-09-22T18:15:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T00:07:02.289965Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T00:07:01.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.2899646759033203
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T12:15:34.651217Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T12:15:34.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.651216983795166
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-09-22T09:43:24.806551Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T09:43:29.000000Z"
+          ],
+          "signedErrorSeconds": [
+            4.193448543548584
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-09-21T19:41:52.040636Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T19:41:57.000000Z"
+          ],
+          "signedErrorSeconds": [
+            4.95936393737793
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T22:48:59.422546Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T22:48:59.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.42254638671875
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T13:33:30.034226Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T13:33:30.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.0342259407043457
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T23:16:25.339308Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T23:16:24.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.3393077850341797
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T13:06:07.248568Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T13:06:07.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.24856805801391602
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T23:43:39.583069Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T23:43:39.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.58306884765625
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T12:38:55.531649Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T12:38:55.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.531649112701416
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T23:52:42.774611Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T23:52:42.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.7746105194091797
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T12:29:53.067965Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T12:29:53.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.06796503067016602
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T00:37:55.697292Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T00:37:55.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.6972923278808594
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T11:44:43.207709Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T11:44:43.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.20770859718322754
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "kiritimati-dateline",
+      "latitude": 1.87,
+      "longitude": -157.43,
+      "timeZone": "Pacific/Kiritimati",
+      "civilDate": "2026-09-22",
+      "intervalStart": "2026-09-21T10:00:00.000000Z",
+      "intervalEnd": "2026-09-22T10:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T16:19:20.818434Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T16:19:20.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.8184337615966797
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T04:25:55.131564Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T04:25:54.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.131563663482666
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-09-22T00:56:34.476338Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T00:56:39.000000Z"
+          ],
+          "signedErrorSeconds": [
+            4.523662328720093
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-09-21T12:25:27.020203Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T12:25:33.000000Z"
+          ],
+          "signedErrorSeconds": [
+            5.97979736328125
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T15:10:38.706896Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T15:10:38.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.7068958282470703
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T05:34:36.721238Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T05:34:36.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.7212376594543457
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T15:34:39.440260Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T15:34:39.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.4402599334716797
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T05:10:36.207627Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T05:10:36.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.2076268196105957
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T15:58:40.063707Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T15:58:39.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.0637073516845703
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T04:46:35.748934Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T04:46:35.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.748934268951416
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T16:06:40.262430Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T16:06:40.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.26243019104003906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T04:38:35.618929Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T04:38:35.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.618929386138916
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-21T16:46:41.118448Z"
+          ],
+          "actualUTC": [
+            "2026-09-21T16:46:40.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.118448257446289
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-22T03:58:34.982624Z"
+          ],
+          "actualUTC": [
+            "2026-09-22T03:58:34.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.9826242923736572
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "kiritimati-minimum-year",
+      "latitude": 1.87,
+      "longitude": -157.43,
+      "timeZone": "Pacific/Kiritimati",
+      "civilDate": "1900-01-01",
+      "intervalStart": "1900-01-01T10:29:20.000000Z",
+      "intervalEnd": "1900-01-02T10:29:20.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-01T16:33:01.487408Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T16:33:02.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.5125918388366699
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-02T04:34:10.550321Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T04:34:11.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.4496793746948242
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "1900-01-01T16:43:10.130013Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T16:43:13.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.8699865341186523
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "1900-01-02T05:05:45.856717Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T05:05:47.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.1432828903198242
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-01T15:18:19.092972Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T15:18:20.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.9070277214050293
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-02T05:48:51.255569Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T05:48:52.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.7444314956665039
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-01T15:44:28.970597Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T15:44:30.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.0294032096862793
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-02T05:22:42.064603Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T05:22:43.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.9353971481323242
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-01T16:10:34.879424Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T16:10:35.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.12057638168334961
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-02T04:56:36.732558Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T04:56:37.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.2674417495727539
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-01T16:19:16.551468Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T16:19:17.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.4485316276550293
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-02T04:47:55.239028Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T04:47:56.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.7609720230102539
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-01T17:02:47.795724Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T17:02:48.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.20427608489990234
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-02T04:04:24.750110Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T04:04:25.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.24989032745361328
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "kiritimati-maximum-year",
+      "latitude": 1.87,
+      "longitude": -157.43,
+      "timeZone": "Pacific/Kiritimati",
+      "civilDate": "2100-12-31",
+      "intervalStart": "2100-12-30T10:00:00.000000Z",
+      "intervalEnd": "2100-12-31T10:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-30T16:31:44.290724Z"
+          ],
+          "actualUTC": [
+            "2100-12-30T16:31:43.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.2907238006591797
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-31T04:32:51.746886Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T04:32:51.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.7468857765197754
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2100-12-30T16:18:23.373684Z"
+          ],
+          "actualUTC": [
+            "2100-12-30T16:18:23.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.3736839294433594
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2100-12-31T04:41:08.342623Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T04:41:06.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -2.342623233795166
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-30T15:16:57.996168Z"
+          ],
+          "actualUTC": [
+            "2100-12-30T15:16:57.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.9961681365966797
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-31T05:47:36.599486Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T05:47:36.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.5994858741760254
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-30T15:43:09.274549Z"
+          ],
+          "actualUTC": [
+            "2100-12-30T15:43:08.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.2745494842529297
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-31T05:21:25.897887Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T05:21:25.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.8978867530822754
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-30T16:09:16.529215Z"
+          ],
+          "actualUTC": [
+            "2100-12-30T16:09:15.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.529214859008789
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-31T04:55:19.137606Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T04:55:18.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.137606143951416
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-30T16:17:58.640726Z"
+          ],
+          "actualUTC": [
+            "2100-12-30T16:17:58.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.6407260894775391
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-31T04:46:37.177170Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T04:46:36.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.1771702766418457
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-30T17:01:32.123392Z"
+          ],
+          "actualUTC": [
+            "2100-12-30T17:01:31.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.123392105102539
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-31T04:03:04.339964Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T04:03:03.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.3399643898010254
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "pago-pago-minimum-year",
+      "latitude": -14.2756,
+      "longitude": -170.702,
+      "timeZone": "Pacific/Pago_Pago",
+      "civilDate": "1900-01-01",
+      "intervalStart": "1900-01-01T11:22:48.000000Z",
+      "intervalEnd": "1900-01-02T11:22:48.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-01T16:57:59.753794Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T16:58:00.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.24620628356933594
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-02T05:55:21.193707Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T05:55:22.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.8062930107116699
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "1900-01-01T17:12:21.864708Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T17:12:23.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.1352920532226562
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "1900-01-02T06:24:54.634259Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T06:24:57.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.36574125289917
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-01T15:38:25.947018Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T15:38:26.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.052982330322265625
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-02T07:14:51.718304Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T07:14:52.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.2816958427429199
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-01T16:06:47.193674Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T16:06:48.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.8063259124755859
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-02T06:46:31.844965Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T06:46:32.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.15503454208374023
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-01T16:34:30.894527Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T16:34:31.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.10547256469726562
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-02T06:18:49.256478Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T06:18:50.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.7435221672058105
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-01T16:43:38.892601Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T16:43:39.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.10739898681640625
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-02T06:09:41.587994Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T06:09:42.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.4120059013366699
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-01T17:28:41.625477Z"
+          ],
+          "actualUTC": [
+            "1900-01-01T17:28:42.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.3745231628417969
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "1900-01-02T05:24:40.200997Z"
+          ],
+          "actualUTC": [
+            "1900-01-02T05:24:41.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.7990031242370605
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "pago-pago-maximum-year",
+      "latitude": -14.2756,
+      "longitude": -170.702,
+      "timeZone": "Pacific/Pago_Pago",
+      "civilDate": "2100-12-31",
+      "intervalStart": "2100-12-31T11:00:00.000000Z",
+      "intervalEnd": "2101-01-01T11:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-31T16:57:07.394070Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T16:57:06.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.3940696716308594
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2101-01-01T05:54:35.178587Z"
+          ],
+          "actualUTC": [
+            "2101-01-01T05:54:34.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.1785874366760254
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2100-12-31T17:44:33.429850Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T17:44:28.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -5.429849624633789
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2101-01-01T07:07:32.035595Z"
+          ],
+          "actualUTC": [
+            "2101-01-01T07:07:24.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -8.035595417022705
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-31T15:37:31.733351Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T15:37:31.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.7333507537841797
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2101-01-01T07:14:07.790600Z"
+          ],
+          "actualUTC": [
+            "2101-01-01T07:14:07.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.7906002998352051
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-31T16:05:53.721584Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T16:05:52.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.7215843200683594
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2101-01-01T06:45:47.093287Z"
+          ],
+          "actualUTC": [
+            "2101-01-01T06:45:46.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.0932869911193848
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-31T16:33:38.040419Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T16:33:37.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.0404186248779297
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2101-01-01T06:18:03.790661Z"
+          ],
+          "actualUTC": [
+            "2101-01-01T06:18:03.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.7906613349914551
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-31T16:42:46.244486Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T16:42:45.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.244485855102539
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2101-01-01T06:08:55.902464Z"
+          ],
+          "actualUTC": [
+            "2101-01-01T06:08:55.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.9024643898010254
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2100-12-31T17:27:49.828775Z"
+          ],
+          "actualUTC": [
+            "2100-12-31T17:27:49.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.8287754058837891
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2101-01-01T05:23:53.567896Z"
+          ],
+          "actualUTC": [
+            "2101-01-01T05:23:52.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.5678963661193848
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "tromso-polar-day",
+      "latitude": 69.6492,
+      "longitude": 18.9553,
+      "timeZone": "Europe/Oslo",
+      "civilDate": "2026-06-21",
+      "intervalStart": "2026-06-20T22:00:00.000000Z",
+      "intervalEnd": "2026-06-21T22:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-06-21T10:17:49.219977Z"
+          ],
+          "actualUTC": [
+            "2026-06-21T10:17:45.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -4.2199766635894775
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-06-20T22:37:11.381124Z"
+          ],
+          "actualUTC": [
+            "2026-06-20T22:36:55.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -16.381124258041382
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-06-21T00:56:53.757263Z"
+          ],
+          "actualUTC": [
+            "2026-06-21T00:56:54.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.24273681640625
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-06-21T20:35:03.624049Z"
+          ],
+          "actualUTC": [
+            "2026-06-21T20:35:05.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.3759512901306152
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "tromso-polar-night",
+      "latitude": 69.6492,
+      "longitude": 18.9553,
+      "timeZone": "Europe/Oslo",
+      "civilDate": "2026-12-21",
+      "intervalStart": "2026-12-20T23:00:00.000000Z",
+      "intervalEnd": "2026-12-21T23:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T05:28:19.903849Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T05:28:20.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.09615135192871094
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T15:56:05.101683Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T15:56:05.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.10168313980102539
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T06:46:42.986124Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T06:46:44.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.013875961303711
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T14:37:42.129244Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T14:37:42.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.12924432754516602
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T08:31:15.300604Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T08:31:16.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.6993958950042725
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T12:53:09.869723Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T12:53:10.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.13027715682983398
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T09:29:34.511638Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T09:29:36.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.4883618354797363
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T11:54:50.682989Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T11:54:50.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.6829893589019775
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "tromso-equinox",
+      "latitude": 69.6492,
+      "longitude": 18.9553,
+      "timeZone": "Europe/Oslo",
+      "civilDate": "2026-03-20",
+      "intervalStart": "2026-03-19T23:00:00.000000Z",
+      "intervalEnd": "2026-03-20T23:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T04:43:54.991407Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T04:43:55.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.008592605590820312
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T17:01:31.601649Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T17:01:34.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.3983511924743652
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-03-20T04:09:00.722622Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T04:09:01.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.2773780822753906
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-03-20T20:42:52.616637Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T20:42:53.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.3833632469177246
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T00:46:19.447889Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T00:46:18.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.4478893280029297
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T21:04:41.922430Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T21:04:46.000000Z"
+          ],
+          "signedErrorSeconds": [
+            4.077570199966431
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T02:27:36.919813Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T02:27:36.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.9198131561279297
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T19:19:22.068236Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T19:19:25.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.9317641258239746
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T03:43:49.800381Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T03:43:49.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.8003807067871094
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T18:02:05.370875Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T18:02:08.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.6291251182556152
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T04:07:22.999233Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T04:07:23.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.000766754150390625
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T17:38:19.427855Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T17:38:22.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.5721449851989746
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T06:03:18.525980Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T06:03:18.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.5259799957275391
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T15:41:44.844712Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T15:41:47.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.1552882194519043
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "arctic-before-tangent",
+      "latitude": 67.396,
+      "longitude": 13.8875,
+      "timeZone": "UTC",
+      "civilDate": "2026-12-21",
+      "intervalStart": "2026-12-21T00:00:00.000000Z",
+      "intervalEnd": "2026-12-22T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T10:58:57.876190Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T10:59:23.000000Z"
+          ],
+          "signedErrorSeconds": [
+            25.123809814453125
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T11:06:00.813063Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T11:05:36.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -24.813063383102417
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T05:40:22.570780Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T05:40:23.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.42922019958496094
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T16:24:35.933884Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T16:24:36.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.0661158561706543
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T06:49:49.616373Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T06:49:50.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.38362693786621094
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T15:15:08.970648Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T15:15:09.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.02935194969177246
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T08:15:02.488701Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T08:15:03.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.5112988948822021
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T13:49:56.153279Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T13:49:56.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.15327858924865723
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T08:52:30.140360Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T08:52:31.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.8596401214599609
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T13:12:28.529059Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T13:12:28.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.5290586948394775
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "arctic-near-tangent",
+      "latitude": 67.398,
+      "longitude": 13.8875,
+      "timeZone": "UTC",
+      "civilDate": "2026-12-21",
+      "intervalStart": "2026-12-21T00:00:00.000000Z",
+      "intervalEnd": "2026-12-22T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": false,
+      "failures": [
+        "sunrise",
+        "sunset"
+      ],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T11:01:04.128613Z"
+          ],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": false
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T11:03:54.561727Z"
+          ],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": false
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T05:40:22.969007Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T05:40:23.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.030992507934570312
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T16:24:35.535616Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T16:24:36.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.464383602142334
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T06:49:50.440348Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T06:49:51.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.5596523284912109
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T15:15:08.146673Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T15:15:08.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.14667344093322754
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T08:15:04.081732Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T08:15:05.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.9182679653167725
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T13:49:54.560248Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T13:49:54.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.5602476596832275
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T08:52:32.337652Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T08:52:33.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.6623475551605225
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T13:12:26.318087Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T13:12:26.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.318087100982666
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "arctic-after-tangent",
+      "latitude": 67.4,
+      "longitude": 13.8875,
+      "timeZone": "UTC",
+      "civilDate": "2026-12-21",
+      "intervalStart": "2026-12-21T00:00:00.000000Z",
+      "intervalEnd": "2026-12-22T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T05:40:23.380995Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T05:40:24.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.6190052032470703
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T16:24:35.123629Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T16:24:35.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.12362909317016602
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T06:49:51.250563Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T06:49:52.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.7494373321533203
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T15:15:07.336459Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T15:15:07.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.336458683013916
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T08:15:05.688483Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T08:15:06.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.31151747703552246
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T13:49:52.953497Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T13:49:53.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.04650282859802246
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T08:52:34.534905Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T08:52:35.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.46509528160095215
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T13:12:24.120795Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T13:12:24.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.12079453468322754
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "equator-equinox",
+      "latitude": 0,
+      "longitude": 0,
+      "timeZone": "UTC",
+      "civilDate": "2026-03-20",
+      "intervalStart": "2026-03-20T00:00:00.000000Z",
+      "intervalEnd": "2026-03-21T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T06:04:10.889566Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T06:04:12.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.110433578491211
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T18:10:41.275057Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T18:10:42.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.724942684173584
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-03-20T07:03:00.604519Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T07:03:00.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.6045188903808594
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-03-20T19:26:44.185532Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T19:26:44.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.1855320930480957
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T04:55:31.922892Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T04:55:33.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.077108383178711
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T19:19:20.228013Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T19:19:21.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.7719874382019043
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T05:19:31.653727Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T05:19:33.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.346273422241211
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T18:55:20.510897Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T18:55:22.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.489102840423584
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T05:43:31.370802Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T05:43:33.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.6291980743408203
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T18:31:20.793822Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T18:31:22.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.2061781883239746
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T05:51:31.281094Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T05:51:32.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.7189064025878906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T18:23:20.883530Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T18:23:22.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.1164698600769043
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T06:31:30.805033Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T06:31:32.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.194967269897461
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T17:43:21.387070Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T17:43:22.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.6129298210144043
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "north-89-equinox",
+      "latitude": 89,
+      "longitude": 0,
+      "timeZone": "UTC",
+      "civilDate": "2026-03-20",
+      "intervalStart": "2026-03-20T00:00:00.000000Z",
+      "intervalEnd": "2026-03-21T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": false,
+      "failures": [
+        "sunset"
+      ],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T03:26:43.663561Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T03:26:09.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -34.66356086730957
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-03-20T23:11:47.735020Z"
+          ],
+          "actualUTC": [
+            "2026-03-20T23:14:32.000000Z"
+          ],
+          "signedErrorSeconds": [
+            164.26498007774353
+          ],
+          "limitSeconds": 60,
+          "passed": false
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "south-89-equinox",
+      "latitude": -89,
+      "longitude": 0,
+      "timeZone": "UTC",
+      "civilDate": "2026-09-23",
+      "intervalStart": "2026-09-23T00:00:00.000000Z",
+      "intervalEnd": "2026-09-24T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-09-23T01:55:24.589478Z"
+          ],
+          "actualUTC": [
+            "2026-09-23T01:55:56.000000Z"
+          ],
+          "signedErrorSeconds": [
+            31.4105224609375
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "longyearbyen-winter",
+      "latitude": 78.2232,
+      "longitude": 15.6469,
+      "timeZone": "Arctic/Longyearbyen",
+      "civilDate": "2026-02-15",
+      "intervalStart": "2026-02-14T23:00:00.000000Z",
+      "intervalEnd": "2026-02-15T23:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-02-15T10:58:17.349554Z"
+          ],
+          "actualUTC": [
+            "2026-02-15T10:57:46.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -31.349554300308228
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-02-15T11:26:53.137431Z"
+          ],
+          "actualUTC": [
+            "2026-02-15T11:27:27.000000Z"
+          ],
+          "signedErrorSeconds": [
+            33.862568616867065
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-02-15T03:19:09.845865Z"
+          ],
+          "actualUTC": [
+            "2026-02-15T03:19:09.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.8458652496337891
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-02-15T19:08:39.821227Z"
+          ],
+          "actualUTC": [
+            "2026-02-15T19:08:43.000000Z"
+          ],
+          "signedErrorSeconds": [
+            3.1787734031677246
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-02-15T05:19:26.201775Z"
+          ],
+          "actualUTC": [
+            "2026-02-15T05:19:25.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.2017748355865479
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-02-15T17:06:47.197644Z"
+          ],
+          "actualUTC": [
+            "2026-02-15T17:06:50.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.802356243133545
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-02-15T07:25:18.135063Z"
+          ],
+          "actualUTC": [
+            "2026-02-15T07:25:17.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.1350634098052979
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-02-15T15:00:13.584960Z"
+          ],
+          "actualUTC": [
+            "2026-02-15T15:00:17.000000Z"
+          ],
+          "signedErrorSeconds": [
+            3.4150404930114746
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-02-15T08:17:17.414543Z"
+          ],
+          "actualUTC": [
+            "2026-02-15T08:17:15.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -2.414543390274048
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-02-15T14:08:05.035765Z"
+          ],
+          "actualUTC": [
+            "2026-02-15T14:08:09.000000Z"
+          ],
+          "signedErrorSeconds": [
+            3.9642348289489746
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "longyearbyen-spring",
+      "latitude": 78.2232,
+      "longitude": 15.6469,
+      "timeZone": "Arctic/Longyearbyen",
+      "civilDate": "2026-04-15",
+      "intervalStart": "2026-04-14T22:00:00.000000Z",
+      "intervalEnd": "2026-04-15T22:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-15T00:44:56.418688Z"
+          ],
+          "actualUTC": [
+            "2026-04-15T00:44:51.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -5.41868782043457
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-15T21:24:17.380749Z"
+          ],
+          "actualUTC": [
+            "2026-04-15T21:24:27.000000Z"
+          ],
+          "signedErrorSeconds": [
+            9.619250774383545
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-04-15T03:24:39.051161Z"
+          ],
+          "actualUTC": [
+            "2026-04-15T03:24:38.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.0511608123779297
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-04-15T16:05:08.869967Z"
+          ],
+          "actualUTC": [
+            "2026-04-15T16:05:12.000000Z"
+          ],
+          "signedErrorSeconds": [
+            3.130033016204834
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-15T03:46:39.497911Z"
+          ],
+          "actualUTC": [
+            "2026-04-15T03:46:38.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.4979114532470703
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-04-15T18:12:35.093430Z"
+          ],
+          "actualUTC": [
+            "2026-04-15T18:12:40.000000Z"
+          ],
+          "signedErrorSeconds": [
+            4.906569957733154
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "longyearbyen-autumn",
+      "latitude": 78.2232,
+      "longitude": 15.6469,
+      "timeZone": "Arctic/Longyearbyen",
+      "civilDate": "2026-10-15",
+      "intervalStart": "2026-10-14T22:00:00.000000Z",
+      "intervalEnd": "2026-10-15T22:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-15T07:25:18.533291Z"
+          ],
+          "actualUTC": [
+            "2026-10-15T07:25:16.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -2.5332908630371094
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-15T13:58:29.736653Z"
+          ],
+          "actualUTC": [
+            "2026-10-15T13:58:31.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.2633473873138428
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-15T01:04:02.072985Z"
+          ],
+          "actualUTC": [
+            "2026-10-15T01:03:59.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -3.0729846954345703
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-15T20:13:04.866406Z"
+          ],
+          "actualUTC": [
+            "2026-10-15T20:13:06.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.133594036102295
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-15T03:30:13.653490Z"
+          ],
+          "actualUTC": [
+            "2026-10-15T03:30:12.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.6534900665283203
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-15T17:51:46.744418Z"
+          ],
+          "actualUTC": [
+            "2026-10-15T17:51:48.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.255582332611084
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-15T05:29:43.702066Z"
+          ],
+          "actualUTC": [
+            "2026-10-15T05:29:42.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -1.702066421508789
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-15T15:53:31.622653Z"
+          ],
+          "actualUTC": [
+            "2026-10-15T15:53:32.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.377347469329834
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-15T06:11:14.330118Z"
+          ],
+          "actualUTC": [
+            "2026-10-15T06:11:12.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -2.330118179321289
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-10-15T15:12:15.729986Z"
+          ],
+          "actualUTC": [
+            "2026-10-15T15:12:17.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.2700135707855225
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "antarctic-summer",
+      "latitude": -77.85,
+      "longitude": 166.67,
+      "timeZone": "Antarctica/McMurdo",
+      "civilDate": "2026-12-21",
+      "intervalStart": "2026-12-20T11:00:00.000000Z",
+      "intervalEnd": "2026-12-21T11:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [],
+          "actualUTC": [],
+          "signedErrorSeconds": [],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "sydney-summer",
+      "latitude": -33.8688,
+      "longitude": 151.2093,
+      "timeZone": "Australia/Sydney",
+      "civilDate": "2026-12-21",
+      "intervalStart": "2026-12-20T13:00:00.000000Z",
+      "intervalEnd": "2026-12-21T13:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-20T18:40:37.498426Z"
+          ],
+          "actualUTC": [
+            "2026-12-20T18:40:38.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.5015735626220703
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T09:05:25.514267Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T09:05:26.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.4857325553894043
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-12-21T06:05:50.425740Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T06:05:47.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -3.4257395267486572
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2026-12-20T15:29:22.457228Z"
+          ],
+          "actualUTC": [
+            "2026-12-20T15:29:22.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.4572277069091797
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-20T16:56:15.552307Z"
+          ],
+          "actualUTC": [
+            "2026-12-20T16:56:16.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.44769287109375
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T10:49:48.188204Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T10:49:49.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.811795711517334
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-20T17:35:35.127197Z"
+          ],
+          "actualUTC": [
+            "2026-12-20T17:35:35.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.127197265625
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T10:10:28.242526Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T10:10:29.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.757474422454834
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-20T18:11:29.079224Z"
+          ],
+          "actualUTC": [
+            "2026-12-20T18:11:29.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.0792236328125
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T09:34:34.057066Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T09:34:34.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.05706644058227539
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-20T18:22:55.944458Z"
+          ],
+          "actualUTC": [
+            "2026-12-20T18:22:56.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.0555419921875
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T09:23:07.136874Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T09:23:07.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.13687372207641602
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-20T19:17:31.820353Z"
+          ],
+          "actualUTC": [
+            "2026-12-20T19:17:32.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.17964744567871094
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2026-12-21T08:28:31.041306Z"
+          ],
+          "actualUTC": [
+            "2026-12-21T08:28:31.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.0413060188293457
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "tokyo-leap-day",
+      "latitude": 35.6762,
+      "longitude": 139.6503,
+      "timeZone": "Asia/Tokyo",
+      "civilDate": "2024-02-29",
+      "intervalStart": "2024-02-28T15:00:00.000000Z",
+      "intervalEnd": "2024-02-29T15:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2024-02-28T21:12:38.293131Z"
+          ],
+          "actualUTC": [
+            "2024-02-28T21:12:38.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.29313087463378906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2024-02-29T08:35:37.063658Z"
+          ],
+          "actualUTC": [
+            "2024-02-29T08:35:37.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.06365823745727539
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2024-02-29T12:58:22.403332Z"
+          ],
+          "actualUTC": [
+            "2024-02-29T12:58:18.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -4.403332233428955
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2024-02-28T23:15:57.516485Z"
+          ],
+          "actualUTC": [
+            "2024-02-28T23:15:55.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -2.5164854526519775
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2024-02-28T19:47:54.795498Z"
+          ],
+          "actualUTC": [
+            "2024-02-28T19:47:55.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.20450210571289062
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2024-02-29T10:00:27.125609Z"
+          ],
+          "actualUTC": [
+            "2024-02-29T10:00:28.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.8743910789489746
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2024-02-28T20:17:26.629299Z"
+          ],
+          "actualUTC": [
+            "2024-02-28T20:17:27.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.3707008361816406
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2024-02-29T09:30:52.490294Z"
+          ],
+          "actualUTC": [
+            "2024-02-29T09:30:53.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.5097060203552246
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2024-02-28T20:47:01.182217Z"
+          ],
+          "actualUTC": [
+            "2024-02-28T20:47:01.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.18221664428710938
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2024-02-29T09:01:15.726365Z"
+          ],
+          "actualUTC": [
+            "2024-02-29T09:01:16.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.2736353874206543
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2024-02-28T20:56:55.006998Z"
+          ],
+          "actualUTC": [
+            "2024-02-28T20:56:55.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.0069980621337890625
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2024-02-29T08:51:21.269883Z"
+          ],
+          "actualUTC": [
+            "2024-02-29T08:51:22.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.7301173210144043
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2024-02-28T21:46:59.259623Z"
+          ],
+          "actualUTC": [
+            "2024-02-28T21:46:59.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.25962257385253906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2024-02-29T08:01:14.421738Z"
+          ],
+          "actualUTC": [
+            "2024-02-29T08:01:15.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.5782618522644043
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "london-mid-century",
+      "latitude": 51.5074,
+      "longitude": -0.1278,
+      "timeZone": "Europe/London",
+      "civilDate": "1950-01-15",
+      "intervalStart": "1950-01-15T00:00:00.000000Z",
+      "intervalEnd": "1950-01-16T00:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "1950-01-15T08:00:07.144171Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T08:00:07.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.14417099952697754
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "1950-01-15T16:20:04.434250Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T16:20:05.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.5657496452331543
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "1950-01-15T05:55:53.991678Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T05:55:54.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.008321642875671387
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "1950-01-15T12:45:52.476521Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T12:45:45.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -7.476520776748657
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "1950-01-15T05:59:40.378702Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T05:59:40.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.3787022829055786
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "1950-01-15T18:20:34.509337Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T18:20:35.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.4906630516052246
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "1950-01-15T06:39:40.987528Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T06:39:41.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.012472033500671387
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "1950-01-15T17:40:32.444796Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T17:40:33.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.5552040338516235
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "1950-01-15T07:21:35.030178Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T07:21:35.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.030178070068359375
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "1950-01-15T16:58:37.303500Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T16:58:38.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.6965004205703735
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "1950-01-15T07:36:10.393324Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T07:36:10.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -0.3933238983154297
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "1950-01-15T16:44:01.638243Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T16:44:02.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.3617568016052246
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "1950-01-15T08:57:29.998480Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T08:57:30.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.001519918441772461
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "1950-01-15T15:22:40.824604Z"
+          ],
+          "actualUTC": [
+            "1950-01-15T15:22:41.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.17539572715759277
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "lisbon-future",
+      "latitude": 38.7223,
+      "longitude": -9.1393,
+      "timeZone": "Europe/Lisbon",
+      "civilDate": "2050-04-15",
+      "intervalStart": "2050-04-14T23:00:00.000000Z",
+      "intervalEnd": "2050-04-15T23:00:00.000000Z",
+      "durationSeconds": 86400.0,
+      "passed": true,
+      "failures": [],
+      "events": [
+        {
+          "kind": "sunrise",
+          "body": "sun",
+          "expectedUTC": [
+            "2050-04-15T06:00:13.433844Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T06:00:15.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.5661563873291016
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "sunset",
+          "body": "sun",
+          "expectedUTC": [
+            "2050-04-15T19:13:29.420863Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T19:13:32.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.5791373252868652
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "moonrise",
+          "body": "moon",
+          "expectedUTC": [
+            "2050-04-15T01:57:08.012051Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T01:56:58.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -10.01205062866211
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "moonset",
+          "body": "moon",
+          "expectedUTC": [
+            "2050-04-15T12:41:44.707356Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T12:41:25.000000Z"
+          ],
+          "signedErrorSeconds": [
+            -19.707355976104736
+          ],
+          "limitSeconds": 120,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2050-04-15T04:25:39.887953Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T04:25:41.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.1120471954345703
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "astronomicalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2050-04-15T20:48:25.694653Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T20:48:28.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.305346965789795
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDawn",
+          "body": "sun",
+          "expectedUTC": [
+            "2050-04-15T04:59:56.432461Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T04:59:58.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.5675392150878906
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "nauticalDusk",
+          "body": "sun",
+          "expectedUTC": [
+            "2050-04-15T20:13:58.864222Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T20:14:01.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.1357779502868652
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2050-04-15T05:32:44.852884Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T05:32:46.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.147115707397461
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "blueEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2050-04-15T19:41:02.986828Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T19:41:05.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.013171672821045
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2050-04-15T05:43:27.099894Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T05:43:28.000000Z"
+          ],
+          "signedErrorSeconds": [
+            0.9001064300537109
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2050-04-15T19:30:18.679883Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T19:30:21.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.320117473602295
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenMorningEnd",
+          "body": "sun",
+          "expectedUTC": [
+            "2050-04-15T06:35:50.288397Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T06:35:52.000000Z"
+          ],
+          "signedErrorSeconds": [
+            1.7116031646728516
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        },
+        {
+          "kind": "goldenEveningStart",
+          "body": "sun",
+          "expectedUTC": [
+            "2050-04-15T18:37:47.388989Z"
+          ],
+          "actualUTC": [
+            "2050-04-15T18:37:50.000000Z"
+          ],
+          "signedErrorSeconds": [
+            2.611011028289795
+          ],
+          "limitSeconds": 60,
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

@@ -73,6 +73,10 @@ struct LPPhotoHero<Content: View>: View {
                         .frame(width: proxy.size.width, height: proxy.size.height).clipped()
                         .overlay(LinearGradient(stops: [.init(color: .black.opacity(0.20), location: 0), .init(color: .clear, location: 0.25), .init(color: .black.opacity(0.78), location: 1)], startPoint: .top, endPoint: .bottom))
                 }
+                // Scaled images may extend beyond their clipped visual bounds.
+                // Decorative pixels must never cover neighbouring controls' taps.
+                .allowsHitTesting(false)
+                .accessibilityHidden(true)
             }
             .foregroundStyle(.white)
             .accessibilityElement(children: .contain)
@@ -81,10 +85,27 @@ struct LPPhotoHero<Content: View>: View {
 struct LPCircleButton: View {
     let symbol: String
     let label: String
+    let identifier: String?
     var action: () -> Void
+
+    init(symbol: String, label: String, identifier: String? = nil, action: @escaping () -> Void) {
+        self.symbol = symbol
+        self.label = label
+        self.identifier = identifier
+        self.action = action
+    }
+
     var body: some View {
-        Button(action: action) { Image(systemName: symbol).font(.system(size: 17, weight: .semibold)).frame(width: 46, height: 46).lpGlass(radius: 23) }
-            .buttonStyle(LPPressStyle()).accessibilityLabel(L10n.text(label))
+        Button(action: action) {
+            Image(systemName: symbol)
+                .font(.system(size: 17, weight: .semibold))
+                .frame(width: 46, height: 46)
+                .lpGlass(radius: 23)
+                .contentShape(Circle())
+        }
+        .buttonStyle(LPPressStyle())
+        .accessibilityLabel(L10n.text(label))
+        .accessibilityIdentifier(identifier ?? label)
     }
 }
 

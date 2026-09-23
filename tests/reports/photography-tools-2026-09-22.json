@@ -1,0 +1,169 @@
+{
+  "date_started": "2026-09-22",
+  "date_completed": "2026-09-23",
+  "branch": "dev",
+  "base_commit": "4132f7d068bc340886b3f2434935a912e8f2ac2b",
+  "uncommitted": true,
+  "distribution_model": "paid_upfront",
+  "ready_for_submission": false,
+  "core_tests_passed": 187,
+  "localization_keys": 368,
+  "localization_values": 3312,
+  "schema_tests_passed": 15,
+  "release_tool_tests_passed": 24,
+  "screenshot_packaging_tests_passed": 10,
+  "native_standard_screenshots_reviewed": 27,
+  "final_ui_status": "targeted_regressions_passed; full release/device/accessibility gates remain open",
+  "archive": {
+    "archiveKind": "signed local development archive, not App Store distribution",
+    "path": "/private/tmp/LightPlan-rich-final.xcarchive",
+    "bundles": {
+      "app": {
+        "version": "1.0.0",
+        "build": "1",
+        "minimumOS": "17.0",
+        "sdk": "iphoneos27.0",
+        "signatureVerified": true,
+        "developmentEntitlement": true,
+        "privacyManifest": true,
+        "executableSHA256": "bcea42a8a9ed1aa08c313a0cb482227873f1fc5028502908bf95aab3350de4ae"
+      },
+      "widget": {
+        "version": "1.0.0",
+        "build": "1",
+        "minimumOS": "17.0",
+        "sdk": "iphoneos27.0",
+        "signatureVerified": true,
+        "developmentEntitlement": true,
+        "privacyManifest": true,
+        "executableSHA256": "86d61ca73b49e35c2259f27ef266bf7b6381bef6d35efd4f91af61a51d4109ce"
+      }
+    },
+    "matchingAppGroups": true,
+    "storekitFiles": 0,
+    "licenseMatches": {
+      "app": true,
+      "widget": true
+    },
+    "debugFixtureAbsent": true
+  },
+  "source_files_sha256": {
+    "LightPlan.xcodeproj/project.pbxproj": "a177c2f7d49610f898d000caf8b6ce45a08836ef5f162224684adf2572426cd4",
+    "ios/LightPlan/AppState.swift": "ef324f3a28c08b13df1ac8ccc9a5adbf89a23f47306069c00f234d682e54a9c4",
+    "ios/LightPlan/FieldSessionView.swift": "ba4d43eade3925d12c59a6dfb0a210c1bd2cfe03146c44bf7030e0539158f5fa",
+    "ios/LightPlan/Info.plist": "3ffc95aa844bd4dbd84331ff78572eba7a0aba22b4e4fb11ba78f686fa33bf7c",
+    "ios/LightPlan/LightPlanApp.swift": "212ca4790e2a7887e4a0f273441f0335e0729bea603b9f23bb5118ece86079cf",
+    "ios/LightPlan/MapView.swift": "31246dd5342c23f408b520c73319764125a20fa6565abf5f027f4b786006a8dd",
+    "ios/LightPlan/OpportunitySearchView.swift": "71208cab5bf8b15f4e3474d03ae210d810a6e654851778350268ecce781f6933",
+    "ios/LightPlan/PlaceServices.swift": "d4276845afd979739553904ebfb407d2d1773af1ba328dd94b3bf90da0cb973b",
+    "ios/LightPlan/PlanLibraryActions.swift": "02dcd29ff821208ab6653671dd8e4e1af06969a4e0dbbb3c1c93fe71e99ea5be",
+    "ios/LightPlan/PlanLibraryView.swift": "aee2c494080112a43418732feb99bc77a6fb9de58e56b1a15d177493d7a752cd",
+    "ios/LightPlan/PlansPlacesSettings.swift": "51a5a2825c32675c4e248eb3117406219b93d50581fd7e0fbb43e3629f39da0d",
+    "ios/LightPlan/PrivacyInfo.xcprivacy": "5aec2466307e3b5990cce28e31c61c8860a457ffda9d9ea2546c369d53ff1545",
+    "ios/LightPlan/ReminderService.swift": "d95acec28dcad6f6364a3135371e5ee17ea4ea62a6244e8f6bd52d9fb31aa566",
+    "ios/LightPlan/RootView.swift": "f671559c485bfda3bf9c50658faf2627f76f35c4e982b4fb57ef12f544f57bcc",
+    "ios/LightPlan/SubjectCoordinateEditor.swift": "55f6808388c0c75b5c1d80d07019d12630a8bb1caa06271178083b4cb404b2c4",
+    "ios/LightPlan/Theme.swift": "6d670c32e597d5b00816dd449e9c939a2bbba0f3b2ed85b513a4599c7fca791d",
+    "ios/LightPlan/Visual/FieldBriefView.swift": "aaa7360d6275f195e3fbfdf36e9f426afa087af56023603f185cdbdb9dbca1e8",
+    "ios/LightPlan/Visual/FramingPreview.swift": "4f046e89c3cefa090089e069149b8b1ae82eae5f35b49f3b116b50e0f4fb52f1",
+    "ios/LightPlan/Visual/PlanVisual.swift": "f94a180a13dcf58bb4afc660c62241691b2adb901a1105883a0bd2c364b81591",
+    "ios/LightPlan/Visual/SolarTimeline.swift": "2e7a9f2bd5f01045f0b7132d6379d1fda66ee043fdd2f6331348f685256e2d19",
+    "ios/LightPlan/Visual/TodayVisual.swift": "8fc57bcd2d80a0cbef4ecea2dc2900cc9e97ade6b97da33b58adaca896cc0990",
+    "ios/LightPlanWidget/Info.plist": "2d70bdbaaffeaf8bc82c8daf516c24eae083d2c592c11e9f4c9c3469942e3480",
+    "ios/LightPlanWidget/LightPlanWidget.swift": "815f305e2b4dbb97b4b270680b5a335eb7c4e3ef05da2572b24c500b5b228f9d",
+    "ios/LightPlanWidget/PrivacyInfo.xcprivacy": "5aec2466307e3b5990cce28e31c61c8860a457ffda9d9ea2546c369d53ff1545",
+    "ios/Shared/L10n.swift": "2250f57971f967b2e23abc50ec28c6652c8695f5b5142d0704c64b1a4888ddb3",
+    "ios/Shared/Localizable.xcstrings": "9b64c7711befd256ca029babe93cad89f4462b69d1a805875833f6bef95d0057",
+    "packages/LightPlanCore/Sources/LightPlanCLI/main.swift": "1a5f1c2c87bd483e236f5d5e27d061633ae5398a25bc970927f5af4003a31afc",
+    "packages/LightPlanCore/Sources/LightPlanCore/ArchiveImport.swift": "82d41462531af6a1fa4cd70d27d3286a461627d0e51fc24255cad81679d68081",
+    "packages/LightPlanCore/Sources/LightPlanCore/Astronomy.swift": "93e5e8023dc84d5ef159f880e9fd5fca23678c27cb97c1ad3aacd7cb62d2d391",
+    "packages/LightPlanCore/Sources/LightPlanCore/CameraFraming.swift": "3bdd4dd9817cd7a0da486f1c9f470c2bab795ed8f1f30aac1a165198abc83381",
+    "packages/LightPlanCore/Sources/LightPlanCore/CompositionPlan.swift": "64306344cac0642a41ec95b69ab16968d3f191108048a71b3d33630cd4c44c6a",
+    "packages/LightPlanCore/Sources/LightPlanCore/CompositionPlanning.swift": "660f01617dc0e9b333f6ad32e5ad240aa720f3fa4a71707ab692d8a8b0e8b3b5",
+    "packages/LightPlanCore/Sources/LightPlanCore/DayEngine.swift": "d955f53782d1e886b2ec85de5befeb433a9e31e4f35b794594fc89cad47d4d43",
+    "packages/LightPlanCore/Sources/LightPlanCore/FieldSession.swift": "91fd22a152ebefbc4ab7ae6df6e8b069a2649b7c7df01e78306be7704cf91736",
+    "packages/LightPlanCore/Sources/LightPlanCore/Models.swift": "e85a47ad39aee9d61cb9576b4b191c2095fecc15bf870ca21cf19749e43e929a",
+    "packages/LightPlanCore/Sources/LightPlanCore/OpportunityConstraints.swift": "b0ea2577b89213d95a9ef88908336394f6f6e59c6754f1a6191ad716553460fc",
+    "packages/LightPlanCore/Sources/LightPlanCore/OpportunityWindow.swift": "63fbb967ae93de14ab8cb4c5baaac07b6eb0cd59887c1c54bafe1e12c7666537",
+    "packages/LightPlanCore/Sources/LightPlanCore/PlanFieldBrief.swift": "bf19a7774c216df171b2cb6a40140be332ae8d14ad72f571c8f61121cff49a1e",
+    "packages/LightPlanCore/Sources/LightPlanCore/PlanLibrary.swift": "cab813e03f6651ec4ad5e4c0151853a2289107b58a82e07da35d3bad87e406e6",
+    "packages/LightPlanCore/Sources/LightPlanCore/Planning.swift": "6cdb7cabe6a798611ca000e15d195290dff0eda50c1e8bf3afce7eff3de3cd98",
+    "packages/LightPlanCore/Sources/LightPlanCore/ReminderScheduler.swift": "0443a20f33e5a7844ace2a9db063241f01ffad3ae99ae56dd5c8da3ab848d257",
+    "packages/LightPlanCore/Sources/LightPlanCore/SolarCoefficients.swift": "20b12d4ea21b1654c4104c555aa0f210a04d26f539b3414d73c423ad2e2df5be",
+    "packages/LightPlanCore/Sources/LightPlanCore/SolarEphemeris.swift": "bcac593033055bfb1ae529bf07cb501b9aa15517a1c3c088cc4e7fa7def53623",
+    "packages/LightPlanCore/Sources/LightPlanCore/VisualGeometry.swift": "b3fd0f9857623d69626858f9f9bc8b957e16dcf708199b868b695bca07e68f20"
+  },
+  "operations": {
+    "commit": false,
+    "push": false,
+    "merge": false,
+    "physical_install": true,
+    "website_deploy": false,
+    "upload": false,
+    "store_submission": false
+  },
+  "native_evidence": [
+    {
+      "bundle": "LightPlan-rich-visual-reviewed.xcresult",
+      "passed_scope": "nine standard languages x framing/opportunity/field: 27 screenshots",
+      "failed_scope": "two earlier accessibility cases retained and later superseded"
+    },
+    {
+      "bundle": "LightPlan-rich-iphone-final.xcresult",
+      "passed_scope": "Moon template replaces dark conditions; Today refresh and quick tab switch",
+      "failed_scope": "framing All and earlier scrolling helpers retained and later superseded"
+    },
+    {
+      "bundle": "LightPlan-rich-iphone-verified.xcresult",
+      "passed_scope": "framing save/edit/relaunch/map/All; vertical/horizontal/tap timeline; Portuguese standard; Thai largest text",
+      "failed_scope": "German scrolling helper retained and later superseded"
+    },
+    {
+      "bundle": "LightPlan-rich-german-complete.xcresult",
+      "passed_scope": "German largest text framing/opportunity/field",
+      "exit_code": 0
+    },
+    {
+      "bundle": "LightPlan-rich-ipad.xcresult",
+      "passed_scope": "30/90-day Moon search options apply/cancel",
+      "failed_scope": "two initial centered-Form test gesture failures retained and superseded"
+    },
+    {
+      "bundle": "LightPlan-rich-ipad-final.xcresult",
+      "passed_scope": "framing/project save, edit, relaunch, map restore, All and unchanged instant",
+      "failed_scope": "static settings label incorrectly required a hittable List; superseded"
+    },
+    {
+      "bundle": "LightPlan-rich-ipad-hitareas.xcresult",
+      "passed_scope": "keyboard focus, project/note search, field countdown/completion/reopen, actual pending notifications 1 to 0 to 0",
+      "exit_code": 0
+    }
+  ],
+  "ui_test_sources_sha256": {
+    "ios/LightPlanVisualUITests/AccessibilityUITests.swift": "9b7a210063fd2b333ad533df95836d3ed0273d47dc6b3f8b90f33858f088664e",
+    "ios/LightPlanVisualUITests/ProductUITests.swift": "f4f9697ab9af0afbef32fcc618930204cf76e8a258a29d7e5df369fd5fc928ab",
+    "ios/LightPlanVisualUITests/RichPlanningUITests.swift": "2663885588dad0be60ffb027ff5c37246f330dea7762abbb7e39b46c11a0175e",
+    "ios/LightPlanVisualUITests/RichVisualUITests.swift": "1c1a897d362df8b5ca47842ce0960fbdb5b2d8fc88de70a756aa4e3cc8610ff0",
+    "ios/LightPlanVisualUITests/VisualUITests.swift": "60b58c4bcc5bea0735e3f0618ab7e717895d95a5a3dd29bda6492899594f209e"
+  },
+  "strict_release_preflight_exit_code": 1,
+  "native_product_flows_passed": 6,
+  "ipad_product_flows_passed": 3,
+  "known_pending": [
+    "German largest-text map rise/set badge overlap and long navigation title truncation",
+    "Existing SwiftUI alert-dismiss publishing warning; also present in prior baseline; no unique stack attribution",
+    "Committed-source remote CI and final brand/distribution evidence",
+    "Physical-device feature, VoiceOver, lower OS, native-speaker, market/price and owner-account acceptance"
+  ],
+  "physical_device_followup": {
+    "date": "2026-09-23",
+    "device": "Hello iPhone",
+    "model": "iPhone 17 Pro",
+    "app_version": "1.0.0",
+    "build": "1",
+    "installed": true,
+    "launched": true,
+    "independent_app_listing_confirmed": true,
+    "physical_feature_acceptance": "pending"
+  }
+}

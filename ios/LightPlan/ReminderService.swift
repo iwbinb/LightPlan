@@ -5,75 +5,94 @@ import LightPlanCore
 enum ReminderResult { case scheduled, denied, noFutureEvent, capacityReached, superseded }
 @MainActor enum ReminderService {
     static let budget = 48 // Product budget; not an assertion about an undocumented OS limit.
-    private static var revision = 0
-    static func cancel(planID: UUID) async {
-        revision += 1
-        let center = UNUserNotificationCenter.current()
-        let old = await center.pendingNotificationRequests()
-        center.removePendingNotificationRequests(withIdentifiers: old.filter { $0.identifier == identifier(planID) || $0.identifier.hasPrefix(identifier(planID) + ".") }.map(\.identifier))
-    }
+    private static let scheduler = ReminderScheduler(client: SystemReminderNotifications(), budget: budget)
+    static func cancel(planID: UUID) async { await scheduler.cancel(planID: planID) }
     private static func identifier(_ id: UUID) -> String { "plan." + id.uuidString }
     static func schedule(plan: ShootPlan, summary: DaySummary, language: String) async throws -> ReminderResult {
-        revision += 1; let generation = revision
-        guard let fire = Planner.reminder(plan: plan, summary: summary, now: Date()),
-              let anchor = summary.first(Planner.anchorKind(plan.target)) else { return .noFutureEvent }
-        let center = UNUserNotificationCenter.current()
-        guard try await center.requestAuthorization(options: [.alert, .sound]) else { return .denied }
-        guard generation == revision else { return .superseded }
-        let id = identifier(plan.id), pending = await center.pendingNotificationRequests()
-        guard pending.filter({ $0.identifier != id && !$0.identifier.hasPrefix(id + ".") }).count < budget else { return .capacityReached }
-        guard generation == revision else { return .superseded }
-        let next = request(plan: plan, fire: fire, anchor: anchor.date, language: language)
-        center.removePendingNotificationRequests(withIdentifiers: pending.filter { $0.identifier == id || $0.identifier.hasPrefix(id + ".") }.map(\.identifier))
-        try await center.add(next)
-        guard generation == revision else {
-            // An in-flight add can finish after cancellation. Only remove this operation's unique ID.
-            center.removePendingNotificationRequests(withIdentifiers: [next.identifier]); return .superseded
+        guard let intent = intent(plan: plan, summary: summary, language: language, now: Date()) else {
+            await scheduler.cancel(planID: plan.id)
+            return .noFutureEvent
         }
-        return .scheduled
+        switch try await scheduler.schedule(intent) {
+        case .scheduled: return .scheduled
+        case .denied: return .denied
+        case .capacityReached: return .capacityReached
+        case .superseded: return .superseded
+        }
     }
-    private static func request(plan: ShootPlan, fire: Date, anchor: Date, language: String) -> UNNotificationRequest {
-        let content = UNMutableNotificationContent()
-        content.title = plan.title
-        content.body = L10n.text("notification.body", language: language) + " · " + plan.place.name + " · " + L10n.time(anchor, zone: plan.place.timeZone, language: language) + " (" + plan.place.timeZoneID + ")"
-        content.sound = .default; content.userInfo = ["planID": plan.id.uuidString]
-        var calendar = Calendar(identifier: .gregorian); calendar.timeZone = .gmt
-        var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: fire)
-        components.calendar = calendar; components.timeZone = .gmt
-        return UNNotificationRequest(identifier: identifier(plan.id) + "." + UUID().uuidString, content: content,
-                                     trigger: UNCalendarNotificationTrigger(dateMatching: components, repeats: false))
+    private static func intent(plan: ShootPlan, summary: DaySummary, language: String, now: Date) -> ReminderIntent? {
+        guard let fire = Planner.reminder(plan: plan, summary: summary, now: now),
+              let anchor = Planner.anchorDate(plan: plan, summary: summary) else { return nil }
+        let body = L10n.text("notification.body", language: language) + " · " + plan.place.name + " · " + L10n.time(anchor, zone: plan.place.timeZone, language: language) + " (" + plan.place.timeZoneID + ")"
+        return ReminderIntent(planID: plan.id, fireDate: fire, title: plan.title, body: body)
     }
     /// Replenish the nearest reminders on foreground/edits/import. Never re-prompt at launch.
     static func reconcile(plans: [ShootPlan], language: String, requestPermission: Bool = false) async {
-        revision += 1; let generation = revision
+        let reminderBudget = budget
+        await scheduler.reconcile(requestPermission: requestPermission) {
+            let now = Date()
+            let candidates = plans.compactMap { plan -> (ShootPlan, Date)? in
+                guard let lead = plan.reminderLeadMinutes,
+                      let interval = try? LocalDay.interval(containing: plan.date, timeZone: plan.place.timeZone), interval.end > now else { return nil }
+                return (plan, interval.start.addingTimeInterval(-Double(lead) * 60))
+            }.sorted { $0.1 < $1.1 }
+            var intents: [ReminderIntent] = []
+            for (plan, earliestFire) in candidates {
+                guard !Task.isCancelled else { return intents }
+                // Stop only when later civil days cannot displace any of the nearest reminders.
+                // An arbitrary plan-count prefix can miss valid plans behind polar/no-event days.
+                if intents.count >= reminderBudget, earliestFire > intents.map(\.fireDate).sorted()[reminderBudget - 1] { break }
+                guard let day = try? await Task.detached(priority: .utility, operation: { try DayEngine.calculate(place: plan.place, date: plan.date) }).value,
+                      let next = await intent(plan: plan, summary: day, language: language, now: now) else { continue }
+                intents.append(next)
+            }
+            return intents
+        }
+    }
+
+    /// Read the system's current scheduling state; saved reminder intent is not delivery proof.
+    static func statusKey(plan: ShootPlan, summary: DaySummary) async -> String {
+        guard plan.reminderLeadMinutes != nil else { return "v3.reminder.off" }
+        guard Planner.anchorDate(plan: plan, summary: summary) != nil else { return "plan.noEvent" }
+        guard let expected = Planner.reminder(plan: plan, summary: summary, now: Date()) else { return "notice.pastReminder" }
         let center = UNUserNotificationCenter.current()
-        if requestPermission { _ = try? await center.requestAuthorization(options: [.alert, .sound]) }
         let settings = await center.notificationSettings()
-        guard generation == revision, [.authorized, .provisional, .ephemeral].contains(settings.authorizationStatus) else { return }
-        let now = Date()
-        let candidates = plans.filter {
-            $0.reminderLeadMinutes != nil && ((try? LocalDay.interval(containing: $0.date, timeZone: $0.place.timeZone).end) ?? .distantPast) > now
-        }.sorted { $0.date < $1.date }
-        var requests: [(Date, UNNotificationRequest)] = []
-        for plan in candidates.prefix(budget * 2) {
-            guard generation == revision, !Task.isCancelled else { return }
-            guard let day = try? await Task.detached(priority: .utility, operation: { try DayEngine.calculate(place: plan.place, date: plan.date) }).value,
-                  let fire = Planner.reminder(plan: plan, summary: day, now: now),
-                  let anchor = day.first(Planner.anchorKind(plan.target)) else { continue }
-            requests.append((fire, request(plan: plan, fire: fire, anchor: anchor.date, language: language)))
+        if settings.authorizationStatus == .denied { return "notice.notificationDenied" }
+        let pending = await center.pendingNotificationRequests()
+        let id = identifier(plan.id)
+        return pending.contains {
+            guard $0.identifier == id || $0.identifier.hasPrefix(id + "."),
+                  let trigger = $0.trigger as? UNCalendarNotificationTrigger,
+                  let fire = trigger.nextTriggerDate() else { return false }
+            return abs(fire.timeIntervalSince(expected)) < 1
         }
-        requests.sort { $0.0 < $1.0 }
-        let chosen = Array(requests.prefix(budget)), desired = Set(chosen.map { $0.1.identifier })
-        let old = await center.pendingNotificationRequests()
-        guard generation == revision else { return }
-        center.removePendingNotificationRequests(withIdentifiers: old.filter { $0.identifier.hasPrefix("plan.") && !desired.contains($0.identifier) }.map(\.identifier))
-        for (_, request) in chosen {
-            guard generation == revision else { return }
-            do {
-                try await center.add(request)
-                if generation != revision { center.removePendingNotificationRequests(withIdentifiers: [request.identifier]); return }
-            } catch { return } // Saved plans survive; Settings exposes system state.
-        }
+            ? "plan.reminderScheduled" : "notice.savedWithoutReminder"
+    }
+}
+
+private struct SystemReminderNotifications: ReminderNotificationClient {
+    func isAuthorized(requestPermission: Bool) async throws -> Bool {
+        let center = UNUserNotificationCenter.current()
+        if requestPermission { return try await center.requestAuthorization(options: [.alert, .sound]) }
+        let settings = await center.notificationSettings()
+        return [.authorized, .provisional, .ephemeral].contains(settings.authorizationStatus)
+    }
+    func pendingIdentifiers() async -> [String] {
+        await UNUserNotificationCenter.current().pendingNotificationRequests().map(\.identifier)
+    }
+    func remove(identifiers: [String]) async {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+    }
+    func add(_ request: ScheduledReminder) async throws {
+        let content = UNMutableNotificationContent()
+        content.title = request.intent.title; content.body = request.intent.body
+        content.sound = .default; content.userInfo = ["planID": request.intent.planID.uuidString]
+        var calendar = Calendar(identifier: .gregorian); calendar.timeZone = .gmt
+        var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: request.intent.fireDate)
+        components.calendar = calendar; components.timeZone = .gmt
+        let notification = UNNotificationRequest(identifier: request.identifier, content: content,
+            trigger: UNCalendarNotificationTrigger(dateMatching: components, repeats: false))
+        try await UNUserNotificationCenter.current().add(notification)
     }
 }
 

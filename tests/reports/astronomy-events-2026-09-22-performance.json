@@ -1,0 +1,217 @@
+{
+  "generatedAtUTC": "2026-09-22T10:54:48.692572+00:00",
+  "build": "Swift Package release (-O), arm64 macOS",
+  "measurement": "50 separate process launches: startup + complete DayEngine calculation + JSON encoding + process exit; not an iPhone benchmark",
+  "samples": 50,
+  "p50Milliseconds": 12.187436979729682,
+  "p95Milliseconds": 14.267124992329627,
+  "maxMilliseconds": 14.44249995984137,
+  "cliSHA256": "ec41ac6205e9571d0c86392b64de556dcda29616097a7ade94ce3b7a3c5d9917",
+  "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "limitations": [
+    "Does not establish minimum-supported-iPhone P95 or battery behavior.",
+    "No map, UI, location service, or I/O persistence work is included."
+  ],
+  "runs": [
+    {
+      "case": "gulangyu",
+      "milliseconds": 14.44249995984137
+    },
+    {
+      "case": "dst-long",
+      "milliseconds": 14.390875003300607
+    },
+    {
+      "case": "polar-tangent",
+      "milliseconds": 14.267124992329627
+    },
+    {
+      "case": "north-89",
+      "milliseconds": 13.58720799908042
+    },
+    {
+      "case": "maximum-year",
+      "milliseconds": 13.667292019817978
+    },
+    {
+      "case": "gulangyu",
+      "milliseconds": 13.120374991558492
+    },
+    {
+      "case": "dst-long",
+      "milliseconds": 13.908084016293287
+    },
+    {
+      "case": "polar-tangent",
+      "milliseconds": 13.456624990794808
+    },
+    {
+      "case": "north-89",
+      "milliseconds": 13.144249969627708
+    },
+    {
+      "case": "maximum-year",
+      "milliseconds": 12.873667001258582
+    },
+    {
+      "case": "gulangyu",
+      "milliseconds": 12.667041970416903
+    },
+    {
+      "case": "dst-long",
+      "milliseconds": 12.731332972180098
+    },
+    {
+      "case": "polar-tangent",
+      "milliseconds": 12.703334039542824
+    },
+    {
+      "case": "north-89",
+      "milliseconds": 12.4297920265235
+    },
+    {
+      "case": "maximum-year",
+      "milliseconds": 12.624458002392203
+    },
+    {
+      "case": "gulangyu",
+      "milliseconds": 12.629459029994905
+    },
+    {
+      "case": "dst-long",
+      "milliseconds": 12.95574998948723
+    },
+    {
+      "case": "polar-tangent",
+      "milliseconds": 12.601124995853752
+    },
+    {
+      "case": "north-89",
+      "milliseconds": 12.260749994311482
+    },
+    {
+      "case": "maximum-year",
+      "milliseconds": 13.034250005148351
+    },
+    {
+      "case": "gulangyu",
+      "milliseconds": 12.051375000737607
+    },
+    {
+      "case": "dst-long",
+      "milliseconds": 12.16025004396215
+    },
+    {
+      "case": "polar-tangent",
+      "milliseconds": 11.615875002462417
+    },
+    {
+      "case": "north-89",
+      "milliseconds": 11.474959028419107
+    },
+    {
+      "case": "maximum-year",
+      "milliseconds": 11.963166994974017
+    },
+    {
+      "case": "gulangyu",
+      "milliseconds": 11.951458000112325
+    },
+    {
+      "case": "dst-long",
+      "milliseconds": 12.515874987002462
+    },
+    {
+      "case": "polar-tangent",
+      "milliseconds": 11.885249987244606
+    },
+    {
+      "case": "north-89",
+      "milliseconds": 11.5632499800995
+    },
+    {
+      "case": "maximum-year",
+      "milliseconds": 11.81308296509087
+    },
+    {
+      "case": "gulangyu",
+      "milliseconds": 11.572625022381544
+    },
+    {
+      "case": "dst-long",
+      "milliseconds": 11.806332971900702
+    },
+    {
+      "case": "polar-tangent",
+      "milliseconds": 11.952916975133121
+    },
+    {
+      "case": "north-89",
+      "milliseconds": 11.635290982667357
+    },
+    {
+      "case": "maximum-year",
+      "milliseconds": 11.857500008773059
+    },
+    {
+      "case": "gulangyu",
+      "milliseconds": 12.180290999822319
+    },
+    {
+      "case": "dst-long",
+      "milliseconds": 12.440667022019625
+    },
+    {
+      "case": "polar-tangent",
+      "milliseconds": 12.086124974302948
+    },
+    {
+      "case": "north-89",
+      "milliseconds": 11.684417026117444
+    },
+    {
+      "case": "maximum-year",
+      "milliseconds": 12.112374999560416
+    },
+    {
+      "case": "gulangyu",
+      "milliseconds": 12.001916009467095
+    },
+    {
+      "case": "dst-long",
+      "milliseconds": 12.60829099919647
+    },
+    {
+      "case": "polar-tangent",
+      "milliseconds": 12.194582959637046
+    },
+    {
+      "case": "north-89",
+      "milliseconds": 11.792875011451542
+    },
+    {
+      "case": "maximum-year",
+      "milliseconds": 11.586958018597215
+    },
+    {
+      "case": "gulangyu",
+      "milliseconds": 11.654499976430088
+    },
+    {
+      "case": "dst-long",
+      "milliseconds": 12.43054197402671
+    },
+    {
+      "case": "polar-tangent",
+      "milliseconds": 11.800625012256205
+    },
+    {
+      "case": "north-89",
+      "milliseconds": 11.550833994988352
+    },
+    {
+      "case": "maximum-year",
+      "milliseconds": 11.761833971831948
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-22",
+  "base_commit": "4132f7d068bc340886b3f2434935a912e8f2ac2b",
+  "scope": "Local development candidate; no commit, push, merge, deployment or App Store submission.",
+  "archive_format": {
+    "writes": 2,
+    "reads": [
+      1,
+      2
+    ],
+    "legacy_backup_preserved": true,
+    "older_app_reads_v2": false
+  },
+  "checks": {
+    "core_tests": {
+      "passed": 107,
+      "failed": 0
+    },
+    "iphone_full_suite": {
+      "passed": 11,
+      "failed": 0,
+      "scope": "Before final read-only quality detail display"
+    },
+    "ipad_serial_regression": {
+      "passed": 3,
+      "failed": 0,
+      "scope": "Save/relaunch/refund/map restore, OS scheduling/disable and rotation; before final quality text"
+    },
+    "final_iphone_quality_regression": {
+      "passed": 2,
+      "failed": 0
+    },
+    "release_archive": {
+      "passed": true,
+      "signed": false,
+      "storekit_testing_resources_in_app": false
+    },
+    "catalog": {
+      "keys": 278,
+      "languages": 9,
+      "values": 2502,
+      "errors": 0
+    },
+    "metadata_audit": "passed",
+    "generator_idempotency": "passed",
+    "user_scheme_semantics": "preserved"
+  },
+  "notification_evidence": "Simulator OS pending requests matched the plan identifier and expected calendar fire time; cancellation was verified. Physical lock-screen delivery not established.",
+  "purchase_evidence": "Local signed StoreKit test transactions only. Owner confirmed the App Store Connect product is not configured.",
+  "physical_device_evidence": "No new physical iPhone installation or complete device acceptance in this round.",
+  "public_website": "Local support/privacy drafts updated; owner/domain/contact unconfirmed; not deployed.",
+  "source_sha256": {
+    "ios/LightPlan/AppState.swift": "8c58b9f8f1d308d26738243536b3bd945eb753d5adbcd2a3a694f8304a063f90",
+    "ios/LightPlan/LightPlanApp.swift": "082b9e5377d0a4f29079ddfa361ac349d24009344b8eb263254003a47b42077c",
+    "ios/LightPlan/MapView.swift": "6dd6227877132ce624a8be3cc296762784427d64b2ef097c80e7200fdf95d59b",
+    "ios/LightPlan/PlaceServices.swift": "d4276845afd979739553904ebfb407d2d1773af1ba328dd94b3bf90da0cb973b",
+    "ios/LightPlan/PlansPlacesSettings.swift": "07b3f8970aa353319ecb2bf896dfac5778b1f31e40bbd2899e1124dd126c8d6b",
+    "ios/LightPlan/PurchaseStore.swift": "9b2b419eafb59e89e98d15ce90842d81a8d35b5b257f13bbf72353baa1e76510",
+    "ios/LightPlan/ReminderService.swift": "f764021edca50605728e6f94e54fbd0a324e9dd1f142b0ac514cd3eb071da6ea",
+    "ios/LightPlan/RootView.swift": "21587568ff79a440d7dced1dae95078edd06db193fb1d235f271d82c0d8de7f1",
+    "ios/LightPlan/Theme.swift": "5366613376a6f1e98f9df256429f7c7726bb045fd3e20a9b6ddc468fb0c6f7b4",
+    "ios/LightPlan/Visual/PlanVisual.swift": "5e5ba1fb8efdc083ad1cdf2d65bf6552e01277904dff04c420f6281fbfc9d0dc",
+    "ios/LightPlan/Visual/SolarTimeline.swift": "8696c92004f33c62e08dd06480775cd9b1ea092af0d7e6c4bcf41302cdf25a6c",
+    "ios/LightPlan/Visual/TodayVisual.swift": "3cd212651d562b0dc5d6b9485fdd31c856f0f639b83c2fb17ef92de51795c104",
+    "ios/LightPlanVisualUITests/ProductUITests.swift": "a0f694fbc2bd12ee27849ebbc1df5ee13152929103cdf968cec07e58c13c151c",
+    "ios/LightPlanVisualUITests/VisualUITests.swift": "60b58c4bcc5bea0735e3f0618ab7e717895d95a5a3dd29bda6492899594f209e",
+    "ios/LightPlanWidget/LightPlanWidget.swift": "815f305e2b4dbb97b4b270680b5a335eb7c4e3ef05da2572b24c500b5b228f9d",
+    "ios/Shared/L10n.swift": "d3abf2f1f098f8cd4a7c539b7b7cbcb01a550e7659e408b61d22190cf0adfc05",
+    "ios/Shared/Localizable.xcstrings": "37881d16889dcd8957372a0cf36d4e303749217db53c8560d496bcd94680e44f",
+    "packages/LightPlanCore/Sources/LightPlanCLI/main.swift": "1a5f1c2c87bd483e236f5d5e27d061633ae5398a25bc970927f5af4003a31afc",
+    "packages/LightPlanCore/Sources/LightPlanCore/ArchiveImport.swift": "82d41462531af6a1fa4cd70d27d3286a461627d0e51fc24255cad81679d68081",
+    "packages/LightPlanCore/Sources/LightPlanCore/Astronomy.swift": "11abd73fdba17d72498bd0ffd0265ed87512f4581242a3221dfd841b1ded230e",
+    "packages/LightPlanCore/Sources/LightPlanCore/CompositionPlan.swift": "4e894f0765e7b2d6b4940c800508f513e31bf57290afe36731207c94a4ee2654",
+    "packages/LightPlanCore/Sources/LightPlanCore/CompositionPlanning.swift": "5ccf622c9a75228e7bfbe3eca635cd221756c827d8c491e5f38d0e61c91e4df9",
+    "packages/LightPlanCore/Sources/LightPlanCore/DayEngine.swift": "d955f53782d1e886b2ec85de5befeb433a9e31e4f35b794594fc89cad47d4d43",
+    "packages/LightPlanCore/Sources/LightPlanCore/Models.swift": "e85a47ad39aee9d61cb9576b4b191c2095fecc15bf870ca21cf19749e43e929a",
+    "packages/LightPlanCore/Sources/LightPlanCore/Planning.swift": "de104a1f932616584cfc435ad88835c76d180bc607a5879d263da57ebba7a1e7",
+    "packages/LightPlanCore/Sources/LightPlanCore/VisualGeometry.swift": "b3fd0f9857623d69626858f9f9bc8b957e16dcf708199b868b695bca07e68f20",
+    "packages/LightPlanCore/Tests/LightPlanCoreTests/ArchiveAndBoundaryTests.swift": "8a34d662c6236f80fd0f6e6b839c440758fc21cca58736a079efc1849f31300c",
+    "packages/LightPlanCore/Tests/LightPlanCoreTests/CompositionPlanTests.swift": "fd7704d5173461daed705829b4bbbda9fb5294c055baae1b3b19256f64ae8eef",
+    "packages/LightPlanCore/Tests/LightPlanCoreTests/CompositionPlanningTests.swift": "9bcb43a4f137d94e2b48090140125e048c258d610767813264900ff8448ad4ad",
+    "packages/LightPlanCore/Tests/LightPlanCoreTests/CoreTests.swift": "7429049e6f93aeeb3e849a79041818fe43f8626f09d007b10ee014c39c734e92",
+    "packages/LightPlanCore/Tests/LightPlanCoreTests/VisualGeometryTests.swift": "bb22a00c4465fb33969b34053d54bf92bd653fc1f84d2c5535ce94214252d761"
+  }
+}

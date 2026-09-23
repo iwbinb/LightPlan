@@ -22,10 +22,14 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>AppGroupIdentifier</key>
 	<string>$(APP_GROUP_ID)</string>
-	<key>LifetimeProductIdentifier</key>
-	<string>$(LIFETIME_PRODUCT_ID)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>SupportEmail</key>
+	<string></string>
+	<key>SupportURL</key>
+	<string></string>
+	<key>PrivacyPolicyURL</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>

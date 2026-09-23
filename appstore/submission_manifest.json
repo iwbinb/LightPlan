@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "source_commit": null,
+  "instructions": "Template only. Copy to ignored tests/reports/local/ before filling final commit/evidence. Every account check is owner/reviewer supplied; this template records no completed account operations. Screenshot rows require locale, family (iphone/ipad), repository-relative PNG path, sha256, source_commit, capture_kind (native), reviewer and review_status (passed only after visual review).",
+  "account_checks": {
+    "app_record_and_identifiers": {
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    "paid_agreement_tax_banking": {
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    "privacy_age_rating_export_compliance": {
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    "territories_and_trader_status": {
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    "public_urls_and_contact": {
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    "distribution_validation": {
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    "owner_submission_approval": {
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    "paid_app_configuration": {
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    },
+    "testflight_full_access_and_offline": {
+      "status": "pending",
+      "evidence": [],
+      "reviewer": null
+    }
+  },
+  "screenshots": [],
+  "distribution_model": "paid_upfront"
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-22",
+  "base_commit": "4132f7d068bc340886b3f2434935a912e8f2ac2b",
+  "scope": "Local merge candidate; not committed, pushed or merged. Fresh GitHub CI for the exact pushed commit is still required.",
+  "toolchain": {
+    "xcode": "27.0 (27A266a)",
+    "simulator_os": "iOS 27.0",
+    "ci_toolchain_not_locally_installed": "Xcode 26.3"
+  },
+  "core_tests": {
+    "passed": 96,
+    "failed": 0
+  },
+  "initial_full_iphone_suite": {
+    "passed": 9,
+    "failed": 0,
+    "screenshots": 30,
+    "scope": "Before final hit-region and MapReader layout fixes"
+  },
+  "final_iphone_regression": {
+    "passed": 3,
+    "failed": 0,
+    "device_model": "iPhone 18 Pro",
+    "screenshots": 3
+  },
+  "final_ipad_regression": {
+    "passed": 3,
+    "failed": 0,
+    "device_model": "iPad Pro 11-inch (M5)",
+    "screenshots": 3
+  },
+  "final_release_archive": {
+    "passed": true,
+    "signed": false,
+    "storekit_test_files_in_app": false
+  },
+  "catalog": {
+    "keys": 272,
+    "languages": 9,
+    "values": 2448,
+    "errors": 0
+  },
+  "metadata_audit": "passed",
+  "generator_consistency": "passed",
+  "source_sha256": {
+    "ios/LightPlan/MapView.swift": "b0ed4e5275125ac5165c1c1e6a3d2421f3c57c29b8c35d5acd34e9c88412b4f5",
+    "ios/LightPlan/PlansPlacesSettings.swift": "aa7226a085e7ddad8814cf4d8d49bf932ecad78b1356d9ff172da16e99ed9d0b",
+    "ios/LightPlan/Theme.swift": "5366613376a6f1e98f9df256429f7c7726bb045fd3e20a9b6ddc468fb0c6f7b4",
+    "ios/LightPlanVisualUITests/ProductUITests.swift": "1c2e8325ea99d8376c95de4a4be56a7ffc226cfc76020a6a11a62ab494f909b8",
+    "ios/LightPlanVisualUITests/VisualUITests.swift": "60b58c4bcc5bea0735e3f0618ab7e717895d95a5a3dd29bda6492899594f209e",
+    "ios/LightPlanWidget/LightPlanWidget.swift": "815f305e2b4dbb97b4b270680b5a335eb7c4e3ef05da2572b24c500b5b228f9d",
+    "packages/LightPlanCore/Sources/LightPlanCore/CompositionPlanning.swift": "5ccf622c9a75228e7bfbe3eca635cd221756c827d8c491e5f38d0e61c91e4df9",
+    "packages/LightPlanCore/Tests/LightPlanCoreTests/CompositionPlanningTests.swift": "9bcb43a4f137d94e2b48090140125e048c258d610767813264900ff8448ad4ad"
+  },
+  "evidence_policy": "Original edits, raw logs, diagnostics and xcresult bundles are local-only in Git-ignored evidence directories. Failures were preserved.",
+  "release_acceptance": "Physical-device, real StoreKit sandbox and other release gates remain separate."
+}

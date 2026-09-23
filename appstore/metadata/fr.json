@@ -2,9 +2,9 @@
   "locale": "fr",
   "name": "LightPlan",
   "subtitle": "Planifiez selon la lumière",
-  "promotional_text": "Choisissez un lieu et une date, explorez la direction du soleil et de la lune, puis préparez votre séance.",
-  "description": "Consultez le lever et le coucher du soleil ainsi que les heures dorée et bleue dans le fuseau du lieu choisi. Explorez les directions sur une carte, enregistrez vos séances et configurez des rappels. Les calculs astronomiques fonctionnent hors ligne lorsque les coordonnées et le fuseau sont connus ; la carte et la recherche peuvent nécessiter une connexion. Essayez les informations de base du jour, puis débloquez les outils de planification par achat unique. Sans abonnement ni compte. Les horaires sont des estimations : nuages, bâtiments et relief peuvent modifier la lumière visible.",
-  "keywords": "soleil,lune,photo,coucher,lever,heure dorée,heure bleue,planification",
+  "promotional_text": "Placez un sujet sur la carte, vérifiez son alignement avec le Soleil ou la Lune et cherchez des occasions sur une période allant jusqu’à 90 jours.",
+  "description": "LightPlan est une application payante : achetez-la sur l’App Store avant de la télécharger, puis profitez de toutes les fonctions de planification, sans achats intégrés ni abonnement. Aucun compte dans l’application n’est nécessaire. Consultez le lever et le coucher du soleil ainsi que les heures dorée et bleue dans le fuseau du lieu choisi. Explorez les directions du Soleil et de la Lune sur la carte, recherchez des alignements sur une période choisie de 90 jours maximum et comparez des positions de prise de vue proposées géométriquement. Enregistrez vos séances et vos lieux, configurez des rappels et utilisez le widget. Les calculs astronomiques fonctionnent hors ligne lorsque les coordonnées et le fuseau sont connus ; la carte et la recherche de lieux peuvent nécessiter une connexion. Les horaires et alignements sont des estimations : nuages, bâtiments et relief peuvent modifier ce que vous voyez.",
+  "keywords": "soleil,lune,photo,coucher,lever,heure dorée,heure bleue,planification,composition",
   "status": "draft_native_review_and_final_feature_verification_required",
   "screenshot_captions": [
     "LightPlan",

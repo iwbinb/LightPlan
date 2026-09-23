@@ -86,11 +86,11 @@ enum SolarEphemeris {
             coefficients.reversed().reduce(0) { $0 * t + $1 }
         }
         switch year {
-        case ..<1900: return polynomial(year - 1860, [7.62, 0.5737, -0.251754, 0.01680668, -0.0004473624, 1 / 233174])
+        case ..<1900: return polynomial(year - 1860, [7.62, 0.5737, -0.251754, 0.01680668, -0.0004473624, 1.0 / 233174.0])
         case ..<1920: return polynomial(year - 1900, [-2.79, 1.494119, -0.0598939, 0.0061966, -0.000197])
         case ..<1941: return polynomial(year - 1920, [21.20, 0.84493, -0.076100, 0.0020936])
-        case ..<1961: return polynomial(year - 1950, [29.07, 0.407, -1 / 233, 1 / 2547])
-        case ..<1986: return polynomial(year - 1975, [45.45, 1.067, -1 / 260, -1 / 718])
+        case ..<1961: return polynomial(year - 1950, [29.07, 0.407, -1.0 / 233.0, 1.0 / 2547.0])
+        case ..<1986: return polynomial(year - 1975, [45.45, 1.067, -1.0 / 260.0, -1.0 / 718.0])
         case ..<2005: return polynomial(year - 2000, [63.86, 0.3345, -0.060374, 0.0017275, 0.000651814, 0.00002373599])
         case ..<2050: return polynomial(year - 2000, [62.92, 0.32217, 0.005589])
         default:

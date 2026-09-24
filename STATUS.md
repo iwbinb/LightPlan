@@ -1,3 +1,17 @@
+# M3 core workflow verified / PR handoff — 2026-09-24
+
+**M3 implementation and its automated acceptance passed on `76a3a3b04768c58efdb35be34d60a23bb107ea5f`. Native run #52 (`35892933684`, attempt 1) completed successfully at 2026-09-23 17:58:56 UTC: 9/9 groups passed. This is a merge candidate, not App Store release approval.**
+
+- PR #3 was merged by the owner; M3 starts from `0ace4241231785c47af00a5f2d89fc0a7281e192`. This handoff only adds documentation on `dev`; it does not merge `main` or begin M4.
+- M3 keeps preview/editor time tied to the manually selected map instant, preserves applied Sun/Moon search inputs separately within the current app session, provides explicit empty-result recovery and stop/restart, and protects unsaved edits. Process-restart draft/search restoration is not promised by this phase.
+- Final-source evidence: **224 core tests** (212 existing + 12 new), **32 native-target executions** (31 real UI executions + one existing helper regression), **36 CI helper tests**, Debug simulator build, unsigned Release archive, generator consistency, metadata and release-tool/schema checks all passed. Native failures/skips/expected failures are zero; all 31 iPhone methods were selected once, with the existing rotation method also executed on iPad.
+- Localization completeness: 384 keys, nine languages, 3456 translations, zero errors. The search entry now says “Find shooting windows” rather than promising a fixed 14-day range. Automated completeness is not native-speaker review.
+- On 2026-09-24, all nine run-52 artifact ZIP digests, source commits, command exits and native test selections were downloaded and checked. Representative workflow, German/Thai largest-text and iPad screenshots were reviewed; the report records remaining visual limitations. This documentation task did not rerun the App or change tested App/Core/UI-test/CI source.
+- The M3 report includes acceptance-to-test mapping, run-50 failures and fixes, evidence references, reproducible commands and remaining gates. PR merge-ref checks are independent of this passed dev-source run; do not label them passed until they finish.
+- Physical-device notification/map/Widget checks, minimum-system coverage, VoiceOver, native-speaker and first-time-user review, performance, final visual polish and Store/account/distribution signing remain separate release gates. Paid download, archive schema and ephemeris precision are unchanged.
+
+See [M3 acceptance and limitations](tests/reports/m3-workflow-2026-09-23.md) and [run-52 evidence manifest](tests/reports/m3-native-verification-2026-09-24.json). All entries below are historical snapshots; statements such as “M3 has not started” describe their original dates, not current status.
+
 # M1 native baseline closed / M2 PR candidate — 2026-09-23
 
 **All eight native CI groups passed on `46a58129c4fb9ff917370396a1cbb131257eeda5`. The previously failing M1 product, planning and German/Thai largest-text flows are resolved. This is a verified M2 merge candidate, not App Store release approval.**
@@ -43,7 +57,7 @@ See [the owned MapKit and phone evidence](tests/reports/owned-mapkit-2026-09-23.
 - Four focused native simulator flows passed: GPS selection, map-style change and relaunch persistence, portrait/landscape reachability, and long-press recenter. The final Release App/Widget archive passed local signature, App Group, privacy and license checks.
 - The final archive at `/private/tmp/LightPlan-map-gps-final.xcarchive` was installed on the physical iPhone 17 Pro; the old LightPlan process was terminated and the app relaunched. Local App Store preflight remains not ready. No commit, push, merge or submission occurred.
 
-See [the physical-map feedback report](tests/reports/map-physical-feedback-2026-09-23.md). Earlier candidate summaries below retain their original source and verification scope.
+See [the physical-map feedback report](tests/reports/map-physical-feedback-2026-09-23.md). Earlier candidate summaries below retain their original evidence scope.
 
 # Historical location and map-style candidate — 2026-09-23
 

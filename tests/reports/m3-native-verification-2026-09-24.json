@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "phase": "M3",
+  "recorded_date_utc": "2026-09-24",
+  "repository": "iwbinb/LightPlan",
+  "source_commit": "76a3a3b04768c58efdb35be34d60a23bb107ea5f",
+  "source_tree": "19f3945e92a560a665822e49b148965dcec73854",
+  "base_commit": "0ace4241231785c47af00a5f2d89fc0a7281e192",
+  "native_run": {
+    "id": 35892933684,
+    "number": 52,
+    "attempt": 1,
+    "event": "push",
+    "conclusion": "success",
+    "completed_at_utc": "2026-09-23T17:58:56Z",
+    "url": "https://github.com/iwbinb/LightPlan/actions/runs/35892933684"
+  },
+  "environment": {
+    "xcode": "26.3 (17C529)",
+    "swift": "6.2.4",
+    "macos": "15.7.9 arm64",
+    "ios_simulator": "26.2",
+    "devices": [
+      "iPhone 17 Pro",
+      "iPad Pro 11-inch (M4)"
+    ]
+  },
+  "verification": {
+    "zip_digests_checked": 9,
+    "source_commits_checked": 9,
+    "runner_exit_codes_all_zero": true,
+    "command_exit_codes_all_zero": true,
+    "timeouts": 0,
+    "interruptions": 0,
+    "native_test_summaries_checked": 8,
+    "iphone_inventory_matched": true,
+    "new_app_execution_in_documentation_task": false
+  },
+  "tests": {
+    "core_passed": 224,
+    "core_failed": 0,
+    "m3_new_core_tests": 12,
+    "ci_helper_passed": 36,
+    "release_preflight_tool_passed": 24,
+    "screenshot_package_tool_passed": 10,
+    "schema_passed": 15,
+    "test_executions": 32,
+    "real_ui_executions": 31,
+    "helper_regressions": 1,
+    "iphone_distinct_methods": 31,
+    "ipad_rotation_executions": 1,
+    "failures": 0,
+    "skips": 0,
+    "expected_failures": 0,
+    "iphone_inventory_matched": true
+  },
+  "builds": {
+    "debug_simulator": "passed",
+    "unsigned_release_archive": "passed",
+    "storekit_fixture_in_archive": false,
+    "generator_drift": false,
+    "distribution_signing_verified": false
+  },
+  "localization": {
+    "catalog_keys": 384,
+    "languages": [
+      "en",
+      "zh-Hans",
+      "zh-Hant",
+      "ja",
+      "ko",
+      "de",
+      "fr",
+      "th",
+      "pt-PT"
+    ],
+    "translations": 3456,
+    "completeness_errors": 0,
+    "native_speaker_review": "pending"
+  },
+  "artifacts": [
+    {"stage": "checks", "job_id": 107290833660, "artifact_id": 10766075854, "zip_sha256": "ad73d3f2bda40c34c86ecc1df7e90009df0dc5d4d46206507604408e1cc61b6a", "zip_bytes": 6928548, "exit_code": 0, "duration_seconds": 221.181, "ui_target_passed": null, "evidence_url": "https://github.com/iwbinb/LightPlan/actions/runs/35892933684/artifacts/10766075854"},
+    {"stage": "iphone-product", "job_id": 107290833848, "artifact_id": 10766112754, "zip_sha256": "69ffbb835e9b8b91987a6b0414de9d69af2ae5fb9885f4eb4bcf35e1d426335f", "zip_bytes": 14739299, "exit_code": 0, "duration_seconds": 1008.152, "ui_target_passed": 9, "evidence_url": "https://github.com/iwbinb/LightPlan/actions/runs/35892933684/artifacts/10766112754"},
+    {"stage": "iphone-planning", "job_id": 107290833395, "artifact_id": 10767297911, "zip_sha256": "e47cddd3366b85d3aa92bca4f22f2ef585b4908dad188f468e7abcbbde570f97", "zip_bytes": 42584188, "exit_code": 0, "duration_seconds": 1502.931, "ui_target_passed": 6, "evidence_url": "https://github.com/iwbinb/LightPlan/actions/runs/35892933684/artifacts/10767297911"},
+    {"stage": "iphone-workflow", "job_id": 107290834459, "artifact_id": 10766402951, "zip_sha256": "49154c41de6a058f463fd11c69042c19b9354ed4b5e4ca9dfcb726fe0222c2ac", "zip_bytes": 13319331, "exit_code": 0, "duration_seconds": 1138.593, "ui_target_passed": 4, "evidence_url": "https://github.com/iwbinb/LightPlan/actions/runs/35892933684/artifacts/10766402951"},
+    {"stage": "iphone-visual", "job_id": 107290833616, "artifact_id": 10766713919, "zip_sha256": "fe625d0d629f2b4afafa7f29b33a7cd4091ecdf5eab6f20c3b22de65b36a64a7", "zip_bytes": 120115340, "exit_code": 0, "duration_seconds": 817.839, "ui_target_passed": 5, "evidence_url": "https://github.com/iwbinb/LightPlan/actions/runs/35892933684/artifacts/10766713919"},
+    {"stage": "iphone-rich-visual", "job_id": 107290833907, "artifact_id": 10767492092, "zip_sha256": "10c7df83093ec71bab64b7b854cc8a99773bf59d1122e4db57130bfc08fd1f3e", "zip_bytes": 35450597, "exit_code": 0, "duration_seconds": 1300.71, "ui_target_passed": 3, "evidence_url": "https://github.com/iwbinb/LightPlan/actions/runs/35892933684/artifacts/10767492092"},
+    {"stage": "iphone-rich-accessibility", "job_id": 107290833725, "artifact_id": 10768390337, "zip_sha256": "ec4ef6e51cadd234f382cb1ed6e4964f3de083110812f0f163d4536efc5fccb3", "zip_bytes": 14444395, "exit_code": 0, "duration_seconds": 769.524, "ui_target_passed": 2, "evidence_url": "https://github.com/iwbinb/LightPlan/actions/runs/35892933684/artifacts/10768390337"},
+    {"stage": "iphone-accessibility", "job_id": 107290833719, "artifact_id": 10767607144, "zip_sha256": "f1b3833fe820ad8679ea4ad9b45b9a99fdf95de0ee74396c7ecd03930a169a3f", "zip_bytes": 54502152, "exit_code": 0, "duration_seconds": 730.48, "ui_target_passed": 2, "evidence_url": "https://github.com/iwbinb/LightPlan/actions/runs/35892933684/artifacts/10767607144"},
+    {"stage": "ipad-rotation", "job_id": 107290833726, "artifact_id": 10767892317, "zip_sha256": "9d77bf737b3c958f684957b7c11f38e172ea2fdcefb854524bf0adceba66013a", "zip_bytes": 14030391, "exit_code": 0, "duration_seconds": 662.844, "ui_target_passed": 1, "evidence_url": "https://github.com/iwbinb/LightPlan/actions/runs/35892933684/artifacts/10767892317"}
+  ],
+  "native_test_selection": {
+    "iphone-product": [
+      "LightPlanUITests/ProductUITests/testCompositionFiltersAndUsesSelectedOpportunity",
+      "LightPlanUITests/ProductUITests/testCompositionPlanAndFieldBriefSurviveRelaunch",
+      "LightPlanUITests/ProductUITests/testFutureCompositionReminderIsScheduledAndCanBeStopped",
+      "LightPlanUITests/ProductUITests/testManualLocationAcceptsCoordinatesWithoutPermission",
+      "LightPlanUITests/ProductUITests/testMapLocationArrowUsesDevicePosition",
+      "LightPlanUITests/ProductUITests/testPaidDownloadHasNoPurchaseOrRestoreScreen",
+      "LightPlanUITests/ProductUITests/testPlacesOffersExplicitLocationAndManualChoice",
+      "LightPlanUITests/ProductUITests/testPlanEditorSavesWithoutPurchase",
+      "LightPlanUITests/ProductUITests/testSubjectCanBeSelectedOnTheRealMap"
+    ],
+    "iphone-planning": [
+      "LightPlanUITests/RichPlanningUITests/testFramingAndProjectSurviveSaveEditRelaunchAndMapRestore",
+      "LightPlanUITests/RichPlanningUITests/testMapTimelineVerticalScrollPreservesTimeAndHorizontalScrubChangesIt",
+      "LightPlanUITests/RichPlanningUITests/testMoonSearchOptionsApplyAndCancelPreserveResultWindows",
+      "LightPlanUITests/RichPlanningUITests/testMoonTemplateReplacesPreviouslySelectedDarkMoonConditions",
+      "LightPlanUITests/RichPlanningUITests/testProjectSearchFieldCompletionAndReopenSurviveRelaunch",
+      "LightPlanUITests/RichPlanningUITests/testTodayPullToRefreshAndQuickTabSwitchPreserveSummary"
+    ],
+    "iphone-workflow": [
+      "LightPlanUITests/WorkflowUITests/testEmptySearchRecoveryAndAppliedOptionsSurviveReopening",
+      "LightPlanUITests/WorkflowUITests/testManualTimelineTimeIsTheTimePreviewedAndSaved",
+      "LightPlanUITests/WorkflowUITests/testStoppedSearchRetainsOptionsAndCanRestart",
+      "LightPlanUITests/WorkflowUITests/testUnsavedEditorSurvivesCancelAndRotationUntilExplicitDiscard"
+    ],
+    "iphone-visual": [
+      "LightPlanUITests/VisualUITests/testCompositionPlannerSurface",
+      "LightPlanUITests/VisualUITests/testCoreScreensAllLanguages",
+      "LightPlanUITests/VisualUITests/testDarkScreenAndRotationContinuity",
+      "LightPlanUITests/VisualUITests/testLongPressLocationControlCanRecenterShootingPlace",
+      "LightPlanUITests/VisualUITests/testMapBaseStyleSwitchesAndSurvivesRelaunch"
+    ],
+    "iphone-rich-visual": [
+      "LightPlanUITests/RichVisualUITests/testPortugueseStandardRichScreens",
+      "LightPlanUITests/RichVisualUITests/testRevealBudgetWaitsForUsableGeometry",
+      "LightPlanUITests/RichVisualUITests/testRichScreensAllNineLanguages"
+    ],
+    "iphone-rich-accessibility": [
+      "LightPlanUITests/RichVisualUITests/testGermanLargestTextRichScreens",
+      "LightPlanUITests/RichVisualUITests/testThaiLargestTextRichScreens"
+    ],
+    "iphone-accessibility": [
+      "LightPlanUITests/AccessibilityUITests/testGermanLargestTextPlanningAndSubjectEntry",
+      "LightPlanUITests/AccessibilityUITests/testThaiLargestTextPlanningAndSubjectEntry"
+    ],
+    "ipad-rotation": [
+      "LightPlanUITests/VisualUITests/testDarkScreenAndRotationContinuity"
+    ]
+  },
+  "evidence_files_read": [
+    "source-commit.txt",
+    "runner.json",
+    "commands.tsv",
+    "test-inventory.json",
+    "selected-tests.txt (UI groups)",
+    "test-summary.json (UI groups)",
+    "checks/core-tests.log",
+    "checks/debug-build.log",
+    "checks/release-archive.log",
+    "checks/localization.log",
+    "checks/metadata.log",
+    "checks/*tool and schema test logs"
+  ],
+  "screenshot_review": {
+    "workflow_pngs": 7,
+    "rich_largest_text_pngs": 6,
+    "ipad_pngs": 2,
+    "scope": "Representative native output review, not a full visual or native-speaker sign-off. Workflow draft capture includes system keyboard tutorial; largest-text captures retain truncated navigation titles and background content behind sheets. Track final polish in M5."
+  },
+  "boundaries": [
+    "Search inputs are session-only; process-restart restoration of unsaved drafts is not promised.",
+    "Manual-time workflow checks preview and editor anchor, then cancels; existing product/planning tests separately cover storage and relaunch.",
+    "First-time-user study, physical devices, minimum OS, VoiceOver, native-speaker review, data/backup/field checks, performance and final visual polish remain separate gates.",
+    "No main merge, automatic merge, release, deployment, pricing or signing change. M4 has not started.",
+    "PR merge-ref checks are separate from the passed dev-source run. Documentation-only changes do not rerun the App.",
+    "Artifacts have 14-day retention and currently expire on 2026-10-07; URLs are not permanent archives."
+  ]
+}

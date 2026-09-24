@@ -106,6 +106,22 @@ import XCTest
         let result = try await task.value, values = await client.values()
         XCTAssertEqual(result, .superseded); XCTAssertEqual(values.map(\.intent), [old])
     }
+    func testQueuedCancellationRechecksSavedStateBeforeRemovingRequests() async {
+        let saved = intent(), client = M4ReminderClient()
+        await client.seed([saved])
+        let gate = M4Gate(), validity = M4Validity(), engine = scheduler(client)
+        await client.setPendingGate(gate)
+        let stopping = Task {
+            await engine.cancel(planID: saved.planID, isCurrent: { await validity.value() })
+        }
+        await gate.entered()
+        // The app can persist a newer enabled version while the OS queue is being read.
+        await validity.invalidate()
+        await gate.release()
+        await stopping.value
+        let values = await client.values()
+        XCTAssertEqual(values.map(\.intent), [saved])
+    }
     func testLockedLibrarySnapshotCannotPruneExistingReminders() async {
         let a = intent(), client = M4ReminderClient(); await client.seed([a])
         let engine = scheduler(client)
@@ -173,6 +189,7 @@ private actor M4ReminderClient: ReminderNotificationClient {
     private var failingIDs = Set<UUID>()
     private var authorizationGate: M4Gate?
     private var addGate: M4Gate?
+    private var pendingGate: M4Gate?
     func seed(_ intents: [ReminderIntent]) {
         for intent in intents { let request = ScheduledReminder(intent: intent); requests[request.identifier] = request }
     }
@@ -181,13 +198,17 @@ private actor M4ReminderClient: ReminderNotificationClient {
     func setAuthorized(_ value: Bool) { authorized = value }
     func setAuthorizationGate(_ gate: M4Gate) { authorizationGate = gate }
     func setAddGate(_ gate: M4Gate) { addGate = gate }
+    func setPendingGate(_ gate: M4Gate) { pendingGate = gate }
     func failAdd(for id: UUID) { failingIDs.insert(id) }
     func isAuthorized(requestPermission: Bool) async throws -> Bool {
         if requestPermission { prompts += 1 }
         if let gate = authorizationGate { authorizationGate = nil; await gate.wait() }
         return authorized
     }
-    func pendingIdentifiers() -> [String] { Array(requests.keys) }
+    func pendingIdentifiers() async -> [String] {
+        if let gate = pendingGate { pendingGate = nil; await gate.wait() }
+        return Array(requests.keys)
+    }
     func remove(identifiers: [String]) { identifiers.forEach { requests.removeValue(forKey: $0) } }
     func add(_ request: ScheduledReminder) async throws {
         if let gate = addGate { addGate = nil; await gate.wait() }

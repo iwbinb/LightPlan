@@ -213,6 +213,18 @@ enum PlanningTemplate { case sunset, moon }
                 await self?.matchesReminderPlan(plan) ?? false
             })
     }
+    /// A queued stop/delete must not cancel a newer saved-and-enabled reminder.
+    func cancelSavedReminder(planID: UUID) async {
+        let expected = plans.first(where: { $0.id == planID })
+        guard !archiveLocked,
+              expected == nil || expected?.reminderLeadMinutes == nil || expected?.completedAt != nil else { return }
+        await ReminderService.cancel(planID: planID, isCurrent: { [weak self] in
+            await self?.matchesReminderCancellation(planID, expected: expected) ?? false
+        })
+    }
+    private func matchesReminderCancellation(_ id: UUID, expected: ShootPlan?) -> Bool {
+        !archiveLocked && plans.first(where: { $0.id == id }) == expected
+    }
     private func matchesReminderSnapshot(_ snapshot: [ShootPlan]) -> Bool { !archiveLocked && plans == snapshot }
     private func matchesReminderPlan(_ plan: ShootPlan) -> Bool {
         !archiveLocked && plans.first(where: { $0.id == plan.id }) == plan
@@ -240,7 +252,7 @@ enum PlanningTemplate { case sunset, moon }
     func deletePlan(_ plan: ShootPlan) async -> Bool {
         do {
             try applyPlanMutation(.remove(plan.id))
-            await ReminderService.cancel(planID: plan.id)
+            await cancelSavedReminder(planID: plan.id)
             // Refill a freed reminder slot from the current saved library.
             await reconcileReminders()
             return true
@@ -249,7 +261,7 @@ enum PlanningTemplate { case sunset, moon }
     func stopReminder(_ plan: ShootPlan) async {
         do {
             try applyPlanMutation(.disableReminder(plan.id, now: Date()))
-            await ReminderService.cancel(planID: plan.id)
+            await cancelSavedReminder(planID: plan.id)
             await reconcileReminders()
         } catch { errorKey = "error.save" }
     }

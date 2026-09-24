@@ -10,7 +10,7 @@ extension AppState {
         guard completed != (current.completedAt != nil) else { return true }
         do {
             try applyPlanMutation(.setCompleted(plan.id, completed: completed, now: Date()))
-            await ReminderService.cancel(planID: current.id)
+            await cancelSavedReminder(planID: current.id)
             await reconcileReminders()
             if showNotice { noticeKey = completed ? "library.completedNotice" : "library.reopenedNotice" }
             return true

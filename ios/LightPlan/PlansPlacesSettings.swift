@@ -270,7 +270,7 @@ struct PlanEditorView: View {
                     }
                 } catch { state.noticeKey = "notice.savedWithoutReminder" }
             } else {
-                await ReminderService.cancel(planID: plan.id)
+                await state.cancelSavedReminder(planID: plan.id)
                 await state.reconcileReminders()
                 state.noticeKey = "notice.saved"
             }

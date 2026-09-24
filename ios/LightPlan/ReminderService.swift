@@ -6,7 +6,10 @@ enum ReminderResult { case scheduled, denied, noFutureEvent, capacityReached, su
 @MainActor enum ReminderService {
     static let budget = 48 // Product budget; not an assertion about an undocumented OS limit.
     private static let scheduler = ReminderScheduler(client: SystemReminderNotifications(), budget: budget)
-    static func cancel(planID: UUID) async { await scheduler.cancel(planID: planID) }
+    static func cancel(planID: UUID,
+                       isCurrent: @escaping @Sendable () async -> Bool = { true }) async {
+        await scheduler.cancel(planID: planID, isCurrent: isCurrent)
+    }
     private static func identifier(_ id: UUID) -> String { "plan." + id.uuidString }
     static func schedule(plan: ShootPlan, summary: DaySummary, language: String,
                          isCurrent: @escaping @Sendable () async -> Bool = { true }) async throws -> ReminderResult {

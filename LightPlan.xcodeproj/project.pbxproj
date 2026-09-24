@@ -745,6 +745,16 @@
 			"isa" = "PBXBuildFile";
 			"fileRef" = "638EEFB93C3EA57FC639BC8B";
 		};
+		"2F149C754D720A456321DF86" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "ios/LightPlanVisualUITests/FieldReliabilityUITests.swift";
+			"sourceTree" = "SOURCE_ROOT";
+		};
+		"5D0EBAEB8F2739963002EC05" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "2F149C754D720A456321DF86";
+		};
 		"B3B32742F1B92B48F7C2BCE2" = {
 			"isa" = "PBXFileReference";
 			"lastKnownFileType" = "sourcecode.swift";
@@ -800,6 +810,7 @@
 			"buildActionMask" = "2147483647";
 			"files" = (
 				"50DA3B379778962AB879E768",
+				"5D0EBAEB8F2739963002EC05",
 				"619E1DC4C56C535EDABEFF75",
 				"2C6426E38DC76DCBAF0E1EE8",
 				"6C6E2AA629B7D5AAC9869325",
@@ -936,6 +947,7 @@
 				"F989EDDA16E7920CC28EC884",
 				"7100BD72DA3A439A1FACB512",
 				"638EEFB93C3EA57FC639BC8B",
+				"2F149C754D720A456321DF86",
 				"B3B32742F1B92B48F7C2BCE2",
 				"C4CC4A69A0C991F09B21E47C",
 				"295F07EFF89A4874F51C05FC",

@@ -4,16 +4,16 @@ import LightPlanCore
 extension AppState {
     /// Persist before cancelling so a failed disk write does not silently disable
     /// a reminder for an active plan. Restoring a plan never re-enables old reminders.
-    func setPlanCompleted(_ plan: ShootPlan, completed: Bool, showNotice: Bool = true) async {
-        guard var current = plans.first(where: { $0.id == plan.id }) else { return }
-        guard completed != (current.completedAt != nil) else { return }
-        current.completedAt = completed ? Date() : nil
-        current.reminderLeadMinutes = nil
-        current.updatedAt = Date()
+    @discardableResult
+    func setPlanCompleted(_ plan: ShootPlan, completed: Bool, showNotice: Bool = true) async -> Bool {
+        guard let current = plans.first(where: { $0.id == plan.id }) else { return false }
+        guard completed != (current.completedAt != nil) else { return true }
         do {
-            try upsert(current)
+            try applyPlanMutation(.setCompleted(plan.id, completed: completed, now: Date()))
             await ReminderService.cancel(planID: current.id)
+            await reconcileReminders()
             if showNotice { noticeKey = completed ? "library.completedNotice" : "library.reopenedNotice" }
-        } catch { if showNotice { errorKey = "error.save" } }
+            return true
+        } catch { if showNotice { errorKey = "error.save" }; return false }
     }
 }

@@ -28,6 +28,7 @@ struct PlanEditorView: View {
     @State private var day: DaySummary?
     @State private var draftPlace: Place?
     @State private var initialInputs: EditorInputs?
+    @State private var editingOriginal: ShootPlan?
     @State private var confirmDiscard = false
     @State private var previewRetry = 0
     @State private var loadedPreview: PreviewRequest?
@@ -58,9 +59,12 @@ struct PlanEditorView: View {
             date: planDate, target: target, body: compositionBody, offset: compositionOffset,
             arrival: arrival, reminder: reminder, notifications: notifications)
     }
+    // Keep the revision opened by this editor even if the parent view receives
+    // a later saved version while its form fields still contain the old draft.
+    private var editingPlan: ShootPlan? { initialized ? editingOriginal : planToEdit }
     private var hasUnsavedChanges: Bool { initialInputs.map { $0 != inputs } ?? false }
-    private var place: Place { draftPlace ?? planToEdit?.place ?? compositionDraft?.place ?? state.place }
-    private var inputComposition: CompositionPlan? { (planToEdit ?? compositionDraft)?.composition }
+    private var place: Place { draftPlace ?? editingPlan?.place ?? compositionDraft?.place ?? state.place }
+    private var inputComposition: CompositionPlan? { (editingPlan ?? compositionDraft)?.composition }
     private var isComposition: Bool { inputComposition != nil }
     private var calendar: Calendar { var value = Calendar(identifier: .gregorian); value.timeZone = place.timeZone; return value }
     private var calculationID: PreviewRequest {
@@ -125,8 +129,8 @@ struct PlanEditorView: View {
                 }
                 Stepper(value: $arrival, in: 0...240, step: 5) { Text(L10n.text("plan.arrivalLead") + " " + L10n.number(Double(arrival)) + " " + L10n.text("unit.minutes")) }
                 Toggle(L10n.text("plan.remind"), isOn: $notifications).accessibilityIdentifier("plan-reminder-toggle")
-                    .disabled(planToEdit?.completedAt != nil)
-                if planToEdit?.completedAt != nil { KeyText("library.completedEditNote").font(.caption) }
+                    .disabled(editingPlan?.completedAt != nil)
+                if editingPlan?.completedAt != nil { KeyText("library.completedEditNote").font(.caption) }
                 if notifications {
                     Stepper(value: $reminder, in: 0...1440, step: 5) { Text(L10n.text("plan.reminderLead") + " " + L10n.number(Double(reminder)) + " " + L10n.text("unit.minutes")) }
                 }
@@ -168,7 +172,7 @@ struct PlanEditorView: View {
         .disabled(busy)
         .interactiveDismissDisabled(busy || hasUnsavedChanges)
         .scrollDismissesKeyboard(.interactively)
-        .navigationTitle(L10n.text(planToEdit == nil ? "plan.create" : "v3.edit"))
+        .navigationTitle(L10n.text(editingPlan == nil ? "plan.create" : "v3.edit"))
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button(L10n.text("common.cancel")) {
@@ -185,8 +189,9 @@ struct PlanEditorView: View {
         } message: { Text(L10n.text("flow.unsavedBody")) }
         .onAppear {
             guard !initialized else { return }
-            draftPlace = planToEdit?.place ?? compositionDraft?.place ?? state.place
-            if let plan = planToEdit ?? compositionDraft {
+            editingOriginal = planToEdit
+            draftPlace = editingPlan?.place ?? compositionDraft?.place ?? state.place
+            if let plan = editingPlan ?? compositionDraft {
                 title = plan.title; notes = plan.notes ?? ""; collectionName = plan.collectionName ?? ""; target = plan.target; arrival = plan.arrivalLeadMinutes
                 reminder = plan.reminderLeadMinutes ?? 30; notifications = plan.completedAt == nil && plan.reminderLeadMinutes != nil; planDate = plan.date
                 if let saved = plan.composition {
@@ -240,20 +245,22 @@ struct PlanEditorView: View {
                 try CompositionPlan(body: $0.body, subject: $0.subject, desiredOffsetDegrees: $0.desiredOffsetDegrees,
                                     instant: $0.instant, constraints: $0.constraints, cameraFraming: framingDraft)
             }
-            var plan = try ShootPlan(id: planToEdit?.id ?? UUID(), title: title.trimmingCharacters(in: .whitespacesAndNewlines), place: place,
+            var plan = try ShootPlan(id: editingPlan?.id ?? UUID(), title: title.trimmingCharacters(in: .whitespacesAndNewlines), place: place,
                 date: composition?.instant ?? planDate, target: isComposition ? .composition : target,
-                arrivalLeadMinutes: arrival, reminderLeadMinutes: notifications && planToEdit?.completedAt == nil ? reminder : nil, composition: savedComposition,
+                arrivalLeadMinutes: arrival, reminderLeadMinutes: notifications && editingPlan?.completedAt == nil ? reminder : nil, composition: savedComposition,
                 notes: notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : notes,
                 collectionName: collectionName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : collectionName.trimmingCharacters(in: .whitespacesAndNewlines),
-                completedAt: planToEdit?.completedAt)
-            if let old = planToEdit { plan.createdAt = old.createdAt; plan.updatedAt = Date() }
+                completedAt: editingPlan?.completedAt)
+            if let old = editingPlan { plan.createdAt = old.createdAt; plan.updatedAt = Date() }
             let snapshot = plan
             let summary = try await Task.detached { try DayEngine.calculate(place: snapshot.place, date: snapshot.date) }.value
             _ = try Planner.milestones(plan: plan, summary: summary)
-            try state.upsert(plan)
+            try state.upsert(plan, replacing: editingPlan)
+            guard let persisted = state.plans.first(where: { $0.id == plan.id }) else { throw PlanMutationError.notFound }
+            plan = persisted
             if plan.reminderLeadMinutes != nil {
                 do {
-                    let result = try await ReminderService.schedule(plan: plan, summary: summary, language: L10n.language)
+                    let result = try await state.scheduleReminder(for: plan, summary: summary)
                     switch result {
                     case .scheduled: state.noticeKey = "notice.reminderSaved"
                     case .denied: state.noticeKey = "notice.notificationDenied"
@@ -264,10 +271,12 @@ struct PlanEditorView: View {
                 } catch { state.noticeKey = "notice.savedWithoutReminder" }
             } else {
                 await ReminderService.cancel(planID: plan.id)
+                await state.reconcileReminders()
                 state.noticeKey = "notice.saved"
             }
             dismiss()
         } catch LightPlanError.noEvent { errorKey = "plan.noEvent" }
+        catch is PlanMutationError { errorKey = "plan.changedElsewhere" }
         catch { errorKey = "error.save" }
     }
 }
@@ -456,6 +465,7 @@ struct SettingsView: View {
     @State private var importing = false
     @State private var backup = BackupDocument(data: Data())
     @State private var preview: ImportSheet?
+    @State private var readingImport = false
     @State private var notificationKey = "settings.notificationUnknown"
     @State private var pendingCount = 0
     var body: some View {
@@ -479,7 +489,8 @@ struct SettingsView: View {
             Section(L10n.text("settings.data")) {
                 if state.archiveLocked { KeyText("backup.recoveryWarning").foregroundStyle(.red) }
                 Button { do { backup = BackupDocument(data: try state.exportedBytes()); exporting = true } catch { state.errorKey = "error.save" } } label: { KeyText("settings.export") }.accessibilityIdentifier("backup-export")
-                Button { importing = true } label: { KeyText("backup.import") }.accessibilityIdentifier("backup-import")
+                Button { importing = true } label: { KeyText("backup.import") }.disabled(readingImport).accessibilityIdentifier("backup-import")
+                if readingImport { ProgressView().accessibilityLabel(L10n.text("backup.preview")) }
                 KeyText("settings.localOnly").font(.footnote)
             }
             Section(L10n.text("settings.about")) {
@@ -501,12 +512,14 @@ struct SettingsView: View {
         .fileImporter(isPresented: $importing, allowedContentTypes: [.json, .data]) { result in
             switch result {
             case .success(let url):
-                let access = url.startAccessingSecurityScopedResource(); defer { if access { url.stopAccessingSecurityScopedResource() } }
-                do {
-                    let values = try url.resourceValues(forKeys: [.fileSizeKey])
-                    guard (values.fileSize ?? 5_000_001) <= 5_000_000 else { throw LightPlanError.tooManyItems }
-                    preview = ImportSheet(preview: try state.previewImport(Data(contentsOf: url)))
-                } catch { state.errorKey = "backup.invalid" }
+                guard !readingImport else { return }
+                readingImport = true
+                Task {
+                    defer { readingImport = false }
+                    do {
+                        preview = ImportSheet(preview: try await state.previewImportFile(url))
+                    } catch { state.errorKey = "backup.invalid" }
+                }
             case .failure(let error): if (error as NSError).code != NSUserCancelledError { state.errorKey = "backup.invalid" }
             }
         }
@@ -528,7 +541,7 @@ struct ImportPreviewView: View {
     @State private var policy: ImportConflictPolicy = .keepLocal
     @State private var enableReminders = false
     @State private var busy = false
-    @State private var failed = false
+    @State private var failureKey: String?
     var body: some View {
         NavigationStack {
             Form {
@@ -539,15 +552,21 @@ struct ImportPreviewView: View {
                     LabeledContent(L10n.text("backup.identical"), value: L10n.number(Double(preview.identicalItems)))
                 }
                 Section {
-                    Picker(L10n.text("backup.conflictPolicy"), selection: $policy) { KeyText("backup.keepLocal").tag(ImportConflictPolicy.keepLocal); KeyText("backup.useIncoming").tag(ImportConflictPolicy.useIncoming) }
+                    Picker(L10n.text("backup.conflictPolicy"), selection: $policy) { KeyText("backup.keepLocal").tag(ImportConflictPolicy.keepLocal); KeyText("backup.useIncoming").tag(ImportConflictPolicy.useIncoming); KeyText("backup.keepBoth").tag(ImportConflictPolicy.keepBoth) }
                     Toggle(L10n.text("backup.enableReminders"), isOn: $enableReminders)
                     KeyText("backup.explanation").font(.footnote)
+                    if policy == .keepBoth { KeyText("backup.keepBothNote").font(.footnote) }
                     if state.archiveLocked { KeyText("backup.recoveryWarning").font(.footnote) }
                 }
-                if failed { KeyText("error.save").foregroundStyle(.red) }
+                if let failureKey { KeyText(failureKey).foregroundStyle(.red) }
                 Button {
-                    busy = true
-                    Task { do { try await state.importArchive(preview, policy: policy, enableReminders: enableReminders); dismiss() } catch { failed = true }; busy = false }
+                    busy = true; failureKey = nil
+                    Task {
+                        do { try await state.importArchive(preview, policy: policy, enableReminders: enableReminders); dismiss() }
+                        catch ImportPreviewError.staleLocalData { failureKey = "backup.changedElsewhere" }
+                        catch { failureKey = "error.save" }
+                        busy = false
+                    }
                 } label: { if busy { ProgressView() } else { KeyText("backup.confirm") } }.disabled(busy)
             }.navigationTitle(L10n.text("backup.preview"))
                 .toolbar { Button(L10n.text("common.cancel")) { dismiss() }.disabled(busy) }

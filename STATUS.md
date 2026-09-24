@@ -1,3 +1,14 @@
+# M4 field and data reliability candidate — 2026-09-24
+
+**M4 implementation is prepared on the merged M3 base `3357d351df3a89b3cdfc1a1410e96f66c6fdce0c`. Local core tests: 266 passed; Apple/native verification is pending this implementation commit. Do not report M4 native or release acceptance as passed yet.**
+
+- Verified archive read-back/rollback, preserved migration/recovery originals, bounded file import, and stale-preview rejection with an explicit keep-both policy.
+- Plan edits retain their opened revision; quick actions use the latest record and cannot resurrect deleted plans. Copies never reuse reminder intent.
+- Reminder reconciliation preserves unknown/calculation-failed records, validates current saved intent across awaits, reports failures/capacity, and rejects expired requests. Locked storage is not an empty notification source.
+- New native `iphone-field` tests cover actual save/relaunch/field/map restoration and edited/duplicated reminders. Existing native tests remain assigned; no skipped tests or relaxed precision.
+- Paid download, nine languages, schema 2/legacy v1 compatibility, astronomical coefficients and signing remain unchanged. No M5, main merge or release.
+- See [M4 implementation and evidence](tests/reports/m4-reliability-2026-09-24.md). Earlier entries retain their original dates and evidence scope.
+
 # M3 core workflow verified / PR handoff — 2026-09-24
 
 **M3 implementation and its automated acceptance passed on `76a3a3b04768c58efdb35be34d60a23bb107ea5f`. Native run #52 (`35892933684`, attempt 1) completed successfully at 2026-09-23 17:58:56 UTC: 9/9 groups passed. This is a merge candidate, not App Store release approval.**

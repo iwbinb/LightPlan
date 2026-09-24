@@ -1,7 +1,10 @@
 import Foundation
 
-public enum ImportConflictPolicy: String, CaseIterable, Sendable { case keepLocal, useIncoming }
+public enum ImportConflictPolicy: String, CaseIterable, Sendable { case keepLocal, useIncoming, keepBoth }
+public enum ImportPreviewError: Error, Equatable, Sendable { case staleLocalData }
+
 public struct ImportPreview: Sendable {
+    private let reviewedLocal: Archive
     public let incoming: Archive
     public let newPlaces: Int
     public let newPlans: Int
@@ -17,6 +20,7 @@ public struct ImportPreview: Sendable {
         let places = Dictionary(uniqueKeysWithValues: local.places.map { ($0.id, $0) })
         let plans = Dictionary(uniqueKeysWithValues: local.plans.map { ($0.id, $0) })
         self.incoming = incoming
+        self.reviewedLocal = local
         newPlaces = incoming.places.filter { places[$0.id] == nil }.count
         newPlans = incoming.plans.filter { plans[$0.id] == nil }.count
         conflictingPlaces = incoming.places.filter { places[$0.id] != nil && places[$0.id] != $0 }.count
@@ -25,12 +29,18 @@ public struct ImportPreview: Sendable {
     }
     public func merged(with local: Archive, policy: ImportConflictPolicy, enableImportedReminders: Bool = false) throws -> Archive {
         let local = try Archive.decode(local.encoded())
+        guard local == reviewedLocal else { throw ImportPreviewError.staleLocalData }
         var places = local.places, plans = local.plans
         var placeIndices = Dictionary(uniqueKeysWithValues: places.enumerated().map { ($0.element.id, $0.offset) })
         var planIndices = Dictionary(uniqueKeysWithValues: plans.enumerated().map { ($0.element.id, $0.offset) })
         for place in incoming.places {
             if let index = placeIndices[place.id] {
                 if policy == .useIncoming { places[index] = place }
+                else if policy == .keepBoth, places[index] != place {
+                    var copy = place
+                    repeat { copy.id = UUID() } while placeIndices[copy.id] != nil
+                    placeIndices[copy.id] = places.count; places.append(copy)
+                }
             } else { placeIndices[place.id] = places.count; places.append(place) }
         }
         for original in incoming.plans {
@@ -40,39 +50,16 @@ public struct ImportPreview: Sendable {
             if let index = planIndices[plan.id] {
                 if plans[index] == original { continue }
                 if policy == .useIncoming { plans[index] = plan }
+                else if policy == .keepBoth {
+                    repeat { plan.id = UUID() } while planIndices[plan.id] != nil
+                    // An imported conflict copy must never create a duplicate reminder.
+                    plan.reminderLeadMinutes = nil
+                    planIndices[plan.id] = plans.count; plans.append(plan)
+                }
             } else { planIndices[plan.id] = plans.count; plans.append(plan) }
         }
         let result = Archive(places: places, plans: plans)
         _ = try result.encoded() // Enforce aggregate byte/item limits before committing any change.
         return result
     }
-}
-
-/// Atomic, fail-closed repository. No implicit reset on corruption and no destructive migrations.
-/// A write is preceded by a durable copy of the previous bytes, including corrupt originals.
-public struct ArchiveRepository: Sendable {
-    public let url: URL
-    public init(url: URL) { self.url = url }
-    public func load() throws -> Archive {
-        guard FileManager.default.fileExists(atPath: url.path) else { return Archive(places: [], plans: []) }
-        return try Archive.decode(Data(contentsOf: url, options: .mappedIfSafe))
-    }
-    public func write(_ archive: Archive, allowRecovery: Bool = false) throws {
-        let data = try archive.encoded()
-        let fm = FileManager.default
-        try fm.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        if fm.fileExists(atPath: url.path) {
-            let old = try Data(contentsOf: url)
-            if !allowRecovery { _ = try Archive.decode(old) }
-            if let legacy = try? Archive.decode(old), legacy.schemaVersion < Archive.currentSchemaVersion {
-                let migrationBackup = url.deletingLastPathComponent()
-                    .appendingPathComponent("archive-schema-\(legacy.schemaVersion)-\(UUID().uuidString).json")
-                try old.write(to: migrationBackup, options: .atomic)
-            }
-            let backup = url.deletingLastPathComponent().appendingPathComponent(allowRecovery ? "recovered-\(UUID().uuidString).json" : "archive-previous.json")
-            try old.write(to: backup, options: .atomic)
-        }
-        try data.write(to: url, options: .atomic)
-    }
-    public func originalBytes() throws -> Data { try Data(contentsOf: url) }
 }

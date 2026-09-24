@@ -106,9 +106,9 @@ struct PlanDetailView: View {
                         }
                     }
                     HStack {
-                        Button(L10n.text("plan.duplicate")) { state.duplicate(current) }
+                        Button(L10n.text("plan.duplicate")) { state.duplicate(current) }.accessibilityIdentifier("plan-duplicate")
                         Spacer()
-                        Button(L10n.text("common.delete"), role: .destructive) { deleting = true }
+                        Button(L10n.text("common.delete"), role: .destructive) { deleting = true }.accessibilityIdentifier("plan-delete")
                     }
                     Button { fieldSession = true } label: {
                         Label(L10n.text("library.openField"), systemImage: "viewfinder")
@@ -130,7 +130,7 @@ struct PlanDetailView: View {
                     .padding(.horizontal, 18).padding(.vertical, 10).background(.bar)
             }
             .confirmationDialog(L10n.text("plan.deleteConfirm"), isPresented: $deleting, titleVisibility: .visible) {
-                Button(L10n.text("common.delete"), role: .destructive) { Task { await state.deletePlan(current); dismiss() } }
+                Button(L10n.text("common.delete"), role: .destructive) { Task { if await state.deletePlan(current) { dismiss() } } }
             }
             .sheet(isPresented: $editing) { NavigationStack { PlanEditorView(planToEdit: current) } }
             .sheet(isPresented: $fieldSession) { FieldSessionView(plan: current) }
@@ -139,18 +139,20 @@ struct PlanDetailView: View {
                     Task { reminderStatusKey = await ReminderService.statusKey(plan: current, summary: day) }
                 }
             }
-            .task(id: current.updatedAt) {
-                problem = false
+            .task(id: current) {
+                problem = false; day = nil; milestones = []
                 let snapshot = current
                 do {
-                    let summary = try await Task.detached { try DayEngine.calculate(place: snapshot.place, date: snapshot.date) }.value
-                    guard !Task.isCancelled else { return }
+                    let worker = Task.detached { try DayEngine.calculate(place: snapshot.place, date: snapshot.date) }
+                    let summary = try await withTaskCancellationHandler(operation: { try await worker.value }, onCancel: { worker.cancel() })
+                    guard !Task.isCancelled, current == snapshot else { return }
                     milestones = try Planner.milestones(plan: snapshot, summary: summary)
                     day = summary
                     let status = await ReminderService.statusKey(plan: snapshot, summary: summary)
-                    if !Task.isCancelled { reminderStatusKey = status }
+                    if !Task.isCancelled, current == snapshot { reminderStatusKey = status }
                 }
-                catch { problem = true; milestones = [] }
+                catch is CancellationError { }
+                catch { if !Task.isCancelled, current == snapshot { problem = true; milestones = []; day = nil } }
             }
     }
     private var canRetryReminder: Bool {
@@ -160,7 +162,7 @@ struct PlanDetailView: View {
     private func retryReminder() async {
         guard let day, !reminderBusy else { return }
         reminderBusy = true; defer { reminderBusy = false }
-        do { _ = try await ReminderService.schedule(plan: current, summary: day, language: L10n.language) }
+        do { _ = try await state.scheduleReminder(for: current, summary: day) }
         catch { state.noticeKey = "notice.savedWithoutReminder" }
         reminderStatusKey = await ReminderService.statusKey(plan: current, summary: day)
     }

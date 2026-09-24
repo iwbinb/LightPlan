@@ -1,0 +1,44 @@
+name: M4 cancellation freshness objects
+on:
+  push:
+    branches: [dev]
+    paths: ['.github/workflows/m4-cancel-objects.yml']
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 49938b0352babca2e8c372eca1820ba7fbae9843
+          persist-credentials: false
+      - name: Validate exact patch and create content-addressed blobs only
+        shell: python
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          import base64, hashlib, json, os, pathlib, subprocess, urllib.request, zlib
+          encoded = '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'
+          patch = zlib.decompress(base64.b64decode(encoded, validate=True))
+          assert len(patch) == 7689
+          assert hashlib.sha256(patch).hexdigest() == '5d9526dc6deebcf40c4a18464f3995c9dec3a91b0071de58db5eb5d781eb532d'
+          subprocess.run(['git', 'apply', '--check', '-'], input=patch, check=True)
+          subprocess.run(['git', 'apply', '-'], input=patch, check=True)
+          subprocess.run(['git', 'add', '-A'], check=True)
+          tree = subprocess.check_output(['git', 'write-tree']).decode().strip()
+          assert tree == 'c989b8537f59e295cba55b5d634ace91350687e3'
+          paths = subprocess.check_output(['git', 'diff', '--cached', '--name-only', '-z']).decode().rstrip('\0').split('\0')
+          assert len(paths) == 5
+          entries = []
+          for path in paths:
+              content = pathlib.Path(path).read_bytes()
+              expected = hashlib.sha1(b'blob ' + str(len(content)).encode() + b'\0' + content).hexdigest()
+              request = urllib.request.Request('https://api.github.com/repos/iwbinb/LightPlan/git/blobs', data=json.dumps({'content': base64.b64encode(content).decode(), 'encoding': 'base64'}).encode(), headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json'})
+              with urllib.request.urlopen(request, timeout=60) as response:
+                  actual = json.load(response)['sha']
+              assert actual == expected
+              entries.append({'path': path, 'sha': actual})
+          print(json.dumps({'validated_tree': tree, 'files': entries, 'branch_updated': False}, indent=2))
+          # No transported code execution or commit/ref/PR/tag/release mutation.

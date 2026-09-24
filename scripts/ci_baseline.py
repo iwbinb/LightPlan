@@ -14,6 +14,7 @@ import time
 # Every native XCTest method belongs to one iPhone shard. New classes require
 # explicit assignment; the audit fails rather than silently losing coverage.
 PHONE = {
+    "iphone-workflow": "WorkflowUITests",
     "iphone-product": "ProductUITests",
     "iphone-planning": "RichPlanningUITests",
     "iphone-visual": "VisualUITests",

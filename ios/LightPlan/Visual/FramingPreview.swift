@@ -88,6 +88,8 @@ struct FramingPreviewSheet: View {
                     LPCard {
                         VStack(alignment: .leading, spacing: 10) {
                             KeyText("frame.atSelectedTime").font(.headline)
+                            Text(L10n.time(instant, zone: request.place.timeZone)).font(.title2.monospacedDigit())
+                                .accessibilityIdentifier("frame-selected-time")
                             if allowsTimeEditing, let interval = try? LocalDay.interval(containing: request.instant, timeZone: request.place.timeZone) {
                                 DatePicker(L10n.text("frame.atSelectedTime"), selection: $instant,
                                            in: interval.start...interval.end.addingTimeInterval(-1), displayedComponents: .hourAndMinute)
@@ -97,8 +99,6 @@ struct FramingPreviewSheet: View {
                                                       set: { instant = Date(timeIntervalSince1970: $0) }),
                                        in: interval.start.timeIntervalSince1970...interval.end.addingTimeInterval(-1).timeIntervalSince1970)
                                     .accessibilityLabel(L10n.text("map.timeSlider"))
-                            } else {
-                                Text(L10n.time(instant, zone: request.place.timeZone)).font(.title2.monospacedDigit())
                             }
                             Text(L10n.fullDate(instant, zone: request.place.timeZone) + " · " + request.place.timeZoneID
                                  + " · " + L10n.utcOffset(at: instant, zone: request.place.timeZone)).font(.caption)

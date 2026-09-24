@@ -14469,55 +14469,55 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Search next 14 days"
+            "value": "Find shooting windows"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "搜索未来 14 天"
+            "value": "查找拍摄窗口"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "搜尋未來 14 天"
+            "value": "尋找拍攝時段"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "今後14日を検索"
+            "value": "撮影できる時間帯を探す"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "향후 14일 검색"
+            "value": "촬영 시간대 찾기"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nächste 14 Tage durchsuchen"
+            "value": "Aufnahmefenster suchen"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Rechercher les 14 prochains jours"
+            "value": "Rechercher des créneaux photo"
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "ค้นหา 14 วันถัดไป"
+            "value": "ค้นหาช่วงเวลาถ่ายภาพ"
           }
         },
         "pt-PT": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pesquisar próximos 14 dias"
+            "value": "Procurar janelas de fotografia"
           }
         }
       }
@@ -22198,6 +22198,846 @@
           "stringUnit": {
             "state": "translated",
             "value": "Imagem de satélite"
+          }
+        }
+      }
+    },
+    "flow.observer": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shooting position"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拍摄机位"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拍攝機位"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "撮影位置"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "촬영 위치"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahmestandort"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Position de prise de vue"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ตำแหน่งถ่ายภาพ"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posição de captação"
+          }
+        }
+      }
+    },
+    "flow.chooseTime": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Find a window, preview the framing, then save the time shown on the map."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "先查找拍摄窗口，再预演构图；保存将使用地图当前时刻。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "先尋找拍攝時段，再預演構圖；儲存將使用地圖目前時刻。"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "撮影時間帯を探して構図を確認し、地図に表示中の時刻を保存します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "촬영 시간대를 찾고 구도를 확인한 뒤 지도에 표시된 시각을 저장하세요."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeitfenster suchen, Bildausschnitt prüfen und die auf der Karte angezeigte Zeit speichern."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trouvez un créneau, vérifiez le cadrage, puis enregistrez l’heure affichée sur la carte."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ค้นหาช่วงเวลา ดูตัวอย่างการจัดเฟรม แล้วบันทึกเวลาที่แสดงบนแผนที่"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encontre uma janela, veja o enquadramento e guarde a hora apresentada no mapa."
+          }
+        }
+      }
+    },
+    "flow.currentTime": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time to preview and save"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "预演与保存时刻"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "預演與儲存時刻"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プレビュー・保存する時刻"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "미리보기 및 저장 시각"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeit für Vorschau und Plan"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heure à prévisualiser et enregistrer"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เวลาที่จะดูตัวอย่างและบันทึก"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hora da pré-visualização e do plano"
+          }
+        }
+      }
+    },
+    "flow.samePoint": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a subject separate from the shooting position so its direction can be calculated."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请选择与机位分开的主体，才能计算拍摄方向。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請選擇與機位分開的主體，才能計算拍攝方向。"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "撮影方向を計算するには、撮影位置と異なる被写体の位置を選んでください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "촬영 방향을 계산하려면 촬영 위치와 다른 피사체 위치를 선택하세요."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wählen Sie ein vom Aufnahmestandort getrenntes Motiv, damit die Richtung berechnet werden kann."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez un sujet distinct de la position de prise de vue pour calculer sa direction."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เลือกจุดตัวแบบที่ต่างจากตำแหน่งถ่ายภาพ เพื่อให้คำนวณทิศทางได้"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolha um motivo separado da posição de captação para calcular a sua direção."
+          }
+        }
+      }
+    },
+    "flow.searching": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finding windows for these conditions…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在查找符合条件的拍摄窗口…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在尋找符合條件的拍攝時段…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "条件に合う撮影時間帯を検索中…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "조건에 맞는 촬영 시간대를 찾는 중…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passende Zeitfenster werden gesucht…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recherche de créneaux correspondant aux critères…"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "กำลังค้นหาช่วงเวลาที่ตรงตามเงื่อนไข…"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A procurar janelas que correspondam às condições…"
+          }
+        }
+      }
+    },
+    "flow.stopSearch": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop search"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止搜索"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止搜尋"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "検索を停止"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "검색 중지"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suche stoppen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter la recherche"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "หยุดค้นหา"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parar pesquisa"
+          }
+        }
+      }
+    },
+    "flow.searchStopped": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search stopped. Your date range and conditions are unchanged."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索已停止，日期范围和筛选条件均已保留。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜尋已停止，日期範圍和篩選條件均已保留。"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "検索を停止しました。日付範囲と条件は保持されています。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "검색을 중지했습니다. 날짜 범위와 조건은 유지됩니다."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suche gestoppt. Zeitraum und Bedingungen bleiben unverändert."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recherche arrêtée. La période et les critères sont conservés."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "หยุดค้นหาแล้ว ช่วงวันที่และเงื่อนไขยังคงเดิม"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pesquisa parada. O intervalo de datas e as condições foram mantidos."
+          }
+        }
+      }
+    },
+    "flow.resumeSearch": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search again"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新搜索"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新搜尋"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再検索"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다시 검색"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erneut suchen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Relancer la recherche"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ค้นหาอีกครั้ง"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pesquisar novamente"
+          }
+        }
+      }
+    },
+    "flow.changeConditions": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change dates or conditions"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修改日期或条件"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修改日期或條件"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日付や条件を変更"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "날짜 또는 조건 변경"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeitraum oder Bedingungen ändern"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifier les dates ou les critères"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เปลี่ยนวันที่หรือเงื่อนไข"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alterar datas ou condições"
+          }
+        }
+      }
+    },
+    "flow.clearConditions": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show all candidates"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看全部候选"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看全部候選"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全候補を表示"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "모든 후보 보기"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle Kandidaten anzeigen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher tous les candidats"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แสดงตัวเลือกทั้งหมด"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar todos os candidatos"
+          }
+        }
+      }
+    },
+    "flow.unsavedTitle": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discard unsaved changes?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放弃未保存的更改？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放棄未儲存的變更？"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未保存の変更を破棄しますか？"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "저장하지 않은 변경 사항을 버릴까요?"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ungespeicherte Änderungen verwerfen?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abandonner les modifications non enregistrées ?"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ทิ้งการเปลี่ยนแปลงที่ยังไม่ได้บันทึกหรือไม่"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descartar alterações não guardadas?"
+          }
+        }
+      }
+    },
+    "flow.unsavedBody": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your edits are kept while you continue editing. Discarding does not change a saved plan."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "继续编辑会保留当前输入；放弃更改不会修改已有计划。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繼續編輯會保留目前輸入；放棄變更不會修改既有計畫。"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "編集を続けると入力内容が保持されます。破棄しても保存済みの計画は変わりません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "계속 편집하면 입력 내용이 유지됩니다. 버려도 저장된 계획은 변경되지 않습니다."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beim Weiterbearbeiten bleiben Ihre Eingaben erhalten. Verwerfen ändert keinen gespeicherten Plan."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos saisies sont conservées si vous continuez. Abandonner ne modifie pas le plan enregistré."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "หากแก้ไขต่อ ข้อมูลที่ป้อนไว้จะยังอยู่ การทิ้งจะไม่เปลี่ยนแผนที่บันทึกไว้"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As entradas mantêm-se enquanto continua a editar. Descartar não altera um plano guardado."
+          }
+        }
+      }
+    },
+    "flow.keepEditing": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep editing"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "继续编辑"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繼續編輯"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "編集を続ける"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "계속 편집"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weiterbearbeiten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuer la modification"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แก้ไขต่อ"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar a editar"
+          }
+        }
+      }
+    },
+    "flow.discard": {
+      "extractionState": "manual",
+      "comment": "Product localization. Language review is tracked separately in the release checklist.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discard changes"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放弃更改"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放棄變更"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "変更を破棄"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "변경 사항 버리기"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Änderungen verwerfen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abandonner les modifications"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ทิ้งการเปลี่ยนแปลง"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descartar alterações"
           }
         }
       }

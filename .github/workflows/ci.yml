@@ -30,6 +30,7 @@ jobs:
       matrix:
         stage:
           - checks
+          - iphone-workflow
           - iphone-product
           - iphone-planning
           - iphone-visual

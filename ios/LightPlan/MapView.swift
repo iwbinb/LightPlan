@@ -14,8 +14,10 @@ private struct MapOpportunityRequest: Identifiable {
     let body: CelestialBody
     let offset: Double
     let date: Date
-    let constraints: OpportunityConstraints?
-    let days: Int
+    let configuration: PlanningSearchConfiguration
+    var context: PlanningSearchContext {
+        PlanningSearchContext(place: place, subject: subject, body: body, offset: offset)
+    }
 }
 
 /// One persistent Map instance occupies the first HStack slot in both layouts.
@@ -45,6 +47,12 @@ struct LightMapView: View {
     @State private var dailyResultRequest: AlignmentRequest?
     @State private var dailyGeneration = UUID()
     @State private var compositionBusy = false
+    @State private var dailyFailed = false
+    @State private var dailyRetry = 0
+    private struct DailyTask: Hashable {
+        let request: AlignmentRequest?
+        let retry: Int
+    }
     @State private var chosenAlignment: AlignmentCandidate?
     @State private var chosenRequest: AlignmentRequest?
     @State private var chosenConstraints: OpportunityConstraints?
@@ -67,7 +75,8 @@ struct LightMapView: View {
     private var dailyRequest: AlignmentRequest? {
         guard compositionMode, let subjectCoordinate, let summary = state.summary,
               summary.place.coordinate == state.place.coordinate,
-              summary.place.timeZoneID == state.place.timeZoneID else { return nil }
+              summary.place.timeZoneID == state.place.timeZoneID,
+              LocalDay.same(summary.start, state.selectedDate, timeZone: state.place.timeZone) else { return nil }
         return AlignmentRequest(body: selectedBody, observer: state.place.coordinate,
                                 subject: subjectCoordinate,
                                 interval: DateInterval(start: summary.start, end: summary.end),
@@ -79,6 +88,14 @@ struct LightMapView: View {
             return chosenAlignment
         }
         return dailyResultRequest == dailyRequest ? dailyResult : nil
+    }
+    /// The timeline, framing preview and save action use this same absolute instant.
+    /// Daily search is a suggestion until the user explicitly taps Show best time.
+    private var currentAlignment: AlignmentCandidate? {
+        guard let request = dailyRequest,
+              (request.interval.start..<request.interval.end).contains(state.selectedInstant) else { return nil }
+        return try? CompositionPlanner.evaluate(body: request.body, at: state.selectedInstant,
+            observer: request.observer, subject: request.subject, desiredOffsetDegrees: request.desiredOffsetDegrees)
     }
     private var hasChosenAlignment: Bool {
         guard let chosenAlignment, chosenRequest == dailyRequest else { return false }
@@ -141,11 +158,11 @@ struct LightMapView: View {
                                     ? AnyLayout(VStackLayout(spacing: 6))
                                     : AnyLayout(HStackLayout())
                                 timeLayout {
-                                    Button { shift(minutes: -15) } label: { Image(systemName: "chevron.left").frame(width: 44, height: 44) }.accessibilityLabel(L10n.text("v3.previousTime"))
+                                    Button { shift(minutes: -15) } label: { Image(systemName: "chevron.left").frame(width: 44, height: 44) }.accessibilityLabel(L10n.text("v3.previousTime")).accessibilityIdentifier("map-previous-time")
                                     Spacer()
                                     Text(L10n.time(state.selectedInstant, zone: state.place.timeZone)).font(.system(.largeTitle, design: .rounded).weight(.semibold)).monospacedDigit().accessibilityIdentifier("selected-time")
                                     Spacer()
-                                    Button { shift(minutes: 15) } label: { Image(systemName: "chevron.right").frame(width: 44, height: 44) }.accessibilityLabel(L10n.text("v3.nextTime"))
+                                    Button { shift(minutes: 15) } label: { Image(systemName: "chevron.right").frame(width: 44, height: 44) }.accessibilityLabel(L10n.text("v3.nextTime")).accessibilityIdentifier("map-next-time")
                                 }
                                 SolarTimeline(summary: summary, samples: visual.samples, instant: Binding(get: { state.selectedInstant }, set: { state.followingNow = false; state.selectedInstant = $0 }), compact: true)
                             }
@@ -178,10 +195,16 @@ struct LightMapView: View {
         .sheet(isPresented: $showDate) { datePicker }
         .sheet(item: $opportunitySearch) { request in
             OpportunitySearchView(place: request.place, subject: request.subject, body: request.body,
-                desiredOffsetDegrees: request.offset, startingDate: request.date,
-                initialConstraints: request.constraints, initialDays: request.days) { window, constraints in
-                Task { await applyOpportunity(window.best, constraints: constraints, request: request) }
-            }
+                desiredOffsetDegrees: request.offset, startingDate: request.configuration.startDate,
+                initialConstraints: request.configuration.constraints, initialDays: request.configuration.days,
+                initialSortByDate: request.configuration.sortByDate,
+                onConfigurationChange: { configuration in
+                    do {
+                        try state.planningSearchMemory.remember(configuration, for: request.context, mapDate: request.date)
+                    } catch { state.errorKey = "error.calculation" }
+                }) { window, constraints in
+                    Task { await applyOpportunity(window.best, constraints: constraints, request: request) }
+                }
         }
         .sheet(item: $framingRequest) { request in
             FramingPreviewSheet(request: request) { framing, instant in
@@ -209,7 +232,7 @@ struct LightMapView: View {
         .task(id: "\(state.place.id)-\(state.summary?.start.timeIntervalSince1970 ?? 0)") {
             if let summary = state.summary { await visual.load(summary) }
         }
-        .task(id: dailyRequest) { await loadDailyAlignment() }
+        .task(id: DailyTask(request: dailyRequest, retry: dailyRetry)) { await loadDailyAlignment() }
         .onAppear { recenter() }
         .onDisappear { location.cancel(); showUserLocation = false }
         .onChange(of: location.errorKey) { _, key in
@@ -228,7 +251,10 @@ struct LightMapView: View {
             guard value != nil else { return }
             planningTemplate = state.compositionTemplate
             chosenAlignment = nil; chosenRequest = nil; chosenConstraints = nil
-            if let planningTemplate { selectedBody = planningTemplate == .moon ? .moon : .sun; desiredOffsetDegrees = 0 }
+            if let planningTemplate {
+                selectedBody = planningTemplate == .moon ? .moon : .sun; desiredOffsetDegrees = 0
+                state.planningSearchMemory.reset(body: selectedBody)
+            }
             if !compositionMode { toggleComposition() }
             state.compositionRequest = nil; state.compositionTemplate = nil
         }
@@ -245,6 +271,7 @@ struct LightMapView: View {
             language: L10n.language
         ) { coordinate in
             subjectCoordinate = coordinate
+            chosenAlignment = nil; chosenRequest = nil; chosenConstraints = nil
             opportunitySearch = nil
         }
         .ignoresSafeArea(edges: .top)
@@ -463,7 +490,29 @@ struct LightMapView: View {
                 }
             }
 
+            Button { state.tab = 3 } label: {
+                Label(L10n.text("flow.observer") + " · " + state.place.name, systemImage: "mappin")
+                    .font(.subheadline).fixedSize(horizontal: false, vertical: true)
+            }.buttonStyle(.plain).accessibilityIdentifier("composition-choose-observer")
+            Button { showSubjectEditor = true } label: {
+                Label(L10n.text("composition.subject"), systemImage: "number")
+            }.buttonStyle(.bordered).accessibilityIdentifier("composition-subject-coordinates")
+
             if let subjectCoordinate {
+                KeyText("flow.chooseTime").font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                Button(action: openOpportunitySearch) {
+                    Label(L10n.text("composition.search"), systemImage: "sparkle.magnifyingglass")
+                        .font(.headline).frame(maxWidth: .infinity)
+                }.buttonStyle(.borderedProminent).accessibilityIdentifier("composition-search")
+
+                if let current = currentAlignment {
+                    Text(L10n.text("flow.currentTime") + " · " + L10n.time(state.selectedInstant, zone: state.place.timeZone))
+                        .font(.subheadline.weight(.semibold)).monospacedDigit()
+                        .accessibilityIdentifier("composition-current-time")
+                    if current.altitude < 0 { KeyText("map.belowHorizon").font(.caption).foregroundStyle(.secondary) }
+                    Text(state.place.timeZoneID).font(.caption).foregroundStyle(.secondary)
+                }
                 Button(action: openFraming) {
                     Label(L10n.text("frame.open"), systemImage: "viewfinder")
                         .frame(maxWidth: .infinity).padding(.vertical, 5)
@@ -484,6 +533,12 @@ struct LightMapView: View {
                 }
                 .pickerStyle(.segmented)
 
+
+                Button(action: saveCompositionPlan) {
+                    Label(L10n.text("composition.savePlan"), systemImage: "calendar.badge.plus")
+                        .frame(maxWidth: .infinity)
+                }.buttonStyle(.bordered).disabled(currentAlignment == nil)
+                    .accessibilityIdentifier("composition-save-plan")
 
                 if let bearing = Geometry.bearing(from: state.place.coordinate, to: subjectCoordinate) {
                     LabeledContent(L10n.text("composition.subjectBearing"), value: L10n.number(bearing) + "°")
@@ -515,13 +570,6 @@ struct LightMapView: View {
                     .buttonStyle(.bordered)
                     .accessibilityIdentifier("composition-show-best")
 
-                    Button(action: saveCompositionPlan) {
-                        Label(L10n.text("composition.savePlan"), systemImage: "calendar.badge.plus")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.bordered)
-                    .accessibilityIdentifier("composition-save-plan")
-
                     Group {
                         Stepper(value: $standDistance, in: 50...1_000, step: 50) {
                             Text(L10n.text("composition.standDistance") + " · " + L10n.number(standDistance) + " m")
@@ -538,27 +586,20 @@ struct LightMapView: View {
                             .accessibilityIdentifier("composition-use-stand")
                         }
                     }
+                } else if dailyFailed {
+                    KeyText("composition.searchFailed").font(.caption).foregroundStyle(.secondary)
+                    Button(L10n.text("common.retry")) { dailyRetry += 1 }
+                        .accessibilityIdentifier("composition-retry")
                 } else {
-                    KeyText("composition.noOpportunity").font(.caption).foregroundStyle(.secondary)
+                    KeyText(Geometry.bearing(from: state.place.coordinate, to: subjectCoordinate) == nil
+                        ? "flow.samePoint" : "composition.noOpportunity")
+                        .font(.caption).foregroundStyle(.secondary)
                 }
-
-                Button {
-                    openOpportunitySearch()
-                } label: {
-                    Label(L10n.text("composition.search"), systemImage: "sparkle.magnifyingglass")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-                .accessibilityIdentifier("composition-search")
 
                 KeyText("composition.geometryNote").font(.caption2).foregroundStyle(.secondary)
             } else {
                 KeyText("composition.tapTarget").font(.subheadline).fixedSize(horizontal: false, vertical: true)
             }
-            Button { showSubjectEditor = true } label: {
-                Label(L10n.text("composition.subject"), systemImage: "number")
-            }.buttonStyle(.bordered).accessibilityIdentifier("composition-subject-coordinates")
         }
         .padding(14)
         .background(.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 20))
@@ -579,6 +620,7 @@ struct LightMapView: View {
         guard !Task.isCancelled else { return }
         let generation = UUID()
         dailyGeneration = generation
+        dailyFailed = false
         guard let request = dailyRequest else {
             dailyResult = nil
             dailyResultRequest = nil
@@ -598,6 +640,7 @@ struct LightMapView: View {
             if !Task.isCancelled, dailyGeneration == generation {
                 dailyResult = nil
                 dailyResultRequest = nil
+                dailyFailed = true
             }
         }
     }
@@ -607,10 +650,16 @@ struct LightMapView: View {
         // Nil is a meaningful saved choice: unrestricted/All. Only a fresh task gets defaults.
         let constraints = hasChosenAlignment ? chosenConstraints : (templateConditions
             ?? (try? OpportunityConstraints(maximumErrorDegrees: 3, altitudeRange: 0...15)))
-        opportunitySearch = MapOpportunityRequest(place: state.place, subject: subjectCoordinate,
-            body: selectedBody, offset: desiredOffsetDegrees, date: state.selectedDate,
-            constraints: constraints,
-            days: planningTemplate == .moon && selectedBody == .moon ? 30 : 14)
+        let context = PlanningSearchContext(place: state.place, subject: subjectCoordinate,
+            body: selectedBody, offset: desiredOffsetDegrees)
+        let defaults = PlanningSearchConfiguration(startDate: state.selectedDate,
+            days: planningTemplate == .moon && selectedBody == .moon ? 30 : 14, constraints: constraints)
+        do {
+            let configuration = try state.planningSearchMemory.configuration(for: context,
+                mapDate: state.selectedDate, defaults: defaults)
+            opportunitySearch = MapOpportunityRequest(place: state.place, subject: subjectCoordinate,
+                body: selectedBody, offset: desiredOffsetDegrees, date: state.selectedDate, configuration: configuration)
+        } catch { state.errorKey = "error.coordinate" }
     }
 
     private func applyOpportunity(_ candidate: AlignmentCandidate, constraints: OpportunityConstraints?,
@@ -625,6 +674,7 @@ struct LightMapView: View {
         state.followingNow = false
         state.selectedInstant = candidate.instant
         chosenAlignment = candidate; chosenRequest = dailyRequest; chosenConstraints = constraints
+        try? state.planningSearchMemory.selectedResult(for: request.context, mapDate: candidate.instant)
     }
 
     private func openFraming() {
@@ -651,7 +701,7 @@ struct LightMapView: View {
     }
 
     private func saveCompositionPlan() {
-        guard let alignment = dailyAlignment, let subject = subjectCoordinate else { return }
+        guard let alignment = currentAlignment, let subject = subjectCoordinate else { return }
         do {
             let composition = try CompositionPlan(body: alignment.body, subject: subject,
                 desiredOffsetDegrees: alignment.desiredOffsetDegrees, instant: alignment.instant,
@@ -669,6 +719,7 @@ struct LightMapView: View {
         opportunitySearch = nil
         if let saved = request.plan.composition {
             selectedBody = saved.body
+            state.planningSearchMemory.reset(body: saved.body)
             subjectCoordinate = saved.subject
             desiredOffsetDegrees = saved.desiredOffsetDegrees
             compositionMode = true

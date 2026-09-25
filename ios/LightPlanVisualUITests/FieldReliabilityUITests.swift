@@ -40,9 +40,7 @@ final class FieldReliabilityUITests: XCTestCase {
         XCTAssertTrue(title.waitForExistence(timeout: 20))
         let anchor = app.staticTexts["plan-anchor-time"]
         reveal(anchor, in: app); XCTAssertEqual(anchor.label, chosenTime)
-        let reminder = app.switches["plan-reminder-toggle"]
-        reveal(reminder, in: app)
-        if reminder.value as? String == "1" { reminder.tap() }
+        try setReminderEnabled(false, in: app)
         let notes = element("plan-notes", in: app)
         reveal(notes, in: app); notes.tap(); notes.typeText("M4 tripod at the north gate.")
         try saveEditor(in: app)
@@ -53,6 +51,10 @@ final class FieldReliabilityUITests: XCTestCase {
         reveal(time, in: app); XCTAssertEqual(time.label, chosenTime)
         let savedNotes = app.staticTexts["saved-plan-notes"]
         XCTAssertTrue(savedNotes.exists); XCTAssertEqual(savedNotes.label, "M4 tripod at the north gate.")
+        let reminderStatus = app.staticTexts["plan-reminder-status"]
+        reveal(reminderStatus, in: app)
+        XCTAssertEqual(reminderStatus.label, "Reminder not configured")
+        XCTAssertFalse(app.buttons["plan-stop-reminder"].exists)
         capture("m4-manual-time-and-notes-restored", in: app)
         let field = app.buttons["plan-field-mode"]
         reveal(field, in: app); field.tap()
@@ -119,6 +121,59 @@ final class FieldReliabilityUITests: XCTestCase {
             capture("m4-duplicate-\(index)-preserves-data", in: app)
         }
         XCTAssertEqual(configured, 1)
+    }
+
+    @MainActor func testDisablingSavedReminderClearsSystemQueueAndSurvivesRelaunch() throws {
+        let app = try launch(tab: 2)
+        defer { app.terminate() }
+        let create = app.buttons["plan-create"]
+        XCTAssertTrue(create.waitForExistence(timeout: 20)); create.tap()
+        try setReminderEnabled(true, in: app)
+        try saveEditor(in: app, allowNotifications: true)
+        relaunch(app, tab: 4); assertPendingCount(1, in: app)
+
+        relaunch(app, tab: 2)
+        let card = app.buttons.matching(identifier: "plan-card").firstMatch
+        XCTAssertTrue(card.waitForExistence(timeout: 20)); card.tap()
+        let edit = app.buttons["plan-edit"]
+        reveal(edit, in: app); edit.tap()
+        XCTAssertTrue(app.textFields["plan-title"].waitForExistence(timeout: 15))
+        try setReminderEnabled(false, in: app)
+        try saveEditor(in: app)
+        let status = app.staticTexts["plan-reminder-status"]
+        reveal(status, in: app)
+        XCTAssertEqual(status.label, "Reminder not configured")
+        XCTAssertFalse(app.buttons["plan-stop-reminder"].exists)
+        capture("m4-saved-reminder-explicitly-disabled", in: app)
+
+        // Do not clean the system queue in the test: the normal saved edit and
+        // launch reconciliation must remove it and must not recreate it.
+        relaunch(app, tab: 4); assertPendingCount(0, in: app)
+        capture("m4-disabled-reminder-system-queue-empty", in: app)
+        relaunch(app, tab: 2)
+        XCTAssertTrue(card.waitForExistence(timeout: 20)); card.tap()
+        reveal(status, in: app)
+        XCTAssertEqual(status.label, "Reminder not configured")
+        XCTAssertFalse(app.buttons["plan-stop-reminder"].exists)
+    }
+
+    @MainActor private func setReminderEnabled(_ enabled: Bool, in app: XCUIApplication) throws {
+        let toggle = app.switches["plan-reminder-toggle"]
+        reveal(toggle, in: app)
+        XCTAssertTrue(toggle.isEnabled)
+        let initialValue = try XCTUnwrap(toggle.value as? String)
+        XCTAssertTrue(["0", "1"].contains(initialValue), "Unexpected native Toggle value")
+        let expected = enabled ? "1" : "0"
+        if initialValue != expected {
+            // Run 56's recording showed a row-centre tap leaving the switch on.
+            // The accessibility frame includes the label; tap the visible trailing
+            // switch within that frame (this fixture is explicitly English/LTR).
+            toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.93, dy: 0.5)).tap()
+        }
+        expectation(for: NSPredicate(format: "value == %@", expected), evaluatedWith: toggle)
+        waitForExpectations(timeout: 10)
+        XCTAssertEqual(toggle.value as? String, expected, "Verify user intent before saving")
+        capture("m4-editor-reminder-" + (enabled ? "on" : "off"), in: app)
     }
 
     @MainActor private func element(_ id: String, in app: XCUIApplication) -> XCUIElement {

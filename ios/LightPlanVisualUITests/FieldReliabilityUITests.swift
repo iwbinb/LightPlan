@@ -128,6 +128,7 @@ final class FieldReliabilityUITests: XCTestCase {
         defer { app.terminate() }
         let create = app.buttons["plan-create"]
         XCTAssertTrue(create.waitForExistence(timeout: 20)); create.tap()
+        XCTAssertTrue(app.textFields["plan-title"].waitForExistence(timeout: 15))
         try setReminderEnabled(true, in: app)
         try saveEditor(in: app, allowNotifications: true)
         relaunch(app, tab: 4); assertPendingCount(1, in: app)
@@ -152,6 +153,7 @@ final class FieldReliabilityUITests: XCTestCase {
         capture("m4-disabled-reminder-system-queue-empty", in: app)
         relaunch(app, tab: 2)
         XCTAssertTrue(card.waitForExistence(timeout: 20)); card.tap()
+        XCTAssertTrue(app.staticTexts["screen-plan-detail"].waitForExistence(timeout: 15))
         reveal(status, in: app)
         XCTAssertEqual(status.label, "Reminder not configured")
         XCTAssertFalse(app.buttons["plan-stop-reminder"].exists)
@@ -216,18 +218,25 @@ final class FieldReliabilityUITests: XCTestCase {
         for _ in 0..<24 {
             let candidates = app.collectionViews.allElementsBoundByIndex + app.tables.allElementsBoundByIndex + app.scrollViews.allElementsBoundByIndex
             let containers = candidates.filter {
+                // Navigation may remove an index-bound background scroll view
+                // after enumeration. Check existence before requesting geometry.
+                guard $0.exists else { return false }
                 let visible = $0.frame.intersection(app.frame)
-                return $0.exists && !visible.isNull && visible.width > 120 && visible.height > 100
+                return !visible.isNull && visible.width > 120 && visible.height > 100
             }
-            let owners = target.exists ? containers.filter { $0.descendants(matching: .any).matching(identifier: target.identifier).count > 0 } : []
+            let owners = target.exists ? containers.filter {
+                $0.exists && $0.descendants(matching: .any).matching(identifier: target.identifier).count > 0
+            } : []
             let exposedForms = containers.filter {
-                ($0.elementType == .collectionView || $0.elementType == .table) && $0.buttons.allElementsBoundByIndex.contains { $0.isHittable }
+                $0.exists && ($0.elementType == .collectionView || $0.elementType == .table)
+                    && $0.buttons.allElementsBoundByIndex.contains { $0.exists && $0.isHittable }
             }
             guard let container = owners.min(by: { $0.frame.height < $1.frame.height }) ?? exposedForms.last ?? containers.first else {
                 Thread.sleep(forTimeInterval: 0.1); continue
             }
+            guard container.exists else { continue }
             var viewport = container.frame.intersection(app.frame)
-            for bar in app.navigationBars.allElementsBoundByIndex where bar.isHittable {
+            for bar in app.navigationBars.allElementsBoundByIndex where bar.exists && bar.isHittable {
                 if bar.frame.maxY > viewport.minY && bar.frame.maxY < viewport.maxY {
                     let bottom = viewport.maxY
                     viewport.origin.y = bar.frame.maxY; viewport.size.height = bottom - viewport.minY

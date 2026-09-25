@@ -17,7 +17,7 @@ import LightPlanCore
                     UNUserNotificationCenter.current().delegate = notificationDelegate
                     await state.refresh()
                     state.publishWidget()
-                    await ReminderService.reconcile(plans: state.plans, language: L10n.language)
+                    await state.reconcileReminders()
                 }
                 .task {
                     while !Task.isCancelled {
@@ -30,7 +30,7 @@ import LightPlanCore
                         Task {
                             await state.tick()
                             state.publishWidget()
-                            await ReminderService.reconcile(plans: state.plans, language: L10n.language)
+                            await state.reconcileReminders()
                         }
                     }
                 }

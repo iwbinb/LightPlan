@@ -28,17 +28,37 @@ public struct ScheduledReminder: Sendable, Equatable {
     }
 }
 
-public enum ReminderSchedulingResult: Sendable { case scheduled, denied, capacityReached, superseded }
+public enum ReminderSchedulingResult: Sendable { case scheduled, denied, capacityReached, superseded, expired }
+
+public struct ReminderReconciliationInput: Sendable {
+    public let intents: [ReminderIntent]
+    /// A failed calculation is unknown, not proof that the saved plan has no event.
+    public let unresolvedPlanIDs: Set<UUID>
+    public init(intents: [ReminderIntent], unresolvedPlanIDs: Set<UUID> = []) {
+        self.intents = intents; self.unresolvedPlanIDs = unresolvedPlanIDs
+    }
+}
+public struct ReminderReconciliationResult: Sendable {
+    public var scheduled = 0
+    public var failed = 0
+    public var capacityReached = 0
+    public var unresolved = 0
+    public var denied = false
+    public var superseded = false
+    public var needsAttention: Bool { failed > 0 || capacityReached > 0 || unresolved > 0 || denied }
+}
 
 public actor ReminderScheduler {
     private let client: any ReminderNotificationClient
     private let budget: Int
+    private let now: @Sendable () -> Date
     private var planVersions: [UUID: UInt64] = [:]
     private var reconciliationVersion: UInt64 = 0
     private var tail: Task<Void, Never>?
 
-    public init(client: any ReminderNotificationClient, budget: Int = 48) {
-        self.client = client; self.budget = max(1, budget)
+    public init(client: any ReminderNotificationClient, budget: Int = 48,
+                now: @escaping @Sendable () -> Date = { Date() }) {
+        self.client = client; self.budget = max(1, budget); self.now = now
     }
 
     private func advance(_ id: UUID) -> UInt64 {
@@ -69,68 +89,137 @@ public actor ReminderScheduler {
         return try await task.value
     }
 
-    public func cancel(planID: UUID) async {
+    public func cancel(planID: UUID,
+                       isCurrent: @escaping @Sendable () async -> Bool = { true }) async {
+        guard await isCurrent() else { return }
         let version = advance(planID)
-        try? await enqueue { await self.removePlan(planID, version: version) }
+        try? await enqueue { await self.removePlan(planID, version: version, isCurrent: isCurrent) }
     }
-    private func removePlan(_ id: UUID, version: UInt64) async {
+    private func removePlan(_ id: UUID, version: UInt64, generation: UInt64? = nil,
+                            isCurrent: @escaping @Sendable () async -> Bool = { true }) async {
         let pending = await client.pendingIdentifiers()
-        guard matches(id, version: version) else { return }
+        guard await isCurrent(), matches(id, version: version),
+              generation == nil || generation == reconciliationVersion else { return }
         await client.remove(identifiers: pending.filter { belongs($0, to: id) })
     }
 
-    public func schedule(_ intent: ReminderIntent) async throws -> ReminderSchedulingResult {
+    public func schedule(_ intent: ReminderIntent,
+                         isCurrent: @escaping @Sendable () async -> Bool = { true }) async throws -> ReminderSchedulingResult {
+        guard await isCurrent() else { return .superseded }
+        guard intent.fireDate.timeIntervalSince1970.isFinite else { throw LightPlanError.invalidDate }
         let version = advance(intent.planID)
+        guard intent.fireDate > now() else {
+            try? await enqueue { await self.removePlan(intent.planID, version: version, isCurrent: isCurrent) }
+            return .expired
+        }
         guard try await client.isAuthorized(requestPermission: true) else { return .denied }
         guard matches(intent.planID, version: version) else { return .superseded }
-        return try await enqueue { try await self.replace(intent, version: version) }
+        return try await enqueue { try await self.replace(intent, version: version, isCurrent: isCurrent) }
     }
-    private func replace(_ intent: ReminderIntent, version: UInt64) async throws -> ReminderSchedulingResult {
-        guard matches(intent.planID, version: version) else { return .superseded }
+    private func replace(_ intent: ReminderIntent, version: UInt64,
+                         generation: UInt64? = nil,
+                         isCurrent: @escaping @Sendable () async -> Bool = { true }) async throws -> ReminderSchedulingResult {
+        func current() -> Bool {
+            matches(intent.planID, version: version) &&
+                (generation == nil || generation == reconciliationVersion)
+        }
+        guard await isCurrent(), current() else { return .superseded }
+        guard intent.fireDate.timeIntervalSince1970.isFinite else { throw LightPlanError.invalidDate }
+        // Authorization, earlier writes or a paused app may have consumed the lead time.
+        guard intent.fireDate > now() else {
+            await removePlan(intent.planID, version: version, generation: generation, isCurrent: isCurrent)
+            return .expired
+        }
         let pending = await client.pendingIdentifiers()
-        guard matches(intent.planID, version: version) else { return .superseded }
+        guard await isCurrent(), current() else { return .superseded }
         let previous = pending.filter { belongs($0, to: intent.planID) }
         guard pending.count - previous.count < budget else { return .capacityReached }
+        guard intent.fireDate > now() else {
+            await client.remove(identifiers: previous)
+            return .expired
+        }
         let request = ScheduledReminder(intent: intent)
-        // Preserve the working reminder until its replacement was accepted by the OS.
         try await client.add(request)
-        guard matches(intent.planID, version: version) else {
+        guard await isCurrent(), current() else {
             await client.remove(identifiers: [request.identifier]); return .superseded
         }
+        guard intent.fireDate > now() else {
+            await client.remove(identifiers: previous + [request.identifier]); return .expired
+        }
+        // A failed replacement leaves the prior request intact.
         await client.remove(identifiers: previous)
         return .scheduled
     }
 
-    /// The generator runs after versions are captured. A stop/save during calculation
-    /// invalidates only that plan, and cannot resurrect a stale reminder from the snapshot.
+    @discardableResult
     public func reconcile(requestPermission: Bool = false,
-                          makeIntents: @escaping @Sendable () async -> [ReminderIntent]) async {
+                          makeIntents: @escaping @Sendable () async -> [ReminderIntent]) async -> ReminderReconciliationResult {
+        await reconcileSnapshot(requestPermission: requestPermission) {
+            ReminderReconciliationInput(intents: await makeIntents())
+        }
+    }
+
+    /// Capture versions before calculation; never use an incomplete/failed calculation
+    /// as evidence that an existing reminder should be removed.
+    @discardableResult
+    public func reconcileSnapshot(requestPermission: Bool = false,
+                                  isCurrent: @escaping @Sendable () async -> Bool = { true },
+                                  makeSnapshot: @escaping @Sendable () async -> ReminderReconciliationInput) async -> ReminderReconciliationResult {
         reconciliationVersion &+= 1
         let generation = reconciliationVersion, versions = planVersions
-        guard (try? await client.isAuthorized(requestPermission: requestPermission)) == true else { return }
-        let intents = await makeIntents()
-        guard generation == reconciliationVersion, !Task.isCancelled else { return }
-        try? await enqueue { await self.apply(intents, generation: generation, versions: versions) }
+        var result = ReminderReconciliationResult()
+        guard !Task.isCancelled else { result.superseded = true; return result }
+        do {
+            guard try await client.isAuthorized(requestPermission: requestPermission) else {
+                result.denied = true; return result
+            }
+        } catch { result.failed = 1; return result }
+        guard generation == reconciliationVersion, !Task.isCancelled else {
+            result.superseded = true; return result
+        }
+        let snapshot = await makeSnapshot()
+        guard await isCurrent(), generation == reconciliationVersion, !Task.isCancelled else {
+            result.superseded = true; return result
+        }
+        return (try? await enqueue { await self.apply(snapshot, generation: generation, versions: versions, isCurrent: isCurrent) }) ?? result
     }
-    private func apply(_ intents: [ReminderIntent], generation: UInt64, versions: [UUID: UInt64]) async {
-        guard generation == reconciliationVersion else { return }
+    private func apply(_ snapshot: ReminderReconciliationInput, generation: UInt64,
+                       versions: [UUID: UInt64], isCurrent: @escaping @Sendable () async -> Bool) async -> ReminderReconciliationResult {
+        var result = ReminderReconciliationResult()
+        guard await isCurrent(), generation == reconciliationVersion else { result.superseded = true; return result }
+        let invalid = Set(snapshot.intents.filter { !$0.fireDate.timeIntervalSince1970.isFinite }.map(\.planID))
+        let unresolved = snapshot.unresolvedPlanIDs.union(invalid)
+        result.unresolved = unresolved.count
         var seen = Set<UUID>()
-        let chosen = intents.sorted { $0.fireDate < $1.fireDate }.filter { seen.insert($0.planID).inserted }.prefix(budget)
-        let desired = Set(chosen.map(\.planID))
+        // Preserve saved-library order for equal fire times. UUID ordering would
+        // unpredictably change which plan receives the first replacement/failure.
+        let eligible = snapshot.intents.enumerated()
+            .filter { $0.element.fireDate.timeIntervalSince1970.isFinite && $0.element.fireDate > now() && !unresolved.contains($0.element.planID) }
+            .sorted { $0.element.fireDate == $1.element.fireDate ? $0.offset < $1.offset : $0.element.fireDate < $1.element.fireDate }
+            .map(\.element).filter { seen.insert($0.planID).inserted }
+        let chosen = eligible.prefix(budget)
+        result.capacityReached = max(0, eligible.count - chosen.count)
+        let desired = Set(chosen.map(\.planID)).union(unresolved)
         let pending = await client.pendingIdentifiers()
-        guard generation == reconciliationVersion else { return }
-        // Prune only plans absent from the new desired set and unchanged since calculation.
-        // Existing reminders for desired plans stay until each replacement succeeds.
+        guard await isCurrent(), generation == reconciliationVersion else { result.superseded = true; return result }
         let obsolete = pending.filter { identifier in
             guard let id = planID(in: identifier), !desired.contains(id) else { return false }
             return matches(id, version: versions[id] ?? 0)
         }
         await client.remove(identifiers: obsolete)
         for intent in chosen {
-            guard generation == reconciliationVersion else { return }
+            guard await isCurrent(), generation == reconciliationVersion else { result.superseded = true; return result }
             guard matches(intent.planID, version: versions[intent.planID] ?? 0) else { continue }
-            do { _ = try await replace(intent, version: versions[intent.planID] ?? 0) }
-            catch { continue } // Keep this plan's prior reminder; still reconcile independent plans.
+            do {
+                switch try await replace(intent, version: versions[intent.planID] ?? 0, generation: generation, isCurrent: isCurrent) {
+                case .scheduled: result.scheduled += 1
+                case .capacityReached: result.capacityReached += 1
+                case .superseded: result.superseded = true
+                case .denied: result.denied = true
+                case .expired: break
+                }
+            } catch { result.failed += 1 }
         }
+        return result
     }
 }

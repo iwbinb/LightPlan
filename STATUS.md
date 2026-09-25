@@ -1,3 +1,27 @@
+# M4 automated acceptance closed / PR handoff — 2026-09-25
+
+**M4 implementation and automated acceptance passed on `ae12c56b13e9a450949817497ef576a9f7ba30bd`. Native run #58 (`36110477855`, attempt 1) completed successfully at 2026-09-25 08:54:12 UTC: 10/10 groups passed. This is a merge candidate, not App Store release approval.**
+
+- Final-source evidence: **267 core tests** (224 existing + 43 M4 additions), **35 native-target executions** (34 real UI executions + one helper regression), and **36 CI helper tests** passed. All 34 iPhone methods were selected once; the existing rotation case also ran on iPad. Native failures, skips and expected failures are zero.
+- Debug simulator build, unsigned Release archive, generator consistency, localization/metadata and existing release-tool/schema regressions passed. Localization: 389 keys, nine languages, 3501 translations, zero completeness errors; not native-speaker certification.
+- The three M4 native cases verify saved manual time/notes through relaunch, field mode and map restoration; edited/duplicated reminders; and explicit reminder disable followed by relaunch and an empty system queue. The earlier failures were traced to a row-centre toggle tap and a disappearing navigation scroll container, then fixed without removing assertions or clearing the queue from the test.
+- All ten run-58 evidence ZIP digests, source commits, recorded command exits, runner exits and native test selections were downloaded and checked on 2026-09-25. Representative field screenshots were reviewed. This handoff records the completed run; it does not rerun the App or modify tested App/Core/UI-test/CI source.
+- Storage rollback/read-back, conflict-safe edits/imports, legacy backup compatibility and reminder freshness remain within the documented single-writer design. Paid download, nine languages, schema 2/v1 compatibility, astronomical coefficients and precision are unchanged.
+- PR merge-ref checks are separate from this passed dev-source run. No main merge, automatic merge, M5 implementation, signing change or release is included. Physical notification delivery, real offline/locked-device behaviour, file-provider integration, Widget, minimum OS, VoiceOver, native-speaker review, performance and Store/account/distribution gates remain open.
+
+See [M4 final acceptance](tests/reports/m4-acceptance-2026-09-25.md), [run-58 evidence manifest](tests/reports/m4-native-verification-2026-09-25.json), and [the original implementation record](tests/reports/m4-reliability-2026-09-24.md). All entries below are historical snapshots; their pending statements describe their original source and date.
+
+# M4 field and data reliability candidate — 2026-09-24
+
+**M4 implementation is prepared on the merged M3 base `3357d351df3a89b3cdfc1a1410e96f66c6fdce0c`. Local core tests: 266 passed; Apple/native verification is pending this implementation commit. Do not report M4 native or release acceptance as passed yet.**
+
+- Verified archive read-back/rollback, preserved migration/recovery originals, bounded file import, and stale-preview rejection with an explicit keep-both policy.
+- Plan edits retain their opened revision; quick actions use the latest record and cannot resurrect deleted plans. Copies never reuse reminder intent.
+- Reminder reconciliation preserves unknown/calculation-failed records, validates current saved intent across awaits, reports failures/capacity, and rejects expired requests. Locked storage is not an empty notification source.
+- New native `iphone-field` tests cover actual save/relaunch/field/map restoration and edited/duplicated reminders. Existing native tests remain assigned; no skipped tests or relaxed precision.
+- Paid download, nine languages, schema 2/legacy v1 compatibility, astronomical coefficients and signing remain unchanged. No M5, main merge or release.
+- See [M4 implementation and evidence](tests/reports/m4-reliability-2026-09-24.md). Earlier entries retain their original dates and evidence scope.
+
 # M3 core workflow verified / PR handoff — 2026-09-24
 
 **M3 implementation and its automated acceptance passed on `76a3a3b04768c58efdb35be34d60a23bb107ea5f`. Native run #52 (`35892933684`, attempt 1) completed successfully at 2026-09-23 17:58:56 UTC: 9/9 groups passed. This is a merge candidate, not App Store release approval.**

@@ -73,8 +73,8 @@ struct FieldSessionView: View {
                         completing = true; completionFailed = false
                         let requestedCompletion = current.completedAt == nil
                         Task {
-                            await state.setPlanCompleted(current, completed: requestedCompletion, showNotice: false)
-                            completionFailed = (current.completedAt != nil) != requestedCompletion
+                            let saved = await state.setPlanCompleted(current, completed: requestedCompletion, showNotice: false)
+                            completionFailed = !saved
                             completing = false
                         }
                     } label: {

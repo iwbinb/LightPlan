@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "phase": "M4",
+  "recorded_date_utc": "2026-09-25",
+  "repository": "iwbinb/LightPlan",
+  "source_commit": "ae12c56b13e9a450949817497ef576a9f7ba30bd",
+  "source_tree": "c47fd29f2cd3651c8972dcf9eac84913cf6fac32",
+  "base_commit": "3357d351df3a89b3cdfc1a1410e96f66c6fdce0c",
+  "native_run": {
+    "id": 36110477855, "number": 58, "attempt": 1,
+    "event": "push", "conclusion": "success",
+    "completed_at_utc": "2026-09-25T08:54:12Z",
+    "url": "https://github.com/iwbinb/LightPlan/actions/runs/36110477855"
+  },
+  "artifacts": [
+    {
+      "stage": "checks", "job_id": 107992882082, "artifact_id": 10852792807,
+      "zip_sha256": "b301270b9fc09f9418349601314ba1c48a623a0f59511df33fd0d1bf10f1d831",
+      "zip_bytes": 7182190, "exit_code": 0, "duration_seconds": 299.183,
+      "native_target_passed": null, "selected_tests": []
+    },
+    {
+      "stage": "iphone-field", "job_id": 107992881958, "artifact_id": 10853017584,
+      "zip_sha256": "32530b31ecc50b4e87f094ba2bed3dd2d60e1401aa12929754aa316985f25d30",
+      "zip_bytes": 16942237, "exit_code": 0, "duration_seconds": 943.623, "native_target_passed": 3,
+      "selected_tests": [
+        "LightPlanUITests/FieldReliabilityUITests/testDisablingSavedReminderClearsSystemQueueAndSurvivesRelaunch",
+        "LightPlanUITests/FieldReliabilityUITests/testEditedReminderStaysSingleAndDuplicateDoesNotCopyIt",
+        "LightPlanUITests/FieldReliabilityUITests/testManualTimeAndNotesPersistThroughSaveRelaunchAndFieldMode"
+      ]
+    },
+    {
+      "stage": "iphone-workflow", "job_id": 107992882010, "artifact_id": 10853866378,
+      "zip_sha256": "9c4d82dcc99486ad6cd943d8be59b5d7863f0b0becce0f0f136c680a877a0de6",
+      "zip_bytes": 14041693, "exit_code": 0, "duration_seconds": 999.814, "native_target_passed": 4,
+      "selected_tests": [
+        "LightPlanUITests/WorkflowUITests/testEmptySearchRecoveryAndAppliedOptionsSurviveReopening",
+        "LightPlanUITests/WorkflowUITests/testManualTimelineTimeIsTheTimePreviewedAndSaved",
+        "LightPlanUITests/WorkflowUITests/testStoppedSearchRetainsOptionsAndCanRestart",
+        "LightPlanUITests/WorkflowUITests/testUnsavedEditorSurvivesCancelAndRotationUntilExplicitDiscard"
+      ]
+    },
+    {
+      "stage": "iphone-product", "job_id": 107992881870, "artifact_id": 10853731967,
+      "zip_sha256": "1e8ed830982f34a6ee3ca492ef16be98f17f6cadb3de2c861724a22dee563020",
+      "zip_bytes": 14899536, "exit_code": 0, "duration_seconds": 828.221, "native_target_passed": 9,
+      "selected_tests": [
+        "LightPlanUITests/ProductUITests/testCompositionFiltersAndUsesSelectedOpportunity",
+        "LightPlanUITests/ProductUITests/testCompositionPlanAndFieldBriefSurviveRelaunch",
+        "LightPlanUITests/ProductUITests/testFutureCompositionReminderIsScheduledAndCanBeStopped",
+        "LightPlanUITests/ProductUITests/testManualLocationAcceptsCoordinatesWithoutPermission",
+        "LightPlanUITests/ProductUITests/testMapLocationArrowUsesDevicePosition",
+        "LightPlanUITests/ProductUITests/testPaidDownloadHasNoPurchaseOrRestoreScreen",
+        "LightPlanUITests/ProductUITests/testPlacesOffersExplicitLocationAndManualChoice",
+        "LightPlanUITests/ProductUITests/testPlanEditorSavesWithoutPurchase",
+        "LightPlanUITests/ProductUITests/testSubjectCanBeSelectedOnTheRealMap"
+      ]
+    },
+    {
+      "stage": "iphone-planning", "job_id": 107992882133, "artifact_id": 10853269727,
+      "zip_sha256": "3ffbe0eb9c6cacde37b52b7d58853a4c3e58f495efec985ef47fbf8fa9b43d0e",
+      "zip_bytes": 42684110, "exit_code": 0, "duration_seconds": 1131.883, "native_target_passed": 6,
+      "selected_tests": [
+        "LightPlanUITests/RichPlanningUITests/testFramingAndProjectSurviveSaveEditRelaunchAndMapRestore",
+        "LightPlanUITests/RichPlanningUITests/testMapTimelineVerticalScrollPreservesTimeAndHorizontalScrubChangesIt",
+        "LightPlanUITests/RichPlanningUITests/testMoonSearchOptionsApplyAndCancelPreserveResultWindows",
+        "LightPlanUITests/RichPlanningUITests/testMoonTemplateReplacesPreviouslySelectedDarkMoonConditions",
+        "LightPlanUITests/RichPlanningUITests/testProjectSearchFieldCompletionAndReopenSurviveRelaunch",
+        "LightPlanUITests/RichPlanningUITests/testTodayPullToRefreshAndQuickTabSwitchPreserveSummary"
+      ]
+    },
+    {
+      "stage": "iphone-visual", "job_id": 107992881950, "artifact_id": 10854016943,
+      "zip_sha256": "6a6124e40257ea7a6adf8a22ed8602cc9d1757a5155548129a7c60b51504eb59",
+      "zip_bytes": 119779242, "exit_code": 0, "duration_seconds": 751.608, "native_target_passed": 5,
+      "selected_tests": [
+        "LightPlanUITests/VisualUITests/testCompositionPlannerSurface",
+        "LightPlanUITests/VisualUITests/testCoreScreensAllLanguages",
+        "LightPlanUITests/VisualUITests/testDarkScreenAndRotationContinuity",
+        "LightPlanUITests/VisualUITests/testLongPressLocationControlCanRecenterShootingPlace",
+        "LightPlanUITests/VisualUITests/testMapBaseStyleSwitchesAndSurvivesRelaunch"
+      ]
+    },
+    {
+      "stage": "iphone-rich-visual", "job_id": 107992881674, "artifact_id": 10854740898,
+      "zip_sha256": "a462395f51e2bc9d9d7bf368634f187db03abc4d7d3818b8a538782c1e780da4",
+      "zip_bytes": 36419749, "exit_code": 0, "duration_seconds": 1318.076, "native_target_passed": 3,
+      "selected_tests": [
+        "LightPlanUITests/RichVisualUITests/testPortugueseStandardRichScreens",
+        "LightPlanUITests/RichVisualUITests/testRevealBudgetWaitsForUsableGeometry",
+        "LightPlanUITests/RichVisualUITests/testRichScreensAllNineLanguages"
+      ]
+    },
+    {
+      "stage": "iphone-rich-accessibility", "job_id": 107992882127, "artifact_id": 10854862039,
+      "zip_sha256": "2268c8aa4f8c3e25343fab58fcec9f5a42d7c81420ba9c9f834614e85ba56f78",
+      "zip_bytes": 14561034, "exit_code": 0, "duration_seconds": 1135.971, "native_target_passed": 2,
+      "selected_tests": [
+        "LightPlanUITests/RichVisualUITests/testGermanLargestTextRichScreens",
+        "LightPlanUITests/RichVisualUITests/testThaiLargestTextRichScreens"
+      ]
+    },
+    {
+      "stage": "iphone-accessibility", "job_id": 107992881900, "artifact_id": 10855036771,
+      "zip_sha256": "3e4250a1cbb8fbe4ff3dbc28c8ff49b43edcd585324c04b70cbbc19b625bc2f1",
+      "zip_bytes": 56020283, "exit_code": 0, "duration_seconds": 819.428, "native_target_passed": 2,
+      "selected_tests": [
+        "LightPlanUITests/AccessibilityUITests/testGermanLargestTextPlanningAndSubjectEntry",
+        "LightPlanUITests/AccessibilityUITests/testThaiLargestTextPlanningAndSubjectEntry"
+      ]
+    },
+    {
+      "stage": "ipad-rotation", "job_id": 107992881742, "artifact_id": 10854786860,
+      "zip_sha256": "49b639454bdea24c5153278558db6ea190a17cbb289f11b23bca66b3e457c9d9",
+      "zip_bytes": 14041316, "exit_code": 0, "duration_seconds": 691.352, "native_target_passed": 1,
+      "selected_tests": ["LightPlanUITests/VisualUITests/testDarkScreenAndRotationContinuity"]
+    }
+  ],
+  "tests": {
+    "core_passed": 267, "core_failed": 0, "m4_new_core_tests": 43,
+    "native_target_executions": 35, "iphone_distinct_methods": 34,
+    "real_ui_executions": 34, "helper_regressions": 1,
+    "failures": 0, "skips": 0, "expected_failures": 0,
+    "ci_helper_passed": 36, "release_preflight_tool_passed": 24,
+    "screenshot_package_tool_passed": 10, "schema_passed": 15
+  },
+  "verification": {
+    "artifact_zip_digests_checked": 10, "source_commits_checked": 10,
+    "all_command_exit_codes_zero": true, "all_runner_exit_codes_zero": true,
+    "iphone_inventory_matched": true, "timeouts": 0, "interruptions": 0,
+    "new_app_execution_in_handoff": false,
+    "physical_device_verified": false, "distribution_signing_verified": false
+  },
+  "environment": {
+    "xcode": "Xcode 26.3\nBuild version 17C529",
+    "swift": "swift-driver version: 1.127.15 Apple Swift version 6.2.4 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)\nTarget: arm64-apple-macosx15.0",
+    "ios_simulator": "26.2"
+  },
+  "localization": {
+    "catalogKeys": 389,
+    "languages": ["en", "zh-Hans", "zh-Hant", "ja", "ko", "de", "fr", "th", "pt-PT"],
+    "translations": 3501, "errors": [],
+    "reviewStatus": "Automated completeness only; not a claim of native-speaker review."
+  },
+  "builds": {
+    "debug_simulator": "passed", "unsigned_release_archive": "passed",
+    "generator_drift": false, "distribution_signing_verified": false
+  }
+}

@@ -105,6 +105,7 @@ public enum Geometry {
 }
 public struct Archive: Codable, Sendable, Equatable {
     public static let currentSchemaVersion = 2
+    public static let maximumBytes = 5_000_000
     public var schemaVersion:Int=Self.currentSchemaVersion
     public var places:[Place]
     public var plans:[ShootPlan]
@@ -116,7 +117,7 @@ public struct Archive: Codable, Sendable, Equatable {
         try output.validate()
         let encoder = JSONEncoder(); encoder.dateEncodingStrategy = .iso8601; encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         let data = try encoder.encode(output)
-        guard data.count <= 5_000_000 else { throw LightPlanError.tooManyItems }
+        guard data.count <= Self.maximumBytes else { throw LightPlanError.tooManyItems }
         return data
     }
     public func validate() throws {
@@ -128,7 +129,7 @@ public struct Archive: Codable, Sendable, Equatable {
         for plan in plans { _ = try plan.validated() }
     }
     public static func decode(_ data:Data)throws->Archive {
-        guard data.count<=5_000_000 else { throw LightPlanError.tooManyItems }
+        guard data.count<=Self.maximumBytes else { throw LightPlanError.tooManyItems }
         let decoder=JSONDecoder();decoder.dateDecodingStrategy = .iso8601
         let archive=try decoder.decode(Self.self,from:data)
         guard (1...Self.currentSchemaVersion).contains(archive.schemaVersion) else { throw LightPlanError.unsupportedSchema }

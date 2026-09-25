@@ -32,6 +32,7 @@ enum PlanningTemplate { case sunset, moon }
     var planningSearchMemory = PlanningSearchMemory()
     private var calculation: Task<DaySummary, Error>?
     private var refreshID = UUID()
+    private var mapRestorationID = UUID()
     private let repository: ArchiveRepository
     private(set) var isFixture = false
 
@@ -104,6 +105,7 @@ enum PlanningTemplate { case sunset, moon }
         }
     }
     func select(_ newPlace: Place, asBase: Bool = false) async {
+        invalidateMapRestoration()
         let oldZone = place.timeZone
         if !followingToday {
             do { selectedDate = try LocalDay.relocating(selectedDate, from: oldZone, to: newPlace.timeZone) }
@@ -121,6 +123,7 @@ enum PlanningTemplate { case sunset, moon }
     /// Move the active planning observer without replacing the user's saved default location.
     /// Used by composition guidance where a suggested stand point is provisional.
     func selectPlanningPlace(_ newPlace: Place) async {
+        invalidateMapRestoration()
         let oldZone = place.timeZone
         if !followingToday {
             do { selectedDate = try LocalDay.relocating(selectedDate, from: oldZone, to: newPlace.timeZone) }
@@ -134,24 +137,36 @@ enum PlanningTemplate { case sunset, moon }
 
     /// A saved plan already owns its destination civil day; never reinterpret it in the old map zone.
     func showPlanMap(_ plan: ShootPlan) async {
+        invalidateMapRestoration()
+        let request = mapRestorationID
+        let requestedInstant = plan.composition?.instant ?? plan.date
         followingToday = false; followingNow = false
-        place = plan.place; selectedDate = plan.date
+        place = plan.place; selectedDate = plan.date; selectedInstant = requestedInstant
         await refresh()
+        // A second plan, location/date change or manual scrub wins over this older request.
+        guard !Task.isCancelled, request == mapRestorationID, place == plan.place,
+              selectedDate == plan.date, selectedInstant == requestedInstant else { return }
         if let summary, let anchor = Planner.anchorDate(plan: plan, summary: summary) { selectedInstant = anchor }
         mapPlanRestore = MapPlanRestore(plan: plan)
         tab = 1
     }
+    private func invalidateMapRestoration() {
+        mapRestorationID = UUID(); mapPlanRestore = nil
+    }
     func selectDate(_ date: Date) async {
+        invalidateMapRestoration()
         followingToday = LocalDay.same(date, Date(), timeZone: place.timeZone)
         followingNow = false; selectedDate = date
         await refresh()
     }
     func showToday() async {
+        invalidateMapRestoration()
         followingToday = true; followingNow = true
         selectedDate = Date(); selectedInstant = Date()
         await refresh()
     }
     func beginComposition(template: PlanningTemplate? = nil) {
+        invalidateMapRestoration()
         compositionTemplate = template
         compositionRequest = UUID()
         tab = 1
@@ -166,11 +181,53 @@ enum PlanningTemplate { case sunset, moon }
     }
     func save() throws {
         guard !archiveLocked else { throw LightPlanError.storageLocked }
-        try repository.write(Archive(places: places, plans: plans))
-        try? protectStorage()
+        try persist(Archive(places: places, plans: plans))
     }
-    private func protectStorage() throws {
-        try FileManager.default.setAttributes([.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication], ofItemAtPath: repository.url.path)
+    private func persist(_ archive: Archive, allowRecovery: Bool = false) throws {
+        do {
+            let verified = try repository.write(archive, allowRecovery: allowRecovery)
+            // Only publish bytes that have been read back and validated.
+            places = verified.places; plans = verified.plans
+        } catch ArchiveRepositoryError.rollbackFailed {
+            archiveLocked = true
+            throw ArchiveRepositoryError.rollbackFailed
+        }
+    }
+    func applyPlanMutation(_ mutation: PlanMutation) throws {
+        guard !archiveLocked else { throw LightPlanError.storageLocked }
+        try persist(mutation.applying(to: Archive(places: places, plans: plans)))
+    }
+    @discardableResult
+    func reconcileReminders(requestPermission: Bool = false) async -> ReminderReconciliationResult? {
+        // Corrupt or temporarily protected storage is not an authoritative empty library.
+        guard !archiveLocked else { return nil }
+        let snapshot = plans
+        return await ReminderService.reconcile(plans: snapshot, language: L10n.language,
+            requestPermission: requestPermission, isCurrent: { [weak self] in
+                await self?.matchesReminderSnapshot(snapshot) ?? false
+            })
+    }
+    func scheduleReminder(for plan: ShootPlan, summary: DaySummary) async throws -> ReminderResult {
+        try await ReminderService.schedule(plan: plan, summary: summary, language: L10n.language,
+            isCurrent: { [weak self] in
+                await self?.matchesReminderPlan(plan) ?? false
+            })
+    }
+    /// A queued stop/delete must not cancel a newer saved-and-enabled reminder.
+    func cancelSavedReminder(planID: UUID) async {
+        let expected = plans.first(where: { $0.id == planID })
+        guard !archiveLocked,
+              expected == nil || expected?.reminderLeadMinutes == nil || expected?.completedAt != nil else { return }
+        await ReminderService.cancel(planID: planID, isCurrent: { [weak self] in
+            await self?.matchesReminderCancellation(planID, expected: expected) ?? false
+        })
+    }
+    private func matchesReminderCancellation(_ id: UUID, expected: ShootPlan?) -> Bool {
+        !archiveLocked && plans.first(where: { $0.id == id }) == expected
+    }
+    private func matchesReminderSnapshot(_ snapshot: [ShootPlan]) -> Bool { !archiveLocked && plans == snapshot }
+    private func matchesReminderPlan(_ plan: ShootPlan) -> Bool {
+        !archiveLocked && plans.first(where: { $0.id == plan.id }) == plan
     }
     func favorite() {
         guard !places.contains(where: { $0.coordinate == place.coordinate && $0.timeZoneID == place.timeZoneID }) else { noticeKey = "notice.duplicatePlace"; return }
@@ -181,26 +238,32 @@ enum PlanningTemplate { case sunset, moon }
         places.append(favorite)
         do { try save(); noticeKey = "notice.saved" } catch { places = before; errorKey = "error.save" }
     }
-    func upsert(_ plan: ShootPlan) throws {
-        _ = try plan.validated()
-        let before = plans
-        if let i = plans.firstIndex(where: { $0.id == plan.id }) { plans[i] = plan } else { plans.append(plan) }
-        do { try save() } catch { plans = before; throw error }
+    func upsert(_ plan: ShootPlan, replacing expected: ShootPlan? = nil) throws {
+        try applyPlanMutation(expected.map { .replace(expected: $0, updated: plan) } ?? .insert(plan))
     }
     func add(_ plan: ShootPlan) throws { try upsert(plan) }
     func duplicate(_ plan: ShootPlan) {
         do {
-            var copy = plan; copy.id = UUID(); copy.createdAt = Date(); copy.updatedAt = Date(); copy.reminderLeadMinutes = nil; copy.completedAt = nil
-            try upsert(copy); noticeKey = "notice.duplicated"
+            try applyPlanMutation(.duplicate(plan.id, newID: UUID(), now: Date()))
+            noticeKey = "notice.duplicated"
         } catch { errorKey = "error.save" }
     }
-    func deletePlan(_ plan: ShootPlan) async {
-        let before = plans; plans.removeAll { $0.id == plan.id }
-        do { try save(); await ReminderService.cancel(planID: plan.id) } catch { plans = before; errorKey = "error.save" }
+    @discardableResult
+    func deletePlan(_ plan: ShootPlan) async -> Bool {
+        do {
+            try applyPlanMutation(.remove(plan.id))
+            await cancelSavedReminder(planID: plan.id)
+            // Refill a freed reminder slot from the current saved library.
+            await reconcileReminders()
+            return true
+        } catch { errorKey = "error.save"; return false }
     }
     func stopReminder(_ plan: ShootPlan) async {
-        do { var copy = plan; copy.reminderLeadMinutes = nil; copy.updatedAt = Date(); try upsert(copy); await ReminderService.cancel(planID: copy.id) }
-        catch { errorKey = "error.save" }
+        do {
+            try applyPlanMutation(.disableReminder(plan.id, now: Date()))
+            await cancelSavedReminder(planID: plan.id)
+            await reconcileReminders()
+        } catch { errorKey = "error.save" }
     }
     func deletePlace(_ id: UUID) {
         let before = places; places.removeAll { $0.id == id }
@@ -218,20 +281,29 @@ enum PlanningTemplate { case sunset, moon }
     func previewImport(_ data: Data) throws -> ImportPreview {
         try ImportPreview(local: Archive(places: places, plans: plans), incoming: Archive.decode(data))
     }
+    func previewImportFile(_ url: URL) async throws -> ImportPreview {
+        let snapshot = Archive(places: places, plans: plans)
+        let worker = Task.detached(priority: .userInitiated) {
+            let access = url.startAccessingSecurityScopedResource()
+            defer { if access { url.stopAccessingSecurityScopedResource() } }
+            return try ImportPreview(local: snapshot, incoming: Archive.decode(ArchiveFileReader.read(url)))
+        }
+        return try await withTaskCancellationHandler(operation: { try await worker.value }, onCancel: { worker.cancel() })
+    }
     func importArchive(_ preview: ImportPreview, policy: ImportConflictPolicy, enableReminders: Bool) async throws {
         let merged = try preview.merged(with: Archive(places: places, plans: plans), policy: policy, enableImportedReminders: enableReminders)
         // The old file is copied (even if damaged), then the new file is replaced atomically.
-        try repository.write(merged, allowRecovery: archiveLocked)
-        places = merged.places; plans = merged.plans; archiveLocked = false
-        try? protectStorage()
-        await ReminderService.reconcile(plans: plans, language: L10n.language, requestPermission: enableReminders)
-        noticeKey = "notice.imported"
+        try persist(merged, allowRecovery: archiveLocked)
+        archiveLocked = false
+        let result = await reconcileReminders(requestPermission: enableReminders)
+        noticeKey = result?.needsAttention == true && plans.contains(where: { $0.completedAt == nil && $0.reminderLeadMinutes != nil })
+            ? "backup.importedReminderWarning" : "notice.imported"
     }
     func exportedBytes() throws -> Data {
         try archiveLocked ? repository.originalBytes() : Archive(places: places, plans: plans).encoded()
     }
     func exportedArchive() throws -> URL {
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("LightPlan-backup.json")
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("LightPlan-backup-\(UUID().uuidString).json")
         try exportedBytes().write(to: url, options: .atomic); return url
     }
     func publishWidget() {

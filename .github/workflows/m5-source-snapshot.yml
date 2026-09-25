@@ -1,0 +1,30 @@
+name: M5 source snapshot
+on:
+  push:
+    branches: [dev]
+    paths: ['.github/workflows/m5-source-snapshot.yml']
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 133d833d3b2a3469b8345662a3f20c2ec6079403
+          persist-credentials: false
+      - name: Archive tracked source without running it
+        run: |
+          mkdir -p /tmp/m5-source
+          git rev-parse HEAD > /tmp/m5-source/source-commit.txt
+          git rev-parse HEAD^{tree} > /tmp/m5-source/source-tree.txt
+          git ls-tree -r HEAD > /tmp/m5-source/source-files.txt
+          git archive --format=tar HEAD > /tmp/m5-source/source.tar
+          sha256sum /tmp/m5-source/source.tar > /tmp/m5-source/source.sha256
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: m5-source-133d833
+          path: /tmp/m5-source
+          retention-days: 7
+          if-no-files-found: error

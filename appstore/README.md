@@ -11,3 +11,7 @@
 正式隐私/支持URL和运营主体仍为null；见release_config.json。原生代码中的开发状态提示必须在完成真实配置后替换。
 
 提交准备见 `docs/APP_STORE_HANDOFF.md`。`scripts/package_store_screenshots.py` 从两类设备的原生 xcresult 整理九语截图并生成待审阅清单；`scripts/release_preflight.py` 默认严格阻断未完成的账号、资料与验收事项，`--report-only` 只显示清单，不表示可发布。App Store应用价格/协议和TestFlight完整功能/离线验证分别记录；历史内购测试不替代现行验收。
+
+## M6-A 执行入口
+
+见 [发布准备](../docs/M6_RELEASE_READINESS.md) 与 [M6-B 接管](../docs/M6B_LOCAL_HANDOFF.md)。`python3 scripts/prepare_release.py --output tests/reports/local/release-candidate-01` 生成新的本地验收目录；`prepared` 不代表可发布。`capture_store_screenshots.sh` / 手动 Actions 提供主槽位原生草稿，不能代签最终品牌或母语审校。

@@ -5,9 +5,13 @@ End users do NOT need to run this script or install XcodeGen/CocoaPods.
 from pathlib import Path
 import hashlib, json, plistlib
 from xml.sax.saxutils import escape
+from release_settings import validate as validate_release_settings
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT = ROOT / 'LightPlan.xcodeproj'
 release_config = json.loads((ROOT / 'appstore/release_config.json').read_text())
+errors = validate_release_settings(release_config)
+if errors:
+    raise SystemExit("; ".join(errors))
 objects = {}
 def uid(name): return hashlib.sha1(name.encode()).hexdigest()[:24].upper()
 def obj(identity, isa, **fields):
@@ -42,9 +46,9 @@ def info(identifier, name, extension=False):
     return value
 
 (ROOT/'ios/Config').mkdir(parents=True,exist_ok=True)
-(ROOT/'ios/Config/Project.xcconfig').write_text('''// One source for signing identifiers. Team can be selected in Xcode.
-APP_BUNDLE_ID = com.arenovo.lightplan
-APP_GROUP_ID = group.com.arenovo.lightplan
+(ROOT/'ios/Config/Project.xcconfig').write_text(f'''// One source for signing identifiers. Team can be selected in Xcode.
+APP_BUNDLE_ID = {release_config['candidate_bundle_id']}
+APP_GROUP_ID = {release_config['candidate_app_group_id']}
 #include? "Local.xcconfig"
 ''')
 (ROOT/'ios/Config/Local.xcconfig.example').write_text('''// Optional local overrides, never commit the real Local.xcconfig.
@@ -55,7 +59,7 @@ DEVELOPMENT_TEAM = YOUR_TEAM_ID
 ''')
 config_ref=ref('ios/Config/Project.xcconfig')
 for target in ['LightPlan','LightPlanWidget']:
-    plist(f'ios/{target}/Info.plist',info('$(PRODUCT_BUNDLE_IDENTIFIER)','LightPlan',target.endswith('Widget')))
+    plist(f'ios/{target}/Info.plist',info('$(PRODUCT_BUNDLE_IDENTIFIER)',release_config['candidate_name'],target.endswith('Widget')))
     plist(f'ios/{target}/{target}.entitlements',{'com.apple.security.application-groups':['$(APP_GROUP_ID)']})
 package=obj('package:core','XCLocalSwiftPackageReference',relativePath='packages/LightPlanCore')
 app_product=obj('product:app','PBXFileReference',explicitFileType='wrapper.application',includeInIndex='0',path='LightPlan.app',sourceTree='BUILT_PRODUCTS_DIR')
@@ -63,7 +67,7 @@ widget_product=obj('product:widget','PBXFileReference',explicitFileType='wrapper
 test_product=obj('product:uitests','PBXFileReference',explicitFileType='wrapper.cfbundle',includeInIndex='0',path='LightPlanUITests.xctest',sourceTree='BUILT_PRODUCTS_DIR')
 
 targets=[]
-base_target={'SWIFT_VERSION':'6.0','SWIFT_STRICT_CONCURRENCY':'complete','SWIFT_EMIT_LOC_STRINGS':'YES','IPHONEOS_DEPLOYMENT_TARGET':'17.0','TARGETED_DEVICE_FAMILY':'1,2','CODE_SIGN_STYLE':'Automatic','SUPPORTED_PLATFORMS':'iphoneos iphonesimulator','SUPPORTS_MACCATALYST':'NO','SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD':'NO','PRODUCT_NAME':'$(TARGET_NAME)','SDKROOT':'iphoneos'}
+base_target={'SWIFT_VERSION':'6.0','SWIFT_STRICT_CONCURRENCY':'complete','SWIFT_EMIT_LOC_STRINGS':'YES','IPHONEOS_DEPLOYMENT_TARGET':release_config['minimum_runtime_ios'],'TARGETED_DEVICE_FAMILY':'1,2','CODE_SIGN_STYLE':'Automatic','SUPPORTED_PLATFORMS':'iphoneos iphonesimulator','SUPPORTS_MACCATALYST':'NO','SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD':'NO','PRODUCT_NAME':'$(TARGET_NAME)','SDKROOT':'iphoneos'}
 for target,folder,product,is_widget in [('LightPlan','ios/LightPlan',app_product,False),('LightPlanWidget','ios/LightPlanWidget',widget_product,True)]:
     paths=[str(p.relative_to(ROOT)) for p in sorted((ROOT/folder).rglob('*.swift'))]+['ios/Shared/L10n.swift']
     product_dep=obj('package-product:'+target,'XCSwiftPackageProductDependency',package=package,productName='LightPlanCore')
@@ -96,7 +100,7 @@ proxy=obj('proxy:app','PBXContainerItemProxy',containerPortal=uid('project'),pro
 testdep=obj('dependency:app','PBXTargetDependency',target=uid('target:LightPlan'),targetProxy=proxy)
 testsettings={**base_target,'PRODUCT_BUNDLE_IDENTIFIER':'$(APP_BUNDLE_ID).uitests','GENERATE_INFOPLIST_FILE':'YES','TEST_TARGET_NAME':'LightPlan'}
 targets.append(obj('target:LightPlanUITests','PBXNativeTarget',buildConfigurationList=configs('tests',testsettings),buildPhases=[sources('tests',uitest_sources),testframework,resources('tests',[])],buildRules=[],dependencies=[testdep],name='LightPlanUITests',productName='LightPlanUITests',productReference=test_product,productType='com.apple.product-type.bundle.ui-testing'))
-project_configs=configs('project',{'ALWAYS_SEARCH_USER_PATHS':'NO','CLANG_ENABLE_MODULES':'YES','CLANG_ENABLE_OBJC_ARC':'YES','CLANG_WARN_DOCUMENTATION_COMMENTS':'YES','GCC_C_LANGUAGE_STANDARD':'gnu17','CLANG_CXX_LANGUAGE_STANDARD':'gnu++20','ENABLE_STRICT_OBJC_MSGSEND':'YES','ENABLE_USER_SCRIPT_SANDBOXING':'YES','MARKETING_VERSION':'1.0.0','CURRENT_PROJECT_VERSION':'1','SWIFT_VERSION':'6.0','SWIFT_STRICT_CONCURRENCY':'complete','IPHONEOS_DEPLOYMENT_TARGET':'17.0','SDKROOT':'iphoneos'},debug={'DEBUG_INFORMATION_FORMAT':'dwarf','ENABLE_TESTABILITY':'YES','GCC_OPTIMIZATION_LEVEL':'0','ONLY_ACTIVE_ARCH':'YES','SWIFT_ACTIVE_COMPILATION_CONDITIONS':'DEBUG $(inherited)','SWIFT_OPTIMIZATION_LEVEL':'-Onone'},release={'DEBUG_INFORMATION_FORMAT':'dwarf-with-dsym','SWIFT_COMPILATION_MODE':'wholemodule','SWIFT_OPTIMIZATION_LEVEL':'-O','VALIDATE_PRODUCT':'YES'})
+project_configs=configs('project',{'ALWAYS_SEARCH_USER_PATHS':'NO','CLANG_ENABLE_MODULES':'YES','CLANG_ENABLE_OBJC_ARC':'YES','CLANG_WARN_DOCUMENTATION_COMMENTS':'YES','GCC_C_LANGUAGE_STANDARD':'gnu17','CLANG_CXX_LANGUAGE_STANDARD':'gnu++20','ENABLE_STRICT_OBJC_MSGSEND':'YES','ENABLE_USER_SCRIPT_SANDBOXING':'YES','MARKETING_VERSION':release_config['marketing_version'],'CURRENT_PROJECT_VERSION':release_config['build_number'],'SWIFT_VERSION':'6.0','SWIFT_STRICT_CONCURRENCY':'complete','IPHONEOS_DEPLOYMENT_TARGET':release_config['minimum_runtime_ios'],'SDKROOT':'iphoneos'},debug={'DEBUG_INFORMATION_FORMAT':'dwarf','ENABLE_TESTABILITY':'YES','GCC_OPTIMIZATION_LEVEL':'0','ONLY_ACTIVE_ARCH':'YES','SWIFT_ACTIVE_COMPILATION_CONDITIONS':'DEBUG $(inherited)','SWIFT_OPTIMIZATION_LEVEL':'-Onone'},release={'DEBUG_INFORMATION_FORMAT':'dwarf-with-dsym','SWIFT_COMPILATION_MODE':'wholemodule','SWIFT_OPTIMIZATION_LEVEL':'-O','VALIDATE_PRODUCT':'YES'})
 products=obj('group:products','PBXGroup',children=[app_product,widget_product,test_product],name='Products',sourceTree='<group>')
 variant_children = {child for value in objects.values() if value['isa']=='PBXVariantGroup' for child in value['children']}
 files=[key for key,value in objects.items() if value['isa'] in ['PBXFileReference','PBXVariantGroup'] and key not in variant_children and key not in [app_product,widget_product,test_product]]

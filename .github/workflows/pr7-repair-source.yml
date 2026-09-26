@@ -1,0 +1,31 @@
+name: PR7 isolated repair source
+on:
+  push:
+    branches: [dev]
+    paths: ['.github/workflows/pr7-repair-source.yml']
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: b7d832f69a5c37ae0d6258e2651aafd14f693905
+          persist-credentials: false
+      - name: Export tracked source only
+        run: |
+          set -eu
+          mkdir -p /tmp/pr7-repair-source
+          git rev-parse HEAD > /tmp/pr7-repair-source/source-commit.txt
+          git rev-parse HEAD^{tree} > /tmp/pr7-repair-source/source-tree.txt
+          git ls-tree -r HEAD > /tmp/pr7-repair-source/source-files.txt
+          git archive HEAD > /tmp/pr7-repair-source/source.tar
+          sha256sum /tmp/pr7-repair-source/source.tar > /tmp/pr7-repair-source/source.sha256
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pr7-repair-source-b7d832f
+          path: /tmp/pr7-repair-source
+          retention-days: 7
+          if-no-files-found: error

@@ -90,9 +90,15 @@ class ReleasePreflightTests(unittest.TestCase):
         for target, bundle in (("LightPlan", self.app), ("LightPlanWidget", self.widget)):
             write_plist(self.root / "ios" / target / "PrivacyInfo.xcprivacy", privacy)
             write_plist(bundle / "PrivacyInfo.xcprivacy", privacy)
+        # Model bundle identity, not its /var versus /private/var spelling.
+        # Never fall back to app entitlements for an unknown synthetic target.
+        signed_ids = {self.app.resolve(): self.config["candidate_bundle_id"],
+                      self.widget.resolve(): self.config["candidate_bundle_id"] + ".widget"}
         def signed(bundle):
-            suffix = ".widget" if bundle == self.widget else ""
-            return {"application-identifier": "ABCDEFGHIJ." + self.config["candidate_bundle_id"] + suffix,
+            identifier = signed_ids.get(bundle.resolve())
+            if identifier is None:
+                raise AssertionError("Unexpected synthetic signing target")
+            return {"application-identifier": "ABCDEFGHIJ." + identifier,
                     "com.apple.developer.team-identifier": "ABCDEFGHIJ",
                     "com.apple.security.application-groups": [self.config["candidate_app_group_id"]],
                     "get-task-allow": False}
@@ -131,6 +137,20 @@ class ReleasePreflightTests(unittest.TestCase):
 
     def test_complete_synthetic_package_passes(self):
         self.assertEqual(self.result()["blockers"], [])
+
+    def test_synthetic_signatures_identify_app_and_widget_through_ancestor_alias(self):
+        with tempfile.TemporaryDirectory() as parent:
+            alias = Path(parent) / "checkout-alias"
+            alias.symlink_to(self.root.resolve(), target_is_directory=True)
+            for bundle, suffix in ((self.app, ""), (self.widget, ".widget")):
+                alternate = alias / bundle.relative_to(self.root)
+                self.assertEqual(self.entitlements(alternate)["application-identifier"],
+                                 "ABCDEFGHIJ." + self.config["candidate_bundle_id"] + suffix)
+            self.assertEqual(self.result(archive_path=alias / "candidate.xcarchive")["blockers"], [])
+
+    def test_synthetic_signature_rejects_unknown_bundle(self):
+        with self.assertRaisesRegex(AssertionError, "Unexpected synthetic signing target"):
+            self.entitlements(self.root / "not-an-approved-fixture.app")
 
     def test_external_audit_config_cannot_override_unshipped_public_fields(self):
         write_json(self.root / "appstore/release_config.json", dict(self.config, support_url=None))

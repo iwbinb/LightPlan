@@ -125,28 +125,95 @@ final class ProductUITests: XCTestCase {
     @MainActor private func waitForCompositionEntry(in app: XCUIApplication) -> XCUIElement {
         let entry = app.buttons["map-composition"]
         XCTAssertTrue(app.staticTexts["selected-time"].waitForExistence(timeout: 15))
-        // Existence alone does not guarantee that a cold-launch layout can receive a tap.
-        // Wait for a visible, stable control; never retry the tap itself.
-        var previousFrame: CGRect?
-        var stableSince = Date.distantPast
+        // Read geometry/enabled state from ONE coherent snapshot per poll. Repeated live
+        // attribute queries exhausted the same 10s budget on run 65's cold simulator.
+        // The final hit test stays live; no snapshot is treated as proof of hittability.
+        var readiness = CompositionEntryReadiness()
+        var observations: [String] = []
+        let started = ProcessInfo.processInfo.systemUptime
         let ready = NSPredicate { _, _ in
-            guard app.state == .runningForeground, entry.exists,
-                  entry.isEnabled, entry.isHittable else { previousFrame = nil; return false }
-            let frame = entry.frame
-            guard !frame.isNull, !frame.isEmpty, app.frame.contains(frame) else {
-                previousFrame = nil; return false
+            let pollStarted = ProcessInfo.processInfo.systemUptime
+            do {
+                guard app.state == .runningForeground else {
+                    readiness.reset("application is not foreground")
+                    return false
+                }
+                let observation = Self.compositionEntryObservation(try app.snapshot())
+                let stable = readiness.observe(observation, at: ProcessInfo.processInfo.systemUptime)
+                let hittable = stable && entry.isHittable
+                if stable && !hittable { readiness.reset("live hit test failed") }
+                if observations.count < 20 {
+                    let now = ProcessInfo.processInfo.systemUptime
+                    observations.append("elapsed=\(now - started) poll=\(now - pollStarted) "
+                        + "frame=\(String(describing: observation?.frame)) "
+                        + "stable=\(stable) hittable=\(hittable) reason=\(readiness.reason)")
+                }
+                return stable && hittable
+            } catch {
+                readiness.reset("snapshot unavailable")
+                if observations.count < 20 { observations.append("snapshot error: \(error)") }
+                return false
             }
-            if let bar = app.tabBars.allElementsBoundByIndex.first(where: { $0.exists }),
-               !bar.frame.isEmpty, frame.maxY > bar.frame.minY { previousFrame = nil; return false }
-            if previousFrame != frame {
-                previousFrame = frame; stableSince = Date(); return false
-            }
-            return Date().timeIntervalSince(stableSince) >= 0.3
         }
-        let result = XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: app)], timeout: 10)
+        let result = XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: nil)], timeout: 10)
+        let diagnostic = XCTAttachment(string: observations.joined(separator: "\n"))
+        diagnostic.name = "composition-entry-readiness-polls"; diagnostic.lifetime = .keepAlways; add(diagnostic)
         if result != .completed { captureCompositionFailure("entry-not-ready", in: app) }
         XCTAssertEqual(result, .completed, "The composition entry must be enabled, visible and stable before a single tap")
+        XCTAssertTrue(entry.isEnabled && entry.isHittable, "The stable entry must still accept the single tap")
         return entry
+    }
+
+    @MainActor private static func compositionEntryObservation(
+        _ snapshot: any XCUIElementSnapshot
+    ) -> CompositionEntryReadiness.Observation? {
+        // A snapshot's descendants are immutable in-process attributes, not new queries.
+        var pending: [any XCUIElementSnapshot] = [snapshot]
+        var nodes: [any XCUIElementSnapshot] = []
+        while let node = pending.popLast() {
+            nodes.append(node); pending.append(contentsOf: node.children)
+        }
+        let entries = nodes.filter { $0.elementType == .button && $0.identifier == "map-composition" }
+        guard entries.count == 1, let entry = entries.first else { return nil }
+        let windows = nodes.filter { $0.elementType == .window && $0.frame.contains(entry.frame) }
+        guard windows.count == 1, let window = windows.first else { return nil }
+        return CompositionEntryReadiness.Observation(frame: entry.frame, viewport: window.frame,
+            enabled: entry.isEnabled, tabBars: nodes.filter { $0.elementType == .tabBar }.map(\.frame))
+    }
+
+    func testCompositionReadinessRequiresTwoConsistentVisibleSamples() {
+        let viewport = CGRect(x: 0, y: 0, width: 402, height: 874)
+        let frame = CGRect(x: 272.5, y: 624.7, width: 44, height: 44.3)
+        let bar = CGRect(x: 0, y: 791, width: 402, height: 83)
+        let visible = CompositionEntryReadiness.Observation(frame: frame, viewport: viewport,
+                                                          enabled: true, tabBars: [bar])
+        var readiness = CompositionEntryReadiness()
+        XCTAssertFalse(readiness.observe(visible, at: 7), "One slow snapshot is not stability evidence")
+        XCTAssertFalse(readiness.observe(visible, at: 7.2))
+        XCTAssertTrue(readiness.observe(visible, at: 7.4))
+        var moved = visible; moved.frame.origin.y += 0.5
+        XCTAssertFalse(readiness.observe(moved, at: 8), "A changed frame resets settling")
+        XCTAssertTrue(readiness.observe(moved, at: 8.4))
+        XCTAssertFalse(readiness.observe(nil, at: 9), "Missing or ambiguous snapshots fail closed")
+        XCTAssertFalse(readiness.observe(moved, at: 10), "Invalid samples must reset the prior frame")
+        XCTAssertTrue(readiness.observe(moved, at: 10.4))
+        var invalid = visible; invalid.enabled = false
+        XCTAssertFalse(readiness.observe(invalid, at: 11))
+        invalid = visible; invalid.frame.origin.x = -1
+        XCTAssertFalse(readiness.observe(invalid, at: 12), "Partly offscreen targets are rejected")
+        invalid = visible; invalid.frame.origin.y = 780
+        XCTAssertFalse(readiness.observe(invalid, at: 13), "A target behind the tab bar is rejected")
+        invalid = visible; invalid.frame = .null
+        XCTAssertFalse(readiness.observe(invalid, at: 14))
+        invalid = visible; invalid.viewport = .zero
+        XCTAssertFalse(readiness.observe(invalid, at: 15))
+        invalid = visible; invalid.tabBars = []
+        XCTAssertFalse(readiness.observe(invalid, at: 16), "This map entry requires a resolved tab bar")
+        invalid = visible; invalid.tabBars = [.null]
+        XCTAssertFalse(readiness.observe(invalid, at: 17))
+        XCTAssertFalse(readiness.observe(visible, at: 18))
+        XCTAssertFalse(readiness.observe(visible, at: 17), "Backwards time cannot prove stability")
+        XCTAssertFalse(readiness.observe(visible, at: .nan))
     }
 
     @MainActor private func assertCompositionOpened(in app: XCUIApplication) {
@@ -419,5 +486,43 @@ final class ProductUITests: XCTestCase {
                 .waitForExistence(timeout: 10), "The GPS coordinate must appear as a separate blue location dot")
         }
         capture("map-gps-action", in: app)
+    }
+}
+
+/// Pure geometry/stability checks. This helper never substitutes for the live hit test.
+private struct CompositionEntryReadiness {
+    struct Observation: Equatable {
+        var frame: CGRect
+        var viewport: CGRect
+        var enabled: Bool
+        var tabBars: [CGRect]
+    }
+    private var previous: Observation?
+    private var stableSince: TimeInterval?
+    private(set) var reason = "no sample"
+
+    mutating func reset(_ reason: String) {
+        previous = nil; stableSince = nil; self.reason = reason
+    }
+
+    mutating func observe(_ sample: Observation?, at now: TimeInterval) -> Bool {
+        guard now.isFinite, let sample, sample.enabled,
+              Self.valid(sample.frame), Self.valid(sample.viewport),
+              sample.viewport.contains(sample.frame), !sample.tabBars.isEmpty,
+              sample.tabBars.allSatisfy({ Self.valid($0) && sample.frame.maxY <= $0.minY }) else {
+            reset("missing, disabled, invalid or obscured geometry"); return false
+        }
+        guard previous == sample, let since = stableSince, now >= since else {
+            previous = sample; stableSince = now; reason = "waiting for a second stable sample"
+            return false
+        }
+        let ready = now - since >= 0.3
+        reason = ready ? "stable geometry" : "settling"
+        return ready
+    }
+
+    private static func valid(_ rect: CGRect) -> Bool {
+        !rect.isNull && !rect.isEmpty && !rect.isInfinite
+            && [rect.minX, rect.minY, rect.maxX, rect.maxY].allSatisfy(\.isFinite)
     }
 }

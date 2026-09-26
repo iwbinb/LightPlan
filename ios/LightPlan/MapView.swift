@@ -382,12 +382,16 @@ struct LightMapView: View {
 
     private var compactCompositionButton: some View {
         Button { toggleComposition() } label: {
-            Image(systemName: compositionMode ? "camera.viewfinder" : "camera.viewfinder")
+            Image(systemName: "camera.viewfinder")
                 .font(.title3)
                 .frame(width: 44, height: 44)
                 .background(compositionMode ? .purple.opacity(0.34) : .white.opacity(0.1), in: Circle())
+                // Keep the whole 44pt control interactive, including the space around the glyph.
+                .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
         .accessibilityLabel(L10n.text("composition.toggle"))
+        .accessibilityAddTraits(compositionMode ? .isSelected : [])
         .accessibilityIdentifier("map-composition")
     }
 
@@ -458,6 +462,7 @@ struct LightMapView: View {
                 .background(compositionMode ? .purple.opacity(0.28) : .white.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
             }
             .buttonStyle(.plain)
+            .accessibilityAddTraits(compositionMode ? .isSelected : [])
             .accessibilityIdentifier("map-composition")
             if let sky {
                 LPMetric(title: "metric.azimuth", value: L10n.number(sky.azimuth) + "°", icon: "location.north.fill", tint: LPTheme.blue)

@@ -59,10 +59,14 @@ final class ProductUITests: XCTestCase {
         app.terminate()
     }
     @MainActor func testCompositionFiltersAndUsesSelectedOpportunity() throws {
+        XCUIDevice.shared.orientation = .portrait
         let app = launch(tab: 1)
-        XCTAssertTrue(app.staticTexts["selected-time"].waitForExistence(timeout: 15))
-        let composition = app.buttons["map-composition"]
-        XCTAssertTrue(composition.waitForExistence(timeout: 10)); composition.tap()
+        defer { app.terminate() }
+        let composition = waitForCompositionEntry(in: app)
+        XCTAssertFalse(composition.isSelected)
+        // One real tap. Do not retry the action or inject composition state when it fails.
+        composition.tap()
+        assertCompositionOpened(in: app)
         let search = app.buttons["composition-search"]
         revealComposition(search, in: app); search.tap()
 
@@ -98,6 +102,66 @@ final class ProductUITests: XCTestCase {
         XCTAssertTrue(app.buttons["composition-show-best"].waitForExistence(timeout: 15))
 
         app.terminate()
+    }
+
+    @MainActor func testMapCompositionEntryAcceptsFullHitTarget() throws {
+        XCUIDevice.shared.orientation = .portrait
+        let app = launch(tab: 1, archiveID: UUID().uuidString)
+        defer { app.terminate() }
+        let entry = waitForCompositionEntry(in: app)
+        XCTAssertEqual(app.buttons.matching(identifier: "map-composition").count, 1)
+        XCTAssertGreaterThanOrEqual(entry.frame.width, 44)
+        XCTAssertGreaterThanOrEqual(entry.frame.height, 44)
+        XCTAssertFalse(entry.isSelected)
+        let selectedTime = app.staticTexts["selected-time"].label
+        // Inside the 44pt target, outside the drawn circle/glyph. This tests the real hit region.
+        entry.coordinate(withNormalizedOffset: CGVector(dx: 0.12, dy: 0.12)).tap()
+        assertCompositionOpened(in: app)
+        XCTAssertEqual(app.staticTexts["selected-time"].label, selectedTime,
+                       "Opening composition must not scrub the timeline")
+        capture("composition-full-hit-target-opened", in: app)
+    }
+
+    @MainActor private func waitForCompositionEntry(in app: XCUIApplication) -> XCUIElement {
+        let entry = app.buttons["map-composition"]
+        XCTAssertTrue(app.staticTexts["selected-time"].waitForExistence(timeout: 15))
+        // Existence alone does not guarantee that a cold-launch layout can receive a tap.
+        // Wait for a visible, stable control; never retry the tap itself.
+        var previousFrame: CGRect?
+        var stableSince = Date.distantPast
+        let ready = NSPredicate { _, _ in
+            guard app.state == .runningForeground, entry.exists,
+                  entry.isEnabled, entry.isHittable else { previousFrame = nil; return false }
+            let frame = entry.frame
+            guard !frame.isNull, !frame.isEmpty, app.frame.contains(frame) else {
+                previousFrame = nil; return false
+            }
+            if let bar = app.tabBars.allElementsBoundByIndex.first(where: { $0.exists }),
+               !bar.frame.isEmpty, frame.maxY > bar.frame.minY { previousFrame = nil; return false }
+            if previousFrame != frame {
+                previousFrame = frame; stableSince = Date(); return false
+            }
+            return Date().timeIntervalSince(stableSince) >= 0.3
+        }
+        let result = XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: app)], timeout: 10)
+        if result != .completed { captureCompositionFailure("entry-not-ready", in: app) }
+        XCTAssertEqual(result, .completed, "The composition entry must be enabled, visible and stable before a single tap")
+        return entry
+    }
+
+    @MainActor private func assertCompositionOpened(in app: XCUIApplication) {
+        let entry = app.buttons["map-composition"]
+        let panel = app.descendants(matching: .any)["composition-card"].firstMatch
+        let opened = NSPredicate { _, _ in entry.exists && entry.isSelected && panel.exists }
+        let result = XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: opened, object: app)], timeout: 15)
+        if result != .completed { captureCompositionFailure("entry-did-not-open", in: app) }
+        XCTAssertEqual(result, .completed, "A single composition tap must expose both its selected state and real panel")
+    }
+
+    @MainActor private func captureCompositionFailure(_ name: String, in app: XCUIApplication) {
+        capture("composition-" + name, in: app)
+        let tree = XCTAttachment(string: app.debugDescription)
+        tree.name = "composition-" + name + "-hierarchy"; tree.lifetime = .keepAlways; add(tree)
     }
 
     @MainActor private func revealComposition(_ element: XCUIElement, in app: XCUIApplication) {

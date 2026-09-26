@@ -1,0 +1,39 @@
+name: M5 exact readiness source object
+on:
+  push:
+    branches: [dev]
+    paths: ['.github/workflows/m5-readiness-objects.yml']
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Restore original unrelated timeout and verify the exact reviewed blob
+        shell: python
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          import base64, hashlib, json, os, urllib.request
+          root = 'https://api.github.com/repos/iwbinb/LightPlan/git/blobs'
+          headers = {'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json'}
+          source_sha = 'c91257c8a904caa36cd754a9c4bb5ac2e9822867'
+          with urllib.request.urlopen(urllib.request.Request(root + '/' + source_sha, headers=headers), timeout=60) as response:
+              payload = json.load(response)
+          source = base64.b64decode(payload['content'])
+          def blob_sha(data):
+              return hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+          assert blob_sha(source) == source_sha
+          old = b'        XCTAssertTrue(clear.waitForExistence(timeout: 5))\n        XCTAssertTrue(app.staticTexts["composition-best-time"].waitForExistence(timeout: 20))'
+          new = old.replace(b'clear.waitForExistence(timeout: 5)', b'clear.waitForExistence(timeout: 10)')
+          assert source.count(old) == 1
+          source = source.replace(old, new)
+          expected = '378f0f1f10d502d4ccfecc87422a7e9e229d2546'
+          assert blob_sha(source) == expected
+          body = json.dumps({'content': base64.b64encode(source).decode(), 'encoding': 'base64'}).encode()
+          with urllib.request.urlopen(urllib.request.Request(root, data=body, headers=headers), timeout=60) as response:
+              actual = json.load(response)['sha']
+          assert actual == expected
+          print(json.dumps({'verified_source_blob': actual, 'source_executed': False, 'branch_updated': False}))
+          # Immutable object preparation only. No execution, branch/PR/release or secret output.

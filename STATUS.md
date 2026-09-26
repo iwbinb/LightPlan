@@ -1,250 +1,32 @@
-# M5 performance/readability candidate — 2026-09-25
+# M5 automated acceptance and review handoff — 2026-09-26
 
-**M5 implementation is prepared on merged M4 `133d833d3b2a3469b8345662a3f20c2ec6079403`. Local core 280/280 and CI helper 36/36 pass; Apple builds, full native regression and screenshot verification still require this implementation's run.**
+**M5 implementation, final-source native regression and the scoped screenshot review are complete. PR #6 is a merge candidate, not App Store release approval. No merge, auto-merge, M6 implementation, signing change or release is authorized by this handoff.**
 
-- Add bounded, exact, day/request-local Sun sample reuse; leave lunar evaluation and all model/precision settings unchanged.
-- Move library filtering/sorting/grouping off the view actor with cooperative cancellation, input coalescing and latest-revision publication; preserve ordering/locale semantics.
-- Forward cancellation through visual sampling/projection. Improve AX headings, label/value layout, frame-orientation controls and early field/map actions while retaining normal-size visual identity.
-- Add 13 core regressions, three native polish tests and a reproducible Release benchmark. Keep all prior tests and nine languages.
-- [M5 implementation, evidence and remaining gates](tests/reports/m5-performance-polish-2026-09-25.md). No M6, main merge, release or signing change. Device launch/frame/energy/VoiceOver and final release gates remain open.
+## Verified source
 
-# M4 automated acceptance closed / PR handoff — 2026-09-25
+- Source: `9fada0d5bb1940f4c160ae181e10e1a2919ce9c6`; tree: `f0a4cce900a15b3a5ac7dab9993bf99d4950ddfb`.
+- Base: merged M4 `133d833d3b2a3469b8345662a3f20c2ec6079403`.
+- [Native push #68](https://github.com/iwbinb/LightPlan/actions/runs/36218053082): **11/11 groups passed**, attempt 1, completed 2026-09-26 05:41:00 UTC.
+- [PR merge-ref native #69](https://github.com/iwbinb/LightPlan/actions/runs/36218055216): **11/11 groups passed**, attempt 1, completed 2026-09-26 05:38:04 UTC. Tested merge ref: `209e303bbb9cec43eea7cb95e72c666efa236482`.
+- [PR core #17](https://github.com/iwbinb/LightPlan/actions/runs/36218055271): passed.
 
-**M4 implementation and automated acceptance passed on `ae12c56b13e9a450949817497ef576a9f7ba30bd`. Native run #58 (`36110477855`, attempt 1) completed successfully at 2026-09-25 08:54:12 UTC: 10/10 groups passed. This is a merge candidate, not App Store release approval.**
+## Evidence checked
 
-- Final-source evidence: **267 core tests** (224 existing + 43 M4 additions), **35 native-target executions** (34 real UI executions + one helper regression), and **36 CI helper tests** passed. All 34 iPhone methods were selected once; the existing rotation case also ran on iPad. Native failures, skips and expected failures are zero.
-- Debug simulator build, unsigned Release archive, generator consistency, localization/metadata and existing release-tool/schema regressions passed. Localization: 389 keys, nine languages, 3501 translations, zero completeness errors; not native-speaker certification.
-- The three M4 native cases verify saved manual time/notes through relaunch, field mode and map restoration; edited/duplicated reminders; and explicit reminder disable followed by relaunch and an empty system queue. The earlier failures were traced to a row-centre toggle tap and a disappearing navigation scroll container, then fixed without removing assertions or clearing the queue from the test.
-- All ten run-58 evidence ZIP digests, source commits, recorded command exits, runner exits and native test selections were downloaded and checked on 2026-09-25. Representative field screenshots were reviewed. This handoff records the completed run; it does not rerun the App or modify tested App/Core/UI-test/CI source.
-- Storage rollback/read-back, conflict-safe edits/imports, legacy backup compatibility and reminder freshness remain within the documented single-writer design. Paid download, nine languages, schema 2/v1 compatibility, astronomical coefficients and precision are unchanged.
-- PR merge-ref checks are separate from this passed dev-source run. No main merge, automatic merge, M5 implementation, signing change or release is included. Physical notification delivery, real offline/locked-device behaviour, file-provider integration, Widget, minimum OS, VoiceOver, native-speaker review, performance and Store/account/distribution gates remain open.
+All eleven run-68 ZIP digests, source commits, runner/command exits, selected tests and actual passed-test names were checked. **280 core tests**, **40 native-target executions** (38 real UI executions + two helper regressions), **36 CI helper tests**, Debug simulator build and unsigned Release archive passed. Native failures, skips and expected failures are zero. All 39 distinct iPhone methods were selected once; the existing rotation method additionally ran on iPad. PR-69 checks/product ZIPs were independently downloaded and validated; the other PR-69 groups were checked through Actions metadata.
 
-See [M4 final acceptance](tests/reports/m4-acceptance-2026-09-25.md), [run-58 evidence manifest](tests/reports/m4-native-verification-2026-09-25.json), and [the original implementation record](tests/reports/m4-reliability-2026-09-24.md). All entries below are historical snapshots; their pending statements describe their original source and date.
+A scoped review inspected **56 exported native PNGs**: all screenshots in run-68 polish, basic visual, rich accessibility, product and iPad rotation artifacts. This covers the new German/Thai largest-text headings and orientation controls, the large-library workflow, nine-language core screens, composition entry, and dark iPad rotation. It is not a claim that every exported screenshot, VoiceOver interaction, translation or physical-device condition was independently reviewed.
 
-# M4 field and data reliability candidate — 2026-09-24
+The earlier composition-entry and readiness failures are retained in their reports. The repaired readiness traces reached the final live hit check in about 2.13 and 2.29 seconds; these are test-helper timings, not application cold-launch measurements. No test or precision gate was removed to obtain a pass.
 
-**M4 implementation is prepared on the merged M3 base `3357d351df3a89b3cdfc1a1410e96f66c6fdce0c`. Local core tests: 266 passed; Apple/native verification is pending this implementation commit. Do not report M4 native or release acceptance as passed yet.**
+## Handoff and remaining gates
 
-- Verified archive read-back/rollback, preserved migration/recovery originals, bounded file import, and stale-preview rejection with an explicit keep-both policy.
-- Plan edits retain their opened revision; quick actions use the latest record and cannot resurrect deleted plans. Copies never reuse reminder intent.
-- Reminder reconciliation preserves unknown/calculation-failed records, validates current saved intent across awaits, reports failures/capacity, and rejects expired requests. Locked storage is not an empty notification source.
-- New native `iphone-field` tests cover actual save/relaunch/field/map restoration and edited/duplicated reminders. Existing native tests remain assigned; no skipped tests or relaxed precision.
-- Paid download, nine languages, schema 2/legacy v1 compatibility, astronomical coefficients and signing remain unchanged. No M5, main merge or release.
-- See [M4 implementation and evidence](tests/reports/m4-reliability-2026-09-24.md). Earlier entries retain their original dates and evidence scope.
+- [M5 final acceptance, performance scope and reproduction](tests/reports/m5-acceptance-2026-09-26.md).
+- [Source, artifact hashes and execution manifest](tests/reports/m5-native-verification-2026-09-26.json).
+- [Original M5 implementation record](tests/reports/m5-performance-polish-2026-09-25.md), [entry repair](tests/reports/m5-composition-entry-repair-2026-09-26.md), and [readiness repair](tests/reports/m5-readiness-polling-repair-2026-09-26.md) remain historical evidence.
+- This closeout changes documentation only. Any new PR checks triggered by its commit must finish successfully before merging; the completed runs above are not relabeled as executions of the documentation commit.
+- Device launch/frame/memory/energy metrics, minimum OS, real split-screen, VoiceOver, native-speaker review, physical notification/Widget/offline/file-provider behaviour and Store/account/distribution signing remain release gates. Native simulator captures are not final App Store screenshots.
+- Paid download, nine languages, archive schema 2/legacy v1 compatibility, astronomical coefficients and precision are unchanged.
 
-# M3 core workflow verified / PR handoff — 2026-09-24
+## Preserved status history
 
-**M3 implementation and its automated acceptance passed on `76a3a3b04768c58efdb35be34d60a23bb107ea5f`. Native run #52 (`35892933684`, attempt 1) completed successfully at 2026-09-23 17:58:56 UTC: 9/9 groups passed. This is a merge candidate, not App Store release approval.**
-
-- PR #3 was merged by the owner; M3 starts from `0ace4241231785c47af00a5f2d89fc0a7281e192`. This handoff only adds documentation on `dev`; it does not merge `main` or begin M4.
-- M3 keeps preview/editor time tied to the manually selected map instant, preserves applied Sun/Moon search inputs separately within the current app session, provides explicit empty-result recovery and stop/restart, and protects unsaved edits. Process-restart draft/search restoration is not promised by this phase.
-- Final-source evidence: **224 core tests** (212 existing + 12 new), **32 native-target executions** (31 real UI executions + one existing helper regression), **36 CI helper tests**, Debug simulator build, unsigned Release archive, generator consistency, metadata and release-tool/schema checks all passed. Native failures/skips/expected failures are zero; all 31 iPhone methods were selected once, with the existing rotation method also executed on iPad.
-- Localization completeness: 384 keys, nine languages, 3456 translations, zero errors. The search entry now says “Find shooting windows” rather than promising a fixed 14-day range. Automated completeness is not native-speaker review.
-- On 2026-09-24, all nine run-52 artifact ZIP digests, source commits, command exits and native test selections were downloaded and checked. Representative workflow, German/Thai largest-text and iPad screenshots were reviewed; the report records remaining visual limitations. This documentation task did not rerun the App or change tested App/Core/UI-test/CI source.
-- The M3 report includes acceptance-to-test mapping, run-50 failures and fixes, evidence references, reproducible commands and remaining gates. PR merge-ref checks are independent of this passed dev-source run; do not label them passed until they finish.
-- Physical-device notification/map/Widget checks, minimum-system coverage, VoiceOver, native-speaker and first-time-user review, performance, final visual polish and Store/account/distribution signing remain separate release gates. Paid download, archive schema and ephemeris precision are unchanged.
-
-See [M3 acceptance and limitations](tests/reports/m3-workflow-2026-09-23.md) and [run-52 evidence manifest](tests/reports/m3-native-verification-2026-09-24.json). All entries below are historical snapshots; statements such as “M3 has not started” describe their original dates, not current status.
-
-# M1 native baseline closed / M2 PR candidate — 2026-09-23
-
-**All eight native CI groups passed on `46a58129c4fb9ff917370396a1cbb131257eeda5`. The previously failing M1 product, planning and German/Thai largest-text flows are resolved. This is a verified M2 merge candidate, not App Store release approval.**
-
-- Native run `35866731505` (#47, attempt 1) completed successfully at 2026-09-23 14:11:30 UTC. All eight downloaded evidence ZIP digests, source commits, command exits and test selections were checked; no failed/skipped/expected-failure tests were counted as success.
-- Complete Foundation core: **212 passed**. Native test target: **28 passed** (27 UI test executions plus one scroll-budget helper regression); all current iPhone methods are covered once, with the existing rotation case additionally executed on iPad. CI helper suite: **36 passed**.
-- Debug simulator build and unsigned Release archive passed. Localization: 370 keys, nine languages, 3330 translations, zero automated completeness errors. Project regeneration and existing release-tool/schema regressions passed.
-- Repaired the plan-time accessibility identifier on the actual text, foreground Form targeting and real-pan scroll geometry. The last repair measures long-page scroll budget on the first valid navigation snapshot, rather than missing it after a null first frame. No existing coverage or precision requirement was removed.
-- M2 numerical changes remain unchanged: shared edge/extrema sampling, invalid-value guards and cancellation checks, with 25 added core regressions. Paid download, nine languages, archive schema, ephemeris coefficients, pricing and signing are unchanged.
-- The follow-up commit only records evidence. M3 has not started; main has not been merged. PR merge-ref checks are separate from this completed dev-source run. Physical devices, VoiceOver, native-speaker review, performance and Store/account/distribution gates remain open.
-
-See [M1 closure and native evidence](tests/reports/m1-native-closure-2026-09-23.md) and [verified execution manifest](tests/reports/m1-native-closure-2026-09-23.json). All earlier entries below are historical snapshots and retain their original source and verification scope.
-
-# M2 calculation/search reliability — 2026-09-23
-
-**M2 core implementation is complete and the complete Foundation regression passed: 212 tests, zero failures. Debug and unsigned Release checks also passed. Full native UI and release acceptance remain open.**
-
-- Implementation commit: `99326e35cac863e490d417a3d92ecb47f4c7b292` on `dev`. Core run `35843822247`, job `107125023850`, Xcode 26.3 / Apple Swift 6.2.4, passed with preserved logs. This includes all 25 new regressions and the unchanged 187 existing cases.
-- Shared extrema sampling retains short windows near either civil-day boundary; invalid steps/nonfinite results fail explicitly; cancellation is checked inside event/root searches. Civil-time and Sun/Moon request-isolation regressions pass. No ephemeris coefficients, precision thresholds, UI, archive schema, pricing or signing changed.
-- Native run `35843822133`, checks job `107125573481`, also passed on this implementation: CI/tooling/schema/localization checks, core regression, Debug simulator build, unsigned Release archive and archive fixture check. Evidence artifact `10741769940` was uploaded. UI groups are separate and still pending; unsigned archiving is not distribution signing.
-- M1 run `35841204831`: checks and basic iPhone visual passed; product/planning UI failed with exit 65 before the M2 change. Remaining three groups were superseded by the new native run through the existing concurrency policy; their evidence was uploaded. These are not successful tests and the UI issues remain open.
-- The owner requested M2 work while M1 UI acceptance was unresolved. No M3 implementation or main merge is included. The next task must triage the outstanding native failures rather than declare the whole app green.
-
-Details and reproducible commands: [M2 evidence](tests/reports/m2-calculation-search-2026-09-23.md), [core execution record](tests/reports/m2-core-verification-2026-09-23.json), and [M1 baseline report](tests/reports/m1-ci-baseline-2026-09-23.md). All earlier evidence below retains its original source and verification scope.
-
-# Current owned MapKit phone fix — 2026-09-23
-
-**The owner confirmed on the physical iPhone that the map now switches between imagery and road tiles and that GPS shows a separate blue location dot.** This fixes the two reported phone behaviors; the complete App Store release remains pending.
-
-- Two earlier SwiftUI/MapKit style fixes passed in the Simulator but failed the owner's phone check. The app now owns its public `MKMapView` and directly sets the real tile provider, while retaining the saved map region, astronomical rays, subject tapping and MapKit attribution.
-- After an explicit GPS request, the visible Map uses live CoreLocation coordinates for a blue dot and a separate camera icon for the selected shooting place. Updates stop when leaving the Map.
-- Six focused native map/planning regressions passed; a later strict GPS rerun required actual known coordinates and the separate dot. Native screenshots show both tile styles and the aligned blue dot. The signed development Release App/Widget archive passed integrity checks, was installed and restarted on the iPhone, and the owner then verified both outcomes.
-- Source is on `dev`; local commit status is verified through Git. Distribution signing, remote CI, broader physical-device checks and owner Store details remain open.
-
-See [the owned MapKit and phone evidence](tests/reports/owned-mapkit-2026-09-23.md). Earlier candidates and failed phone reports below remain historical evidence.
-
-# Historical physical-map feedback candidate — 2026-09-23
-
-**The map-style icon and GPS arrow were corrected from the owner's iPhone screenshot, and the new development build is installed and launched on the paired iPhone. Actual on-phone tap results still need owner confirmation.**
-
-- The icon-only map-style control now recreates the MapKit view when switching tile providers, while preserving the external camera and planning state. The satellite/standard screenshots show actual different tiles and legible event times.
-- The map arrow now requests the device's location and updates the shooting place; long press retains the former recenter action. Three map controls are arranged horizontally so they do not cover the sunrise label in the observed phone layout.
-- Four focused native simulator flows passed: GPS selection, map-style change and relaunch persistence, portrait/landscape reachability, and long-press recenter. The final Release App/Widget archive passed local signature, App Group, privacy and license checks.
-- The final archive at `/private/tmp/LightPlan-map-gps-final.xcarchive` was installed on the physical iPhone 17 Pro; the old LightPlan process was terminated and the app relaunched. Local App Store preflight remains not ready. No commit, push, merge or submission occurred.
-
-See [the physical-map feedback report](tests/reports/map-physical-feedback-2026-09-23.md). Earlier candidate summaries below retain their original evidence scope.
-
-# Historical location and map-style candidate — 2026-09-23
-
-**The Places location action and a clearly labeled map-style switch are fixed, compiled, tested locally, and installed on the paired iPhone. App Store readiness remains pending.**
-
-- The Places tab now requests system location only after the user taps **Use my location**. A resolved coordinate/time zone becomes the selected map place; manual coordinates remain available after location or geocoding failure.
-- The Map tab now shows **Satellite imagery** or **Standard map** on its style button. The actual MapKit imagery/road tiles change, and the selected style survives app relaunch.
-- Debug App/Widget build and two focused native simulator flows passed. Screenshots show both real MapKit tile styles with legal attribution and the new Places control. Catalog completeness: 370 keys × nine languages, zero missing values.
-- A new development-signed Release App/Widget archive passed signature, privacy, App Group, license and shipping-bundle checks. It was installed and launched on the physical iPhone 17 Pro; actual GPS/map interaction on that phone still needs the owner's visual check.
-- Work remains uncommitted on `dev`; no push, merge, website deployment, upload or App Store submission occurred.
-
-See [the location/map-style evidence](tests/reports/location-map-style-2026-09-23.md). The earlier candidate summaries below retain their original evidence scope.
-
-# Current photography-tool candidate — 2026-09-23
-
-**New planning functions are implemented; the signed development Release archive and 187 core tests passed. App Store submission and commercial validation remain pending.**
-
-- Added a 35mm-equivalent lens/framing preview, 1–90-day continuous opportunity windows with Moon-illumination filters, Sun/Moon task templates, project search/groups, completion/reopening and a field countdown.
-- Camera settings, project names and completion states persist with compatible backups. Completing a plan cancels its reminder; reopening never silently enables it.
-- Large libraries publish readable rows first and calculate missing event times in bounded batches, retaining a bounded day cache. Core Release benchmarks are reported separately from native first-frame/device performance.
-- Fixed vertical scrolling that accidentally scrubbed the timeline, stale asynchronous framing results, saved All filtering and refresh cancellation leaving a blank day.
-- Core: 187 passed. Catalog: 368 keys / 3312 values across nine languages. Schema: 15 passed. Project generator is idempotent. Six product flows have native evidence, plus three iPad flows, nine-language screen captures and German/Thai largest-text checks. Exact success/failure/source scope is recorded in the linked report; full device/VoiceOver/native-speaker acceptance remains open.
-- New app + Widget archive: `/private/tmp/LightPlan-rich-final.xcarchive`; development signing, matching App Groups, privacy manifests, MIT notices and no StoreKit/debug fixture checked. This is not App Store distribution approval.
-- On 2026-09-23, the development-signed candidate was installed and launched on the paired physical "Hello iPhone" (iPhone 17 Pro); a separate device app listing confirmed LightPlan 1.0.0 (1). In-app field verification on that phone remains pending. No commit, push, merge, website deployment, upload or submission.
-
-See [this round's evidence and remaining checks](tests/reports/photography-tools-2026-09-22.md) and [product value acceptance](docs/PRODUCT_VALUE_ACCEPTANCE.md). Earlier candidate summaries below are historical; their archives do not include these new features.
-
-# Current paid-download product candidate — 2026-09-22
-
-**Local product work and a signed development Release archive passed. Not ready for App Store submission.**
-
-- Changed to paid download at the owner's explicit request. All functionality is available after installation; no IAP, paywall, restore-purchase flow or local entitlement switch remains.
-- Added constrained opportunities, saved search conditions, field notes and shareable briefs, morning/evening windows and accessible coordinate entry; repaired reminder concurrency and high-latitude calculations.
-- Core: 139 tests. Independent event oracle: 31/31 civil days. Position oracle: 396 samples. Final iPhone layout/capture suite: four passed; final iPad suite: four passed. Six product flows passed before the final visual-only corrections.
-- Generated 54 native simulator screenshot drafts at App Store primary sizes, with nine-language layout review. Catalog: 283 keys / 2547 values; mother-tongue and real VoiceOver acceptance remain separate.
-- Signed Release archive for app and Widget passed; signing integrity, App Group consistency, privacy manifests, MIT notices and absence of StoreKit/debug fixtures checked. This is development signing, not App Store distribution approval.
-- Owner confirmed the existing same-name Rivolu app is unrelated and requested an independent name; LumaVantage / LumaBearing are prepared, awaiting a choice. Public identity/contact/URLs, actual pricing and account/TestFlight/device acceptance remain open.
-- No commit, push, merge, new physical iPhone install, website deployment, upload or submission performed.
-
-See [this round's report](tests/reports/paid-product-2026-09-22.md), [submission handoff](docs/APP_STORE_HANDOFF.md), and [value acceptance](docs/PRODUCT_VALUE_ACCEPTANCE.md). Earlier IAP evidence below is historical and does not describe the current business model.
-
-# Current composition-plan development candidate — 2026-09-22
-
-The composition-to-plan workflow now saves and restores the observer, subject,
-Sun/Moon, desired offset and exact time, and schedules reminders for that instant.
-Schema 2 reads old v1 backups and preserves migration originals. The draft survives
-the paywall; refunded users can still read/export and restore the saved map.
-
-- Core: 107 tests passed. Complete iPhone suite: 11 passed. Serial iPad checks:
-  three passed. The final read-only quality display passed two focused iPhone checks.
-- Reminder tests query the simulator OS queue and verify the actual scheduled
-  time and cancellation; they do not prove physical-device lock-screen delivery.
-- Existing no-debugger Run settings are now generated consistently. Original local
-  edits and failed test records were preserved outside the public commit candidate.
-- Final unsigned Release archive passed for app and Widget, with no StoreKit test
-  configuration in the application. Catalog: 278 keys across nine languages; audits passed.
-- Owner confirmed the real IAP product is not configured. Domain/contact/legal
-  website details remain unconfirmed; support/privacy pages are unpublished drafts.
-
-See the [current report](tests/reports/composition-plans-2026-09-22.md) and
-[paid acceptance](docs/PAID_ACCEPTANCE.md). No commit, push, merge, physical iPhone
-installation, website deployment or store submission was performed in this round.
-
-# Earlier composition merge candidate — 2026-09-22
-
-**Local fixes and verification passed; the exact pushed commit still requires
-GitHub CI before merging to main. No new commit, push or merge was performed.**
-
-- Fixed empty catalog extraction at the source, observer-dependent composition
-  refresh, worker cancellation and stale-result isolation.
-- Fixed iPad map-control identifier inheritance and zero-bounds MapReader overlay
-  ancestors; preserved assertions and verified actual button taps in both orientations.
-- Defined full result-row hit regions and added purchase/search/stand/refund coverage.
-- Core: 96 tests passed. Localization: 272 keys across nine languages; metadata audit passed.
-- Initial full iPhone suite: nine tests passed with 30 screenshots, before the last
-  hit-region/MapReader layout fixes. Final-source targeted regressions: three passed
-  on iPhone and three on iPad, each with zero failures.
-- Final unsigned Release archive passed for app and widget and contains no local
-  StoreKit test configuration. Project generation produces no tracked-file drift.
-- Current native captures were visually inspected and are retained locally with
-  xcresult bundles; raw device/signing diagnostics remain Git-ignored.
-
-See the [composition merge report](tests/reports/composition-merge-2026-09-22.md)
-for source fingerprints, toolchain, failed-run history and the remote-CI boundary.
-This round did not update the physical iPhone installation described below.
-
-# Earlier local iPhone preview — 2026-09-22
-
-**Signed iPhone preview built and installed: LightPlan 1.0.0 (1).**
-
-- Xcode 27.0: signed Debug app + widget build passed; unsigned Release build passed.
-- Connected iPhone 17 Pro: installation confirmed by an independent
-  device app listing. Initial automatic launch was blocked by the phone being locked.
-- Core tests: 83 passed, zero failures. Nine-language catalog and metadata audits passed.
-- Initial full native suite: six tests passed with 29 screenshots. After the map
-  repair, the final five-test regression passed: four purchase/place/plan flows plus
-  portrait/landscape time continuity and all three map buttons remaining hittable.
-  Current map screenshots and xcresult are local-only in the ignored directory
-  `tests/reports/v3/native-20260922-final/`; they are not published artifacts.
-- Local signing uses ignored `ios/Config/Local.xcconfig`, derived from the existing
-  LightPlan development profile. App and widget share the expected App Group.
-- Added `scripts/run_iphone.sh` for repeatable signing, installation and launch
-  without attaching a debugger. The original ordering-only Info.plist edit was
-  backed up locally, then normalized to match the project generator.
-- Initial source compiled without compiler repairs. Native screenshot review then
-  found clipped landscape map controls and overlapping event/celestial labels.
-  The map now uses a scrolling side panel in short landscape windows and separates
-  event badges from the current celestial marker. Visual assets remain unchanged.
-
-Current evidence and limitations: [iPhone preview report](tests/reports/2026-09-22/README.md).
-Raw logs and device/signing identifiers are retained only in ignored local evidence;
-the public report contains sanitized summaries and command templates.
-Commit preparation re-ran the generator consistency check, 83 core tests, both
-audits and unsigned Debug/Release builds successfully. App and UI-test sources
-still match the final verified hashes, so the five-test UI result above remains
-applicable; UI tests were not rerun for report cleanup. No commit or push was made
-during verification.
-This does not complete App Store release acceptance. Historical CI results below
-remain tied to their original source/toolchain and are not new device evidence.
-
-# Historical release status — 2026-09-21
-
-**Native CI candidate; not yet authorized for App Store submission.** This file records executed evidence, not a promise of App Review approval.
-
-## Executed and passed
-
-- Foundation core: 83 XCTest cases pass, 0 failures.
-- String Catalog: 239 keys × 9 languages = 2,151 localized values; automated audit reports no missing referenced keys.
-- Native Debug simulator build: **BUILD SUCCEEDED** with Xcode 26.3 / iOS 26.2 SDK.
-- Unsigned Release archive: **ARCHIVE SUCCEEDED**.
-- iPhone 17 Pro native UI suite: 6 tests pass, 0 failures.
-  - Manual coordinate location flow works without granting device location permission.
-  - Paywall dismissal does not unlock premium.
-  - StoreKit test purchase resumes the plan editor and saves.
-  - Signed local StoreKit non-consumable survives relaunch and refund revokes the entitlement.
-  - All core screens render in all nine languages.
-  - Dark-mode map state survives portrait/landscape rotation.
-- Native screenshot evidence: 27 light-mode iPhone screenshots (Today / Map / Plan × 9 languages) plus 2 dark-mode map screenshots.
-- iPad Pro 11-inch (M4) native rotation suite: passed with portrait and landscape screenshot evidence.
-- GitHub Actions native verification run **35624640157** passed on commit `8d98c8cbdcb6f721d923d2c2c67726453ddebe49`.
-- Representative native screenshots were visually reviewed after the run; no obvious clipping/overflow was found in the nine-language core-screen contact review.
-
-## Implemented
-
-Photographic v3 SwiftUI views/assets; real MapKit imagery and solar/lunar tracks; interactive timelines; date/location workflows; favorites; create/edit/duplicate/delete plans; reminders and notification deep links; validated backup import/export and conflict handling; StoreKit 2 one-time unlock/restore/refund handling; widgets/App Group; nine languages; light/dark appearance; dynamic/adaptive layouts.
-
-## Remaining release gates
-
-- Physical iPhone/iPad verification: real location/heading behavior, map alignment, notification delivery, app-group widget refresh, cold launch and background/foreground behavior.
-- App Store Connect sandbox purchase/restore/refund checks with the real product identifier. Local StoreKit tests do not substitute for Apple sandbox.
-- Apple Developer identifiers/App Group, signing team and provisioning must be registered/authorized by the owner.
-- App Store Connect product, price, Paid Apps agreement/tax/banking state, privacy answers, age rating, support/privacy URLs and final metadata require owner-account configuration.
-- Final performance/battery/accessibility spot checks on physical devices.
-- Actual Duo fold/unfold verification remains pending real device/SDK availability; responsive iPad coverage does not substitute for fold hardware.
-
-The product scope remains the complete approved first release. Do not remove a release gate or invent evidence merely to call the app “100%.”
+The complete previous `STATUS.md` is preserved byte-for-byte in [STATUS_HISTORY_2026-09-26.md](STATUS_HISTORY_2026-09-26.md), using its original Git blob `191ed0f82022fc49147ee3dc5781ebdf60857912`. It stays at the repository root so its relative links keep working. Its pending statements describe historical source versions, not this completed M5 source review.

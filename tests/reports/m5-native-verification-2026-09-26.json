@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "phase": "M5",
+  "recorded_date_utc": "2026-09-26",
+  "repository": "iwbinb/LightPlan",
+  "source_commit": "9fada0d5bb1940f4c160ae181e10e1a2919ce9c6",
+  "source_tree": "f0a4cce900a15b3a5ac7dab9993bf99d4950ddfb",
+  "base_commit": "133d833d3b2a3469b8345662a3f20c2ec6079403",
+  "native_run": {"id": 36218053082, "number": 68, "attempt": 1, "event": "push", "conclusion": "success", "groups_passed": 11, "completed_at_utc": "2026-09-26T05:41:00Z"},
+  "pr_native_run": {"id": 36218055216, "number": 69, "attempt": 1, "event": "pull_request", "conclusion": "success", "groups_passed": 11, "completed_at_utc": "2026-09-26T05:38:04Z", "checkout_commit": "209e303bbb9cec43eea7cb95e72c666efa236482", "raw_zip_review_scope": ["checks", "iphone-product"], "other_groups_evidence": "Actions job metadata; not downloaded ZIPs"},
+  "pr_core_run": {"id": 36218055271, "number": 17, "conclusion": "success"},
+  "environment": {"macos": "15.7.9 arm64", "xcode": "26.3", "swift": "6.2.4", "ios_simulator": "26.2", "devices": ["iPhone 17 Pro", "iPad Pro 11-inch (M4)"]},
+  "verification": {"native_run_zip_digests_checked": 11, "native_run_source_commits_checked": 11, "all_runner_exit_codes_zero": true, "all_recorded_command_exit_codes_zero": true, "timeouts": 0, "interruptions": 0, "selections_match_actual_passed_methods": true, "new_app_execution_in_documentation_task": false},
+  "tests": {"core_passed": 280, "core_failed": 0, "m5_new_core_tests": 13, "native_target_executions": 40, "real_ui_executions": 38, "helper_regressions": 2, "iphone_distinct_methods": 39, "ipad_rotation_executions": 1, "native_failures": 0, "native_skips": 0, "native_expected_failures": 0, "ci_helper_passed": 36, "release_preflight_tool_passed": 24, "screenshot_package_tool_passed": 10, "schema_passed": 15},
+  "builds": {"debug_simulator": "passed", "unsigned_release_archive": "passed", "generator_drift": false, "distribution_signing_verified": false},
+  "localization": {"keys": 389, "languages": 9, "translations": 3501, "completeness_errors": 0, "native_speaker_review": "pending"},
+  "artifact_url_template": "https://github.com/iwbinb/LightPlan/actions/runs/{run_id}/artifacts/{artifact_id}",
+  "artifacts": [
+    {"stage": "checks", "artifact_id": 10896979915, "zip_sha256": "147ce1e21f35c7b8209bf75ffd0235b9594cd4a1e051524dc4afae04d6a20258", "zip_bytes": 7411664, "exit_code": 0, "duration_seconds": 381.128, "native_passed": null},
+    {"stage": "iphone-product", "artifact_id": 10898362678, "zip_sha256": "048e1803f1c614479fd10917ff1b51d7ccce315b4baf91868b8d5776c58c770a", "zip_bytes": 18606930, "exit_code": 0, "duration_seconds": 830.193, "native_passed": 11},
+    {"stage": "iphone-polish", "artifact_id": 10897364846, "zip_sha256": "9240c70afc516b8a87264330c7dc9d0cfd252b0f45cb0422b2a83ede26452db7", "zip_bytes": 21280336, "exit_code": 0, "duration_seconds": 924.118, "native_passed": 3},
+    {"stage": "iphone-field", "artifact_id": 10898242131, "zip_sha256": "6a6a0a576f259fbbfd555afd970dcd5e87dc8b6198c7ceddd99e6ce376814bc2", "zip_bytes": 17053349, "exit_code": 0, "duration_seconds": 846.956, "native_passed": 3},
+    {"stage": "iphone-workflow", "artifact_id": 10898486972, "zip_sha256": "d8ae3f23f8d829e11c256cc8effc3dd878bb3da6fba7d0780763eec3c48deee0", "zip_bytes": 13936972, "exit_code": 0, "duration_seconds": 986.367, "native_passed": 4},
+    {"stage": "iphone-planning", "artifact_id": 10898682049, "zip_sha256": "94e0b821438cadcae03ad4cf9fc75333c3ba445e85b83018e262e55233569e09", "zip_bytes": 42536163, "exit_code": 0, "duration_seconds": 1195.197, "native_passed": 6},
+    {"stage": "iphone-visual", "artifact_id": 10898546945, "zip_sha256": "a28865f201ed084591ac9f0132a0d925faacdeb4d40d901628e816a55beef166", "zip_bytes": 120159144, "exit_code": 0, "duration_seconds": 894.667, "native_passed": 5},
+    {"stage": "iphone-rich-visual", "artifact_id": 10898897167, "zip_sha256": "00e1acd7df4d6bdc2f7464fcee48d598a850500c81d9e03cbbea772df34d8ba4", "zip_bytes": 34301015, "exit_code": 0, "duration_seconds": 1279.383, "native_passed": 3},
+    {"stage": "iphone-rich-accessibility", "artifact_id": 10898942297, "zip_sha256": "e66a6d14b09a66cee7c938d31c40b106c4b6dfedbd7984780a4dca2524d70579", "zip_bytes": 13631668, "exit_code": 0, "duration_seconds": 1055.599, "native_passed": 2},
+    {"stage": "iphone-accessibility", "artifact_id": 10899337766, "zip_sha256": "b21d5a4aee5d6e6bf9296407534c46e291472f3006066138526fc1a78032f321", "zip_bytes": 56032812, "exit_code": 0, "duration_seconds": 712.983, "native_passed": 2},
+    {"stage": "ipad-rotation", "artifact_id": 10899610122, "zip_sha256": "ef0cb1760f4ce11e9685baad96a28d8a9b612206c241d7dc51becc9e0e7a1c3b", "zip_bytes": 14030235, "exit_code": 0, "duration_seconds": 607.516, "native_passed": 1}
+  ],
+  "pr_artifacts_checked": [
+    {"stage": "checks", "artifact_id": 10897314287, "zip_sha256": "5a8dce86fff65a32369c2191bbcc4c522b97c1a9402abdbd0ce32f6106bd3074", "checkout_commit": "209e303bbb9cec43eea7cb95e72c666efa236482", "exit_code": 0, "core_passed": 280},
+    {"stage": "iphone-product", "artifact_id": 10899395196, "zip_sha256": "377c06895c82c01511635e892f1742ea0c4c962f6d0c797d72df41434e2e8c9a", "checkout_commit": "209e303bbb9cec43eea7cb95e72c666efa236482", "exit_code": 0, "native_passed": 11, "same_selection_as_push": true}
+  ],
+  "selector_prefix": "LightPlanUITests/",
+  "native_test_selection": {
+    "iphone-product": ["ProductUITests/testCompositionFiltersAndUsesSelectedOpportunity", "ProductUITests/testCompositionPlanAndFieldBriefSurviveRelaunch", "ProductUITests/testCompositionReadinessRequiresTwoConsistentVisibleSamples", "ProductUITests/testFutureCompositionReminderIsScheduledAndCanBeStopped", "ProductUITests/testManualLocationAcceptsCoordinatesWithoutPermission", "ProductUITests/testMapCompositionEntryAcceptsFullHitTarget", "ProductUITests/testMapLocationArrowUsesDevicePosition", "ProductUITests/testPaidDownloadHasNoPurchaseOrRestoreScreen", "ProductUITests/testPlacesOffersExplicitLocationAndManualChoice", "ProductUITests/testPlanEditorSavesWithoutPurchase", "ProductUITests/testSubjectCanBeSelectedOnTheRealMap"],
+    "iphone-polish": ["PolishUITests/testGermanLargestTextReadingAndEarlyFieldAction", "PolishUITests/testLargeLibraryPublishesOnlyLatestQueryAndFilter", "PolishUITests/testThaiLargestTextReadingAndEarlyFieldAction"],
+    "iphone-field": ["FieldReliabilityUITests/testDisablingSavedReminderClearsSystemQueueAndSurvivesRelaunch", "FieldReliabilityUITests/testEditedReminderStaysSingleAndDuplicateDoesNotCopyIt", "FieldReliabilityUITests/testManualTimeAndNotesPersistThroughSaveRelaunchAndFieldMode"],
+    "iphone-workflow": ["WorkflowUITests/testEmptySearchRecoveryAndAppliedOptionsSurviveReopening", "WorkflowUITests/testManualTimelineTimeIsTheTimePreviewedAndSaved", "WorkflowUITests/testStoppedSearchRetainsOptionsAndCanRestart", "WorkflowUITests/testUnsavedEditorSurvivesCancelAndRotationUntilExplicitDiscard"],
+    "iphone-planning": ["RichPlanningUITests/testFramingAndProjectSurviveSaveEditRelaunchAndMapRestore", "RichPlanningUITests/testMapTimelineVerticalScrollPreservesTimeAndHorizontalScrubChangesIt", "RichPlanningUITests/testMoonSearchOptionsApplyAndCancelPreserveResultWindows", "RichPlanningUITests/testMoonTemplateReplacesPreviouslySelectedDarkMoonConditions", "RichPlanningUITests/testProjectSearchFieldCompletionAndReopenSurviveRelaunch", "RichPlanningUITests/testTodayPullToRefreshAndQuickTabSwitchPreserveSummary"],
+    "iphone-visual": ["VisualUITests/testCompositionPlannerSurface", "VisualUITests/testCoreScreensAllLanguages", "VisualUITests/testDarkScreenAndRotationContinuity", "VisualUITests/testLongPressLocationControlCanRecenterShootingPlace", "VisualUITests/testMapBaseStyleSwitchesAndSurvivesRelaunch"],
+    "iphone-rich-visual": ["RichVisualUITests/testPortugueseStandardRichScreens", "RichVisualUITests/testRevealBudgetWaitsForUsableGeometry", "RichVisualUITests/testRichScreensAllNineLanguages"],
+    "iphone-rich-accessibility": ["RichVisualUITests/testGermanLargestTextRichScreens", "RichVisualUITests/testThaiLargestTextRichScreens"],
+    "iphone-accessibility": ["AccessibilityUITests/testGermanLargestTextPlanningAndSubjectEntry", "AccessibilityUITests/testThaiLargestTextPlanningAndSubjectEntry"],
+    "ipad-rotation": ["VisualUITests/testDarkScreenAndRotationContinuity"]
+  },
+  "helper_selectors": ["ProductUITests/testCompositionReadinessRequiresTwoConsistentVisibleSamples", "RichVisualUITests/testRevealBudgetWaitsForUsableGeometry"],
+  "screenshot_review": {
+    "run_id": 36218053082,
+    "reviewed_png_count": 56,
+    "selection_rule": "All exported PNG attachments in screenshots/manifest.json for the five stages below; not every screenshot from the entire suite.",
+    "stages": [{"stage": "iphone-polish", "png_count": 10}, {"stage": "iphone-visual", "png_count": 32}, {"stage": "iphone-rich-accessibility", "png_count": 6}, {"stage": "iphone-product", "png_count": 6}, {"stage": "ipad-rotation", "png_count": 2}],
+    "method": "Visual inspection of native attachments using internal contact sheets; iPad landscape also inspected with orientation metadata applied.",
+    "limitations": ["No pixel-for-pixel original HTML comparison", "No native-speaker or VoiceOver certification", "Scrolled content can appear behind system glass chrome", "Not final App Store screenshots"]
+  },
+  "readiness_trace_seconds": [
+    {"attachment": "41FCF66B-CBE6-4E81-8D3B-C01D6692E0D8.txt", "ready_elapsed": 2.12551, "ready_poll_duration": 0.11883, "hittable": true},
+    {"attachment": "A9320F8E-674F-4319-8385-E1DFD5B004E3.txt", "ready_elapsed": 2.29128, "ready_poll_duration": 0.25539, "hittable": true}
+  ],
+  "performance_comparison": {
+    "run_id": 36207248777,
+    "artifact_id": 10894736288,
+    "zip_sha256": "7367c851efe49d3410fa315f14c03a91668f6f8e1138c10cfb7541a8e192223b",
+    "baseline_commit": "133d833d3b2a3469b8345662a3f20c2ec6079403",
+    "candidate_commit": "9e72040f61526391c36fd31d3d4e0311c4ec71c4",
+    "core_and_harness_unchanged_to_final_source": true,
+    "machine": "Apple M1 Virtual",
+    "warmups": 1,
+    "measured_samples_per_fixture": 5,
+    "order": "baseline then candidate on the same runner",
+    "fingerprints_equal": true,
+    "measurements": [
+      {"name": "sun-90-days", "baseline_median_ms": 752.763166, "candidate_median_ms": 555.651083, "baseline_samples_ms": [725.837334,752.763166,760.990041,761.085667,676.863875], "candidate_samples_ms": [555.651083,689.729167,638.264042,461.264209,457.347834], "matched_windows": 0},
+      {"name": "moon-90-days", "baseline_median_ms": 625.579916, "candidate_median_ms": 564.916208, "baseline_samples_ms": [625.579916,668.438375,655.132292,617.289833,556.745083], "candidate_samples_ms": [596.228584,564.916208,570.757667,564.349583,560.40325]},
+      {"name": "library-5000-all", "baseline_median_ms": 26.01075, "candidate_median_ms": 17.393583, "baseline_samples_ms": [25.214375,24.730125,26.01075,26.096292,26.549125], "candidate_samples_ms": [17.629958,17.377916,17.228417,17.393583,18.488208]},
+      {"name": "library-5000-query", "baseline_median_ms": 24.141875, "candidate_median_ms": 17.52825, "baseline_samples_ms": [24.141875,24.97475,22.826375,25.412833,22.161959], "candidate_samples_ms": [17.52825,17.537708,17.37875,17.43675,18.469042]}
+    ],
+    "limits": "Microbenchmark only. Sun fixture returns no matching windows. Moon algorithm unchanged. Sequential five-sample experiment has noise; not device launch/frame/memory/energy evidence. Run 68 independently records its own benchmark in checks/core-performance.json."
+  },
+  "history": {"preserved_status_path": "STATUS_HISTORY_2026-09-26.md", "preserved_status_blob": "191ed0f82022fc49147ee3dc5781ebdf60857912", "preserved_status_bytes": 28898, "failure_reports_preserved": true},
+  "artifact_retention": "Run 68/69 artifacts expire around 2026-10-10; this manifest is not a permanent raw xcresult backup.",
+  "remaining_release_gates": ["physical-device cold launch/frame/memory/energy", "minimum OS and real split-screen", "VoiceOver and native-speaker review", "physical notifications, Widget, offline/locked device and file providers", "final store screenshots", "account/distribution signing/App Store configuration"],
+  "app_store_ready": false,
+  "main_merge_performed": false,
+  "documentation_commit_checks": "Separate latest-head PR checks must pass before merge; do not relabel the recorded source runs as documentation-head executions."
+}

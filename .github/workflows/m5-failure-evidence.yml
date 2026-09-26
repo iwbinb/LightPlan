@@ -1,0 +1,70 @@
+name: M5 preserved failure evidence
+on:
+  push:
+    branches: [dev]
+    paths: ['.github/workflows/m5-failure-evidence.yml']
+permissions:
+  actions: read
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Verify old failure artifact and extract bounded evidence only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: python
+        run: |
+          import hashlib, json, os, pathlib, shutil, tempfile, urllib.request, urllib.error, zipfile
+          endpoint = 'https://api.github.com/repos/iwbinb/LightPlan/actions/artifacts/10894427371/zip'
+          expected = '3c1f59790271c1d3945ee6a1b539f6abaaf591b61e5b1a197bd09dbcd9abd094'
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+          request = urllib.request.Request(endpoint, headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json', 'User-Agent': 'LightPlan-evidence-review'})
+          try:
+              urllib.request.build_opener(NoRedirect).open(request, timeout=60)
+              raise RuntimeError('Expected signed redirect')
+          except urllib.error.HTTPError as error:
+              if error.code != 302:
+                  raise
+              location = error.headers['Location']
+          if not location.startswith('https://'):
+              raise RuntimeError('Non-HTTPS download rejected')
+          out = pathlib.Path('evidence'); out.mkdir()
+          with tempfile.TemporaryDirectory() as folder:
+              path = pathlib.Path(folder) / 'failure.zip'
+              with urllib.request.urlopen(location, timeout=120) as source, path.open('wb') as output:
+                  shutil.copyfileobj(source, output)
+              with path.open('rb') as source:
+                  digest = hashlib.file_digest(source, 'sha256').hexdigest()
+              assert digest == expected
+              with zipfile.ZipFile(path) as archive:
+                  manifest = json.loads(archive.read('screenshots/manifest.json'))
+                  allowed = {'test-summary.json', 'runner.json', 'source-commit.txt', 'commands.tsv', 'selected-tests.txt', 'native-tests.log', 'screenshots/manifest.json'}
+                  for case in manifest:
+                      for item in case.get('attachments', []):
+                          name = item.get('suggestedHumanReadableName', '')
+                          filename = item.get('exportedFileName', '')
+                          if name.startswith('m5-') and filename.endswith(('.png', '.txt')):
+                              allowed.add('screenshots/' + filename)
+                  total = 0
+                  for name in sorted(allowed):
+                      entry = archive.getinfo(name)
+                      if entry.file_size > 8_000_000:
+                          continue
+                      total += entry.file_size
+                      assert total <= 80_000_000
+                      target = out / name
+                      assert target.resolve().is_relative_to(out.resolve())
+                      target.parent.mkdir(parents=True, exist_ok=True)
+                      target.write_bytes(archive.read(name))
+          (out / 'original-artifact.json').write_text(json.dumps({'artifact_id': 10894427371, 'run_id': 36207216050, 'verified_original_zip_sha256': digest, 'executed_artifact_contents': False}, indent=2))
+          print((out / 'test-summary.json').read_text())
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: m5-run61-failure-review
+          path: evidence
+          retention-days: 14
+          if-no-files-found: error

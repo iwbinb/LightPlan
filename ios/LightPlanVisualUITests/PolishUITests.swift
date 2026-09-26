@@ -60,6 +60,10 @@ final class PolishUITests: XCTestCase {
         XCTAssertTrue(app.frame.contains(frameHeading.frame))
         capture("m5-" + language + "-framing-full-heading", in: app)
         let portrait = app.buttons["frame-orientation-portrait"]
+        XCTAssertTrue(portrait.waitForExistence(timeout: 15))
+        XCTAssertEqual(app.buttons.matching(identifier: "frame-orientation-portrait").count, 1)
+        XCTAssertEqual(app.buttons.matching(identifier: "frame-orientation-landscape").count, 1)
+        XCTAssertFalse(app.buttons["frame-orientation"].exists, "The heading identifier must not replace either orientation button")
         reveal(portrait, in: app); portrait.tap()
         XCTAssertTrue(portrait.isSelected)
         let landscape = app.buttons["frame-orientation-landscape"]
@@ -155,7 +159,7 @@ final class PolishUITests: XCTestCase {
         capture("m5-control-unreachable", in: app)
         let diagnostic = XCTAttachment(string: geometry.joined(separator: "\n") + "\n" + app.debugDescription)
         diagnostic.name = "m5-unreachable-geometry"; diagnostic.lifetime = .keepAlways; add(diagnostic)
-        XCTFail("Control must be visible and hittable: " + target.identifier)
+        XCTFail("Control must be visible and hittable: " + (target.exists ? target.identifier : "missing element"))
     }
 
     @MainActor private func capture(_ name: String, in app: XCUIApplication) {

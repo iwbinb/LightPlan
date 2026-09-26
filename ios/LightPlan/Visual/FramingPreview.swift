@@ -71,6 +71,7 @@ struct FramingPreviewSheet: View {
                             if typeSize.isAccessibilitySize {
                                 VStack(alignment: .leading, spacing: 8) {
                                     KeyText("frame.orientation").font(.headline)
+                                        .accessibilityIdentifier("frame-orientation")
                                     ForEach([FrameOrientation.landscape, .portrait], id: \.self) { value in
                                         Button { orientation = value; focusedField = nil } label: {
                                             HStack {
@@ -83,7 +84,7 @@ struct FramingPreviewSheet: View {
                                             .accessibilityAddTraits(orientation == value ? .isSelected : [])
                                             .accessibilityIdentifier("frame-orientation-" + value.rawValue)
                                     }
-                                }.accessibilityIdentifier("frame-orientation")
+                                }
                             } else {
                                 Picker(L10n.text("frame.orientation"), selection: $orientation) {
                                     Text(L10n.text("frame.landscape")).tag(FrameOrientation.landscape)

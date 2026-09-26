@@ -1,3 +1,13 @@
+# M5 performance/readability candidate — 2026-09-25
+
+**M5 implementation is prepared on merged M4 `133d833d3b2a3469b8345662a3f20c2ec6079403`. Local core 280/280 and CI helper 36/36 pass; Apple builds, full native regression and screenshot verification still require this implementation's run.**
+
+- Add bounded, exact, day/request-local Sun sample reuse; leave lunar evaluation and all model/precision settings unchanged.
+- Move library filtering/sorting/grouping off the view actor with cooperative cancellation, input coalescing and latest-revision publication; preserve ordering/locale semantics.
+- Forward cancellation through visual sampling/projection. Improve AX headings, label/value layout, frame-orientation controls and early field/map actions while retaining normal-size visual identity.
+- Add 13 core regressions, three native polish tests and a reproducible Release benchmark. Keep all prior tests and nine languages.
+- [M5 implementation, evidence and remaining gates](tests/reports/m5-performance-polish-2026-09-25.md). No M6, main merge, release or signing change. Device launch/frame/energy/VoiceOver and final release gates remain open.
+
 # M4 automated acceptance closed / PR handoff — 2026-09-25
 
 **M4 implementation and automated acceptance passed on `ae12c56b13e9a450949817497ef576a9f7ba30bd`. Native run #58 (`36110477855`, attempt 1) completed successfully at 2026-09-25 08:54:12 UTC: 10/10 groups passed. This is a merge candidate, not App Store release approval.**

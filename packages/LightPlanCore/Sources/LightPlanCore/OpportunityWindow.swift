@@ -66,15 +66,21 @@ extension CompositionPlanner {
             do { try LocalDay.validate(date, timeZone: place.timeZone) }
             catch LightPlanError.invalidDate { break }
             let day = try LocalDay.interval(containing: date, timeZone: place.timeZone)
+            var cache = SearchSkyCache(coordinate: place.coordinate)
+            // The full solar ephemeris dominates Sun searches; the cheaper lunar
+            // path did not benefit in benchmarks, so it retains direct evaluation.
+            let position: ((CelestialBody, Date) throws -> SkyPosition)? = body == .sun ? { body, instant in
+                try cache.position(body, at: instant)
+            } : nil
             let lighting = try OpportunitySearch.intervals(body: body, observer: place.coordinate,
                 interval: day, altitudeRange: constraints.altitudeRange,
                 solarAltitudeRange: constraints.solarAltitudeRange,
-                moonIlluminationRange: constraints.moonIlluminationRange, step: 300)
+                moonIlluminationRange: constraints.moonIlluminationRange, step: 300, position: position)
             if !lighting.isEmpty {
                 let alignment = try OpportunitySearch.alignmentIntervals(body: body,
                     observer: place.coordinate, subject: subject, interval: day,
                     desiredOffsetDegrees: desiredOffsetDegrees,
-                    maximumErrorDegrees: constraints.maximumErrorDegrees, step: 300)
+                    maximumErrorDegrees: constraints.maximumErrorDegrees, step: 300, position: position)
                 for span in try OpportunitySearch.intersect(lighting, alignment) {
                     try Task.checkCancellation()
                     guard let best = try bestAlignment(body: body, observer: place.coordinate,

@@ -38,6 +38,7 @@ public enum VisualSampler {
         guard (2...1441).contains(count) else { throw LightPlanError.invalidNumber }
         let interval = DateInterval(start: summary.start, end: summary.end)
         return try (0..<count).map { i in
+            try Task.checkCancellation()
             let instant = VisualGeometry.instant(at: Double(i) / Double(count - 1), in: interval)
             return LightSample(instant: instant,
                 sun: try Astronomy.position(.sun, at: instant, coordinate: summary.place.coordinate),
@@ -51,10 +52,12 @@ public struct MapProjection: Sendable {
     public let moonTracks: [[Coordinate]]
     public let goldenSector: [Coordinate]
     public static func make(summary: DaySummary, samples: [LightSample], meters: Double = 1050) throws -> MapProjection {
+        try Task.checkCancellation()
         let origin = summary.place.coordinate
         func tracks(_ body: CelestialBody) throws -> [[Coordinate]] {
             var result: [[Coordinate]] = []; var segment: [Coordinate] = []
             for sample in samples {
+                try Task.checkCancellation()
                 let sky = body == .sun ? sample.sun : sample.moon
                 if sky.altitude >= 0 {
                     segment.append(try VisualGeometry.destination(from: origin, bearing: sky.azimuth, meters: meters))
@@ -70,6 +73,7 @@ public struct MapProjection: Sendable {
             let duration = window.end.timeIntervalSince(window.start)
             // Exact interval endpoints prevent the golden wedge disappearing between coarse samples.
             let boundary = try (0...24).map { i -> Coordinate in
+                try Task.checkCancellation()
                 let time = window.start.addingTimeInterval(duration * Double(i) / 24)
                 let sun = try Astronomy.position(.sun, at: time, coordinate: origin)
                 return try VisualGeometry.destination(from: origin, bearing: sun.azimuth, meters: meters)

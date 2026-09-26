@@ -9,13 +9,20 @@ import LightPlanCore
     func load(_ summary: DaySummary) async {
         let id = UUID(); request = id; failed = false
         do {
-            let next = try await Task.detached(priority: .userInitiated) {
+            let worker = Task.detached(priority: .userInitiated) {
                 let samples = try VisualSampler.samples(for: summary)
                 return (samples, try MapProjection.make(summary: summary, samples: samples))
-            }.value
+            }
+            let next = try await withTaskCancellationHandler {
+                let result = try await worker.value
+                try Task.checkCancellation()
+                return result
+            } onCancel: { worker.cancel() }
             guard request == id, !Task.isCancelled else { return }
             samples = next.0; projection = next.1
-        } catch { if request == id { failed = true; samples = []; projection = nil } }
+        } catch is CancellationError {
+            // Superseded navigation is not a calculation error.
+        } catch { if request == id, !Task.isCancelled { failed = true; samples = []; projection = nil } }
     }
 }
 

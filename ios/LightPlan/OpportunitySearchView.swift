@@ -90,7 +90,10 @@ struct OpportunitySearchView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section { searchHeader }
+                Section {
+                    LPExpandedSheetTitle(key: "composition.opportunities", identifier: "opportunity-full-title")
+                    searchHeader
+                }
                 if busy || loadedConfiguration != searchConfiguration {
                     VStack(alignment: .leading, spacing: 12) {
                         ProgressView(L10n.text("flow.searching"))
@@ -150,8 +153,9 @@ struct OpportunitySearchView: View {
                     }
                 }
             }
-            .navigationTitle(L10n.text("composition.opportunities"))
+            .navigationTitle(typeSize.isAccessibilitySize ? "" : L10n.text("composition.opportunities"))
             .navigationBarTitleDisplayMode(.inline)
+            .presentationBackground(LPTheme.canvas)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(L10n.text("common.close")) { dismiss() }

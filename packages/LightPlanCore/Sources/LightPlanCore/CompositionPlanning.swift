@@ -126,6 +126,13 @@ public enum CompositionPlanner {
         guard desiredOffsetDegrees.isFinite, (-90...90).contains(desiredOffsetDegrees),
               let bearing = Geometry.bearing(from: observer, to: subject) else { return nil }
         let sky = try Astronomy.position(body, at: instant, coordinate: observer)
+        return candidate(body: body, at: instant, sky: sky, subjectBearing: bearing,
+                         desiredOffsetDegrees: desiredOffsetDegrees)
+    }
+
+    /// Shared arithmetic for a validated sky position and observer-to-subject bearing.
+    static func candidate(body: CelestialBody, at instant: Date, sky: SkyPosition,
+                          subjectBearing bearing: Double, desiredOffsetDegrees: Double) -> AlignmentCandidate {
         let actualOffset = signedDifference(target: bearing, actual: sky.azimuth)
         let error = signedDifference(target: desiredOffsetDegrees, actual: actualOffset)
         return AlignmentCandidate(

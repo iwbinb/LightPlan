@@ -15,6 +15,7 @@ struct FramingPreviewSheet: View {
     var allowsTimeEditing = true
     var onApply: (CameraFraming, Date) -> Void
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.dynamicTypeSize) private var typeSize
     @State private var focalLength: String
     @State private var referenceAngle: String
     @State private var orientation: FrameOrientation
@@ -43,6 +44,7 @@ struct FramingPreviewSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
+                    LPExpandedSheetTitle(key: "frame.title", identifier: "frame-full-title")
                     if let framing {
                         FramingDiagram(framing: framing, place: request.place, subject: request.subject,
                                        celestialBody: request.body, instant: instant)
@@ -66,10 +68,28 @@ struct FramingPreviewSheet: View {
                                 }
                             }
                             KeyText("frame.focalHint").font(.caption).foregroundStyle(.secondary)
-                            Picker(L10n.text("frame.orientation"), selection: $orientation) {
-                                Text(L10n.text("frame.landscape")).tag(FrameOrientation.landscape)
-                                Text(L10n.text("frame.portrait")).tag(FrameOrientation.portrait)
-                            }.pickerStyle(.segmented).accessibilityIdentifier("frame-orientation")
+                            if typeSize.isAccessibilitySize {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    KeyText("frame.orientation").font(.headline)
+                                    ForEach([FrameOrientation.landscape, .portrait], id: \.self) { value in
+                                        Button { orientation = value; focusedField = nil } label: {
+                                            HStack {
+                                                Text(L10n.text("frame." + value.rawValue))
+                                                    .fixedSize(horizontal: false, vertical: true)
+                                                Spacer(minLength: 8)
+                                                if orientation == value { Image(systemName: "checkmark").accessibilityHidden(true) }
+                                            }.frame(maxWidth: .infinity, minHeight: 44)
+                                        }.buttonStyle(.bordered)
+                                            .accessibilityAddTraits(orientation == value ? .isSelected : [])
+                                            .accessibilityIdentifier("frame-orientation-" + value.rawValue)
+                                    }
+                                }.accessibilityIdentifier("frame-orientation")
+                            } else {
+                                Picker(L10n.text("frame.orientation"), selection: $orientation) {
+                                    Text(L10n.text("frame.landscape")).tag(FrameOrientation.landscape)
+                                    Text(L10n.text("frame.portrait")).tag(FrameOrientation.portrait)
+                                }.pickerStyle(.segmented).accessibilityIdentifier("frame-orientation")
+                            }
                             KeyText("frame.referenceAltitude").font(.headline)
                             HStack {
                                 TextField(L10n.text("frame.referenceAltitude"), text: $referenceAngle)
@@ -107,7 +127,8 @@ struct FramingPreviewSheet: View {
                     KeyText("frame.modelNote").font(.footnote).foregroundStyle(.secondary)
                 }.padding(18).frame(maxWidth: 760).frame(maxWidth: .infinity)
             }.background(LPTheme.canvas).scrollDismissesKeyboard(.interactively)
-                .navigationTitle(L10n.text("frame.title"))
+                .navigationTitle(typeSize.isAccessibilitySize ? "" : L10n.text("frame.title"))
+                .presentationBackground(LPTheme.canvas)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button(L10n.text("common.cancel")) { dismiss() } }
@@ -198,5 +219,5 @@ struct FramingDiagram: View {
         }
     }
 
-    var body: some View { bodyView }
+    var body: some View { bodyView.labeledContentStyle(LPReadableMetricStyle()) }
 }

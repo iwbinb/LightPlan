@@ -19,7 +19,7 @@ struct FieldBriefView: View {
                     VStack(alignment: .leading, spacing: 12) { actions }
                 }
                 KeyText("brief.shareNote").font(.caption).foregroundStyle(.secondary)
-            }
+            }.labeledContentStyle(LPReadableMetricStyle())
         }
     }
 

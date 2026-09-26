@@ -46,8 +46,29 @@ public enum PlanLibrary {
 
     public static func filtered(_ entries: [PlanLibraryEntry], query: String = "",
                                 filter: PlanLibraryFilter = .all, locale: Locale = .current) -> [PlanLibraryEntry] {
+        filtered(entries, query: query, filter: filter, locale: locale, checkpoint: {})
+    }
+
+    /// The synchronous API retains its original semantics. This implementation also
+    /// accepts a cooperative checkpoint for off-main, latest-request-only UI work.
+    static func filtered(_ entries: [PlanLibraryEntry], query: String,
+                         filter: PlanLibraryFilter, locale: Locale,
+                         checkpoint: () throws -> Void) rethrows -> [PlanLibraryEntry] {
         let words = query.split(whereSeparator: \.isWhitespace).map(String.init)
-        return entries.filter { entry in
+        struct SortRow {
+            let entry: PlanLibraryEntry
+            let category: Int
+            let date: Date
+            let completed: Date
+            let targetRank: Int
+            let identifier: String
+        }
+        let ranks: [PlanTarget: Int] = [.goldenMorning: 0, .sunrise: 1, .goldenEvening: 2,
+                                       .sunset: 3, .blueEvening: 4, .composition: 5]
+        var rows: [SortRow] = []
+        rows.reserveCapacity(entries.count)
+        for entry in entries {
+            try checkpoint()
             let completed = entry.plan.completedAt != nil
             let matchesStatus: Bool
             switch filter {
@@ -56,35 +77,50 @@ public enum PlanLibrary {
             case .completed: matchesStatus = completed
             case .past: matchesStatus = !completed && !entry.needsTimeResolution && entry.isPast
             }
-            guard matchesStatus else { return false }
-            let haystack = [entry.plan.title, entry.plan.place.name, entry.plan.notes ?? "", entry.collectionName ?? ""].joined(separator: " ")
-            return words.allSatisfy { haystack.range(of: $0, options: [.caseInsensitive, .diacriticInsensitive], locale: locale) != nil }
-        }.sorted { lhs, rhs in
-            if filter == .completed {
-                let a = lhs.plan.completedAt ?? .distantPast, b = rhs.plan.completedAt ?? .distantPast
-                if a != b { return a > b }
+            guard matchesStatus else { continue }
+            // Empty searches don't allocate/rebuild a haystack for every plan.
+            if !words.isEmpty {
+                let haystack = [entry.plan.title, entry.plan.place.name, entry.plan.notes ?? "", entry.collectionName ?? ""].joined(separator: " ")
+                guard words.allSatisfy({ haystack.range(of: $0, options: [.caseInsensitive, .diacriticInsensitive], locale: locale) != nil }) else { continue }
             }
-            if filter == .all {
-                func category(_ value: PlanLibraryEntry) -> Int {
-                    if value.plan.completedAt != nil { return 2 }
-                    return value.isPast ? 1 : 0
-                }
-                let a = category(lhs), b = category(rhs)
-                if a != b { return a < b }
-            }
-            let a = lhs.anchor ?? lhs.destinationDay.start, b = rhs.anchor ?? rhs.destinationDay.start
-            if a != b { return filter == .past ? a > b : a < b }
-            // Unknown future solar times are ordered by target, without inventing an instant.
-            let order: [PlanTarget] = [.goldenMorning, .sunrise, .goldenEvening, .sunset, .blueEvening, .composition]
-            let x = order.firstIndex(of: lhs.plan.target) ?? 0, y = order.firstIndex(of: rhs.plan.target) ?? 0
-            if x != y { return x < y }
-            return lhs.id.uuidString < rhs.id.uuidString
+            // Expensive UUID conversion and sort-key construction happen once per
+            // row rather than on both sides of every comparison. Ordering is unchanged.
+            rows.append(SortRow(entry: entry, category: completed ? 2 : (entry.isPast ? 1 : 0),
+                date: entry.anchor ?? entry.destinationDay.start, completed: entry.plan.completedAt ?? .distantPast,
+                targetRank: ranks[entry.plan.target] ?? 0, identifier: entry.id.uuidString))
+        }
+        try rows.sort { lhs, rhs in
+            try checkpoint()
+            if filter == .completed, lhs.completed != rhs.completed { return lhs.completed > rhs.completed }
+            if filter == .all, lhs.category != rhs.category { return lhs.category < rhs.category }
+            if lhs.date != rhs.date { return filter == .past ? lhs.date > rhs.date : lhs.date < rhs.date }
+            if lhs.targetRank != rhs.targetRank { return lhs.targetRank < rhs.targetRank }
+            return lhs.identifier < rhs.identifier
+        }
+        return rows.map(\.entry)
+    }
+
+    /// Filtering, sorting and grouping run outside the caller's actor. Cancellation
+    /// reaches the worker and no partial/stale groups are published by this API.
+    public static func groupsAsync(_ entries: [PlanLibraryEntry], query: String = "",
+                                   filter: PlanLibraryFilter = .all,
+                                   locale: Locale = .current) async throws -> [PlanLibraryGroup] {
+        guard entries.count <= 10_000 else { throw LightPlanError.tooManyItems }
+        return try await CompositionPlanner.runCancellable {
+            let result = try filtered(entries, query: query, filter: filter, locale: locale,
+                                      checkpoint: { try Task.checkCancellation() })
+            return try groups(result, checkpoint: { try Task.checkCancellation() })
         }
     }
 
     public static func groups(_ entries: [PlanLibraryEntry]) -> [PlanLibraryGroup] {
+        groups(entries, checkpoint: {})
+    }
+
+    static func groups(_ entries: [PlanLibraryEntry], checkpoint: () throws -> Void) rethrows -> [PlanLibraryGroup] {
         var order: [String?] = [], grouped: [String: [PlanLibraryEntry]] = [:]
         for entry in entries {
+            try checkpoint()
             let name = entry.collectionName
             let key = name.map { "collection:" + $0 } ?? "unfiled"
             if grouped[key] == nil { order.append(name) }

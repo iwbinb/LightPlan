@@ -74,6 +74,17 @@ enum PlanningTemplate { case sunset, moon }
             if fixtureArchiveID == nil {
                 if let plan = try? ShootPlan(title: L10n.text("v3.demo.title"), place: place, date: selectedDate, target: .sunset, arrivalLeadMinutes: 45) { plans = [plan] }
                 places = [place]
+                // Opt-in, DEBUG-only large library for native responsiveness checks.
+                // No fixture count reaches production storage or notification scheduling.
+                if let raw = env["LIGHTPLAN_VISUAL_LIBRARY_COUNT"], let count = Int(raw), (1...5000).contains(count) {
+                    var calendar = Calendar(identifier: .gregorian); calendar.timeZone = place.timeZone
+                    if let future = calendar.date(byAdding: .day, value: 365, to: Date()) {
+                        plans = (0..<count).compactMap { index in
+                            try? ShootPlan(title: String(format: "M5-%04d", index), place: place, date: future,
+                                           target: .sunset, reminderLeadMinutes: nil, collectionName: "M5 library")
+                        }
+                    }
+                }
             }
         }
         #endif

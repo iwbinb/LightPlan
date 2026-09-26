@@ -48,6 +48,7 @@ if [[ "$STAGE" == checks ]]; then
   run generator python3 scripts/generate_project.py
   run generator-drift git diff --exit-code HEAD -- LightPlan.xcodeproj ios/Config/Project.xcconfig ios/LightPlan/Info.plist ios/LightPlanWidget/Info.plist
   run core-tests swift test --package-path packages/LightPlanCore
+  run core-performance bash scripts/benchmark_core.sh "$E/core-performance.json" 5
   run debug-build xcodebuild -project LightPlan.xcodeproj -scheme LightPlan -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath "$DERIVED" CODE_SIGNING_ALLOWED=NO build
   run release-archive xcodebuild -project LightPlan.xcodeproj -scheme LightPlan -configuration Release -destination 'generic/platform=iOS' -derivedDataPath "$DERIVED" -archivePath "$E/LightPlan.xcarchive" CODE_SIGNING_ALLOWED=NO archive
   ARCHIVED_APP="$E/LightPlan.xcarchive/Products/Applications/LightPlan.app"

@@ -37,6 +37,12 @@ struct PlanDetailView: View {
                     }
                 }
                 VStack(alignment: .leading, spacing: 24) {
+                    if typeSize.isAccessibilitySize {
+                        // Large-text users should not traverse the entire brief to
+                        // reach field mode, nor lose the viewport to a fixed tall CTA.
+                        fieldModeButton
+                        viewMapButton.accessibilityIdentifier("plan-inline-view-map")
+                    }
                     if let day, let brief = try? PlanFieldBrief(plan: current, summary: day) {
                         FieldBriefView(brief: brief)
                     } else if let notes = current.notes, !notes.isEmpty {
@@ -110,10 +116,7 @@ struct PlanDetailView: View {
                         Spacer()
                         Button(L10n.text("common.delete"), role: .destructive) { deleting = true }.accessibilityIdentifier("plan-delete")
                     }
-                    Button { fieldSession = true } label: {
-                        Label(L10n.text("library.openField"), systemImage: "viewfinder")
-                            .frame(maxWidth: .infinity).padding(14)
-                    }.buttonStyle(.borderedProminent).accessibilityIdentifier("plan-field-mode")
+                    if !typeSize.isAccessibilitySize { fieldModeButton }
                     Button(L10n.text(current.completedAt == nil ? "library.markCompleted" : "library.reopen")) {
                         Task { await state.setPlanCompleted(current, completed: current.completedAt == nil) }
                     }.accessibilityIdentifier("plan-toggle-completed")
@@ -123,11 +126,12 @@ struct PlanDetailView: View {
                 }.padding(22).background(LPTheme.surface, in: UnevenRoundedRectangle(topLeadingRadius: 26, topTrailingRadius: 26)).padding(.top, -15)
             }.frame(maxWidth: 760).frame(maxWidth: .infinity)
         }.background(LPTheme.canvas).toolbar(.hidden, for: .navigationBar)
+            .labeledContentStyle(LPReadableMetricStyle())
             .safeAreaInset(edge: .bottom) {
-                Button { Task { await state.showPlanMap(current); dismiss() } } label: {
-                    Label(L10n.text("v3.plan.viewMap"), systemImage: "map.fill").font(.headline).frame(maxWidth: .infinity).padding(16).foregroundStyle(.white).background(LPTheme.ink, in: RoundedRectangle(cornerRadius: 18))
-                }.buttonStyle(LPPressStyle()).accessibilityIdentifier("plan-view-map")
-                    .padding(.horizontal, 18).padding(.vertical, 10).background(.bar)
+                if !typeSize.isAccessibilitySize {
+                    viewMapButton.accessibilityIdentifier("plan-view-map")
+                        .padding(.horizontal, 18).padding(.vertical, 10).background(.bar)
+                }
             }
             .confirmationDialog(L10n.text("plan.deleteConfirm"), isPresented: $deleting, titleVisibility: .visible) {
                 Button(L10n.text("common.delete"), role: .destructive) { Task { if await state.deletePlan(current) { dismiss() } } }
@@ -155,6 +159,23 @@ struct PlanDetailView: View {
                 catch { if !Task.isCancelled, current == snapshot { problem = true; milestones = []; day = nil } }
             }
     }
+    private var fieldModeButton: some View {
+        Button { fieldSession = true } label: {
+            Label(L10n.text("library.openField"), systemImage: "viewfinder")
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity).padding(14)
+        }.buttonStyle(.borderedProminent).accessibilityIdentifier("plan-field-mode")
+    }
+
+    private var viewMapButton: some View {
+        Button { Task { await state.showPlanMap(current); dismiss() } } label: {
+            Label(L10n.text("v3.plan.viewMap"), systemImage: "map.fill").font(.headline)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity).padding(16).foregroundStyle(.white)
+                .background(LPTheme.ink, in: RoundedRectangle(cornerRadius: 18))
+        }.buttonStyle(LPPressStyle())
+    }
+
     private var canRetryReminder: Bool {
         guard reminderStatusKey != "plan.reminderScheduled", let day else { return false }
         return Planner.reminder(plan: current, summary: day, now: Date()) != nil

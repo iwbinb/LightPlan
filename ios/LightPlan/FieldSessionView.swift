@@ -5,6 +5,7 @@ struct FieldSessionView: View {
     let plan: ShootPlan
     @EnvironmentObject private var state: AppState
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.dynamicTypeSize) private var typeSize
     @State private var summary: DaySummary?
     @State private var loading = true
     @State private var failed = false
@@ -28,6 +29,7 @@ struct FieldSessionView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
+                    LPExpandedSheetTitle(key: "field.title", identifier: "field-full-title")
                     VStack(alignment: .leading, spacing: 8) {
                         Text(current.title).font(.title2.bold()).fixedSize(horizontal: false, vertical: true)
                         Label(current.place.name, systemImage: "mappin.circle.fill").font(.headline)
@@ -87,7 +89,9 @@ struct FieldSessionView: View {
                     KeyText("field.scheduleNote").font(.caption).foregroundStyle(.secondary)
                 }.padding(20).frame(maxWidth: 760).frame(maxWidth: .infinity)
             }
-            .background(LPTheme.canvas).navigationTitle(L10n.text("field.title"))
+            .background(LPTheme.canvas).navigationTitle(typeSize.isAccessibilitySize ? "" : L10n.text("field.title"))
+            .presentationBackground(LPTheme.canvas)
+            .labeledContentStyle(LPReadableMetricStyle())
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {

@@ -4,12 +4,19 @@ import LightPlanCore
 struct PlansView: View {
     @EnvironmentObject private var state: AppState
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.dynamicTypeSize) private var typeSize
+    @Environment(\.locale) private var systemLocale
+    @AppStorage("language") private var language = "system"
     @State private var create = false
     @State private var deleting: ShootPlan?
     @State private var query = ""
     @FocusState private var searchFocused: Bool
     @State private var filter: PlanLibraryFilter = .all
     @State private var entries: [PlanLibraryEntry] = []
+    @State private var entriesRevision = UUID()
+    @State private var visibleGroups: [PlanLibraryGroup] = []
+    @State private var publishedQuery: QueryRequest?
+    @State private var queryFailed = false
     @State private var referenceDate = Date()
     @State private var loading = false
     @State private var resolving = false
@@ -22,18 +29,29 @@ struct PlansView: View {
         let now: Date
     }
     private var request: Request { Request(plans: state.plans, now: referenceDate) }
-    private var groups: [PlanLibraryGroup] {
-        PlanLibrary.groups(PlanLibrary.filtered(entries, query: query, filter: filter))
+    private struct QueryRequest: Equatable {
+        let revision: UUID
+        let query: String
+        let filter: PlanLibraryFilter
+        let localeID: String
     }
+    private var queryRequest: QueryRequest {
+        QueryRequest(revision: entriesRevision, query: query, filter: filter,
+                     localeID: language == "system" ? systemLocale.identifier : L10n.locale.identifier)
+    }
+    private var queryPending: Bool { publishedQuery != queryRequest }
 
     var body: some View {
-        let visibleGroups = groups
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 18) {
                 if state.plans.isEmpty { emptyLibrary }
                 else {
                     libraryControls
-                    if loading { ProgressView().frame(maxWidth: .infinity) }
+                    if loading || queryPending {
+                        ProgressView().frame(maxWidth: .infinity)
+                            .accessibilityLabel(L10n.text("flow.searching"))
+                            .accessibilityIdentifier("plan-library-query-busy")
+                    }
                     if resolving {
                         HStack {
                             ProgressView()
@@ -41,7 +59,7 @@ struct PlansView: View {
                                 .fixedSize(horizontal: false, vertical: true)
                         }.accessibilityIdentifier("plan-library-resolving")
                     }
-                    if failed {
+                    if failed || queryFailed {
                         LPCard {
                             VStack(alignment: .leading, spacing: 12) {
                                 KeyText("error.calculation")
@@ -49,8 +67,8 @@ struct PlansView: View {
                             }
                         }
                     }
-                    if visibleGroups.isEmpty && !loading && !resolving && !failed { emptyResults }
-                    if !visibleGroups.isEmpty {
+                    if visibleGroups.isEmpty && !queryPending && !loading && !resolving && !failed && !queryFailed { emptyResults }
+                    if !queryPending && !visibleGroups.isEmpty {
                         ForEach(visibleGroups) { group in
                             LazyVStack(alignment: .leading, spacing: 14) {
                                 HStack {
@@ -101,6 +119,7 @@ struct PlansView: View {
             else { KeyText("plan.notFound") }
         }
         .task(id: request) { await reload(request) }
+        .task(id: queryRequest) { await updateGroups(queryRequest) }
         .task {
             while !Task.isCancelled {
                 do { try await Task.sleep(for: .seconds(60)) } catch { return }
@@ -128,25 +147,35 @@ struct PlansView: View {
                 if !query.isEmpty {
                     Button { query = "" } label: { Image(systemName: "xmark.circle.fill").frame(minWidth: 44, minHeight: 44) }
                         .accessibilityLabel(L10n.text("library.clearSearch"))
+                        .accessibilityIdentifier("plan-library-clear-search")
                 }
             }.padding(.horizontal, 14).frame(minHeight: 52)
                 .background(LPTheme.surface, in: RoundedRectangle(cornerRadius: 18))
                 .contentShape(Rectangle())
                 .onTapGesture { searchFocused = true }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(PlanLibraryFilter.allCases, id: \.self) { value in
-                        Button { filter = value } label: {
-                            Text(L10n.text("library.filter." + value.rawValue))
-                                .font(.subheadline.weight(.semibold)).padding(.horizontal, 16).frame(minHeight: 44)
-                                .background(filter == value ? LPTheme.accent : LPTheme.surface, in: Capsule())
-                                .foregroundStyle(filter == value ? Color.white : Color.primary)
-                        }.buttonStyle(.plain)
-                            .accessibilityAddTraits(filter == value ? .isSelected : [])
-                            .accessibilityIdentifier("plan-library-filter-" + value.rawValue)
-                    }
+            if typeSize.isAccessibilitySize {
+                VStack(alignment: .leading, spacing: 8) { filterButtons }
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) { filterButtons }
                 }
             }
+        }
+    }
+
+    @ViewBuilder private var filterButtons: some View {
+        ForEach(PlanLibraryFilter.allCases, id: \.self) { value in
+            Button { filter = value } label: {
+                Text(L10n.text("library.filter." + value.rawValue))
+                    .font(.subheadline.weight(.semibold))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal, 16).padding(.vertical, typeSize.isAccessibilitySize ? 10 : 0)
+                    .frame(maxWidth: typeSize.isAccessibilitySize ? .infinity : nil, minHeight: 44)
+                    .background(filter == value ? LPTheme.accent : LPTheme.surface, in: Capsule())
+                    .foregroundStyle(filter == value ? Color.white : Color.primary)
+            }.buttonStyle(.plain)
+                .accessibilityAddTraits(filter == value ? .isSelected : [])
+                .accessibilityIdentifier("plan-library-filter-" + value.rawValue)
         }
     }
 
@@ -175,6 +204,27 @@ struct PlansView: View {
         }.accessibilityIdentifier("plan-library-empty-results")
     }
 
+    private func updateGroups(_ input: QueryRequest) async {
+        let snapshot = entries
+        queryFailed = false
+        do {
+            // Coalesce typing only. Initial rows and time-resolution batches don't
+            // incur a debounce, and changing filters never redoes astronomy.
+            if !input.query.isEmpty, publishedQuery?.query != input.query {
+                try await Task.sleep(for: .milliseconds(120))
+            }
+            let result = try await PlanLibrary.groupsAsync(snapshot, query: input.query,
+                filter: input.filter, locale: Locale(identifier: input.localeID))
+            try Task.checkCancellation()
+            guard queryRequest == input else { return }
+            visibleGroups = result; publishedQuery = input
+        } catch is CancellationError { }
+        catch {
+            guard !Task.isCancelled, queryRequest == input else { return }
+            visibleGroups = []; publishedQuery = input; queryFailed = true
+        }
+    }
+
     private func reload(_ input: Request) async {
         guard !Task.isCancelled else { return }
         let token = UUID()
@@ -189,7 +239,7 @@ struct PlansView: View {
             guard request == input, generation == token else { return }
             // Titles, projects, dates and known composition instants are available
             // immediately, including while thousands of distinct sites are resolved.
-            entries = working; loading = false
+            entries = working; entriesRevision = UUID(); loading = false
             let pending = working.indices.filter { working[$0].needsTimeResolution }
             resolving = !pending.isEmpty
             for offset in stride(from: 0, to: pending.count, by: 64) {
@@ -199,7 +249,7 @@ struct PlansView: View {
                 try Task.checkCancellation()
                 guard request == input, generation == token else { return }
                 for (index, value) in zip(indices, result) { working[index] = value }
-                entries = working
+                entries = working; entriesRevision = UUID()
                 await Task.yield()
             }
         } catch is CancellationError { }

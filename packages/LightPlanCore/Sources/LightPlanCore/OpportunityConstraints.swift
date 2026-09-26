@@ -96,13 +96,14 @@ enum OpportunitySearch {
     static func intervals(body: CelestialBody, observer: Coordinate, interval: DateInterval,
                           altitudeRange: ClosedRange<Double>, solarAltitudeRange: ClosedRange<Double>?,
                           moonIlluminationRange: ClosedRange<Double>? = nil,
-                          step: TimeInterval) throws -> [DateInterval] {
+                          step: TimeInterval,
+                          position: ((CelestialBody, Date) throws -> SkyPosition)? = nil) throws -> [DateInterval] {
         try SearchSampling.validate(interval: interval, step: step)
         var result = try altitudeIntervals(body: body, observer: observer, interval: interval,
-                                           range: altitudeRange, step: step)
+                                           range: altitudeRange, step: step, position: position)
         if let solarAltitudeRange, !result.isEmpty {
             let solar = try altitudeIntervals(body: .sun, observer: observer, interval: interval,
-                                               range: solarAltitudeRange, step: step)
+                                               range: solarAltitudeRange, step: step, position: position)
             result = try intersect(result, solar)
         }
         if let moonIlluminationRange, moonIlluminationRange != 0...1, !result.isEmpty {
@@ -118,19 +119,19 @@ enum OpportunitySearch {
 
     static func alignmentIntervals(body: CelestialBody, observer: Coordinate, subject: Coordinate,
                                    interval: DateInterval, desiredOffsetDegrees: Double,
-                                   maximumErrorDegrees: Double, step: TimeInterval) throws -> [DateInterval] {
+                                   maximumErrorDegrees: Double, step: TimeInterval,
+                                   position: ((CelestialBody, Date) throws -> SkyPosition)? = nil) throws -> [DateInterval] {
         try SearchSampling.validate(interval: interval, step: step)
         guard maximumErrorDegrees.isFinite, (0...180).contains(maximumErrorDegrees),
               desiredOffsetDegrees.isFinite, (-90...90).contains(desiredOffsetDegrees) else {
             throw LightPlanError.invalidNumber
         }
         if maximumErrorDegrees == 180 { return [interval] }
+        guard let bearing = Geometry.bearing(from: observer, to: subject) else { throw LightPlanError.invalidNumber }
         return try scalarIntervals(interval: interval, range: 0...maximumErrorDegrees, step: step) { instant in
-            guard let value = try CompositionPlanner.evaluate(body: body, at: instant, observer: observer,
-                subject: subject, desiredOffsetDegrees: desiredOffsetDegrees) else {
-                throw LightPlanError.invalidNumber
-            }
-            return value.absoluteErrorDegrees
+            let sky = try position?(body, instant) ?? Astronomy.position(body, at: instant, coordinate: observer)
+            return CompositionPlanner.candidate(body: body, at: instant, sky: sky, subjectBearing: bearing,
+                                                desiredOffsetDegrees: desiredOffsetDegrees).absoluteErrorDegrees
         }
     }
 
@@ -149,10 +150,11 @@ enum OpportunitySearch {
 
     private static func altitudeIntervals(body: CelestialBody, observer: Coordinate,
                                           interval: DateInterval, range: ClosedRange<Double>,
-                                          step: TimeInterval) throws -> [DateInterval] {
+                                          step: TimeInterval,
+                                          position: ((CelestialBody, Date) throws -> SkyPosition)?) throws -> [DateInterval] {
         if range == -90...90 { return [interval] }
         return try scalarIntervals(interval: interval, range: range, step: step) {
-            try Astronomy.position(body, at: $0, coordinate: observer).altitude
+            try (position?(body, $0) ?? Astronomy.position(body, at: $0, coordinate: observer)).altitude
         }
     }
 

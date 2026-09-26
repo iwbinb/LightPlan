@@ -67,6 +67,63 @@ class PreparationTests(unittest.TestCase):
         with self.assertRaisesRegex(prep.PreparationError, 'symbolic link'):
             prep.prepare(self.root, self.output)
 
+    def repository_alias(self):
+        # Reproduce macOS /var -> /private/var on every OS, without masking it
+        # by resolving the fixture's root or output before calling production code.
+        alias_tmp = tempfile.TemporaryDirectory(); self.addCleanup(alias_tmp.cleanup)
+        alias = Path(alias_tmp.name) / 'checkout-alias'
+        alias.symlink_to(self.root.resolve(), target_is_directory=True)
+        return alias
+
+    def test_repository_ancestor_alias_is_accepted(self):
+        alias = self.repository_alias()
+        result = prep.prepare(alias, alias / 'tests/reports/local/candidate')
+        self.assertTrue(result['prepared'])
+        self.assertFalse(result['ready_for_submission'])
+        self.assertEqual(Path(result['output']), self.output.resolve())
+        self.assertEqual(self.git('status', '--porcelain'), '')
+
+    def test_canonical_root_accepts_output_through_ancestor_alias(self):
+        alias = self.repository_alias()
+        result = prep.prepare(self.root.resolve(), alias / 'tests/reports/local/candidate')
+        self.assertTrue(result['prepared'])
+        self.assertFalse(result['ready_for_submission'])
+        self.assertTrue((self.output / 'preparation.json').is_file())
+
+    def test_alias_root_accepts_canonical_output(self):
+        result = prep.prepare(self.repository_alias(), self.output.resolve())
+        self.assertTrue(result['prepared'])
+        self.assertFalse(result['ready_for_submission'])
+
+    def test_descendant_symlink_is_rejected_even_when_target_is_inside_evidence_root(self):
+        local = self.root / 'tests/reports/local'; local.mkdir(parents=True)
+        target = local / 'real'; target.mkdir()
+        link = local / 'redirect'; link.symlink_to(target.resolve(), target_is_directory=True)
+        with self.assertRaises(prep.PreparationError):
+            prep.prepare(self.root, link / 'candidate')
+        self.assertFalse((target / 'candidate').exists())
+
+    def test_descendant_link_back_to_checkout_is_not_an_ancestor_alias(self):
+        local = self.root / 'tests/reports/local'; local.mkdir(parents=True)
+        redirect = local / 'back-to-root'
+        redirect.symlink_to(self.root.resolve(), target_is_directory=True)
+        with self.assertRaises(prep.PreparationError):
+            prep.prepare(self.root, redirect / 'tests/reports/local/candidate')
+        self.assertFalse(self.output.exists())
+
+    def test_parent_traversal_is_not_normalized_into_allowed_output(self):
+        output = self.root / 'tests/reports/local/nested/../candidate'
+        with self.assertRaises(prep.PreparationError):
+            prep.prepare(self.root, output)
+        self.assertFalse(self.output.exists())
+
+    def test_alias_does_not_authorize_an_outside_sibling(self):
+        alias = self.repository_alias()
+        outside = alias.parent / 'checkout-alias-other/tests/reports/local/candidate'
+        with self.assertRaises(prep.PreparationError):
+            prep.prepare(alias, outside)
+        self.assertFalse(outside.exists())
+
     def test_gate_removal_or_waiver_is_rejected(self):
         path = self.root / 'codex/release_gates.json'
         data = json.loads(path.read_text()); data['gates'][0]['required'] = False

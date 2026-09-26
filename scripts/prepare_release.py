@@ -39,6 +39,20 @@ def write(path: Path, value: dict) -> None:
 
 def prepare(root: Path, output: Path) -> dict:
     root, output = root.resolve(), output.absolute()
+    # macOS exposes temporary checkouts through /var as well as /private/var.
+    # Canonicalize ONLY the path leading to the checkout. Resolving the entire
+    # output first would hide redirects inside the private evidence directory.
+    if ".." in output.parts:
+        raise PreparationError("Output must not contain parent traversal")
+    try:
+        # Outermost match wins: a link *inside* the checkout that points back to
+        # its root is still part of the untrusted suffix and must be rejected.
+        for ancestor in reversed(output.parents):
+            if ancestor.resolve() == root:
+                output = root / output.relative_to(ancestor)
+                break
+    except (OSError, RuntimeError) as error:
+        raise PreparationError("Cannot safely resolve output ancestry") from error
     safe_root = root / "tests/reports/local"
     if safe_root.resolve() != safe_root:
         raise PreparationError("Local evidence root must not be a symbolic link")

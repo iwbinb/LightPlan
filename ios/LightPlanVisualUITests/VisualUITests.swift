@@ -81,28 +81,95 @@ final class VisualUITests: XCTestCase {
     }
 
     @MainActor func testMapBaseStyleSwitchesAndSurvivesRelaunch() throws {
+        XCUIDevice.shared.orientation = .portrait
         let app = launch(language: "zh-Hans", tab: 1)
         defer { app.terminate() }
         XCTAssertTrue(app.staticTexts["selected-time"].waitForExistence(timeout: 15))
-        let style = app.buttons["map-style"]
+        let style = app.buttons.matching(identifier: "map-style").firstMatch
         XCTAssertTrue(style.waitForExistence(timeout: 10))
+        XCTAssertEqual(app.buttons.matching(identifier: "map-style").count, 1)
         let original = try XCTUnwrap(style.value as? String)
         XCTAssertTrue(["卫星影像", "普通地图"].contains(original))
+        XCTAssertTrue(style.isEnabled && style.isHittable)
         save("map-style-before")
-        style.tap()
+        style.tap() // One real action, never a retry to manufacture a passing state.
         let changed = original == "卫星影像" ? "普通地图" : "卫星影像"
-        let selected = XCTNSPredicateExpectation(predicate: NSPredicate(format: "value == %@", changed), object: style)
-        XCTAssertEqual(XCTWaiter.wait(for: [selected], timeout: 10), .completed)
-        let canvas = app.descendants(matching: .any)["map-canvas"].firstMatch
-        XCTAssertTrue(canvas.waitForExistence(timeout: 10))
-        XCTAssertEqual(canvas.value as? String, changed,
+        let after = waitForMapStyle(changed, in: app, phase: "after-toggle")
+        XCTAssertEqual(after?.buttonValue, changed)
+        XCTAssertEqual(after?.canvasValue, changed,
                        "The native map's actual tile configuration must match the button")
         save("map-style-after")
         app.terminate(); app.launch()
         XCTAssertTrue(style.waitForExistence(timeout: 15))
-        XCTAssertEqual(style.value as? String, changed, "The selected base map must survive reopening the app")
+        let restored = waitForMapStyle(changed, in: app, phase: "after-relaunch")
+        XCTAssertEqual(restored?.buttonValue, changed, "The selected base map must survive reopening the app")
+        XCTAssertEqual(restored?.canvasValue, changed, "The restored native map must use the saved configuration")
+        XCTAssertTrue(style.isEnabled && style.isHittable)
         style.tap()
-        XCTAssertEqual(style.value as? String, original)
+        let reverted = waitForMapStyle(original, in: app, phase: "after-revert")
+        XCTAssertEqual(reverted?.buttonValue, original)
+        XCTAssertEqual(reverted?.canvasValue, original)
+    }
+
+    @MainActor private func waitForMapStyle(
+        _ expected: String, in app: XCUIApplication, phase: String
+    ) -> MapStyleObservation? {
+        // A live value predicate re-resolves its query while MapKit updates its AX
+        // hierarchy. Read both values once per poll from the same public snapshot.
+        // This validates actual mapType feedback, NOT network tile availability.
+        var latest: MapStyleObservation?
+        var polls: [String] = []
+        let started = ProcessInfo.processInfo.systemUptime
+        let ready = NSPredicate { _, _ in
+            let pollStarted = ProcessInfo.processInfo.systemUptime
+            do {
+                var pending: [any XCUIElementSnapshot] = [try app.snapshot()]
+                var buttons: [any XCUIElementSnapshot] = []
+                var canvases: [any XCUIElementSnapshot] = []
+                while let node = pending.popLast() {
+                    if node.elementType == .button && node.identifier == "map-style" { buttons.append(node) }
+                    if node.identifier == "map-canvas" { canvases.append(node) }
+                    pending.append(contentsOf: node.children)
+                }
+                latest = MapStyleObservation(buttonCount: buttons.count, canvasCount: canvases.count,
+                    buttonValue: buttons.first?.value as? String, canvasValue: canvases.first?.value as? String)
+            } catch {
+                latest = nil
+            }
+            if polls.count < 20 {
+                let now = ProcessInfo.processInfo.systemUptime
+                polls.append("elapsed=\(now - started) poll=\(now - pollStarted) values=\(String(describing: latest))")
+            }
+            return latest?.matches(expected) == true
+        }
+        let result = XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: nil)], timeout: 10)
+        let diagnostic = XCTAttachment(string: polls.joined(separator: "\n"))
+        diagnostic.name = "map-style-" + phase + "-polls"; diagnostic.lifetime = .keepAlways; add(diagnostic)
+        if result != .completed {
+            save("map-style-" + phase + "-failed")
+            let hierarchy = XCTAttachment(string: app.debugDescription)
+            hierarchy.name = "map-style-" + phase + "-hierarchy"; hierarchy.lifetime = .keepAlways; add(hierarchy)
+        }
+        XCTAssertEqual(result, .completed, "Both the unique style button and native map must report " + expected)
+        return latest
+    }
+
+    func testMapStyleObservationRequiresMatchingUniqueNativeValues() {
+        let valid = MapStyleObservation(buttonCount: 1, canvasCount: 1,
+            buttonValue: "普通地图", canvasValue: "普通地图")
+        XCTAssertTrue(valid.matches("普通地图"))
+        XCTAssertFalse(valid.matches("卫星影像"))
+        for counts in [(0, 1), (1, 0), (2, 1), (1, 2)] {
+            XCTAssertFalse(MapStyleObservation(buttonCount: counts.0, canvasCount: counts.1,
+                buttonValue: "普通地图", canvasValue: "普通地图").matches("普通地图"))
+        }
+        for values: (String?, String?) in [(nil, "普通地图"), ("普通地图", nil),
+                                           ("普通地图", "卫星影像"), ("卫星影像", "普通地图")] {
+            XCTAssertFalse(MapStyleObservation(buttonCount: 1, canvasCount: 1,
+                buttonValue: values.0, canvasValue: values.1).matches("普通地图"))
+        }
+        XCTAssertFalse(MapStyleObservation(buttonCount: 1, canvasCount: 1,
+            buttonValue: "", canvasValue: "").matches(""))
     }
 
     @MainActor func testLongPressLocationControlCanRecenterShootingPlace() throws {
@@ -135,5 +202,18 @@ final class VisualUITests: XCTestCase {
         }
         app.buttons["map-style"].tap()
         app.buttons["map-style"].tap()
+    }
+}
+
+/// Pure assertion input: an icon change alone must never prove a native map change.
+private struct MapStyleObservation {
+    let buttonCount: Int
+    let canvasCount: Int
+    let buttonValue: String?
+    let canvasValue: String?
+
+    func matches(_ expected: String) -> Bool {
+        !expected.isEmpty && buttonCount == 1 && canvasCount == 1
+            && buttonValue == expected && canvasValue == expected
     }
 }

@@ -1,3 +1,16 @@
+# M6-A PR #7 check repair — 2026-09-27
+
+**Two native check failures have repair candidates; final current-source Apple verification is required before closing M6-A or merging PR #7.**
+
+- Fixed canonical checkout/output ancestry in release preparation while preserving private-evidence containment, symlink, traversal, no-overwrite and clean-Git checks. Preparation tests now 17/17 locally; standalone release tools run on both Ubuntu and macOS.
+- Replaced map-style live value polling with one coherent public snapshot per poll. The same single-tap, 10-second limit and persistence assertions remain; both button and actual native map configuration must agree. Added a pure fail-closed observation regression.
+- Local release tools 71/71, core 280/280, CI helpers 36/36, schema 15/15 and extracted map observation 1/1 pass. These are not current Apple UI execution results.
+- No App/Widget/Core business code, generated project/plist, pricing, precision, backup schema or signing changes. PR remains Draft; no main merge or submission approval.
+
+See [failure evidence, repair rationale and exact commands](tests/reports/m6a-pr7-check-repair-2026-09-27.md). The earlier reports below remain historical evidence.
+
+---
+
 # M6-A repository release preparation — 2026-09-27
 
 **M6-A release-tooling implementation and local regression are complete; current-commit Apple/native and Store-capture CI must still be checked. This is repository preparation, not M6-B or App Store readiness.**

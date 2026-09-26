@@ -49,6 +49,8 @@ class ReleasePreflightTests(unittest.TestCase):
         (self.root / "evidence.txt").write_text("Synthetic acceptance fixture, not real product evidence.")
         self.config = {
             "distribution_model": "paid_upfront",
+            "marketing_version": "1.0.0", "build_number": "1", "minimum_runtime_ios": "17.0",
+            "developer_team_id": "ABCDEFGHIJ", "locales": sorted(release.LOCALES),
             "release_ready": True, "prices_confirmed_in_store": True,
             "bundle_id_registered": True, "app_group_registered": True,
             "name_and_trademark_reviewed": True, "legal_owner": "Synthetic Owner",
@@ -56,7 +58,7 @@ class ReleasePreflightTests(unittest.TestCase):
             "candidate_bundle_id": "com.arenovo.lightplan", "candidate_app_group_id": "group.com.arenovo.lightplan",
             "privacy_url": "https://lightplan.photo/privacy", "support_url": "https://lightplan.photo/support",
         }
-        self.gates = {"gates": [dict(copy.deepcopy(self.acceptance), id=key, required=True) for key in sorted(release.GATES)]}
+        self.gates = {"source_commit": COMMIT, "gates": [dict(copy.deepcopy(self.acceptance), id=key, required=True) for key in sorted(release.GATES)]}
         self.manifest = {"schema_version": 1, "distribution_model": "paid_upfront", "source_commit": COMMIT,
                          "account_checks": {key: copy.deepcopy(self.acceptance) for key in release.ACCOUNT_CHECKS}, "screenshots": []}
         write_json(self.root / "appstore/release_config.json", self.config)
@@ -74,7 +76,9 @@ class ReleasePreflightTests(unittest.TestCase):
             (self.widget, "LightPlanWidget", ".widget", "widget_executable_sha256"),
         ):
             info = {"CFBundleExecutable": name, "CFBundleIdentifier": self.config["candidate_bundle_id"] + suffix,
-                    "AppGroupIdentifier": self.config["candidate_app_group_id"]}
+                    "AppGroupIdentifier": self.config["candidate_app_group_id"],
+                    "CFBundleDisplayName": "LightPlan", "CFBundleShortVersionString": "1.0.0",
+                    "CFBundleVersion": "1", "MinimumOSVersion": "17.0", "DTSDKName": "iphoneos26.2"}
             if not suffix:
                 info.update(self.public_fields)
             write_plist(bundle / "Info.plist", info)
@@ -82,6 +86,19 @@ class ReleasePreflightTests(unittest.TestCase):
             (bundle / name).write_bytes(executable)
             self.manifest["archive"][hash_key] = hashlib.sha256(executable).hexdigest()
             (bundle / "astronomia-MIT.txt").write_bytes(source_license.read_bytes())
+        privacy = {"NSPrivacyTracking": False, "NSPrivacyCollectedDataTypes": [], "NSPrivacyAccessedAPITypes": []}
+        for target, bundle in (("LightPlan", self.app), ("LightPlanWidget", self.widget)):
+            write_plist(self.root / "ios" / target / "PrivacyInfo.xcprivacy", privacy)
+            write_plist(bundle / "PrivacyInfo.xcprivacy", privacy)
+        def signed(bundle):
+            suffix = ".widget" if bundle == self.widget else ""
+            return {"application-identifier": "ABCDEFGHIJ." + self.config["candidate_bundle_id"] + suffix,
+                    "com.apple.developer.team-identifier": "ABCDEFGHIJ",
+                    "com.apple.security.application-groups": [self.config["candidate_app_group_id"]],
+                    "get-task-allow": False}
+        entitlements_patcher = patch.object(release, "signed_entitlements", side_effect=signed)
+        self.entitlements = entitlements_patcher.start()
+        self.addCleanup(entitlements_patcher.stop)
         signature_patcher = patch.object(release, "signature_problem", return_value=None)
         self.signature = signature_patcher.start()
         self.addCleanup(signature_patcher.stop)
@@ -232,6 +249,50 @@ class ReleasePreflightTests(unittest.TestCase):
         self.gates["gates"] = None
         self.assertBlocked("missing acceptance record")
         self.assertBlocked("malformed record")
+
+    def test_version_name_runtime_and_sdk_drift_are_rejected(self):
+        for key, value, expected in (("CFBundleVersion", "2", "CFBundleVersion differs"),
+                                     ("CFBundleShortVersionString", "2.0.0", "CFBundleShortVersionString differs"),
+                                     ("MinimumOSVersion", "18.0", "MinimumOSVersion differs"),
+                                     ("CFBundleDisplayName", "Unapproved", "display name differs"),
+                                     ("DTSDKName", "iphonesimulator26.2", "device iOS SDK"),
+                                     ("DTSDKName", "iphoneos25.0", "device iOS SDK")):
+            original = plistlib.loads((self.widget / "Info.plist").read_bytes())
+            with self.subTest(key=key, value=value):
+                write_plist(self.widget / "Info.plist", dict(original, **{key: value}))
+                self.assertBlocked(expected)
+            write_plist(self.widget / "Info.plist", original)
+
+    def test_missing_or_changed_privacy_cannot_pass(self):
+        (self.widget / "PrivacyInfo.xcprivacy").unlink()
+        write_plist(self.app / "PrivacyInfo.xcprivacy", {"NSPrivacyTracking": True})
+        self.assertBlocked("privacy manifest missing or differs")
+
+    def test_actual_entitlements_are_required(self):
+        self.entitlements.side_effect = None
+        self.entitlements.return_value = None
+        self.assertBlocked("cannot inspect signed entitlements")
+        self.entitlements.return_value = {"get-task-allow": True}
+        for reason in ("signed application identifier", "signed team", "signed App Groups", "get-task-allow"):
+            self.assertBlocked(reason)
+
+    def test_invalid_build_settings_and_language_set_are_rejected(self):
+        self.config.update(build_number="1\nOTHER = bad", locales=["en"] * 9, developer_team_id=None)
+        for reason in ("invalid build_number", "nine agreed languages", "approved Apple team"):
+            self.assertBlocked(reason)
+
+    def test_local_gate_ledger_does_not_modify_or_waive_tracked_gates(self):
+        self.result()
+        path = self.root / "gates-local.json"
+        old = (self.root / "codex/release_gates.json").read_bytes()
+        write_json(path, {"gates": []})
+        result = release.evaluate(self.root, self.root / "config.json", self.root / "manifest.json", gates_path=path)
+        self.assertTrue(any("retain each agreed gate" in x for x in result["blockers"]))
+        self.assertEqual(old, (self.root / "codex/release_gates.json").read_bytes())
+
+    def test_truncated_png_header_is_not_a_screenshot(self):
+        (self.root / "iphone.png").write_bytes(self.images["iphone"][:24])
+        self.assertBlocked("invalid PNG")
 
 
 if __name__ == "__main__":

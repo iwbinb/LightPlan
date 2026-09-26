@@ -1,0 +1,41 @@
+name: Release preparation regression
+on:
+  push:
+    branches: [dev, main]
+    paths: ['scripts/**', 'appstore/**', 'docs/**', 'codex/**', '.github/workflows/release-tools.yml', '.github/workflows/store-screenshots.yml']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tooling:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Run fail-closed release tooling regressions
+        run: |
+          set -eu
+          python3 scripts/release_integrity_tests.py
+          python3 scripts/release_preflight_tests.py
+          python3 scripts/package_store_screenshots_tests.py
+          python3 scripts/prepare_release_tests.py
+          python3 scripts/release_generator_tests.py
+          bash -n scripts/capture_store_screenshots.sh
+          python3 scripts/generate_project.py
+          git diff --exit-code
+      - name: Exercise preparation without granting submission approval
+        run: |
+          set -eu
+          python3 scripts/prepare_release.py --output tests/reports/local/ci-preparation
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('tests/reports/local/ci-preparation')
+          assert json.loads((root/'preparation.json').read_text())['ready_for_submission'] is False
+          assert json.loads((root/'preflight-blockers.json').read_text())['ready_for_submission'] is False
+          PY
+          git diff --exit-code

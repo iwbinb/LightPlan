@@ -1,3 +1,13 @@
+# M6-A 接管补充 — 2026-09-27
+
+当前执行入口见 [M6 发布准备](M6_RELEASE_READINESS.md) 和 [Mac / Codex 接管](M6B_LOCAL_HANDOFF.md)。下面的 2026-09-22 记录保留为历史，不代表本次分支、CI 或账号状态。
+
+版本、构建号、候选名称、Bundle/App Group 和最低系统现在统一从 `appstore/release_config.json` 生成。当前值仍未获最终运营/品牌批准；不要用历史 `Lumen` 网址填 LightPlan 的渠道。
+
+最终证据使用 `prepare_release.py` 创建的本地目录，预检增加 `--gates tests/reports/local/候选目录/release_gates.json`，并核对该 ledger 的 source_commit。App/Widget 隐私、版本、SDK 和实际签名 entitlements 均受检查。原有待办和所有者/设备签收条件不删除。
+
+---
+
 # LightPlan App Store 提交资料 — 2026-09-22
 
 最新功能候选及验证边界见[摄影工具增强报告](../tests/reports/photography-tools-2026-09-22.md)；当前归档为本机开发签名，新增功能不自动满足正式提交门槛。

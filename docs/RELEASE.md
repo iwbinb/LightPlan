@@ -4,7 +4,7 @@
 
 ## Identity
 
-Current candidate IDs: `com.arenovo.lightplan`, widget suffix `.widget`, app group `group.com.arenovo.lightplan`. The owner must confirm these registrations and the public support contact/domain. Centralize signing identifiers in `ios/Config/Project.xcconfig` and review public URLs/contact in `appstore/release_config.json`. There is no in-app product ID in the paid-upfront model selected on 2026-09-22. Apple seller/legal identity comes from the owner's developer account, not a string invented by this app.
+Current candidate IDs: `com.arenovo.lightplan`, widget suffix `.widget`, app group `group.com.arenovo.lightplan`. The owner must confirm these registrations and the public support contact/domain. Public build versions, identifiers and contact fields originate in `appstore/release_config.json`; regenerate `ios/Config/Project.xcconfig` and the project with `scripts/generate_project.py`. Local Team overrides stay in ignored `Local.xcconfig`. There is no in-app product ID in the paid-upfront model selected on 2026-09-22. Apple seller/legal identity comes from the owner's developer account, not a string invented by this app.
 
 ## Charge customers
 
@@ -37,3 +37,7 @@ Primary platform references (paid-app configuration checked 2026-09-22; recheck 
 - https://developer.apple.com/app-store/submitting/
 - https://developer.apple.com/help/app-store-connect/manage-app-pricing/set-a-price
 - https://developer.apple.com/help/app-store-connect/manage-agreements/sign-and-update-agreements
+
+## M6-A / M6-B
+
+Use [M6_RELEASE_READINESS.md](M6_RELEASE_READINESS.md) for the current repository tools and [M6B_LOCAL_HANDOFF.md](M6B_LOCAL_HANDOFF.md) for final source-bound local acceptance. New preparations do not inherit historical approvals.

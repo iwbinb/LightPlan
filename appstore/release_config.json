@@ -28,5 +28,7 @@
     "th",
     "pt-PT"
   ],
-  "distribution_model": "paid_upfront"
+  "distribution_model": "paid_upfront",
+  "marketing_version": "1.0.0",
+  "build_number": "1"
 }

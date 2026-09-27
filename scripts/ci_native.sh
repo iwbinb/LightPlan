@@ -38,6 +38,9 @@ if [[ "$STAGE" == checks ]]; then
   run ci-self-tests python3 scripts/ci_baseline_tests.py
   run localization python3 scripts/localization_audit.py
   run metadata python3 scripts/appstore_metadata_audit.py
+  run release-integrity-tests python3 scripts/release_integrity_tests.py
+  run release-preparation-tests python3 scripts/prepare_release_tests.py
+  run release-generator-tests python3 scripts/release_generator_tests.py
   run release-preflight-tests python3 scripts/release_preflight_tests.py
   run screenshot-package-tests python3 scripts/package_store_screenshots_tests.py
   run validation-environment python3 -m venv build/release-validation

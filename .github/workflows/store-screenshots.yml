@@ -1,0 +1,45 @@
+name: Native Store screenshot drafts
+on:
+  push:
+    branches: [dev]
+    paths: ['.github/workflows/store-screenshots.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: store-captures-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  capture:
+    runs-on: macos-15
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        family: [iphone, ipad]
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Capture actual nine-language primary-slot drafts
+        timeout-minutes: 34
+        env:
+          FAMILY: ${{ matrix.family }}
+        run: bash scripts/capture_store_screenshots.sh "$FAMILY" "build/store-$FAMILY"
+      - name: Preserve test results and original images, never mark them approved
+        if: ${{ always() }}
+        timeout-minutes: 5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: store-draft-${{ matrix.family }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            build/store-${{ matrix.family }}/*.txt
+            build/store-${{ matrix.family }}/*.json
+            build/store-${{ matrix.family }}/*.log
+            build/store-${{ matrix.family }}/screenshots
+            build/store-${{ matrix.family }}/native.xcresult
+          if-no-files-found: error
+          retention-days: 14

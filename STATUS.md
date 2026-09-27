@@ -1,3 +1,31 @@
+# M6-A PR #7 check repair — 2026-09-27
+
+**Two native check failures have repair candidates; final current-source Apple verification is required before closing M6-A or merging PR #7.**
+
+- Fixed canonical checkout/output ancestry in release preparation while preserving private-evidence containment, symlink, traversal, no-overwrite and clean-Git checks. Preparation tests now 17/17 locally; standalone release tools run on both Ubuntu and macOS.
+- Replaced map-style live value polling with one coherent public snapshot per poll. The same single-tap, 10-second limit and persistence assertions remain; both button and actual native map configuration must agree. Added a pure fail-closed observation regression.
+- Local release tools 71/71, core 280/280, CI helpers 36/36, schema 15/15 and extracted map observation 1/1 pass. These are not current Apple UI execution results.
+- No App/Widget/Core business code, generated project/plist, pricing, precision, backup schema or signing changes. PR remains Draft; no main merge or submission approval.
+
+See [failure evidence, repair rationale and exact commands](tests/reports/m6a-pr7-check-repair-2026-09-27.md). The earlier reports below remain historical evidence.
+
+---
+
+# M6-A repository release preparation — 2026-09-27
+
+**M6-A release-tooling implementation and local regression are complete; current-commit Apple/native and Store-capture CI must still be checked. This is repository preparation, not M6-B or App Store readiness.**
+
+- Based on owner-merged M5 PR #6, main `e4c84fa4b181e1cc62f89935d288809b40867898`; dev was fast-forwarded without force.
+- Shared validated build configuration, complete PNG integrity checks, App/Widget archive/entitlement consistency and a source-bound local gate ledger now support release preparation.
+- New atomic `prepare_release.py` preserves old evidence and resets final-source attestations to pending. New native Store capture tooling uses dedicated simulators and never approves images or publishes to Apple.
+- Local core 280/280; release preflight 30/30; image/settings 10/10; preparation 10/10; generator 4/4; screenshot packaging 10/10; CI helper 36/36; schema 15/15. All are executed local checks, not Apple signing/device acceptance.
+- Current generated App project and plists remain identical to M5; no App/Core/Widget business code, pricing, precision, schema or signing changes.
+- Final identity/contact/price, actual screenshots/translation approval and all device/account/distribution gates remain open. No main merge or upload.
+
+See [M6-A report](tests/reports/m6a-release-preparation-2026-09-27.md), [release tools](docs/M6_RELEASE_READINESS.md), and [Mac/Codex handoff](docs/M6B_LOCAL_HANDOFF.md). Earlier status below is preserved as historical evidence.
+
+---
+
 # M5 automated acceptance and review handoff — 2026-09-26
 
 **M5 implementation, final-source native regression and the scoped screenshot review are complete. PR #6 is a merge candidate, not App Store release approval. No merge, auto-merge, M6 implementation, signing change or release is authorized by this handoff.**
